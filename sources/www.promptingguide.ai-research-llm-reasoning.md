@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/www.promptingguide.ai/www.promptingguide.ai-research-llm-reasoning/b151f4378e09.webp"
 caption: "'"Reasoning Tasks"'"
 credit_name: "www.promptingguide.ai"

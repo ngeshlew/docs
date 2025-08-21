@@ -13,15 +13,13 @@ In Cursor version .48.8 Shorthand commands defined in project rules (.mdc files)
  - Working method #1: Select code → @Rules → select rule file → type shorthand command
  - Working method #2: Add just the shorthand command descriptions to global rules in Settings in Cursor
 
-```
-# Code Protection Shorthand Commands
-!cp - Add PROTECTED comment
-!cg - Add GUARDED comment  
-!ci - Add INFO comment
-!cd - Add DEBUG comment
-!ct - Add TEST comment
-!cc - Add CRITICAL comment
-```
+### Code Protection Shorthand Commands
+- `!cp` - Add PROTECTED comment
+- `!cg` - Add GUARDED comment  
+- `!ci` - Add INFO comment
+- `!cd` - Add DEBUG comment
+- `!ct` - Add TEST comment
+- `!cc` - Add CRITICAL comment
 
 When using Command-K in the code editor, type:
 
@@ -45,21 +43,30 @@ function processPayment(paymentDetails) {
 ```
 
 
-Python Example
-python# GUARDED - ASK BEFORE MODIFYING
+### Python Example
+```python
+# GUARDED - ASK BEFORE MODIFYING
 def validate_user_credentials(username, password):
     # Authentication logic
-HTML Example
-html<!-- INFO - CONTEXT NOTE -->
+    pass
+```
+
+### HTML Example
+```html
+<!-- INFO - CONTEXT NOTE -->
 <div class="payment-form">
   <!-- Payment form elements -->
 </div>
-CSS Example
-css/* CRITICAL - BUSINESS LOGIC */
+```
+
+### CSS Example
+```css
+/* CRITICAL - BUSINESS LOGIC */
 .security-element {
   display: none;
   visibility: hidden;
 }
+```
 🔍 Scanner Command
 To scan your project for code that should be protected:
 /protect-scan

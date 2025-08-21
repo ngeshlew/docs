@@ -62,7 +62,7 @@ A collection of resources on building and using AI agents.
 Building effective agents
 Learn how to build effective AI agents with these insights from Anthropic’s engineering team.
 Tips for building AI agents
-A video guide with tips and best practices <3 for building AI agents.
+A video guide with tips and best practices for building AI agents.
 AI Agents for Beginners - a Microsoft Course
 A comprehensive, beginner-friendly course on AI agents from Microsoft.
 Agents

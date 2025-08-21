@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/www.nngroup.com/www.nngroup.com-articles-prompt-suggestions/83d11e4e618b.webp"
 caption: "Figure"
 credit_name: "www.nngroup.com"

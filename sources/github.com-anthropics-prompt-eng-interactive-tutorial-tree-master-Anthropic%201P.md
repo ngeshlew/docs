@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/github.com/github.com-anthropics-prompt-eng-interactive-tutorial-tree-master-Anthropic%201P/dec4216a517b.webp"
 caption: "maggie-vo"
 credit_name: "github.com"

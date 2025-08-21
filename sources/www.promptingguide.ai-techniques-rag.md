@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/www.promptingguide.ai/www.promptingguide.ai-techniques-rag/73a4ad1da062.webp"
 caption: "RAG"
 credit_name: "www.promptingguide.ai"

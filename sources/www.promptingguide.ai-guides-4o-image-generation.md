@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/www.promptingguide.ai/www.promptingguide.ai-guides-4o-image-generation/1613dc5e605c.webp"
 caption: "A stylized title in front of an OpenAI logo, behind frosted glass."
 credit_name: "www.promptingguide.ai"

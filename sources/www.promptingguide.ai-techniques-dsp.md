@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/www.promptingguide.ai/www.promptingguide.ai-techniques-dsp/15b43f4280b1.webp"
 caption: "DSP"
 credit_name: "www.promptingguide.ai"

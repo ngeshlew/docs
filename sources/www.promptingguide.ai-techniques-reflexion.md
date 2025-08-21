@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/www.promptingguide.ai/www.promptingguide.ai-techniques-reflexion/56d52d15d4ae.webp"
 caption: "'"Reflexion Framework"'"
 credit_name: "www.promptingguide.ai"

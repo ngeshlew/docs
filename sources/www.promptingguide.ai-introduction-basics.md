@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/www.promptingguide.ai/www.promptingguide.ai-introduction-basics/dc0eed1ff96d.webp"
 caption: "INTRO1"
 credit_name: "www.promptingguide.ai"
@@ -58,11 +58,11 @@ Is that better? Well, with the prompt above you are instructing the model to com
 The example above is a basic illustration of what's possible with LLMs today. Today's LLMs are able to perform all kinds of advanced tasks that range from text summarization to mathematical reasoning to code generation.
 ## Prompt Formatting
 You have tried a very simple prompt above. A standard prompt has the following format:
-<Question>?
+Question?
 or
-<Instruction>
+Instruction
 You can format this into a question answering (QA) format, which is standard in a lot of QA datasets, as follows:
-Q: <Question>?
+Q: Question?
 A:
 When prompting like the above, it's also referred to as
 *zero-shot prompting*, i.e., you are directly prompting the model for a response without any examples or demonstrations about the task you want it to achieve. Some large language models have the ability to perform zero-shot prompting but it depends on the complexity and knowledge of the task at hand and the tasks the model was trained to perform good on.
@@ -74,21 +74,21 @@ With some of the more recent models you can skip the "Q:" part as it is implied 
 What is prompt engineering?
 Given the standard format above, one popular and effective technique to prompting is referred to as
 *few-shot prompting* where you provide exemplars (i.e., demonstrations). You can format few-shot prompts as follows:
-<Question>?
-<Answer>
-<Question>?
-<Answer>
-<Question>?
-<Answer>
-<Question>?
+Question?
+Answer
+Question?
+Answer
+Question?
+Answer
+Question?
 The QA format version would look like this:
-Q: <Question>?
-A: <Answer>
-Q: <Question>?
-A: <Answer>
-Q: <Question>?
-A: <Answer>
-Q: <Question>?
+Q: Question?
+A: Answer
+Q: Question?
+A: Answer
+Q: Question?
+A: Answer
+Q: Question?
 A:
 Keep in mind that it's not required to use the QA format. The prompt format depends on the task at hand. For instance, you can perform a simple classification task and give exemplars that demonstrate the task as follows:
 *Prompt:*

@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-17'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/www.langchain.com/www.langchain.com-langgraph/886d194dcad1.webp"
 caption: "Figure"
 credit_name: "www.langchain.com"

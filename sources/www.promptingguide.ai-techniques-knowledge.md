@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/www.promptingguide.ai/www.promptingguide.ai-techniques-knowledge/9af6c7ff87aa.webp"
 caption: "GENKNOW"
 credit_name: "www.promptingguide.ai"

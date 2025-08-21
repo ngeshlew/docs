@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/www.promptingguide.ai/www.promptingguide.ai-agents-components/34fa33e41a40.webp"
 caption: "Agent Components"
 credit_name: "www.promptingguide.ai"

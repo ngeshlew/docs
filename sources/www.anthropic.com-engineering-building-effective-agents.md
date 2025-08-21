@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "quote"
-figures: ""
+figures: []
 - path: "../assets/www.anthropic.com/www.anthropic.com-engineering-building-effective-agents/e7b97fc35541.webp"
 caption: "The augmented LLM"
 credit_name: "www.anthropic.com"

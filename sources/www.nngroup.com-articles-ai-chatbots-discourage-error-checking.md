@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/www.nngroup.com/www.nngroup.com-articles-ai-chatbots-discourage-error-checking/2dd31cc60888.webp"
 caption: "Figure"
 credit_name: "www.nngroup.com"

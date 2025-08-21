@@ -11,17 +11,17 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures:
 - path: "../assets/docs.crewai.com/docs.crewai.com-en-concepts-llms/71bc45159c09.webp"
-caption: "light logo"
-credit_name: "docs.crewai.com"
-credit_url: "https://mintlify.s3.us-west-1.amazonaws.com/crewai/images/crew_only_logo.png"
-license: "internal-copy"
+  caption: "light logo"
+  credit_name: "docs.crewai.com"
+  credit_url: "https://mintlify.s3.us-west-1.amazonaws.com/crewai/images/crew_only_logo.png"
+  license: "internal-copy"
 - path: "../assets/docs.crewai.com/docs.crewai.com-en-concepts-llms/71bc45159c09.webp"
-caption: "dark logo"
-credit_name: "docs.crewai.com"
-credit_url: "https://mintlify.s3.us-west-1.amazonaws.com/crewai/images/crew_only_logo.png"
-license: "internal-copy"
+  caption: "dark logo"
+  credit_name: "docs.crewai.com"
+  credit_url: "https://mintlify.s3.us-west-1.amazonaws.com/crewai/images/crew_only_logo.png"
+  license: "internal-copy"
 updatedAt: "'2025-08-18'"
 completed: false
 ---
@@ -54,9 +54,7 @@ presence_penalty=0.1,
 stop=["END"],
 seed=42
 )
-|Model
-|Context Window
-|Best For
+| Model | Context Window | Best For |
 |GPT-4
 |8,192 tokens
 |High-accuracy tasks, complex reasoning
@@ -90,11 +88,7 @@ temperature=0.8,
 stop=["END"],
 seed=42
 )
-|Model ID
-|Input context length
-|Output context length
-|Input Modalities
-|Output Modalities
+| Model ID | Input context length | Output context length | Input Modalities | Output Modalities |
 meta_llama/Llama-4-Scout-17B-16E-Instruct-FP8
 |128k
 |4028

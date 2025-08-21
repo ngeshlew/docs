@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/docs.crewai.com/docs.crewai.com-en-concepts-agents/71bc45159c09.webp"
 caption: "light logo"
 credit_name: "docs.crewai.com"
@@ -157,23 +157,23 @@ use_system_prompt
 Optional[bool]
 |Whether to use system prompt (for o1 model support). Default is True.
 src/latest_ai_development/config/agents.yaml file and modify the template to match your requirements.
-{topic}) will be replaced with values from your inputs when running the crew:
+\${topic}) will be replaced with values from your inputs when running the crew:
 crew.kickoff(inputs={'topic': 'AI Agents'})
 # src/latest_ai_development/config/agents.yaml
 researcher:
 role: >
-{topic} Senior Data Researcher
+\${topic} Senior Data Researcher
 goal: >
-Uncover cutting-edge developments in {topic}
+Uncover cutting-edge developments in \${topic}
 backstory: >
 You're a seasoned researcher with a knack for uncovering the latest
-developments in {topic}. Known for your ability to find the most relevant
+developments in \${topic}. Known for your ability to find the most relevant
 information and present it in a clear and concise manner.
 reporting_analyst:
 role: >
-{topic} Reporting Analyst
+\${topic} Reporting Analyst
 goal: >
-Create detailed reports based on {topic} data analysis and research findings
+Create detailed reports based on \${topic} data analysis and research findings
 backstory: >
 You're a meticulous analyst with a keen eye for detail. You're known for
 your ability to turn complex data into clear and concise reports, making
@@ -265,11 +265,11 @@ role="Customer Service Representative",
 goal="Assist customers with their inquiries",
 backstory="Experienced in customer support with a focus on satisfaction",
 system_template="""<|start_header_id|>system<|end_header_id|>
-{{ .System }}<|eot_id|>""",
+\${ .System }<|eot_id|>""",
 prompt_template="""<|start_header_id|>user<|end_header_id|>
-{{ .Prompt }}<|eot_id|>""",
+\${ .Prompt }<|eot_id|>""",
 response_template="""<|start_header_id|>assistant<|end_header_id|>
-{{ .Response }}<|eot_id|>""",
+\${ .Response }<|eot_id|>""",
 )
 strategic_agent = Agent(
 role="Market Analyst",
@@ -321,9 +321,9 @@ response_template: Formats agent responses
 system_template and
 prompt_template are defined. The
 response_template is optional but recommended for consistent output formatting.
-{role},
-{goal}, and
-{backstory} in your templates. These will be automatically populated during execution.
+\${role},
+\${goal}, and
+\${backstory} in your templates. These will be automatically populated during execution.
 from crewai import Agent
 from crewai_tools import SerperDevTool, WikipediaTools
 # Create tools
@@ -475,9 +475,9 @@ response_format=ResearchFindings
 print(result.pydantic.main_points)
 print(result.pydantic.future_predictions)
 messages = [
-{"role": "user", "content": "I need information about large language models"},
-{"role": "assistant", "content": "I'd be happy to help with that! What specifically would you like to know?"},
-{"role": "user", "content": "What are the latest developments in 2025?"}
+\{"role": "user", "content": "I need information about large language models"\},
+\{"role": "assistant", "content": "I'd be happy to help with that! What specifically would you like to know?"\},
+\{"role": "user", "content": "What are the latest developments in 2025?"\}
 ]
 result = researcher.kickoff(messages)
 kickoff_async() with the same parameters:

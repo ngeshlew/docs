@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/python.langchain.com/python.langchain.com-docs-concepts-evaluation/1de8e5ab2af8.webp"
 caption: "Figure"
 credit_name: "python.langchain.com"

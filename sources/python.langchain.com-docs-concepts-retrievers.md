@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/python.langchain.com/python.langchain.com-docs-concepts-retrievers/e5c321924807.webp"
 caption: "Retriever"
 credit_name: "python.langchain.com"

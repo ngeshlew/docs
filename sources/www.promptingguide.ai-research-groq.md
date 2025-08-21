@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/www.promptingguide.ai/www.promptingguide.ai-research-groq/ab96a4b84e60.webp"
 caption: "'"Groq pricing"'"
 credit_name: "www.promptingguide.ai"

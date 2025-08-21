@@ -1,6 +1,5 @@
 # Structure
 
-<<<<<<< HEAD
 ## Directories
 - `.cursor/`: Cursor config and rules
 - `docs/`: human-readable documentation (see `webdev-integration.md` for mode overlays)
@@ -17,11 +16,3 @@
 - `protection.md`: protected regions, approvals, violations
 
 Templates are created by `scripts/init.sh`. Keep these files current; they improve Cursor's context and your onboarding speed.
-=======
-- `memory-bank/` durable context
-- `.cursor/rules/` automation & mode rules
-- `docs/` reference and guides
-  - `docs/ripersigma/*` core framework docs
-  - `docs/design-systems/*` meta-guidelines and decision tree for Apple, Material, Carbon, Tailwind
-- `scripts/` CLI helpers
->>>>>>> b70844c (Add design systems integration framework and documentation)

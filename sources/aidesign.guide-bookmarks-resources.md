@@ -11,12 +11,12 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures:
 - path: "../assets/aidesign.guide/aidesign.guide-bookmarks-resources/bb45c19c7416.webp"
-caption: "Download Jpe"
-credit_name: "aidesign.guide"
-credit_url: "https://mintlify.s3.us-west-1.amazonaws.com/dsg/images/download.jpeg"
-license: "internal-copy"
+  caption: "Download Jpe"
+  credit_name: "aidesign.guide"
+  credit_url: "https://mintlify.s3.us-west-1.amazonaws.com/dsg/images/download.jpeg"
+  license: "internal-copy"
 updatedAt: "'2025-08-18'"
 completed: false
 ---

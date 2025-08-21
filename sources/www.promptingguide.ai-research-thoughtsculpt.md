@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/www.promptingguide.ai/www.promptingguide.ai-research-thoughtsculpt/45445da69bae.webp"
 caption: "'"ThoughtSculpt"'"
 credit_name: "www.promptingguide.ai"

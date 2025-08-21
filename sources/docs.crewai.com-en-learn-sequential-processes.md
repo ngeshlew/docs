@@ -11,7 +11,7 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: ""
+figures: []
 - path: "../assets/docs.crewai.com/docs.crewai.com-en-learn-sequential-processes/71bc45159c09.webp"
 caption: "light logo"
 credit_name: "docs.crewai.com"

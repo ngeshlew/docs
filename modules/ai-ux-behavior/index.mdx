@@ -406,11 +406,11 @@ AI UX behavior is fundamentally different from traditional software UX. Users in
   <h4>Implementation:</h4>
   <pre><code>class PersonalizedClaudeUX:
     def __init__(self):
-        self.user_profiles = {}
-        self.interaction_history = {}
+        self.user_profiles = \{\}
+        self.interaction_history = \{\}
     
     def adapt_response(self, user_id, response, user_input):
-        profile = self.user_profiles.get(user_id, {})
+        profile = self.user_profiles.get(user_id, \{\})
         
         # Adapt detail level
         if profile.get("prefers_simple"):
@@ -431,18 +431,18 @@ AI UX behavior is fundamentally different from traditional software UX. Users in
     def update_user_profile(self, user_id, interaction_data):
         # Update user preferences based on interactions
         if user_id not in self.user_profiles:
-            self.user_profiles[user_id] = {}
+            self.user_profiles[user_id] = \{\}
         
         # Analyze interaction patterns
         detail_preference = self.analyze_detail_preference(interaction_data)
         tone_preference = self.analyze_tone_preference(interaction_data)
         expertise_level = self.analyze_expertise_level(interaction_data)
         
-        self.user_profiles[user_id].update({
+        self.user_profiles[user_id].update(\{
             "prefers_simple": detail_preference == "simple",
             "prefers_formal": tone_preference == "formal",
             "expertise_level": expertise_level
-        })
+        \})
 </code></pre>
 </Card>
 
@@ -465,23 +465,23 @@ AI UX behavior is fundamentally different from traditional software UX. Users in
         stream = await client.messages.create(
             model="claude-3-sonnet-20240229",
             max_tokens=1000,
-            messages=[{"role": "user", "content": user_input}],
+            messages=[\{"role": "user", "content": user_input\}],
             stream=True
         )
         
         async for chunk in stream:
             if chunk.type == "content_block_delta":
-                yield {
+                yield \{
                     "type": "content",
                     "text": chunk.delta.text,
                     "partial": True
-                }
+                \}
             elif chunk.type == "message_stop":
-                yield {
+                yield \{
                     "type": "complete",
                     "text": "",
                     "partial": False
-                }
+                \}
 </code></pre>
 </Card>
 
@@ -715,7 +715,7 @@ AI UX behavior is fundamentally different from traditional software UX. Users in
 
 ## Related Concepts
 
-<CardGroup cols={3}>
+<CardGroup cols={2}>
   <Card title="Prompt Engineering" icon="edit" href="../prompting-techniques/chain-of-thought">
     Design effective prompts for Claude
   </Card>
