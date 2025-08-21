@@ -1,0 +1,723 @@
+---
+title: "Cost & Latency Optimization"
+description: "Master the critical balance between cost and latency in AI systems, from model selection to infrastructure optimization for optimal user experience"
+slug: "modules-cost-latency"
+updatedAt: "2025-08-19"
+tags: [module, cost, latency, optimization, performance]
+---
+
+# Cost & Latency Optimization
+
+<Callout type="info">
+  **Learning Objective**: Understand the critical trade-offs between cost and latency in AI systems, and learn strategies to optimize both for better user experience and business outcomes.
+</Callout>
+
+## Overview
+
+Cost and latency are two of the most critical factors in AI system design. They directly impact user experience, business viability, and system scalability. This module explores the complex relationship between these factors and provides practical strategies for optimization.
+
+<CardGroup cols={2}>
+  <Card title="Cost Considerations" icon="dollar-sign">
+    AI systems can be expensive to operate at scale, requiring careful cost management and optimization strategies.
+  </Card>
+  <Card title="Latency Impact" icon="clock">
+    Response time directly affects user experience and engagement, making latency optimization crucial for success.
+  </Card>
+</CardGroup>
+
+## Why It's Important for Designers to Know
+
+### 1. **User Experience Impact**
+
+<Card title="Latency and User Perception">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Response Time</TableHeader>
+        <TableHeader>User Perception</TableHeader>
+        <TableHeader>Impact on Engagement</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell>< 100ms</TableCell>
+        <TableCell>Instantaneous</TableCell>
+        <TableCell>Optimal engagement</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>100-300ms</TableCell>
+        <TableCell>Fast</TableCell>
+        <TableCell>Good engagement</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>300-1000ms</TableCell>
+        <TableCell>Noticeable delay</TableCell>
+        <TableCell>Reduced engagement</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>> 1000ms</TableCell>
+        <TableCell>Slow</TableCell>
+        <TableCell>Significant drop in engagement</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Business Viability**
+
+<Callout type="warning">
+  **Critical Insight**: AI costs can quickly become unsustainable if not properly managed, especially at scale.
+</Callout>
+
+<Card title="Cost Breakdown in AI Systems">
+  <ul>
+    <li><strong>Model Inference Costs:</strong> Per-request charges for AI model usage</li>
+    <li><strong>Training Costs:</strong> One-time or recurring costs for model training</li>
+    <li><strong>Infrastructure Costs:</strong> Compute, storage, and networking expenses</li>
+    <li><strong>Data Costs:</strong> Collection, storage, and processing of training data</li>
+    <li><strong>Maintenance Costs:</strong> Ongoing monitoring, updates, and improvements</li>
+  </ul>
+</Card>
+
+### 3. **Design Decision Implications**
+
+<CardGroup cols={2}>
+  <Card title="Feature Complexity" icon="layers">
+    <ul>
+      <li>Complex features require more processing time</li>
+      <li>Higher computational costs per request</li>
+      <li>Need for sophisticated caching strategies</li>
+      <li>Potential for progressive enhancement</li>
+    </ul>
+  </Card>
+  <Card title="User Interface Design" icon="monitor">
+    <ul>
+      <li>Loading states and progress indicators</li>
+      <li>Optimistic UI updates</li>
+      <li>Graceful degradation strategies</li>
+      <li>Real-time vs. batch processing</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+## How This Applies to AI-Powered Products
+
+### 1. **Model Selection Trade-offs**
+
+<Card title="Model Performance vs. Cost Matrix">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Model Type</TableHeader>
+        <TableHeader>Cost per Request</TableHeader>
+        <TableHeader>Latency</TableHeader>
+        <TableHeader>Accuracy</TableHeader>
+        <TableHeader>Best Use Case</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell>Small Local Model</TableCell>
+        <TableCell>Very Low</TableCell>
+        <TableCell>Fast (10-50ms)</TableCell>
+        <TableCell>Moderate</TableCell>
+        <TableCell>Simple tasks, offline use</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Medium API Model</TableCell>
+        <TableCell>Low-Medium</TableCell>
+        <TableCell>Medium (100-500ms)</TableCell>
+        <TableCell>Good</TableCell>
+        <TableCell>General purpose tasks</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Large API Model</TableCell>
+        <TableCell>High</TableCell>
+        <TableCell>Slow (500ms-2s)</TableCell>
+        <TableCell>Excellent</TableCell>
+        <TableCell>Complex reasoning tasks</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Custom Fine-tuned</TableCell>
+        <TableCell>Variable</TableCell>
+        <TableCell>Variable</TableCell>
+        <TableCell>Specialized</TableCell>
+        <TableCell>Domain-specific tasks</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Architecture Optimization Strategies**
+
+<Accordion type="single" collapsible>
+  <AccordionItem value="caching">
+    <AccordionTrigger>Caching Strategies</AccordionTrigger>
+    <AccordionContent>
+      <Card title="Multi-Level Caching">
+        <ol>
+          <li><strong>Client-Side Caching:</strong> Store frequently used responses in browser</li>
+          <li><strong>CDN Caching:</strong> Distribute content globally for faster access</li>
+          <li><strong>Application Caching:</strong> Cache responses at the application level</li>
+          <li><strong>Model Caching:</strong> Cache model outputs for similar inputs</li>
+          <li><strong>Database Caching:</strong> Cache frequently accessed data</li>
+        </ol>
+      </Card>
+    </AccordionContent>
+  </AccordionItem>
+  
+  <AccordionItem value="async-processing">
+    <AccordionTrigger>Asynchronous Processing</AccordionTrigger>
+    <AccordionContent>
+      <Card title="Background Processing">
+        <ul>
+          <li><strong>Immediate Response:</strong> Return quick acknowledgment to user</li>
+          <li><strong>Background Processing:</strong> Handle complex tasks asynchronously</li>
+          <li><strong>Progress Updates:</strong> Provide real-time status updates</li>
+          <li><strong>Result Delivery:</strong> Notify user when processing is complete</li>
+        </ul>
+      </Card>
+    </AccordionContent>
+  </AccordionItem>
+  
+  <AccordionItem value="load-balancing">
+    <AccordionTrigger>Load Balancing & Scaling</AccordionTrigger>
+    <AccordionContent>
+      <Card title="Scalability Strategies">
+        <ul>
+          <li><strong>Horizontal Scaling:</strong> Add more servers to handle load</li>
+          <li><strong>Vertical Scaling:</strong> Increase server capacity</li>
+          <li><strong>Auto-scaling:</strong> Automatically adjust capacity based on demand</li>
+          <li><strong>Geographic Distribution:</strong> Deploy servers closer to users</li>
+        </ul>
+      </Card>
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+### 3. **User Experience Optimization**
+
+<Card title="UX Strategies for Cost-Latency Balance">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Strategy</TableHeader>
+        <TableHeader>Implementation</TableHeader>
+        <TableHeader>Benefits</TableHeader>
+        <TableHeader>Trade-offs</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Progressive Enhancement</strong></TableCell>
+        <TableCell>Start with basic functionality, enhance with AI</TableCell>
+        <TableCell>Fast initial load, graceful degradation</TableCell>
+        <TableCell>More complex codebase</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Optimistic Updates</strong></TableCell>
+        <TableCell>Show expected results immediately</TableCell>
+        <TableCell>Perceived faster response</TableCell>
+        <TableCell>May need rollback on errors</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Streaming Responses</strong></TableCell>
+        <TableCell>Show partial results as they arrive</TableCell>
+        <TableCell>Better perceived performance</TableCell>
+        <TableCell>More complex UI logic</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Smart Prefetching</strong></TableCell>
+        <TableCell>Predict and load likely needed data</TableCell>
+        <TableCell>Faster subsequent interactions</TableCell>
+        <TableCell>Higher bandwidth usage</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+## Cost Optimization Strategies
+
+### 1. **Model Efficiency**
+
+<CardGroup cols={2}>
+  <Card title="Model Compression" icon="compress">
+    <ul>
+      <li><strong>Quantization:</strong> Reduce precision from 32-bit to 8-bit</li>
+      <li><strong>Pruning:</strong> Remove unnecessary model parameters</li>
+      <li><strong>Knowledge Distillation:</strong> Train smaller models from larger ones</li>
+      <li><strong>Model Architecture Search:</strong> Find optimal model structures</li>
+    </ul>
+  </Card>
+  <Card title="Inference Optimization" icon="zap">
+    <ul>
+      <li><strong>Batch Processing:</strong> Process multiple requests together</li>
+      <li><strong>Model Serving:</strong> Optimize inference engines</li>
+      <li><strong>Hardware Acceleration:</strong> Use GPUs/TPUs for faster inference</li>
+      <li><strong>Edge Computing:</strong> Process locally when possible</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+### 2. **Infrastructure Optimization**
+
+<Card title="Infrastructure Cost Management">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Component</TableHeader>
+        <TableHeader>Cost Optimization Strategy</TableHeader>
+        <TableHeader>Potential Savings</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Compute</strong></TableCell>
+        <TableCell>Use spot instances, auto-scaling, right-sizing</TableCell>
+        <TableCell>30-70% cost reduction</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Storage</strong></TableCell>
+        <TableCell>Use appropriate storage tiers, compression</TableCell>
+        <TableCell>40-80% cost reduction</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Network</strong></TableCell>
+        <TableCell>CDN usage, data transfer optimization</TableCell>
+        <TableCell>20-50% cost reduction</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Data Processing</strong></TableCell>
+        <TableCell>Efficient data pipelines, caching</TableCell>
+        <TableCell>25-60% cost reduction</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 3. **Usage Optimization**
+
+<Callout type="info">
+  **Key Insight**: Optimizing how and when AI models are used can significantly reduce costs while maintaining performance.
+</Callout>
+
+<Card title="Usage Optimization Strategies">
+  <ul>
+    <li><strong>Request Batching:</strong> Combine multiple requests into single API calls</li>
+    <li><strong>Smart Caching:</strong> Cache responses for repeated queries</li>
+    <li><strong>Request Filtering:</strong> Only use AI for complex queries</li>
+    <li><strong>Progressive Complexity:</strong> Start with simple models, escalate as needed</li>
+    <li><strong>Usage Monitoring:</strong> Track and optimize usage patterns</li>
+  </ul>
+</Card>
+
+## Latency Optimization Strategies
+
+### 1. **Network Optimization**
+
+<Card title="Network Latency Reduction">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Strategy</TableHeader>
+        <TableHeader>Implementation</TableHeader>
+        <TableHeader>Latency Improvement</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>CDN</strong></TableCell>
+        <TableCell>Distribute content globally</TableCell>
+        <TableCell>50-80% reduction</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Edge Computing</strong></TableCell>
+        <TableCell>Process closer to users</TableCell>
+        <TableCell>60-90% reduction</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Connection Pooling</strong></TableCell>
+        <TableCell>Reuse connections</TableCell>
+        <TableCell>20-40% reduction</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>HTTP/2</strong></TableCell>
+        <TableCell>Use modern protocols</TableCell>
+        <TableCell>10-30% reduction</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Application Optimization**
+
+<CardGroup cols={2}>
+  <Card title="Code Optimization" icon="code">
+    <ul>
+      <li><strong>Algorithm Efficiency:</strong> Use optimal algorithms and data structures</li>
+      <li><strong>Memory Management:</strong> Optimize memory usage and garbage collection</li>
+      <li><strong>Concurrent Processing:</strong> Use parallel processing where possible</li>
+      <li><strong>Lazy Loading:</strong> Load resources only when needed</li>
+    </ul>
+  </Card>
+  <Card title="Database Optimization" icon="database">
+    <ul>
+      <li><strong>Query Optimization:</strong> Use efficient database queries</li>
+      <li><strong>Indexing:</strong> Proper database indexing</li>
+      <li><strong>Connection Pooling:</strong> Reuse database connections</li>
+      <li><strong>Read Replicas:</strong> Use read replicas for scaling</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+## Real-World Examples
+
+### 1. **CrewAI Cost Optimization**
+
+<Callout type="info">
+  **Case Study**: CrewAI demonstrates how agent orchestration can optimize costs while maintaining performance.
+</Callout>
+
+<Card title="CrewAI Cost Management">
+  <ul>
+    <li><strong>Agent Specialization:</strong> Use specialized agents for specific tasks, reducing unnecessary processing</li>
+    <li><strong>Task Delegation:</strong> Delegate tasks to the most cost-effective agents</li>
+    <li><strong>Parallel Processing:</strong> Execute independent tasks simultaneously</li>
+    <li><strong>Result Caching:</strong> Cache agent outputs for reuse</li>
+    <li><strong>Conditional Execution:</strong> Only run expensive agents when necessary</li>
+  </ul>
+</Card>
+
+### 2. **LangChain Optimization**
+
+<Card title="LangChain Performance Strategies">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Strategy</TableHeader>
+        <TableHeader>Implementation</TableHeader>
+        <TableHeader>Benefit</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Chain Optimization</strong></TableCell>
+        <TableCell>Optimize chain composition and execution</TableCell>
+        <TableCell>Reduced processing time</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Memory Management</strong></TableCell>
+        <TableCell>Efficient memory usage in conversations</TableCell>
+        <TableCell>Lower memory costs</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Tool Selection</strong></TableCell>
+        <TableCell>Choose most efficient tools for tasks</TableCell>
+        <TableCell>Faster execution</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Batch Processing</strong></TableCell>
+        <TableCell>Process multiple requests together</TableCell>
+        <TableCell>Reduced API costs</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+## Monitoring and Measurement
+
+### 1. **Key Metrics**
+
+<Card title="Essential Metrics to Track">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Metric Category</TableHeader>
+        <TableHeader>Specific Metrics</TableHeader>
+        <TableHeader>Target Values</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Latency</strong></TableCell>
+        <TableCell>Response time, Time to First Byte, Time to Interactive</TableCell>
+        <TableCell>< 300ms for most interactions</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Cost</strong></TableCell>
+        <TableCell>Cost per request, Cost per user, Cost per feature</TableCell>
+        <TableCell>Varies by business model</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Throughput</strong></TableCell>
+        <TableCell>Requests per second, Concurrent users</TableCell>
+        <TableCell>Based on expected load</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Reliability</strong></TableCell>
+        <TableCell>Uptime, Error rate, Success rate</TableCell>
+        <TableCell>> 99.9% uptime, < 1% error rate</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Monitoring Tools**
+
+<CardGroup cols={2}>
+  <Card title="Performance Monitoring" icon="activity">
+    <ul>
+      <li><strong>Application Performance Monitoring (APM):</strong> New Relic, Datadog, AppDynamics</li>
+      <li><strong>Real User Monitoring (RUM):</strong> Track actual user experience</li>
+      <li><strong>Synthetic Monitoring:</strong> Automated testing of key user journeys</li>
+      <li><strong>Infrastructure Monitoring:</strong> Server, database, and network monitoring</li>
+    </ul>
+  </Card>
+  <Card title="Cost Monitoring" icon="trending-up">
+    <ul>
+      <li><strong>Cloud Cost Management:</strong> AWS Cost Explorer, Google Cloud Billing</li>
+      <li><strong>API Usage Tracking:</strong> Monitor AI API usage and costs</li>
+      <li><strong>Resource Utilization:</strong> Track compute and storage usage</li>
+      <li><strong>Cost Alerts:</strong> Set up alerts for cost thresholds</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+## Best Practices Summary
+
+<CardGroup cols={2}>
+  <Card title="Design Best Practices" icon="palette">
+    <ul>
+      <li>Design for progressive enhancement</li>
+      <li>Use optimistic UI updates</li>
+      <li>Implement proper loading states</li>
+      <li>Consider offline-first approaches</li>
+    </ul>
+  </Card>
+  <Card title="Technical Best Practices" icon="code">
+    <ul>
+      <li>Implement comprehensive caching</li>
+      <li>Use CDNs for static content</li>
+      <li>Optimize database queries</li>
+      <li>Monitor and alert on key metrics</li>
+    </ul>
+  </Card>
+  <Card title="Cost Management" icon="dollar-sign">
+    <ul>
+      <li>Right-size infrastructure</li>
+      <li>Use spot instances when possible</li>
+      <li>Implement usage-based pricing</li>
+      <li>Regular cost reviews and optimization</li>
+    </ul>
+  </Card>
+  <Card title="Performance Optimization" icon="zap">
+    <ul>
+      <li>Profile and optimize bottlenecks</li>
+      <li>Use appropriate data structures</li>
+      <li>Implement lazy loading</li>
+      <li>Consider edge computing</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+## Claude-Specific Cost and Latency Optimization
+
+### Claude Model Selection for Cost Optimization
+
+<Card title="Claude Model Cost Comparison">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Model</TableHeader>
+        <TableHeader>Input Cost (per 1M tokens)</TableHeader>
+        <TableHeader>Output Cost (per 1M tokens)</TableHeader>
+        <TableHeader>Latency</TableHeader>
+        <TableHeader>Best Use Case</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Claude 3 Haiku</strong></TableCell>
+        <TableCell>$0.25</TableCell>
+        <TableCell>$1.25</TableCell>
+        <TableCell>Fast (100-300ms)</TableCell>
+        <TableCell>High-volume, simple tasks</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Claude 3 Sonnet</strong></TableCell>
+        <TableCell>$3.00</TableCell>
+        <TableCell>$15.00</TableCell>
+        <TableCell>Medium (300-800ms)</TableCell>
+        <TableCell>General business applications</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Claude 3 Opus</strong></TableCell>
+        <TableCell>$15.00</TableCell>
+        <TableCell>$75.00</TableCell>
+        <TableCell>Slower (800ms-2s)</TableCell>
+        <TableCell>Complex reasoning, research</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### Claude Cost Optimization Strategies
+
+<Card title="Claude-Specific Optimization">
+  <h4>Token Optimization:</h4>
+  <ul>
+    <li><strong>Efficient Prompting:</strong> Use concise, focused prompts to reduce input tokens</li>
+    <li><strong>Context Management:</strong> Limit conversation history to essential context</li>
+    <li><strong>Output Constraints:</strong> Set appropriate max_tokens to control output length</li>
+    <li><strong>Structured Outputs:</strong> Use JSON mode for more predictable, shorter responses</li>
+  </ul>
+  
+  <h4>Model Selection Strategy:</h4>
+  <ul>
+    <li><strong>Haiku for Simple Tasks:</strong> Use for basic Q&A, classification, simple analysis</li>
+    <li><strong>Sonnet for General Use:</strong> Balance of cost and capability for most applications</li>
+    <li><strong>Opus for Complex Tasks:</strong> Reserve for research, complex reasoning, critical applications</li>
+  </ul>
+</Card>
+
+### Claude Latency Optimization
+
+<Card title="Claude Performance Optimization">
+  <h4>Latency Reduction Techniques:</h4>
+  <ul>
+    <li><strong>Streaming Responses:</strong> Use Claude's streaming API for better perceived performance</li>
+    <li><strong>Temperature Optimization:</strong> Lower temperature values for faster, more focused responses</li>
+    <li><strong>System Prompt Efficiency:</strong> Keep system prompts concise and focused</li>
+    <li><strong>Tool Use Optimization:</strong> Limit tool calls to essential operations</li>
+  </ul>
+  
+  <h4>Implementation Example:</h4>
+  <pre><code>import anthropic
+import asyncio
+
+class OptimizedClaudeClient:
+    def __init__(self, api_key):
+        self.client = anthropic.Anthropic(api_key=api_key)
+        self.conversation_cache = {}
+    
+    async def get_optimized_response(self, user_input, task_type="general"):
+        # Select model based on task complexity
+        model_map = {{
+            "simple": "claude-3-haiku-20240307",
+            "general": "claude-3-sonnet-20240229",
+            "complex": "claude-3-opus-20240229"
+        }}
+        
+        model = model_map.get(task_type, "claude-3-sonnet-20240229")
+        
+        # Optimize parameters based on task
+        params = {{
+            "model": model,
+            "max_tokens": 1000 if task_type == "simple" else 2000,
+            "temperature": 0.1 if task_type == "simple" else 0.3,
+            "stream": True  # Enable streaming for better UX
+        }}
+        
+        # Check cache for similar requests
+        cache_key = f"{{{{task_type}}}}:{{{{user_input[:100]}}}}"
+        if cache_key in self.conversation_cache:
+            return self.conversation_cache[cache_key]
+        
+        # Make API call
+        response = await self.client.messages.create(
+            messages=[{{"role": "user", "content": user_input}}],
+            **params
+        )
+        
+        # Cache result
+        self.conversation_cache[cache_key] = response.content[0].text
+        
+        return response.content[0].text
+</code></pre>
+</Card>
+
+### Claude Cost Monitoring and Analytics
+
+<Card title="Claude Usage Analytics">
+  <h4>Key Metrics to Track:</h4>
+  <ul>
+    <li><strong>Token Usage:</strong> Input and output tokens per request</li>
+    <li><strong>Cost per Request:</strong> Total cost including input and output</li>
+    <li><strong>Model Performance:</strong> Response time and quality by model</li>
+    <li><strong>Usage Patterns:</strong> Peak usage times and request types</li>
+  </ul>
+  
+  <h4>Implementation Example:</h4>
+  <pre><code>class ClaudeCostTracker:
+    def __init__(self):
+        self.usage_data = []
+        self.cost_rates = {{
+            "claude-3-haiku-20240307": {{"input": 0.25, "output": 1.25}},
+            "claude-3-sonnet-20240229": {{"input": 3.00, "output": 15.00}},
+            "claude-3-opus-20240229": {{"input": 15.00, "output": 75.00}}
+        }}
+    
+    def track_request(self, model, input_tokens, output_tokens, response_time):
+        cost = self.calculate_cost(model, input_tokens, output_tokens)
+        
+        self.usage_data.append({{
+            "timestamp": time.time(),
+            "model": model,
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "total_tokens": input_tokens + output_tokens,
+            "cost": cost,
+            "response_time": response_time
+        }})
+    
+    def calculate_cost(self, model, input_tokens, output_tokens):
+        rates = self.cost_rates.get(model, {{"input": 3.00, "output": 15.00}})
+        input_cost = (input_tokens / 1_000_000) * rates["input"]
+        output_cost = (output_tokens / 1_000_000) * rates["output"]
+        return input_cost + output_cost
+    
+    def get_cost_analytics(self):
+        if not self.usage_data:
+            return {{}}
+        
+        total_cost = sum(item["cost"] for item in self.usage_data)
+        total_tokens = sum(item["total_tokens"] for item in self.usage_data)
+        avg_response_time = sum(item["response_time"] for item in self.usage_data) / len(self.usage_data)
+        
+        return {{
+            "total_cost": total_cost,
+            "total_tokens": total_tokens,
+            "avg_response_time": avg_response_time,
+            "cost_per_token": total_cost / total_tokens if total_tokens > 0 else 0,
+            "requests_count": len(self.usage_data)
+        }}
+</code></pre>
+</Card>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>Anthropic Claude Pricing:</strong> <a href="https://www.anthropic.com/pricing">https://www.anthropic.com/pricing</a></li>
+    <li><strong>Claude API Documentation:</strong> <a href="https://docs.anthropic.com/en/api">https://docs.anthropic.com/en/api</a></li>
+    <li><strong>CrewAI Documentation:</strong> <a href="https://docs.crewai.com/en/introduction">https://docs.crewai.com/en/introduction</a></li>
+    <li><strong>AI Design Guide:</strong> <a href="https://aidesign.guide/">https://aidesign.guide/</a></li>
+    <li><strong>LangChain Conceptual Guide:</strong> <a href="https://python.langchain.com/docs/get_started/concepts">https://python.langchain.com/docs/get_started/concepts</a></li>
+    <li><strong>Prompt Engineering Guide:</strong> <a href="https://www.promptingguide.ai/">https://www.promptingguide.ai/</a></li>
+  </ul>
+</Card>
+
+## Figures
+
+<Card title="Cost-Latency Trade-off Curve">
+  <Frame>
+    <img src="/images/cost-latency-curve.png" alt="Graph showing the relationship between cost and latency in AI systems" />
+  </Frame>
+</Card>
+
+<Card title="Optimization Framework">
+  <Frame>
+    <img src="/images/optimization-framework.png" alt="Framework diagram showing different optimization strategies" />
+  </Frame>
+</Card>
+

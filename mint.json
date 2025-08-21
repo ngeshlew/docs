@@ -1,0 +1,161 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "AI Product Engineer Course",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#007AFF",
+    "light": "#5856D6",
+    "dark": "#1C1C1E"
+  },
+  "topbarLinks": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/ngeshlew/docs"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Get Started",
+    "url": "/getting-started"
+  },
+  "anchors": [
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/ngeshlew/docs"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Overview",
+      "pages": [
+        "index",
+        "getting-started",
+        "installation",
+        "crew-ai-class"
+      ]
+    },
+    {
+      "group": "Core Concepts",
+      "pages": [
+        "modules/foundations/index",
+        "modules/transformers/index",
+        "modules/token-context/index",
+        "modules/ai-fluency-framework/index",
+        "modules/mcp/index"
+      ]
+    },
+    {
+      "group": "Prompting & Interaction",
+      "pages": [
+        "modules/prompting-structured-outputs/index",
+        "modules/prompting-advanced/index",
+        "modules/structured-outputs/index"
+      ]
+    },
+    {
+      "group": "Prompting Techniques",
+      "pages": [
+        "modules/prompting-techniques/zero-shot",
+        "modules/prompting-techniques/few-shot",
+        "modules/prompting-techniques/chain-of-thought",
+        "modules/prompting-techniques/meta-prompting",
+        "modules/prompting-techniques/self-consistency",
+        "modules/prompting-techniques/generate-knowledge",
+        "modules/prompting-techniques/prompt-chaining",
+        "modules/prompting-techniques/tree-of-thoughts",
+        "modules/prompting-techniques/retrieval-augmented-generation",
+        "modules/prompting-techniques/automatic-reasoning",
+        "modules/prompting-techniques/automatic-prompt-engineer",
+        "modules/prompting-techniques/active-prompt",
+        "modules/prompting-techniques/directional-stimulus",
+        "modules/prompting-techniques/program-aided-language-models",
+        "modules/prompting-techniques/react",
+        "modules/prompting-techniques/reflexion",
+        "modules/prompting-techniques/multimodal-cot",
+        "modules/prompting-techniques/graph-prompting"
+      ]
+    },
+    {
+      "group": "AI Architecture",
+      "pages": [
+        "modules/memory-state/index",
+        "modules/rag/index",
+        "modules/agents-orchestration/index"
+      ]
+    },
+    {
+      "group": "User Experience",
+      "pages": [
+        "modules/streaming-ux/index",
+        "modules/ai-ux-behavior/index",
+        "modules/multimodality/index"
+      ]
+    },
+    {
+      "group": "Production & Operations",
+      "pages": [
+        "modules/safety-security/index",
+        "modules/evaluation-observability/index",
+        "modules/cost-latency/index",
+        "modules/productization-mlops/index"
+      ]
+    },
+    {
+      "group": "Collaboration",
+      "pages": [
+        "modules/collaboration-with-engineers/index",
+        "modules/design-patterns/index"
+      ]
+    },
+    {
+      "group": "Research & Insights",
+      "pages": [
+        "modules/ecosystem-deep-dives/index",
+        "competitors/fin-intercom",
+        "competitors/yellow-ai"
+      ]
+    },
+    {
+      "group": "Capstone Project",
+      "pages": [
+        "capstone/index",
+        "capstone/rag",
+        "capstone/rivet",
+        "capstone/evaluation",
+        "capstone/safety",
+        "capstone/demo"
+      ]
+    },
+    {
+      "group": "Resources",
+      "pages": [
+        "sources/index",
+        "perspectives/index",
+        "glossary",
+        "progress",
+        "news"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "github": "https://github.com/ngeshlew/docs"
+  },
+
+  "background": {
+    "color": "light"
+  },
+  "search": {
+    "include": [
+      "**/*.mdx",
+      "**/*.md"
+    ]
+  },
+  "ai": {
+    "model": "gpt-4",
+    "systemPrompt": "You are a helpful AI assistant for the AI Product Engineer Course documentation. Help users understand AI/LLM concepts, prompting techniques, and practical implementation strategies."
+  }
+}

@@ -1,0 +1,525 @@
+---
+title: "Structured Outputs"
+slug: "modules-structured-outputs"
+updatedAt: "2025-08-18"
+tags: [module, structured-outputs, json, parsing, validation]
+---
+
+# Structured Outputs
+
+> Learn how to generate and parse structured outputs from AI models for reliable integration and automation.
+
+## What are Structured Outputs?
+
+Structured outputs are formatted responses from AI models that follow a predefined schema, making them easier to parse, validate, and integrate into applications. Common formats include JSON, XML, YAML, and custom schemas.
+
+## Why Structured Outputs Matter
+
+### Benefits
+
+- **Reliability**: Consistent format reduces parsing errors
+- **Integration**: Easy to integrate with APIs and databases
+- **Validation**: Can be validated against schemas
+- **Automation**: Enables automated processing and workflows
+- **Type Safety**: Provides clear data types and structure
+
+### Use Cases
+
+- API responses
+- Data extraction
+- Configuration generation
+- Report formatting
+- Database operations
+
+## JSON Output Formatting
+
+### Basic JSON Structure
+
+**Prompt:**
+```
+Analyze the following text and provide your response in JSON format:
+
+Text: "The weather is sunny with a temperature of 25°C and humidity at 60%."
+
+Please structure your response as:
+{
+  "weather_condition": "string",
+  "temperature": "number",
+  "humidity": "number",
+  "units": {
+    "temperature": "string",
+    "humidity": "string"
+  }
+}
+```
+
+**Expected Output:**
+```json
+{
+  "weather_condition": "sunny",
+  "temperature": 25,
+  "humidity": 60,
+  "units": {
+    "temperature": "°C",
+    "humidity": "%"
+  }
+}
+```
+
+### Complex JSON with Arrays
+
+**Prompt:**
+```
+Extract product information from the following text and format as JSON:
+
+Text: "We have three products: iPhone 15 ($999), MacBook Pro ($1999), and AirPods Pro ($249)."
+
+Format as:
+{
+  "products": [
+    {
+      "name": "string",
+      "price": "number",
+      "currency": "string"
+    }
+  ],
+  "total_count": "number"
+}
+```
+
+**Expected Output:**
+```json
+{
+  "products": [
+    {
+      "name": "iPhone 15",
+      "price": 999,
+      "currency": "USD"
+    },
+    {
+      "name": "MacBook Pro",
+      "price": 1999,
+      "currency": "USD"
+    },
+    {
+      "name": "AirPods Pro",
+      "price": 249,
+      "currency": "USD"
+    }
+  ],
+  "total_count": 3
+}
+```
+
+## Pydantic Integration
+
+### Using Pydantic for Validation
+
+```python
+from pydantic import BaseModel, Field
+from typing import List, Optional
+import json
+
+class Product(BaseModel):
+    name: str = Field(..., description="Product name")
+    price: float = Field(..., description="Product price")
+    currency: str = Field(default="USD", description="Currency code")
+    category: Optional[str] = Field(None, description="Product category")
+
+class ProductList(BaseModel):
+    products: List[Product] = Field(..., description="List of products")
+    total_count: int = Field(..., description="Total number of products")
+
+def extract_products_with_validation(text: str) -> ProductList:
+    prompt = f"""
+    Extract product information from the following text and return valid JSON:
+
+    Text: {text}
+
+    Return a JSON object with the following structure:
+    {{
+      "products": [
+        {{
+          "name": "string",
+          "price": "number",
+          "currency": "string",
+          "category": "string (optional)"
+        }}
+      ],
+      "total_count": "number"
+    }}
+    """
+    
+    # Get response from AI model
+    response = ai_model.generate(prompt)
+    
+    # Parse and validate
+    try:
+        data = json.loads(response)
+        return ProductList(**data)
+    except Exception as e:
+        raise ValueError(f"Invalid JSON structure: {e}")
+```
+
+## LangChain Output Parsers
+
+### Using LangChain's PydanticOutputParser
+
+```python
+from langchain.output_parsers import PydanticOutputParser
+from langchain.prompts import PromptTemplate
+from langchain.llms import OpenAI
+
+# Define the output schema
+class AnalysisResult(BaseModel):
+    sentiment: str = Field(description="Sentiment analysis result")
+    confidence: float = Field(description="Confidence score between 0 and 1")
+    key_points: List[str] = Field(description="Key points from the text")
+    summary: str = Field(description="Brief summary")
+
+# Create the parser
+parser = PydanticOutputParser(pydantic_object=AnalysisResult)
+
+# Create the prompt template
+prompt_template = PromptTemplate(
+    template="Analyze the following text and provide your response in the specified format:\n\nText: {text}\n\n{format_instructions}",
+    input_variables=["text"],
+    partial_variables={"format_instructions": parser.get_format_instructions()}
+)
+
+# Use the parser
+def analyze_text(text: str) -> AnalysisResult:
+    llm = OpenAI(temperature=0)
+    
+    # Format the prompt
+    prompt = prompt_template.format(text=text)
+    
+    # Get the response
+    response = llm(prompt)
+    
+    # Parse the response
+    return parser.parse(response)
+```
+
+## XML Output Formatting
+
+### Basic XML Structure
+
+**Prompt:**
+```
+Convert the following data to XML format:
+
+Data: "User John Doe, age 30, email john@example.com, works as a Software Engineer"
+
+Format as:
+<user>
+  <name>string</name>
+  <age>number</age>
+  <email>string</email>
+  <occupation>string</occupation>
+</user>
+```
+
+**Expected Output:**
+```xml
+<user>
+  <name>John Doe</name>
+  <age>30</age>
+  <email>john@example.com</email>
+  <occupation>Software Engineer</occupation>
+</user>
+```
+
+## YAML Output Formatting
+
+### Configuration Generation
+
+**Prompt:**
+```
+Generate a Docker Compose configuration for a web application with the following requirements:
+- Web server (nginx)
+- Application server (Node.js)
+- Database (PostgreSQL)
+- Redis cache
+
+Format as YAML:
+```
+
+**Expected Output:**
+```yaml
+version: '3.8'
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+
+  app:
+    build: .
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://user:password@db:5432/app
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
+```
+
+## Custom Schema Validation
+
+### Implementing Custom Validators
+
+```python
+from typing import Dict, Any, List
+import re
+
+class CustomValidator:
+    def __init__(self, schema: Dict[str, Any]):
+        self.schema = schema
+    
+    def validate(self, data: Dict[str, Any]) -> bool:
+        try:
+            for field, rules in self.schema.items():
+                if field not in data:
+                    if rules.get('required', False):
+                        raise ValueError(f"Missing required field: {field}")
+                    continue
+                
+                value = data[field]
+                
+                # Type validation
+                expected_type = rules.get('type')
+                if expected_type and not isinstance(value, expected_type):
+                    raise ValueError(f"Field {field} must be of type {expected_type}")
+                
+                # Pattern validation
+                pattern = rules.get('pattern')
+                if pattern and isinstance(value, str):
+                    if not re.match(pattern, value):
+                        raise ValueError(f"Field {field} does not match pattern: {pattern}")
+                
+                # Range validation
+                min_val = rules.get('min')
+                max_val = rules.get('max')
+                if isinstance(value, (int, float)):
+                    if min_val is not None and value < min_val:
+                        raise ValueError(f"Field {field} must be >= {min_val}")
+                    if max_val is not None and value > max_val:
+                        raise ValueError(f"Field {field} must be <= {max_val}")
+                
+                # Enum validation
+                enum_values = rules.get('enum')
+                if enum_values and value not in enum_values:
+                    raise ValueError(f"Field {field} must be one of: {enum_values}")
+            
+            return True
+        except Exception as e:
+            print(f"Validation error: {e}")
+            return False
+
+# Example usage
+schema = {
+    'name': {'type': str, 'required': True, 'pattern': r'^[A-Za-z\s]+$'},
+    'age': {'type': int, 'required': True, 'min': 0, 'max': 150},
+    'email': {'type': str, 'required': True, 'pattern': r'^[^@]+@[^@]+\.[^@]+$'},
+    'status': {'type': str, 'enum': ['active', 'inactive', 'pending']}
+}
+
+validator = CustomValidator(schema)
+
+# Test data
+test_data = {
+    'name': 'John Doe',
+    'age': 30,
+    'email': 'john@example.com',
+    'status': 'active'
+}
+
+is_valid = validator.validate(test_data)
+print(f"Data is valid: {is_valid}")
+```
+
+## Error Handling and Fallbacks
+
+### Robust Output Parsing
+
+```python
+import json
+from typing import Optional, Any
+
+def safe_parse_json(response: str, fallback: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    """
+    Safely parse JSON response with fallback handling.
+    """
+    try:
+        # Try to parse the response as JSON
+        return json.loads(response)
+    except json.JSONDecodeError:
+        # If JSON parsing fails, try to extract JSON from the response
+        try:
+            # Look for JSON-like content between triple backticks
+            import re
+            json_match = re.search(r'```(?:json)?\s*(\{.*?\})\s*```', response, re.DOTALL)
+            if json_match:
+                return json.loads(json_match.group(1))
+        except:
+            pass
+        
+        # If all parsing attempts fail, return fallback or raise error
+        if fallback is not None:
+            return fallback
+        else:
+            raise ValueError("Failed to parse JSON response")
+
+def validate_and_fix_json(response: str, schema: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Validate JSON against schema and attempt to fix common issues.
+    """
+    try:
+        data = safe_parse_json(response)
+        
+        # Check for missing required fields
+        for field, rules in schema.items():
+            if rules.get('required', False) and field not in data:
+                # Try to infer the value or use default
+                if 'default' in rules:
+                    data[field] = rules['default']
+                else:
+                    raise ValueError(f"Missing required field: {field}")
+        
+        return data
+    except Exception as e:
+        # Return a minimal valid structure
+        return {field: rules.get('default', None) for field, rules in schema.items()}
+```
+
+## Best Practices
+
+### 1. Clear Schema Definition
+
+- Define explicit field types and constraints
+- Include examples in your prompts
+- Specify required vs optional fields
+- Document any special formatting requirements
+
+### 2. Robust Error Handling
+
+- Always validate outputs before using them
+- Implement fallback mechanisms
+- Log parsing errors for debugging
+- Provide meaningful error messages
+
+### 3. Performance Optimization
+
+- Use efficient parsing libraries
+- Cache parsed schemas when possible
+- Minimize validation overhead
+- Consider streaming for large outputs
+
+### 4. Testing and Validation
+
+- Test with various input formats
+- Validate edge cases and error conditions
+- Monitor parsing success rates
+- Implement automated testing
+
+## Implementation Examples
+
+### API Response Handler
+
+```python
+class APIResponseHandler:
+    def __init__(self, response_schema: Dict[str, Any]):
+        self.schema = response_schema
+        self.validator = CustomValidator(response_schema)
+    
+    def process_response(self, ai_response: str) -> Dict[str, Any]:
+        try:
+            # Parse the response
+            data = safe_parse_json(ai_response)
+            
+            # Validate against schema
+            if not self.validator.validate(data):
+                raise ValueError("Response validation failed")
+            
+            return data
+        except Exception as e:
+            # Log error and return fallback
+            print(f"Error processing response: {e}")
+            return self.get_fallback_response()
+    
+    def get_fallback_response(self) -> Dict[str, Any]:
+        return {field: rules.get('default', None) for field, rules in self.schema.items()}
+```
+
+### Batch Processing
+
+```python
+def process_batch_responses(responses: List[str], schema: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """
+    Process multiple AI responses in batch.
+    """
+    results = []
+    
+    for i, response in enumerate(responses):
+        try:
+            data = safe_parse_json(response)
+            if CustomValidator(schema).validate(data):
+                results.append(data)
+            else:
+                results.append(None)
+        except Exception as e:
+            print(f"Error processing response {i}: {e}")
+            results.append(None)
+    
+    return results
+```
+
+## Next Steps
+
+- **Practice**: Implement structured outputs in your projects
+- **Experiment**: Try different output formats and schemas
+- **Validate**: Build robust validation systems
+- **Optimize**: Improve parsing performance and reliability
+
+## Sources
+
+- [LangChain Output Parsers](https://python.langchain.com/docs/modules/model_io/output_parsers/)
+- [Pydantic Documentation](https://docs.pydantic.dev/)
+- [JSON Schema Specification](https://json-schema.org/)
+
+## Collaboration Prompts for Engineers
+
+### For Frontend Developers
+"Create a structured output schema for form validation responses"
+
+### For Backend Developers
+"Design an API response format for user authentication"
+
+### For DevOps Engineers
+"Generate infrastructure configuration schemas"
+
+### For Data Scientists
+"Build data analysis result schemas for automated reporting"

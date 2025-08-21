@@ -1,0 +1,748 @@
+---
+title: "Active Prompt"
+description: "Learn how to create dynamic, adaptive prompts that respond to context and user input, enabling more intelligent and personalized AI interactions"
+slug: "modules-prompting-techniques-active-prompt"
+updatedAt: "2025-08-19"
+tags: [prompting-technique, active-prompt, dynamic-prompting, adaptive-ai]
+---
+
+# Active Prompt
+
+<Callout type="info">
+  **Learning Objective**: Master the art of creating dynamic, context-aware prompts that adapt to user input and system state, enabling more intelligent and personalized AI interactions.
+</Callout>
+
+## Overview
+
+Active Prompt is an advanced prompting technique that creates dynamic, adaptive prompts that respond to context, user input, and system state. Unlike static prompts, active prompts can modify themselves based on real-time information, making AI interactions more intelligent and personalized.
+
+<CardGroup cols={2}>
+  <Card title="Dynamic Adaptation" icon="refresh-cw">
+    Active prompts can change and adapt based on context, user behavior, and system state.
+  </Card>
+  <Card title="Personalized Experience" icon="user">
+    Each interaction can be tailored to the specific user and their current situation.
+  </Card>
+</CardGroup>
+
+## What is Active Prompt?
+
+Active Prompt is a prompting technique where the prompt itself is dynamically generated or modified based on:
+
+- **User Context**: Current user state, preferences, and history
+- **System State**: Available data, model performance, and constraints
+- **Environmental Factors**: Time, location, device, and other contextual information
+- **Interaction History**: Previous conversations and outcomes
+- **Real-time Feedback**: Immediate responses and user reactions
+
+<Callout type="warning">
+  **Key Difference**: Unlike traditional static prompts, active prompts are generated or modified in real-time, making them more responsive and contextually aware.
+</Callout>
+
+## Key Concepts
+
+### 1. **Context Awareness**
+
+<Card title="Understanding Context">
+  <p>Active prompts leverage multiple sources of context to create more relevant and effective interactions:</p>
+  
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Context Type</TableHeader>
+        <TableHeader>Description</TableHeader>
+        <TableHeader>Example</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>User Context</strong></TableCell>
+        <TableCell>User preferences, history, and current state</TableCell>
+        <TableCell>Adapting tone based on user's expertise level</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Temporal Context</strong></TableCell>
+        <TableCell>Time of day, date, and temporal patterns</TableCell>
+        <TableCell>Adjusting urgency based on business hours</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Spatial Context</strong></TableCell>
+        <TableCell>Location, device, and environmental factors</TableCell>
+        <TableCell>Providing location-specific recommendations</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Interaction Context</strong></TableCell>
+        <TableCell>Conversation history and current session</TableCell>
+        <TableCell>Referencing previous exchanges</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Dynamic Prompt Generation**
+
+<Card title="Prompt Generation Strategies">
+  <h4>Template-Based Generation:</h4>
+  <ul>
+    <li><strong>Variable Substitution:</strong> Replace placeholders with dynamic content</li>
+    <li><strong>Conditional Logic:</strong> Include/exclude sections based on conditions</li>
+    <li><strong>Context Injection:</strong> Insert relevant context into prompts</li>
+    <li><strong>Personalization:</strong> Adapt content based on user profile</li>
+  </ul>
+  
+  <h4>Rule-Based Adaptation:</h4>
+  <ul>
+    <li><strong>Performance Rules:</strong> Adjust based on model performance</li>
+    <li><strong>User Behavior Rules:</strong> Modify based on user interaction patterns</li>
+    <li><strong>Error Recovery Rules:</strong> Adapt when errors occur</li>
+    <li><strong>Success Optimization Rules:</strong> Reinforce successful patterns</li>
+  </ul>
+</Card>
+
+### 3. **Feedback Loops**
+
+<Card title="Learning from Interactions">
+  <p>Active prompts create feedback loops that continuously improve performance:</p>
+  
+  <ol>
+    <li><strong>Collect Feedback:</strong> Gather user responses and system metrics</li>
+    <li><strong>Analyze Performance:</strong> Evaluate prompt effectiveness</li>
+    <li><strong>Identify Patterns:</strong> Discover what works and what doesn't</li>
+    <li><strong>Update Prompts:</strong> Modify prompts based on insights</li>
+    <li><strong>Test Changes:</strong> Validate improvements with new interactions</li>
+  </ol>
+</Card>
+
+## Implementation
+
+### 1. **Basic Active Prompt Structure**
+
+<CodeGroup>
+  <CodeGroupItem title="Python" active>
+```python
+import json
+from datetime import datetime
+from typing import Dict, Any
+
+class ActivePrompt:
+    def __init__(self, base_template: str):
+        self.base_template = base_template
+        self.user_context = {}
+        self.system_state = {}
+    
+    def update_context(self, context: Dict[str, Any]):
+        """Update the current context with new information"""
+        self.user_context.update(context)
+    
+    def generate_prompt(self, **kwargs) -> str:
+        """Generate a dynamic prompt based on current context"""
+        # Merge all context sources
+        full_context = {
+            **self.user_context,
+            **self.system_state,
+            **kwargs,
+            'timestamp': datetime.now().isoformat()
+        }
+        
+        # Apply template with context
+        prompt = self.base_template
+        for key, value in full_context.items():
+            placeholder = f"{{{key}}}"
+            if placeholder in prompt:
+                prompt = prompt.replace(placeholder, str(value))
+        
+        return prompt
+
+# Example usage
+base_template = """
+You are a helpful assistant for {user_type} users.
+Current time: {timestamp}
+User expertise level: {expertise_level}
+Previous interactions: {interaction_count}
+
+Please help with: {user_query}
+"""
+
+active_prompt = ActivePrompt(base_template)
+active_prompt.update_context({
+    'user_type': 'business',
+    'expertise_level': 'intermediate',
+    'interaction_count': 5
+})
+
+prompt = active_prompt.generate_prompt(user_query="How do I optimize my workflow?")
+print(prompt)
+```
+  </CodeGroupItem>
+  
+  <CodeGroupItem title="JavaScript">
+```javascript
+class ActivePrompt {
+    constructor(baseTemplate) {
+        this.baseTemplate = baseTemplate;
+        this.userContext = {};
+        this.systemState = {};
+    }
+    
+    updateContext(context) {
+        this.userContext = { ...this.userContext, ...context };
+    }
+    
+    generatePrompt(kwargs = {}) {
+        const fullContext = {
+            ...this.userContext,
+            ...this.systemState,
+            ...kwargs,
+            timestamp: new Date().toISOString()
+        };
+        
+        let prompt = this.baseTemplate;
+        for (const [key, value] of Object.entries(fullContext)) {
+            const placeholder = `{${key}}`;
+            if (prompt.includes(placeholder)) {
+                prompt = prompt.replace(placeholder, String(value));
+            }
+        }
+        
+        return prompt;
+    }
+}
+
+// Example usage
+const baseTemplate = `
+You are a helpful assistant for {userType} users.
+Current time: {timestamp}
+User expertise level: {expertiseLevel}
+Previous interactions: {interactionCount}
+
+Please help with: {userQuery}
+`;
+
+const activePrompt = new ActivePrompt(baseTemplate);
+activePrompt.updateContext({
+    userType: 'business',
+    expertiseLevel: 'intermediate',
+    interactionCount: 5
+});
+
+const prompt = activePrompt.generatePrompt({ userQuery: 'How do I optimize my workflow?' });
+console.log(prompt);
+```
+  </CodeGroupItem>
+</CodeGroup>
+
+### 2. **Advanced Active Prompt with LangChain**
+
+<Card title="LangChain Integration">
+  <CodeGroup>
+    <CodeGroupItem title="LangChain Implementation" active>
+```python
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+from langchain.memory import ConversationBufferMemory
+from langchain.llms import OpenAI
+import json
+
+class AdvancedActivePrompt:
+    def __init__(self):
+        self.memory = ConversationBufferMemory()
+        self.context_variables = {}
+        
+    def create_dynamic_template(self, base_prompt: str) -> PromptTemplate:
+        """Create a dynamic prompt template that adapts to context"""
+        
+        # Define input variables based on context
+        input_variables = ["user_query"]
+        
+        # Add context variables
+        for key in self.context_variables.keys():
+            input_variables.append(key)
+        
+        # Add memory variables if using conversation memory
+        if self.memory:
+            input_variables.extend(["chat_history", "user_name"])
+        
+        template = PromptTemplate(
+            input_variables=input_variables,
+            template=base_prompt
+        )
+        
+        return template
+    
+    def update_context(self, **kwargs):
+        """Update the current context"""
+        self.context_variables.update(kwargs)
+    
+    def generate_response(self, user_query: str, llm) -> str:
+        """Generate a response using active prompting"""
+        
+        # Create dynamic template
+        base_prompt = """
+        You are an AI assistant with the following context:
+        
+        User Profile:
+        - Name: {user_name}
+        - Expertise Level: {expertise_level}
+        - Preferred Style: {communication_style}
+        
+        Current Context:
+        - Time: {current_time}
+        - Session Length: {session_length}
+        - Previous Topics: {previous_topics}
+        
+        Conversation History:
+        {chat_history}
+        
+        User Query: {user_query}
+        
+        Please provide a helpful response that takes into account the user's context and preferences.
+        """
+        
+        template = self.create_dynamic_template(base_prompt)
+        
+        # Prepare inputs
+        inputs = {
+            "user_query": user_query,
+            **self.context_variables
+        }
+        
+        # Add memory if available
+        if self.memory:
+            inputs["chat_history"] = self.memory.buffer
+            inputs["user_name"] = self.context_variables.get("user_name", "User")
+        
+        # Create chain and generate response
+        chain = LLMChain(llm=llm, prompt=template)
+        response = chain.run(inputs)
+        
+        # Update memory
+        self.memory.save_context(
+            {"input": user_query},
+            {"output": response}
+        )
+        
+        return response
+
+# Example usage
+active_prompt = AdvancedActivePrompt()
+active_prompt.update_context(
+    user_name="Sarah",
+    expertise_level="advanced",
+    communication_style="concise",
+    current_time="2024-01-15 14:30:00",
+    session_length="15 minutes",
+    previous_topics=["workflow optimization", "automation"]
+)
+
+# Initialize LLM (replace with your API key)
+llm = OpenAI(temperature=0.7)
+
+response = active_prompt.generate_response(
+    "How can I improve my team's productivity?",
+    llm
+)
+print(response)
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+### 3. **CrewAI Active Prompt Integration**
+
+<Card title="CrewAI Multi-Agent Active Prompting">
+  <CodeGroup>
+    <CodeGroupItem title="CrewAI Implementation" active>
+```python
+from crewai import Agent, Task, Crew
+from langchain.tools import Tool
+import json
+
+class ActivePromptAgent:
+    def __init__(self, name: str, role: str, goal: str):
+        self.name = name
+        self.role = role
+        self.goal = goal
+        self.context = {}
+        
+    def create_agent(self) -> Agent:
+        """Create a CrewAI agent with active prompting capabilities"""
+        
+        # Dynamic backstory based on context
+        backstory = f"""
+        You are {self.name}, a {self.role}. Your goal is {self.goal}.
+        
+        Current Context:
+        - User Profile: {self.context.get('user_profile', 'General user')}
+        - Session Context: {self.context.get('session_context', 'New session')}
+        - Previous Interactions: {self.context.get('interaction_count', 0)}
+        
+        Adapt your responses based on the user's context and needs.
+        """
+        
+        return Agent(
+            role=self.role,
+            goal=self.goal,
+            backstory=backstory,
+            verbose=True,
+            allow_delegation=False
+        )
+    
+    def update_context(self, **kwargs):
+        """Update agent context"""
+        self.context.update(kwargs)
+
+# Example: Active Prompt Research Agent
+research_agent = ActivePromptAgent(
+    name="Research Specialist",
+    role="AI Research Analyst",
+    goal="Provide comprehensive, context-aware research and analysis"
+)
+
+research_agent.update_context(
+    user_profile="Product Manager",
+    session_context="Product strategy planning",
+    interaction_count=3
+)
+
+# Create the agent
+agent = research_agent.create_agent()
+
+# Define task with active prompting
+task = Task(
+    description="""
+    Conduct research on {topic} considering the user's context:
+    - User Role: {user_role}
+    - Current Focus: {current_focus}
+    - Previous Research: {previous_research}
+    
+    Provide insights tailored to their specific needs and expertise level.
+    """,
+    agent=agent,
+    context={
+        "topic": "AI-powered productivity tools",
+        "user_role": "Product Manager",
+        "current_focus": "Team collaboration",
+        "previous_research": "Workflow automation"
+    }
+)
+
+# Create crew and execute
+crew = Crew(
+    agents=[agent],
+    tasks=[task],
+    verbose=True
+)
+
+result = crew.kickoff()
+print(result)
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+## Advanced Techniques
+
+### 1. **Context-Aware Prompt Selection**
+
+<Card title="Dynamic Prompt Selection">
+  <p>Choose the most appropriate prompt based on current context:</p>
+  
+  <CodeGroup>
+    <CodeGroupItem title="Prompt Selection Logic" active>
+```python
+class PromptSelector:
+    def __init__(self):
+        self.prompt_templates = {
+            'expert': {
+                'tone': 'technical',
+                'detail_level': 'high',
+                'assumptions': 'advanced_knowledge'
+            },
+            'intermediate': {
+                'tone': 'balanced',
+                'detail_level': 'medium',
+                'assumptions': 'basic_knowledge'
+            },
+            'beginner': {
+                'tone': 'friendly',
+                'detail_level': 'low',
+                'assumptions': 'no_knowledge'
+            }
+        }
+    
+    def select_prompt(self, user_context: dict) -> dict:
+        """Select the most appropriate prompt template based on context"""
+        
+        # Determine user expertise level
+        expertise = self._assess_expertise(user_context)
+        
+        # Get base template
+        template = self.prompt_templates[expertise]
+        
+        # Adapt based on additional context
+        if user_context.get('urgency') == 'high':
+            template['tone'] = 'concise'
+        
+        if user_context.get('domain') == 'technical':
+            template['detail_level'] = 'high'
+        
+        return template
+    
+    def _assess_expertise(self, context: dict) -> str:
+        """Assess user expertise level based on context"""
+        indicators = {
+            'expert': ['technical_terms', 'advanced_questions', 'experience_years > 5'],
+            'intermediate': ['some_technical_terms', 'moderate_questions', 'experience_years 2-5'],
+            'beginner': ['basic_questions', 'no_technical_terms', 'experience_years < 2']
+        }
+        
+        # Simple scoring system
+        scores = {'expert': 0, 'intermediate': 0, 'beginner': 0}
+        
+        for level, criteria in indicators.items():
+            for criterion in criteria:
+                if self._matches_criterion(context, criterion):
+                    scores[level] += 1
+        
+        return max(scores, key=scores.get)
+    
+    def _matches_criterion(self, context: dict, criterion: str) -> bool:
+        """Check if context matches a specific criterion"""
+        # Implementation would check context against criteria
+        return True  # Simplified for example
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+### 2. **Real-Time Prompt Optimization**
+
+<Card title="Performance-Based Optimization">
+  <p>Continuously optimize prompts based on performance metrics:</p>
+  
+  <CodeGroup>
+    <CodeGroupItem title="Optimization Engine" active>
+```python
+import numpy as np
+from typing import List, Dict, Any
+
+class PromptOptimizer:
+    def __init__(self):
+        self.performance_history = []
+        self.prompt_variations = []
+        self.optimization_metrics = ['accuracy', 'user_satisfaction', 'response_time']
+    
+    def track_performance(self, prompt_variant: str, metrics: Dict[str, float]):
+        """Track performance of different prompt variants"""
+        self.performance_history.append({
+            'prompt': prompt_variant,
+            'metrics': metrics,
+            'timestamp': datetime.now()
+        })
+    
+    def optimize_prompt(self, base_prompt: str, context: dict) -> str:
+        """Optimize prompt based on historical performance"""
+        
+        # Analyze performance patterns
+        best_performers = self._identify_best_performers()
+        
+        # Generate optimized variant
+        optimized_prompt = self._apply_optimizations(base_prompt, best_performers, context)
+        
+        return optimized_prompt
+    
+    def _identify_best_performers(self) -> List[Dict[str, Any]]:
+        """Identify the best performing prompt variants"""
+        if not self.performance_history:
+            return []
+        
+        # Calculate composite scores
+        for record in self.performance_history:
+            metrics = record['metrics']
+            composite_score = (
+                metrics.get('accuracy', 0) * 0.4 +
+                metrics.get('user_satisfaction', 0) * 0.4 +
+                (1 - metrics.get('response_time', 1)) * 0.2
+            )
+            record['composite_score'] = composite_score
+        
+        # Sort by composite score
+        sorted_history = sorted(
+            self.performance_history,
+            key=lambda x: x['composite_score'],
+            reverse=True
+        )
+        
+        return sorted_history[:3]  # Top 3 performers
+    
+    def _apply_optimizations(self, base_prompt: str, best_performers: List[Dict], context: dict) -> str:
+        """Apply optimizations based on best performers"""
+        
+        if not best_performers:
+            return base_prompt
+        
+        # Extract common patterns from best performers
+        common_elements = self._extract_common_elements(best_performers)
+        
+        # Apply optimizations
+        optimized_prompt = base_prompt
+        
+        # Add context-specific optimizations
+        if context.get('user_type') == 'business':
+            optimized_prompt = self._add_business_context(optimized_prompt)
+        
+        if context.get('urgency') == 'high':
+            optimized_prompt = self._add_urgency_context(optimized_prompt)
+        
+        return optimized_prompt
+    
+    def _extract_common_elements(self, best_performers: List[Dict]) -> List[str]:
+        """Extract common elements from best performing prompts"""
+        # Implementation would analyze prompt structure and extract patterns
+        return ["clear_instructions", "context_inclusion", "specific_examples"]
+    
+    def _add_business_context(self, prompt: str) -> str:
+        """Add business-specific context to prompt"""
+        return f"{prompt}\n\nPlease provide business-focused insights and actionable recommendations."
+    
+    def _add_urgency_context(self, prompt: str) -> str:
+        """Add urgency context to prompt"""
+        return f"{prompt}\n\nPlease provide a concise, time-sensitive response."
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+## Best Practices
+
+### 1. **Context Management**
+
+<CardGroup cols={2}>
+  <Card title="Context Collection" icon="database">
+    <ul>
+      <li>Gather relevant user information</li>
+      <li>Track interaction history</li>
+      <li>Monitor system performance</li>
+      <li>Collect user feedback</li>
+    </ul>
+  </Card>
+  <Card title="Context Privacy" icon="shield">
+    <ul>
+      <li>Respect user privacy preferences</li>
+      <li>Minimize data collection</li>
+      <li>Secure context storage</li>
+      <li>Provide opt-out options</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+### 2. **Performance Optimization**
+
+<Card title="Optimization Strategies">
+  <ul>
+    <li><strong>Cache Frequently Used Contexts:</strong> Store and reuse common context combinations</li>
+    <li><strong>Batch Context Updates:</strong> Update context efficiently to reduce overhead</li>
+    <li><strong>Lazy Context Loading:</strong> Load context only when needed</li>
+    <li><strong>Context Compression:</strong> Compress context to reduce token usage</li>
+  </ul>
+</Card>
+
+### 3. **Error Handling**
+
+<Card title="Robust Error Handling">
+  <ul>
+    <li><strong>Fallback Prompts:</strong> Have static fallbacks when dynamic generation fails</li>
+    <li><strong>Context Validation:</strong> Validate context before using it in prompts</li>
+    <li><strong>Graceful Degradation:</strong> Reduce functionality when context is unavailable</li>
+    <li><strong>Error Recovery:</strong> Recover from context-related errors</li>
+  </ul>
+</Card>
+
+## Real-World Applications
+
+### 1. **Customer Support Systems**
+
+<Callout type="info">
+  **Case Study**: Active prompts in customer support can adapt to customer history, issue complexity, and support agent expertise.
+</Callout>
+
+<Card title="Support System Example">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Context Factor</TableHeader>
+        <TableHeader>Prompt Adaptation</TableHeader>
+        <TableHeader>Benefit</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Customer History</strong></TableCell>
+        <TableCell>Reference previous interactions</TableCell>
+        <TableCell>Continuity and personalization</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Issue Complexity</strong></TableCell>
+        <TableCell>Adjust technical detail level</TableCell>
+        <TableCell>Appropriate response complexity</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Agent Expertise</strong></TableCell>
+        <TableCell>Provide relevant guidance</TableCell>
+        <TableCell>Better support quality</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Urgency Level</strong></TableCell>
+        <TableCell>Prioritize response speed</TableCell>
+        <TableCell>Faster resolution</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Educational Platforms**
+
+<Card title="Adaptive Learning">
+  <ul>
+    <li><strong>Student Progress:</strong> Adapt explanations based on learning progress</li>
+    <li><strong>Learning Style:</strong> Adjust content presentation style</li>
+    <li><strong>Difficulty Level:</strong> Dynamically adjust challenge level</li>
+    <li><strong>Subject Matter:</strong> Use domain-specific language and examples</li>
+  </ul>
+</Card>
+
+## Related Techniques
+
+<CardGroup cols={3}>
+  <Card title="Zero-Shot Prompting" icon="zap" href="./zero-shot">
+    Static prompts that work without examples
+  </Card>
+  <Card title="Few-Shot Prompting" icon="list" href="./few-shot">
+    Using examples to guide model behavior
+  </Card>
+  <Card title="Chain-of-Thought" icon="git-branch" href="./chain-of-thought">
+    Step-by-step reasoning prompts
+  </Card>
+  <Card title="Meta-Prompting" icon="layers" href="./meta-prompting">
+    Prompts that generate other prompts
+  </Card>
+  <Card title="Self-Consistency" icon="repeat" href="./self-consistency">
+    Multiple reasoning paths for validation
+  </Card>
+  <Card title="Tree of Thoughts" icon="git-merge" href="./tree-of-thoughts">
+    Exploring multiple reasoning branches
+  </Card>
+</CardGroup>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>CrewAI Documentation:</strong> <a href="https://docs.crewai.com/en/introduction">https://docs.crewai.com/en/introduction</a></li>
+    <li><strong>AI Design Guide:</strong> <a href="https://aidesign.guide/">https://aidesign.guide/</a></li>
+    <li><strong>LangChain Conceptual Guide:</strong> <a href="https://python.langchain.com/docs/get_started/concepts">https://python.langchain.com/docs/get_started/concepts</a></li>
+    <li><strong>NLP and LLMs 2024:</strong> <a href="https://nlp2024.jeju.ai/">https://nlp2024.jeju.ai/</a></li>
+    <li><strong>Prompt Engineering Guide:</strong> <a href="https://www.promptingguide.ai/">https://www.promptingguide.ai/</a></li>
+    <li><strong>Anthropic Tutorial:</strong> <a href="https://www.anthropic.com/">https://www.anthropic.com/</a></li>
+  </ul>
+</Card>

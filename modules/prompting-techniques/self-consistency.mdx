@@ -1,0 +1,1014 @@
+---
+title: "Self-Consistency"
+description: "Learn how to generate multiple reasoning paths and select the most consistent answer to improve accuracy and reliability of AI responses"
+slug: "modules-prompting-techniques-self-consistency"
+updatedAt: "2025-08-19"
+tags: [prompting-technique, self-consistency, reasoning, consensus, voting]
+---
+
+# Self-Consistency
+
+<Callout type="info">
+  **Learning Objective**: Master self-consistency techniques to generate multiple reasoning paths and select the most consistent answer, improving accuracy and reliability of AI responses.
+</Callout>
+
+## Overview
+
+Self-consistency is an advanced prompting technique that generates multiple diverse reasoning paths for the same problem and selects the most consistent answer among them. This approach improves accuracy by leveraging the model's ability to reach the same conclusion through different reasoning approaches.
+
+<CardGroup cols={2}>
+  <Card title="Multiple Paths" icon="git-branch">
+    Generate several different reasoning approaches.
+  </Card>
+  <Card title="Consensus Selection" icon="check-circle">
+    Select the most consistent answer through voting.
+  </Card>
+</CardGroup>
+
+## What is Self-Consistency?
+
+Self-consistency is a technique that:
+
+- **Generates Multiple Paths**: Creates several different reasoning approaches to the same problem
+- **Ensures Diversity**: Uses diverse prompting strategies to avoid similar reasoning patterns
+- **Implements Voting**: Uses consensus mechanisms to select the best answer
+- **Improves Accuracy**: Reduces errors by aggregating multiple responses
+
+<Callout type="warning">
+  **Key Insight**: Self-consistency improves performance by replacing greedy decoding with multiple diverse reasoning paths, then selecting the most consistent answer through voting or consensus mechanisms.
+</Callout>
+
+## Key Concepts
+
+### 1. **Multiple Reasoning Paths**
+
+<Card title="Diverse Reasoning Approaches">
+  <ul>
+    <li><strong>Different Strategies:</strong> Use various approaches to solve the same problem</li>
+    <li><strong>Diverse Prompts:</strong> Vary prompt structure and examples</li>
+    <li><strong>Alternative Methods:</strong> Employ different solution methodologies</li>
+    <li><strong>Randomization:</strong> Introduce controlled randomness in reasoning</li>
+  </ul>
+</Card>
+
+### 2. **Consistency Mechanisms**
+
+<Card title="Consensus Building">
+  <ul>
+    <li><strong>Majority Voting:</strong> Select the most common answer</li>
+    <li><strong>Confidence Scoring:</strong> Weight answers by confidence levels</li>
+    <li><strong>Clustering Analysis:</strong> Group similar answers and select from largest cluster</li>
+    <li><strong>Expert Consensus:</strong> Use more sophisticated aggregation methods</li>
+  </ul>
+</Card>
+
+### 3. **Error Reduction**
+
+<Card title="Improving Accuracy">
+  <ul>
+    <li><strong>Error Cancellation:</strong> Multiple paths help cancel out individual errors</li>
+    <li><strong>Robustness:</strong> System becomes more resistant to prompt variations</li>
+    <li><strong>Reliability:</strong> Consistent answers across different approaches</li>
+    <li><strong>Validation:</strong> Multiple paths serve as cross-validation</li>
+  </ul>
+</Card>
+
+## Implementation
+
+### 1. **Basic Self-Consistency**
+
+<CodeGroup>
+  <CodeGroupItem title="Python" active>
+```python
+from typing import List, Dict, Any, Optional
+import random
+from collections import Counter
+import re
+
+class SelfConsistency:
+    def __init__(self, num_paths: int = 5):
+        self.num_paths = num_paths
+        self.reasoning_templates = [
+            "Let's solve this step by step:",
+            "Let me think through this carefully:",
+            "I'll approach this systematically:",
+            "Let me break this down:",
+            "I'll work through this methodically:"
+        ]
+    
+    def generate_diverse_prompts(self, question: str) -> List[str]:
+        """Generate diverse prompts for the same question"""
+        
+        prompts = []
+        
+        for i in range(self.num_paths):
+            # Vary the reasoning template
+            template = random.choice(self.reasoning_templates)
+            
+            # Add some variation to the prompt
+            if i % 2 == 0:
+                prompt = f"""
+                {template}
+                
+                Question: {question}
+                
+                Let's work through this:
+                """
+            else:
+                prompt = f"""
+                {template}
+                
+                {question}
+                
+                I'll solve this by:
+                """
+            
+            prompts.append(prompt)
+        
+        return prompts
+    
+    def extract_answer(self, response: str) -> Optional[str]:
+        """Extract the final answer from a response"""
+        
+        # Look for common answer patterns
+        patterns = [
+            r"The answer is (\w+)",
+            r"Answer: (\w+)",
+            r"Result: (\w+)",
+            r"(\d+)",  # Extract numbers
+            r"(\w+) years? old",  # Age patterns
+            r"(\w+) dollars?",  # Currency patterns
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, response, re.IGNORECASE)
+            if match:
+                return match.group(1)
+        
+        return None
+    
+    def majority_vote(self, answers: List[str]) -> str:
+        """Select answer by majority voting"""
+        
+        # Clean and normalize answers
+        cleaned_answers = []
+        for answer in answers:
+            if answer:
+                # Normalize to lowercase and remove extra whitespace
+                cleaned = answer.strip().lower()
+                cleaned_answers.append(cleaned)
+        
+        # Count occurrences
+        answer_counts = Counter(cleaned_answers)
+        
+        # Return most common answer
+        if answer_counts:
+            return answer_counts.most_common(1)[0][0]
+        else:
+            return "No consensus found"
+    
+    def confidence_weighted_vote(self, answers: List[str], confidences: List[float]) -> str:
+        """Select answer using confidence-weighted voting"""
+        
+        # Create weighted counter
+        weighted_counts = Counter()
+        
+        for answer, confidence in zip(answers, confidences):
+            if answer:
+                cleaned = answer.strip().lower()
+                weighted_counts[cleaned] += confidence
+        
+        # Return answer with highest weighted count
+        if weighted_counts:
+            return weighted_counts.most_common(1)[0][0]
+        else:
+            return "No consensus found"
+    
+    def solve_with_self_consistency(self, question: str) -> Dict[str, Any]:
+        """Solve a problem using self-consistency"""
+        
+        # Generate diverse prompts
+        prompts = self.generate_diverse_prompts(question)
+        
+        # Simulate responses (in practice, these would come from an LLM)
+        responses = []
+        answers = []
+        
+        for i, prompt in enumerate(prompts):
+            # Simulate LLM response
+            response = self.simulate_llm_response(prompt, question, i)
+            responses.append(response)
+            
+            # Extract answer
+            answer = self.extract_answer(response)
+            answers.append(answer)
+        
+        # Get consensus answer
+        consensus_answer = self.majority_vote(answers)
+        
+        return {
+            'question': question,
+            'prompts': prompts,
+            'responses': responses,
+            'extracted_answers': answers,
+            'consensus_answer': consensus_answer,
+            'answer_distribution': Counter([a for a in answers if a])
+        }
+    
+    def simulate_llm_response(self, prompt: str, question: str, path_index: int) -> str:
+        """Simulate LLM response for demonstration"""
+        
+        # Example: Age calculation problem
+        if "70" in question and "sister" in question.lower():
+            if path_index % 3 == 0:
+                return """
+                Let me think through this:
+                When I was 6, my sister was half my age, so she was 3.
+                Now I'm 70, so she is 70 - 3 = 67.
+                The answer is 67.
+                """
+            elif path_index % 3 == 1:
+                return """
+                Let me solve this step by step:
+                When I was 6, my sister was 3 (half my age).
+                The age difference is 6 - 3 = 3 years.
+                Now I'm 70, so my sister is 70 - 3 = 67.
+                The answer is 67.
+                """
+            else:
+                return """
+                I'll approach this systematically:
+                When I was 6, my sister was half my age = 3.
+                Now I'm 70, so my sister is 70/2 = 35.
+                The answer is 35.
+                """
+        
+        # Generic response
+        return f"Simulated response for path {path_index + 1}: {question[:30]}..."
+
+# Example usage
+self_consistency = SelfConsistency(num_paths=5)
+
+question = "When I was 6 my sister was half my age. Now I'm 70 how old is my sister?"
+
+result = self_consistency.solve_with_self_consistency(question)
+
+print(f"Question: {result['question']}")
+print(f"Consensus Answer: {result['consensus_answer']}")
+print(f"Answer Distribution: {result['answer_distribution']}")
+
+for i, (prompt, response, answer) in enumerate(zip(result['prompts'], result['responses'], result['extracted_answers'])):
+    print(f"\nPath {i+1}:")
+    print(f"Answer: {answer}")
+    print(f"Response: {response[:100]}...")
+```
+  </CodeGroupItem>
+  
+  <CodeGroupItem title="JavaScript">
+```javascript
+class SelfConsistency {
+    constructor(numPaths = 5) {
+        this.numPaths = numPaths;
+        this.reasoningTemplates = [
+            "Let's solve this step by step:",
+            "Let me think through this carefully:",
+            "I'll approach this systematically:",
+            "Let me break this down:",
+            "I'll work through this methodically:"
+        ];
+    }
+    
+    generateDiversePrompts(question) {
+        const prompts = [];
+        
+        for (let i = 0; i < this.numPaths; i++) {
+            // Vary the reasoning template
+            const template = this.reasoningTemplates[Math.floor(Math.random() * this.reasoningTemplates.length)];
+            
+            // Add some variation to the prompt
+            let prompt;
+            if (i % 2 === 0) {
+                prompt = `
+                ${template}
+                
+                Question: ${question}
+                
+                Let's work through this:
+                `;
+            } else {
+                prompt = `
+                ${template}
+                
+                ${question}
+                
+                I'll solve this by:
+                `;
+            }
+            
+            prompts.push(prompt);
+        }
+        
+        return prompts;
+    }
+    
+    extractAnswer(response) {
+        // Look for common answer patterns
+        const patterns = [
+            /The answer is (\w+)/i,
+            /Answer: (\w+)/i,
+            /Result: (\w+)/i,
+            /(\d+)/,  // Extract numbers
+            /(\w+) years? old/i,  // Age patterns
+            /(\w+) dollars?/i,  // Currency patterns
+        ];
+        
+        for (const pattern of patterns) {
+            const match = response.match(pattern);
+            if (match) {
+                return match[1];
+            }
+        }
+        
+        return null;
+    }
+    
+    majorityVote(answers) {
+        // Clean and normalize answers
+        const cleanedAnswers = answers
+            .filter(answer => answer)
+            .map(answer => answer.trim().toLowerCase());
+        
+        // Count occurrences
+        const answerCounts = {};
+        for (const answer of cleanedAnswers) {
+            answerCounts[answer] = (answerCounts[answer] || 0) + 1;
+        }
+        
+        // Return most common answer
+        let maxCount = 0;
+        let mostCommonAnswer = "No consensus found";
+        
+        for (const [answer, count] of Object.entries(answerCounts)) {
+            if (count > maxCount) {
+                maxCount = count;
+                mostCommonAnswer = answer;
+            }
+        }
+        
+        return mostCommonAnswer;
+    }
+    
+    confidenceWeightedVote(answers, confidences) {
+        // Create weighted counter
+        const weightedCounts = {};
+        
+        for (let i = 0; i < answers.length; i++) {
+            const answer = answers[i];
+            const confidence = confidences[i];
+            
+            if (answer) {
+                const cleaned = answer.trim().toLowerCase();
+                weightedCounts[cleaned] = (weightedCounts[cleaned] || 0) + confidence;
+            }
+        }
+        
+        // Return answer with highest weighted count
+        let maxWeight = 0;
+        let bestAnswer = "No consensus found";
+        
+        for (const [answer, weight] of Object.entries(weightedCounts)) {
+            if (weight > maxWeight) {
+                maxWeight = weight;
+                bestAnswer = answer;
+            }
+        }
+        
+        return bestAnswer;
+    }
+    
+    async solveWithSelfConsistency(question) {
+        // Generate diverse prompts
+        const prompts = this.generateDiversePrompts(question);
+        
+        // Simulate responses (in practice, these would come from an LLM)
+        const responses = [];
+        const answers = [];
+        
+        for (let i = 0; i < prompts.length; i++) {
+            const prompt = prompts[i];
+            
+            // Simulate LLM response
+            const response = await this.simulateLLMResponse(prompt, question, i);
+            responses.push(response);
+            
+            // Extract answer
+            const answer = this.extractAnswer(response);
+            answers.push(answer);
+        }
+        
+        // Get consensus answer
+        const consensusAnswer = this.majorityVote(answers);
+        
+        // Calculate answer distribution
+        const answerDistribution = {};
+        for (const answer of answers) {
+            if (answer) {
+                answerDistribution[answer] = (answerDistribution[answer] || 0) + 1;
+            }
+        }
+        
+        return {
+            question: question,
+            prompts: prompts,
+            responses: responses,
+            extractedAnswers: answers,
+            consensusAnswer: consensusAnswer,
+            answerDistribution: answerDistribution
+        };
+    }
+    
+    async simulateLLMResponse(prompt, question, pathIndex) {
+        // Example: Age calculation problem
+        if (question.includes("70") && question.toLowerCase().includes("sister")) {
+            if (pathIndex % 3 === 0) {
+                return `
+                Let me think through this:
+                When I was 6, my sister was half my age, so she was 3.
+                Now I'm 70, so she is 70 - 3 = 67.
+                The answer is 67.
+                `;
+            } else if (pathIndex % 3 === 1) {
+                return `
+                Let me solve this step by step:
+                When I was 6, my sister was 3 (half my age).
+                The age difference is 6 - 3 = 3 years.
+                Now I'm 70, so my sister is 70 - 3 = 67.
+                The answer is 67.
+                `;
+            } else {
+                return `
+                I'll approach this systematically:
+                When I was 6, my sister was half my age = 3.
+                Now I'm 70, so my sister is 70/2 = 35.
+                The answer is 35.
+                `;
+            }
+        }
+        
+        // Generic response
+        return `Simulated response for path ${pathIndex + 1}: ${question.substring(0, 30)}...`;
+    }
+}
+
+// Example usage
+async function runExample() {
+    const selfConsistency = new SelfConsistency(5);
+    
+    const question = "When I was 6 my sister was half my age. Now I'm 70 how old is my sister?";
+    
+    const result = await selfConsistency.solveWithSelfConsistency(question);
+    
+    console.log(`Question: ${result.question}`);
+    console.log(`Consensus Answer: ${result.consensusAnswer}`);
+    console.log(`Answer Distribution:`, result.answerDistribution);
+    
+    for (let i = 0; i < result.prompts.length; i++) {
+        console.log(`\nPath ${i + 1}:`);
+        console.log(`Answer: ${result.extractedAnswers[i]}`);
+        console.log(`Response: ${result.responses[i].substring(0, 100)}...`);
+    }
+}
+
+runExample();
+```
+  </CodeGroupItem>
+</CodeGroup>
+
+### 2. **Advanced Self-Consistency with LangChain**
+
+<Card title="LangChain Integration">
+  <CodeGroup>
+  <CodeGroupItem title="LangChain Implementation" active>
+```python
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+from langchain.llms import OpenAI
+from typing import List, Dict, Any
+import random
+
+class LangChainSelfConsistency:
+    def __init__(self, api_key: str, num_paths: int = 5):
+        self.llm = OpenAI(api_key=api_key, temperature=0.7)  # Higher temperature for diversity
+        self.num_paths = num_paths
+        
+        # Different reasoning templates for diversity
+        self.templates = [
+            """
+            Let's solve this step by step:
+            
+            Question: {question}
+            
+            Let's think through this:
+            """,
+            
+            """
+            I'll approach this systematically:
+            
+            {question}
+            
+            I'll solve this by:
+            """,
+            
+            """
+            Let me break this down carefully:
+            
+            Question: {question}
+            
+            My reasoning:
+            """,
+            
+            """
+            I'll work through this methodically:
+            
+            {question}
+            
+            Let me think:
+            """,
+            
+            """
+            Let me solve this step by step:
+            
+            {question}
+            
+            I'll approach this by:
+            """
+        ]
+    
+    def create_diverse_chains(self) -> List[LLMChain]:
+        """Create diverse reasoning chains"""
+        
+        chains = []
+        
+        for i in range(self.num_paths):
+            # Select template with some randomization
+            template = self.templates[i % len(self.templates)]
+            
+            # Add some variation to the template
+            if i % 2 == 0:
+                template += "\nPlease show your work clearly."
+            else:
+                template += "\nBe thorough in your reasoning."
+            
+            prompt = PromptTemplate(
+                input_variables=["question"],
+                template=template
+            )
+            
+            chain = LLMChain(
+                llm=self.llm,
+                prompt=prompt,
+                verbose=False
+            )
+            
+            chains.append(chain)
+        
+        return chains
+    
+    def solve_with_consistency(self, question: str) -> Dict[str, Any]:
+        """Solve using self-consistency with LangChain"""
+        
+        chains = self.create_diverse_chains()
+        responses = []
+        answers = []
+        
+        # Generate responses from all chains
+        for i, chain in enumerate(chains):
+            try:
+                response = chain.run(question=question)
+                responses.append(response)
+                
+                # Extract answer (simplified for demo)
+                answer = self.extract_answer(response)
+                answers.append(answer)
+                
+                print(f"Path {i+1} Response: {response[:100]}...")
+                print(f"Path {i+1} Answer: {answer}")
+                
+            except Exception as e:
+                print(f"Error in path {i+1}: {e}")
+                responses.append("Error")
+                answers.append(None)
+        
+        # Get consensus
+        consensus = self.get_consensus(answers)
+        
+        return {
+            'question': question,
+            'responses': responses,
+            'answers': answers,
+            'consensus': consensus,
+            'confidence': self.calculate_confidence(answers)
+        }
+    
+    def extract_answer(self, response: str) -> str:
+        """Extract answer from response"""
+        
+        # Look for common patterns
+        import re
+        
+        patterns = [
+            r"The answer is (\w+)",
+            r"Answer: (\w+)",
+            r"Result: (\w+)",
+            r"(\d+)",  # Extract numbers
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, response, re.IGNORECASE)
+            if match:
+                return match.group(1)
+        
+        return "No answer found"
+    
+    def get_consensus(self, answers: List[str]) -> str:
+        """Get consensus answer"""
+        
+        from collections import Counter
+        
+        # Filter out None and "No answer found"
+        valid_answers = [a for a in answers if a and a != "No answer found"]
+        
+        if not valid_answers:
+            return "No consensus found"
+        
+        # Count occurrences
+        answer_counts = Counter(valid_answers)
+        
+        # Return most common
+        return answer_counts.most_common(1)[0][0]
+    
+    def calculate_confidence(self, answers: List[str]) -> float:
+        """Calculate confidence in consensus"""
+        
+        from collections import Counter
+        
+        valid_answers = [a for a in answers if a and a != "No answer found"]
+        
+        if not valid_answers:
+            return 0.0
+        
+        answer_counts = Counter(valid_answers)
+        most_common_count = answer_counts.most_common(1)[0][1]
+        
+        return most_common_count / len(valid_answers)
+
+# Example usage
+# self_consistency = LangChainSelfConsistency("your-api-key", num_paths=5)
+# result = self_consistency.solve_with_consistency("When I was 6 my sister was half my age. Now I'm 70 how old is my sister?")
+# print(f"Consensus: {result['consensus']}")
+# print(f"Confidence: {result['confidence']:.2f}")
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+### 3. **CrewAI Integration**
+
+<Card title="CrewAI Multi-Agent Self-Consistency">
+  <CodeGroup>
+  <CodeGroupItem title="CrewAI Implementation" active>
+```python
+from crewai import Agent, Task, Crew
+from typing import List, Dict, Any
+import random
+
+class CrewAISelfConsistency:
+    def __init__(self, num_agents: int = 3):
+        self.num_agents = num_agents
+        self.agents = []
+        self.create_agents()
+    
+    def create_agents(self):
+        """Create diverse reasoning agents"""
+        
+        agent_roles = [
+            "Mathematical Reasoning Specialist",
+            "Logical Analysis Expert", 
+            "Step-by-Step Problem Solver",
+            "Systematic Approach Specialist",
+            "Methodical Reasoning Expert"
+        ]
+        
+        agent_backstories = [
+            "Expert in mathematical reasoning with strong analytical skills",
+            "Specialist in logical analysis and deductive reasoning",
+            "Master of breaking down complex problems into simple steps",
+            "Expert in systematic problem-solving approaches",
+            "Specialist in methodical reasoning and careful analysis"
+        ]
+        
+        for i in range(self.num_agents):
+            agent = Agent(
+                role=agent_roles[i % len(agent_roles)],
+                goal=f"Solve problems using approach {i+1} with {agent_roles[i % len(agent_roles)].lower()}",
+                backstory=agent_backstories[i % len(agent_backstories)],
+                verbose=False
+            )
+            self.agents.append(agent)
+    
+    def create_solving_task(self, question: str, agent_index: int) -> Task:
+        """Create a problem-solving task for an agent"""
+        
+        approaches = [
+            "mathematical reasoning",
+            "logical analysis", 
+            "step-by-step breakdown",
+            "systematic approach",
+            "methodical reasoning"
+        ]
+        
+        approach = approaches[agent_index % len(approaches)]
+        
+        return Task(
+            description=f"""
+            Solve the following problem using {approach}:
+            
+            Question: {question}
+            
+            Use your specialized approach to solve this problem. Show your work clearly 
+            and provide a final answer. Make sure to explain your reasoning process.
+            """,
+            agent=self.agents[agent_index]
+        )
+    
+    def solve_with_crew_consistency(self, question: str) -> Dict[str, Any]:
+        """Solve using CrewAI agents with self-consistency"""
+        
+        # Create tasks for each agent
+        tasks = []
+        for i in range(self.num_agents):
+            task = self.create_solving_task(question, i)
+            tasks.append(task)
+        
+        # Create crews for each agent (individual execution)
+        results = []
+        for i, task in enumerate(tasks):
+            try:
+                crew = Crew(
+                    agents=[self.agents[i]],
+                    tasks=[task],
+                    verbose=False
+                )
+                
+                result = crew.kickoff()
+                results.append(result)
+                
+                print(f"Agent {i+1} Result: {result[:100]}...")
+                
+            except Exception as e:
+                print(f"Error with agent {i+1}: {e}")
+                results.append("Error")
+        
+        # Extract answers and get consensus
+        answers = [self.extract_answer(result) for result in results]
+        consensus = self.get_consensus(answers)
+        
+        return {
+            'question': question,
+            'agent_results': results,
+            'extracted_answers': answers,
+            'consensus_answer': consensus,
+            'confidence': self.calculate_confidence(answers)
+        }
+    
+    def extract_answer(self, result: str) -> str:
+        """Extract answer from agent result"""
+        
+        import re
+        
+        # Look for common answer patterns
+        patterns = [
+            r"The answer is (\w+)",
+            r"Answer: (\w+)",
+            r"Final answer: (\w+)",
+            r"(\d+)",  # Extract numbers
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, result, re.IGNORECASE)
+            if match:
+                return match.group(1)
+        
+        return "No answer found"
+    
+    def get_consensus(self, answers: List[str]) -> str:
+        """Get consensus from agent answers"""
+        
+        from collections import Counter
+        
+        valid_answers = [a for a in answers if a and a != "No answer found"]
+        
+        if not valid_answers:
+            return "No consensus found"
+        
+        answer_counts = Counter(valid_answers)
+        return answer_counts.most_common(1)[0][0]
+    
+    def calculate_confidence(self, answers: List[str]) -> float:
+        """Calculate confidence in consensus"""
+        
+        from collections import Counter
+        
+        valid_answers = [a for a in answers if a and a != "No answer found"]
+        
+        if not valid_answers:
+            return 0.0
+        
+        answer_counts = Counter(valid_answers)
+        most_common_count = answer_counts.most_common(1)[0][1]
+        
+        return most_common_count / len(valid_answers)
+
+# Example usage
+# crew_consistency = CrewAISelfConsistency(num_agents=3)
+# result = crew_consistency.solve_with_crew_consistency("When I was 6 my sister was half my age. Now I'm 70 how old is my sister?")
+# print(f"Consensus: {result['consensus_answer']}")
+# print(f"Confidence: {result['confidence']:.2f}")
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+## Use Cases
+
+### 1. **Mathematical Problem Solving**
+
+<Callout type="info">
+  **Case Study**: Self-consistency is particularly effective for mathematical problems where different reasoning approaches can lead to the same correct answer.
+</Callout>
+
+<Card title="Mathematical Applications">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Problem Type</TableHeader>
+        <TableHeader>Reasoning Approaches</TableHeader>
+        <TableHeader>Benefits</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Arithmetic</strong></TableCell>
+        <TableCell>Direct calculation, decomposition, estimation</TableCell>
+        <TableCell>Reduces calculation errors</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Word Problems</strong></TableCell>
+        <TableCell>Algebraic, geometric, logical reasoning</TableCell>
+        <TableCell>Improves problem interpretation</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Logic Puzzles</strong></TableCell>
+        <TableCell>Deductive, inductive, elimination</TableCell>
+        <TableCell>Enhances logical consistency</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Commonsense Reasoning**
+
+<Card title="Commonsense Applications">
+  <ul>
+    <li><strong>Everyday Problems:</strong> Practical reasoning about common situations</li>
+    <li><strong>Causal Inference:</strong> Understanding cause-and-effect relationships</li>
+    <li><strong>Spatial Reasoning:</strong> Understanding spatial relationships and directions</li>
+    <li><strong>Temporal Reasoning:</strong> Understanding time-based relationships</li>
+  </ul>
+</Card>
+
+### 3. **Decision Making**
+
+<Card title="Decision Support">
+  <ul>
+    <li><strong>Multi-Criteria Analysis:</strong> Evaluating options across different criteria</li>
+    <li><strong>Risk Assessment:</strong> Analyzing risks from different perspectives</li>
+    <li><strong>Scenario Planning:</strong> Exploring different future scenarios</li>
+    <li><strong>Policy Analysis:</strong> Evaluating policy options and implications</li>
+  </ul>
+</Card>
+
+## Best Practices
+
+### 1. **Diversity in Reasoning**
+
+<CardGroup cols={2}>
+  <Card title="Prompt Diversity" icon="git-branch">
+    <ul>
+      <li>Use different reasoning templates</li>
+      <li>Vary prompt structure and examples</li>
+      <li>Employ different solution methodologies</li>
+      <li>Introduce controlled randomness</li>
+    </ul>
+  </Card>
+  <Card title="Approach Variation" icon="shuffle">
+    <ul>
+      <li>Use different problem-solving strategies</li>
+      <li>Employ various analytical frameworks</li>
+      <li>Apply different reasoning patterns</li>
+      <li>Consider alternative perspectives</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+### 2. **Consensus Building**
+
+<Card title="Effective Consensus">
+  <ul>
+    <li><strong>Majority Voting:</strong> Use simple majority for clear cases</li>
+    <li><strong>Weighted Voting:</strong> Consider confidence or quality scores</li>
+    <li><strong>Clustering:</strong> Group similar answers and select from largest cluster</li>
+    <li><strong>Expert Consensus:</strong> Use more sophisticated aggregation methods</li>
+  </ul>
+</Card>
+
+### 3. **Quality Assessment**
+
+<Card title="Quality Control">
+  <ul>
+    <li><strong>Answer Validation:</strong> Check for logical consistency</li>
+    <li><strong>Confidence Scoring:</strong> Assess confidence in each answer</li>
+    <li><strong>Error Detection:</strong> Identify and handle outlier answers</li>
+    <li><strong>Performance Monitoring:</strong> Track accuracy improvements</li>
+  </ul>
+</Card>
+
+## Real-World Applications
+
+### 1. **Educational Assessment**
+
+<Card title="Educational Use Cases">
+  <ul>
+    <li><strong>Automated Grading:</strong> Multiple approaches to evaluate student work</li>
+    <li><strong>Problem Generation:</strong> Create diverse problem-solving scenarios</li>
+    <li><strong>Learning Analytics:</strong> Analyze student reasoning patterns</li>
+    <li><strong>Adaptive Testing:</strong> Adjust difficulty based on multiple assessments</li>
+  </ul>
+</Card>
+
+### 2. **Scientific Research**
+
+<Card title="Research Applications">
+  <ul>
+    <li><strong>Hypothesis Testing:</strong> Multiple approaches to test scientific hypotheses</li>
+    <li><strong>Data Analysis:</strong> Different analytical methods for the same dataset</li>
+    <li><strong>Literature Review:</strong> Multiple perspectives on research findings</li>
+    <li><strong>Experimental Design:</strong> Various approaches to experimental setup</li>
+  </ul>
+</Card>
+
+### 3. **Business Intelligence**
+
+<Card title="Business Applications">
+  <ul>
+    <li><strong>Market Analysis:</strong> Multiple approaches to market assessment</li>
+    <li><strong>Financial Modeling:</strong> Different models for financial projections</li>
+    <li><strong>Risk Management:</strong> Various risk assessment methodologies</li>
+    <li><strong>Strategic Planning:</strong> Multiple strategic frameworks</li>
+  </ul>
+</Card>
+
+## Related Techniques
+
+<CardGroup cols={3}>
+  <Card title="Chain-of-Thought" icon="git-branch" href="./chain-of-thought">
+    Step-by-step reasoning prompts
+  </Card>
+  <Card title="Tree of Thoughts" icon="git-merge" href="./tree-of-thoughts">
+    Exploring multiple reasoning branches
+  </Card>
+  <Card title="Ensemble Methods" icon="users" href="./ensemble-methods">
+    Combining multiple model outputs
+  </Card>
+  <Card title="Majority Voting" icon="check-circle" href="./majority-voting">
+    Consensus-based decision making
+  </Card>
+  <Card title="Confidence Scoring" icon="trending-up" href="./confidence-scoring">
+    Assessing prediction confidence
+  </Card>
+  <Card title="Error Reduction" icon="shield" href="./error-reduction">
+    Minimizing prediction errors
+  </Card>
+</CardGroup>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>Original Paper:</strong> <a href="https://arxiv.org/abs/2203.11171">Wang et al. (2022) - Self-Consistency Improves Chain of Thought Reasoning</a></li>
+    <li><strong>CrewAI Documentation:</strong> <a href="https://docs.crewai.com/en/introduction">https://docs.crewai.com/en/introduction</a></li>
+    <li><strong>AI Design Guide:</strong> <a href="https://aidesign.guide/">https://aidesign.guide/</a></li>
+    <li><strong>LangChain Conceptual Guide:</strong> <a href="https://python.langchain.com/docs/get_started/concepts">https://python.langchain.com/docs/get_started/concepts</a></li>
+    <li><strong>Prompt Engineering Guide:</strong> <a href="https://www.promptingguide.ai/">https://www.promptingguide.ai/</a></li>
+  </ul>
+</Card>

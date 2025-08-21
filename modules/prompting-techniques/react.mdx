@@ -1,0 +1,1330 @@
+---
+title: "ReAct Framework"
+description: "Learn how to combine reasoning with action-taking for complex problem-solving using the ReAct (Reasoning + Acting) framework"
+slug: "modules-prompting-techniques-react"
+updatedAt: "2025-08-19"
+tags: [prompting-technique, react, reasoning-acting, tool-use, iterative-problem-solving, claude, anthropic]
+---
+
+# ReAct Framework
+
+<Callout type="info">
+  **Learning Objective**: Master the ReAct framework to combine reasoning with action-taking for solving complex problems that require external information or tool usage, with special focus on Claude's tool use capabilities.
+</Callout>
+
+## Overview
+
+ReAct (Reasoning + Acting) is a powerful framework that combines reasoning with tool use to solve complex problems. It follows a cycle of thinking, acting, and observing to iteratively solve problems that require external information or actions.
+
+<CardGroup cols={2}>
+  <Card title="Reasoning" icon="brain">
+    Think about what to do next and plan actions.
+  </Card>
+  <Card title="Acting" icon="wrench">
+    Take action using available tools and resources.
+  </Card>
+</CardGroup>
+
+## Claude's Tool Use Capabilities
+
+<Callout type="info">
+  **Claude's Tool Integration**: Claude 3 models feature sophisticated tool use capabilities that enable seamless integration of external tools and APIs, making ReAct implementation particularly powerful.
+</Callout>
+
+### Understanding Claude's Tool Use
+
+<Card title="Claude's Tool Architecture">
+  <p>Claude's tool use feature allows the model to:</p>
+  
+  <h4>Core Capabilities:</h4>
+  <ul>
+    <li><strong>Tool Definition:</strong> Define tools with clear parameters and descriptions</li>
+    <li><strong>Automatic Selection:</strong> Choose appropriate tools based on context</li>
+    <li><strong>Parameter Generation:</strong> Generate correct parameters for tool calls</li>
+    <li><strong>Result Integration:</strong> Incorporate tool results into reasoning</li>
+    <li><strong>Error Handling:</strong> Handle tool failures gracefully</li>
+  </ul>
+  
+  <h4>Tool Types Supported:</h4>
+  <ul>
+    <li><strong>API Calls:</strong> REST APIs, GraphQL, custom endpoints</li>
+    <li><strong>Database Queries:</strong> SQL, NoSQL, vector databases</li>
+    <li><strong>File Operations:</strong> Read, write, search files</li>
+    <li><strong>Code Execution:</strong> Python, JavaScript, shell commands</li>
+    <li><strong>Web Search:</strong> Internet queries and information retrieval</li>
+  </ul>
+</Card>
+
+### Claude's Tool Use Workflow
+
+<Card title="Tool Use Process">
+  <h4>Step-by-Step Process:</h4>
+  <ol>
+    <li><strong>Problem Analysis:</strong> Claude analyzes the problem and identifies needed tools</li>
+    <li><strong>Tool Selection:</strong> Claude chooses appropriate tools from available options</li>
+    <li><strong>Parameter Generation:</strong> Claude generates correct parameters for tool calls</li>
+    <li><strong>Tool Execution:</strong> Tools are executed with the generated parameters</li>
+    <li><strong>Result Processing:</strong> Claude processes and integrates tool results</li>
+    <li><strong>Iteration:</strong> Claude decides whether to use more tools or provide final answer</li>
+  </ol>
+  
+  <h4>Example Tool Definition:</h4>
+  <pre><code>{
+  "type": "function",
+  "function": {
+    "name": "get_weather",
+    "description": "Get current weather information for a location",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "string",
+          "description": "City name or coordinates"
+        },
+        "units": {
+          "type": "string",
+          "enum": ["celsius", "fahrenheit"],
+          "default": "celsius"
+        }
+      },
+      "required": ["location"]
+    }
+  }
+}
+</code></pre>
+</Card>
+
+## What is ReAct?
+
+ReAct is a framework that:
+
+- **Combines Reasoning and Action**: Integrates thinking with tool usage
+- **Follows Iterative Cycles**: Repeats think-act-observe until problem is solved
+- **Uses External Tools**: Leverages tools for information gathering and actions
+- **Maintains Context**: Keeps track of reasoning and observations throughout the process
+
+<Callout type="warning">
+  **Key Insight**: ReAct improves problem-solving by allowing AI systems to reason about what actions to take, execute those actions using tools, and learn from the results to make better decisions.
+</Callout>
+
+## Key Components
+
+### 1. **Reasoning (Thought)**
+
+<Card title="Cognitive Planning">
+  <ul>
+    <li><strong>Problem Analysis:</strong> Understand what needs to be done</li>
+    <li><strong>Strategy Planning:</strong> Determine the best approach</li>
+    <li><strong>Tool Selection:</strong> Choose appropriate tools for the task</li>
+    <li><strong>Goal Orientation:</strong> Keep focus on the original objective</li>
+  </ul>
+</Card>
+
+### 2. **Acting (Action)**
+
+<Card title="Tool Execution">
+  <ul>
+    <li><strong>Tool Usage:</strong> Execute actions using available tools</li>
+    <li><strong>Input Preparation:</strong> Prepare appropriate inputs for tools</li>
+    <li><strong>Action Selection:</strong> Choose the right action from available options</li>
+    <li><strong>Parameter Setting:</strong> Configure tools with correct parameters</li>
+  </ul>
+</Card>
+
+### 3. **Observing (Observation)**
+
+<Card title="Result Analysis">
+  <ul>
+    <li><strong>Result Processing:</strong> Understand the output of actions</li>
+    <li><strong>Information Integration:</strong> Incorporate new information into reasoning</li>
+    <li><strong>Progress Assessment:</strong> Evaluate whether the goal is closer</li>
+    <li><strong>Error Handling:</strong> Deal with unexpected results or failures</li>
+  </ul>
+</Card>
+
+### 4. **Iteration**
+
+<Card title="Continuous Improvement">
+  <ul>
+    <li><strong>Cycle Repetition:</strong> Continue until problem is solved</li>
+    <li><strong>Strategy Refinement:</strong> Adjust approach based on observations</li>
+    <li><strong>Learning Integration:</strong> Apply lessons from previous cycles</li>
+    <li><strong>Goal Achievement:</strong> Reach the final answer or solution</li>
+  </ul>
+</Card>
+
+## Claude-Specific Implementation
+
+### 1. **Claude Tool Use Setup**
+
+<Card title="Setting Up Claude with Tools">
+  <h4>Basic Setup:</h4>
+  <pre><code>import anthropic
+
+client = anthropic.Anthropic(api_key="your-api-key")
+
+# Define tools
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "search_web",
+            "description": "Search the web for current information",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Search query"
+                    }
+                },
+                "required": ["query"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "calculate",
+            "description": "Perform mathematical calculations",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "expression": {
+                        "type": "string",
+                        "description": "Mathematical expression to evaluate"
+                    }
+                },
+                "required": ["expression"]
+            }
+        }
+    }
+]
+
+# Tool implementations
+def search_web(query):
+    # Implement web search functionality
+    return f"Search results for: {query}"
+
+def calculate(expression):
+    # Implement calculation functionality
+    try:
+        result = eval(expression)
+        return f"Result: {result}"
+    except:
+        return "Error: Invalid expression"
+</code></pre>
+</Card>
+
+### 2. **ReAct with Claude**
+
+<Card title="ReAct Implementation with Claude">
+  <h4>Complete Implementation:</h4>
+  <pre><code>def react_with_claude(problem, tools, tool_functions):
+    """
+    Implement ReAct framework using Claude with tool use
+    """
+    
+    # Initial prompt with ReAct structure
+    prompt = f"""
+    Solve this problem using the ReAct framework (Reasoning + Acting):
+    
+    Problem: {problem}
+    
+    Available tools: {[tool['function']['name'] for tool in tools]}
+    
+    Follow this process:
+    1. Think: Analyze the problem and plan your approach
+    2. Act: Use appropriate tools to gather information or perform actions
+    3. Observe: Process the results and update your understanding
+    4. Repeat: Continue until you have a complete solution
+    
+    Start by thinking about how to approach this problem.
+    """
+    
+    # Initial reasoning
+    response = client.messages.create(
+        model="claude-3-sonnet-20240229",
+        max_tokens=2000,
+        temperature=0.1,
+        tools=tools,
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    )
+    
+    # Process tool calls if any
+    for tool_call in response.content:
+        if hasattr(tool_call, 'type') and tool_call.type == 'tool_use':
+            tool_name = tool_call.name
+            tool_args = tool_call.input
+            
+            # Execute tool
+            if tool_name in tool_functions:
+                tool_result = tool_functions[tool_name](**tool_args)
+                
+                # Continue conversation with tool result
+                response = client.messages.create(
+                    model="claude-3-sonnet-20240229",
+                    max_tokens=2000,
+                    temperature=0.1,
+                    tools=tools,
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": prompt
+                        },
+                        {
+                            "role": "assistant",
+                            "content": response.content
+                        },
+                        {
+                            "role": "user",
+                            "content": f"Tool result: {tool_result}"
+                        }
+                    ]
+                )
+    
+    return response.content[0].text
+
+# Example usage
+problem = "What's the current weather in Tokyo and how does it compare to the historical average?"
+result = react_with_claude(problem, tools, {"search_web": search_web, "calculate": calculate})
+print(result)
+</code></pre>
+</Card>
+
+### 3. **Advanced ReAct with Multiple Tools**
+
+<Card title="Multi-Tool ReAct Implementation">
+  <h4>Complex Problem Solving:</h4>
+  <pre><code>def advanced_react_solver(problem, available_tools):
+    """
+    Advanced ReAct implementation with multiple tool types
+    """
+    
+    # Define comprehensive tool set
+    tools = [
+        # Information gathering tools
+        {
+            "type": "function",
+            "function": {
+                "name": "web_search",
+                "description": "Search the internet for current information",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "query": {"type": "string"},
+                        "max_results": {"type": "integer", "default": 5}
+                    },
+                    "required": ["query"]
+                }
+            }
+        },
+        # Data analysis tools
+        {
+            "type": "function",
+            "function": {
+                "name": "analyze_data",
+                "description": "Analyze numerical data and generate insights",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "data": {"type": "string"},
+                        "analysis_type": {"type": "string", "enum": ["summary", "trends", "correlation"]}
+                    },
+                    "required": ["data", "analysis_type"]
+                }
+            }
+        },
+        # Calculation tools
+        {
+            "type": "function",
+            "function": {
+                "name": "calculate",
+                "description": "Perform mathematical calculations",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "expression": {"type": "string"}
+                    },
+                    "required": ["expression"]
+                }
+            }
+        }
+    ]
+    
+    # ReAct reasoning prompt
+    react_prompt = f"""
+    Solve this complex problem using the ReAct framework:
+    
+    Problem: {problem}
+    
+    Available tools: {[tool['function']['name'] for tool in tools]}
+    
+    Process:
+    1. REASON: Think about what information you need and how to approach this
+    2. ACT: Use appropriate tools to gather data or perform calculations
+    3. OBSERVE: Analyze the results and determine next steps
+    4. ITERATE: Continue until you have a comprehensive solution
+    
+    Start by reasoning about the problem and planning your approach.
+    """
+    
+    # Execute ReAct cycle
+    conversation_history = []
+    max_iterations = 10
+    iteration = 0
+    
+    while iteration < max_iterations:
+        # Get Claude's reasoning and tool selection
+        response = client.messages.create(
+            model="claude-3-sonnet-20240229",
+            max_tokens=3000,
+            temperature=0.1,
+            tools=tools,
+            messages=[
+                {"role": "user", "content": react_prompt},
+                *conversation_history
+            ]
+        )
+        
+        conversation_history.append({
+            "role": "assistant",
+            "content": response.content
+        })
+        
+        # Check if we have a final answer
+        if "final answer" in response.content[0].text.lower():
+            break
+        
+        # Process tool calls
+        tool_calls_processed = False
+        for content in response.content:
+            if hasattr(content, 'type') and content.type == 'tool_use':
+                tool_name = content.name
+                tool_args = content.input
+                
+                # Execute tool
+                tool_result = available_tools[tool_name](**tool_args)
+                
+                # Add tool result to conversation
+                conversation_history.append({
+                    "role": "user",
+                    "content": f"Tool result for {tool_name}: {tool_result}"
+                })
+                
+                tool_calls_processed = True
+        
+        # If no tool calls, we might have a final answer
+        if not tool_calls_processed:
+            break
+        
+        iteration += 1
+    
+    return response.content[0].text
+</code></pre>
+</Card>
+
+## Implementation
+
+### 1. **Basic ReAct Framework**
+
+<CodeGroup>
+  <CodeGroupItem title="Python" active>
+```python
+from typing import List, Dict, Any, Optional
+import json
+import re
+
+class ReActFramework:
+    def __init__(self, tools: List[Dict[str, Any]]):
+        self.tools = tools
+        self.conversation_history = []
+    
+    def solve_problem(self, problem: str) -> str:
+        """
+        Solve a problem using the ReAct framework
+        """
+        prompt = f"""
+        Solve this problem using the ReAct framework:
+        
+        Problem: {problem}
+        Available tools: {[tool['name'] for tool in self.tools]}
+        
+        Process:
+        1. Think: Analyze the problem and plan your approach
+        2. Act: Use appropriate tools to gather information
+        3. Observe: Process the results and update understanding
+        4. Repeat: Continue until problem is solved
+        
+        Start by thinking about the problem.
+        """
+        
+        # Initial reasoning
+        response = self._get_reasoning(prompt)
+        
+        # Continue ReAct cycles
+        max_iterations = 10
+        for iteration in range(max_iterations):
+            # Check if we have a final answer
+            if self._is_final_answer(response):
+                break
+            
+            # Process tool calls
+            tool_results = self._process_tool_calls(response)
+            if tool_results:
+                response = self._continue_reasoning(prompt, tool_results)
+            else:
+                break
+        
+        return response
+    
+    def _get_reasoning(self, prompt: str) -> str:
+        # Implementation for getting AI reasoning
+        pass
+    
+    def _process_tool_calls(self, response: str) -> List[str]:
+        # Implementation for processing tool calls
+        pass
+    
+    def _continue_reasoning(self, prompt: str, tool_results: List[str]) -> str:
+        # Implementation for continuing reasoning with tool results
+        pass
+    
+    def _is_final_answer(self, response: str) -> bool:
+        # Check if response contains a final answer
+        return "final answer" in response.lower()
+```
+  </CodeGroupItem>
+  
+  <CodeGroupItem title="JavaScript">
+```javascript
+class ReActFramework {
+    constructor(tools) {
+        this.tools = tools;
+        this.conversationHistory = [];
+    }
+    
+    async solveProblem(problem) {
+        const prompt = `
+            Solve this problem using the ReAct framework:
+            
+            Problem: ${problem}
+            Available tools: ${this.tools.map(tool => tool.name)}
+            
+            Process:
+            1. Think: Analyze the problem and plan your approach
+            2. Act: Use appropriate tools to gather information
+            3. Observe: Process the results and update understanding
+            4. Repeat: Continue until problem is solved
+            
+            Start by thinking about the problem.
+        `;
+        
+        // Initial reasoning
+        let response = await this.getReasoning(prompt);
+        
+        // Continue ReAct cycles
+        const maxIterations = 10;
+        for (let iteration = 0; iteration < maxIterations; iteration++) {
+            // Check if we have a final answer
+            if (this.isFinalAnswer(response)) {
+                break;
+            }
+            
+            // Process tool calls
+            const toolResults = await this.processToolCalls(response);
+            if (toolResults.length > 0) {
+                response = await this.continueReasoning(prompt, toolResults);
+            } else {
+                break;
+            }
+        }
+        
+        return response;
+    }
+    
+    async getReasoning(prompt) {
+        // Implementation for getting AI reasoning
+    }
+    
+    async processToolCalls(response) {
+        // Implementation for processing tool calls
+    }
+    
+    async continueReasoning(prompt, toolResults) {
+        // Implementation for continuing reasoning with tool results
+    }
+    
+    isFinalAnswer(response) {
+        return response.toLowerCase().includes('final answer');
+    }
+}
+```
+  </CodeGroupItem>
+</CodeGroup>
+
+### 2. **Claude Integration**
+
+<CodeGroup>
+  <CodeGroupItem title="Python with Claude" active>
+```python
+import anthropic
+
+class ClaudeReActFramework:
+    def __init__(self, api_key: str):
+        self.client = anthropic.Anthropic(api_key=api_key)
+        self.tools = []
+        self.tool_functions = {}
+    
+    def add_tool(self, tool_definition: dict, tool_function):
+        """Add a tool to the framework"""
+        self.tools.append(tool_definition)
+        self.tool_functions[tool_definition['function']['name']] = tool_function
+    
+    def solve_problem(self, problem: str) -> str:
+        """Solve a problem using Claude with ReAct"""
+        
+        prompt = f"""
+        Solve this problem using the ReAct framework:
+        
+        Problem: {problem}
+        Available tools: {[tool['function']['name'] for tool in self.tools]}
+        
+        Process:
+        1. Think: Analyze the problem and plan your approach
+        2. Act: Use appropriate tools to gather information
+        3. Observe: Process the results and update understanding
+        4. Repeat: Continue until problem is solved
+        
+        Start by thinking about the problem.
+        """
+        
+        messages = [{"role": "user", "content": prompt}]
+        
+        # Execute ReAct cycles
+        max_iterations = 10
+        for iteration in range(max_iterations):
+            # Get Claude's response
+            response = self.client.messages.create(
+                model="claude-3-sonnet-20240229",
+                max_tokens=2000,
+                temperature=0.1,
+                tools=self.tools,
+                messages=messages
+            )
+            
+            # Add response to conversation
+            messages.append({
+                "role": "assistant",
+                "content": response.content
+            })
+            
+            # Check for tool calls
+            tool_calls = []
+            for content in response.content:
+                if hasattr(content, 'type') and content.type == 'tool_use':
+                    tool_calls.append(content)
+            
+            if not tool_calls:
+                # No tool calls, we might have a final answer
+                break
+            
+            # Process tool calls
+            tool_results = []
+            for tool_call in tool_calls:
+                tool_name = tool_call.name
+                tool_args = tool_call.input
+                
+                if tool_name in self.tool_functions:
+                    result = self.tool_functions[tool_name](**tool_args)
+                    tool_results.append(f"Tool {tool_name} result: {result}")
+            
+            # Add tool results to conversation
+            if tool_results:
+                messages.append({
+                    "role": "user",
+                    "content": "\n".join(tool_results)
+                })
+        
+        return response.content[0].text
+
+# Example usage
+framework = ClaudeReActFramework("your-api-key")
+
+# Add tools
+framework.add_tool({
+    "type": "function",
+    "function": {
+        "name": "search_web",
+        "description": "Search the web for information",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string"}
+            },
+            "required": ["query"]
+        }
+    }
+}, lambda query: f"Search results for: {query}")
+
+# Solve problem
+result = framework.solve_problem("What's the current weather in Tokyo?")
+print(result)
+```
+  </CodeGroupItem>
+  
+  <CodeGroupItem title="JavaScript with Claude">
+```javascript
+import Anthropic from '@anthropic-ai/sdk';
+
+class ClaudeReActFramework {
+    constructor(apiKey) {
+        this.client = new Anthropic({ apiKey });
+        this.tools = [];
+        this.toolFunctions = {};
+    }
+    
+    addTool(toolDefinition, toolFunction) {
+        this.tools.push(toolDefinition);
+        this.toolFunctions[toolDefinition.function.name] = toolFunction;
+    }
+    
+    async solveProblem(problem) {
+        const prompt = `
+            Solve this problem using the ReAct framework:
+            
+            Problem: ${problem}
+            Available tools: ${this.tools.map(tool => tool.function.name)}
+            
+            Process:
+            1. Think: Analyze the problem and plan your approach
+            2. Act: Use appropriate tools to gather information
+            3. Observe: Process the results and update understanding
+            4. Repeat: Continue until problem is solved
+            
+            Start by thinking about the problem.
+        `;
+        
+        const messages = [{ role: 'user', content: prompt }];
+        
+        // Execute ReAct cycles
+        const maxIterations = 10;
+        for (let iteration = 0; iteration < maxIterations; iteration++) {
+            // Get Claude's response
+            const response = await this.client.messages.create({
+                model: 'claude-3-sonnet-20240229',
+                max_tokens: 2000,
+                temperature: 0.1,
+                tools: this.tools,
+                messages: messages
+            });
+            
+            // Add response to conversation
+            messages.push({
+                role: 'assistant',
+                content: response.content
+            });
+            
+            // Check for tool calls
+            const toolCalls = response.content.filter(
+                content => content.type === 'tool_use'
+            );
+            
+            if (toolCalls.length === 0) {
+                break;
+            }
+            
+            // Process tool calls
+            const toolResults = [];
+            for (const toolCall of toolCalls) {
+                const toolName = toolCall.name;
+                const toolArgs = toolCall.input;
+                
+                if (toolName in this.toolFunctions) {
+                    const result = this.toolFunctions[toolName](toolArgs);
+                    toolResults.push(`Tool ${toolName} result: ${result}`);
+                }
+            }
+            
+            // Add tool results to conversation
+            if (toolResults.length > 0) {
+                messages.push({
+                    role: 'user',
+                    content: toolResults.join('\n')
+                });
+            }
+        }
+        
+        return response.content[0].text;
+    }
+}
+
+// Example usage
+const framework = new ClaudeReActFramework('your-api-key');
+
+// Add tools
+framework.addTool({
+    type: 'function',
+    function: {
+        name: 'search_web',
+        description: 'Search the web for information',
+        parameters: {
+            type: 'object',
+            properties: {
+                query: { type: 'string' }
+            },
+            required: ['query']
+        }
+    }
+}, (args) => `Search results for: ${args.query}`);
+
+// Solve problem
+framework.solveProblem("What's the current weather in Tokyo?")
+    .then(result => console.log(result));
+```
+  </CodeGroupItem>
+</CodeGroup>
+
+### 3. **LangChain Integration**
+
+<CodeGroup>
+  <CodeGroupItem title="LangChain ReAct" active>
+```python
+from langchain_anthropic import ChatAnthropic
+from langchain.agents import initialize_agent, Tool
+from langchain.tools import BaseTool
+from typing import Optional
+
+class ReActAgent:
+    def __init__(self, api_key: str):
+        self.llm = ChatAnthropic(
+            model="claude-3-sonnet-20240229",
+            temperature=0.1
+        )
+        self.tools = []
+    
+    def add_tool(self, tool: BaseTool):
+        """Add a tool to the agent"""
+        self.tools.append(tool)
+    
+    def create_agent(self):
+        """Create a ReAct agent with tools"""
+        return initialize_agent(
+            tools=self.tools,
+            llm=self.llm,
+            agent="react-chat",
+            verbose=True,
+            handle_parsing_errors=True
+        )
+    
+    def solve_problem(self, problem: str) -> str:
+        """Solve a problem using the ReAct agent"""
+        agent = self.create_agent()
+        return agent.run(problem)
+
+# Example usage
+from langchain.tools import DuckDuckGoSearchRun
+
+agent = ReActAgent("your-api-key")
+
+# Add search tool
+search_tool = DuckDuckGoSearchRun()
+agent.add_tool(Tool(
+    name="web_search",
+    func=search_tool.run,
+    description="Search the web for current information"
+))
+
+# Solve problem
+result = agent.solve_problem("What's the current weather in Tokyo?")
+print(result)
+```
+  </CodeGroupItem>
+  
+  <CodeGroupItem title="Custom Tools">
+```python
+from langchain.tools import BaseTool
+from typing import Optional
+import requests
+
+class WeatherTool(BaseTool):
+    name = "weather"
+    description = "Get current weather information for a location"
+    
+    def _run(self, location: str) -> str:
+        """Get weather for a location"""
+        # This is a simplified example
+        # In practice, you'd use a real weather API
+        return f"Weather in {location}: Sunny, 25°C"
+    
+    def _arun(self, location: str) -> str:
+        """Async version of the tool"""
+        return self._run(location)
+
+class CalculatorTool(BaseTool):
+    name = "calculator"
+    description = "Perform mathematical calculations"
+    
+    def _run(self, expression: str) -> str:
+        """Evaluate a mathematical expression"""
+        try:
+            result = eval(expression)
+            return f"Result: {result}"
+        except Exception as e:
+            return f"Error: {str(e)}"
+    
+    def _arun(self, expression: str) -> str:
+        """Async version of the tool"""
+        return self._run(expression)
+
+# Usage
+agent = ReActAgent("your-api-key")
+agent.add_tool(WeatherTool())
+agent.add_tool(CalculatorTool())
+
+result = agent.solve_problem(
+    "What's the weather in Tokyo and how many degrees is that in Fahrenheit?"
+)
+print(result)
+```
+  </CodeGroupItem>
+</CodeGroup>
+
+### 4. **CrewAI Integration**
+
+<CodeGroup>
+  <CodeGroupItem title="CrewAI ReAct" active>
+```python
+from crewai import Agent, Task, Crew
+from langchain_anthropic import ChatAnthropic
+from langchain.tools import BaseTool
+
+class ReActCrewAI:
+    def __init__(self, api_key: str):
+        self.llm = ChatAnthropic(
+            model="claude-3-sonnet-20240229",
+            temperature=0.1
+        )
+        self.tools = []
+    
+    def add_tool(self, tool: BaseTool):
+        """Add a tool to the framework"""
+        self.tools.append(tool)
+    
+    def create_react_agent(self):
+        """Create a ReAct agent"""
+        return Agent(
+            role="Problem Solver",
+            goal="Solve complex problems using reasoning and tool use",
+            backstory="You are an expert at using the ReAct framework to solve problems through reasoning and action.",
+            tools=self.tools,
+            llm=self.llm,
+            verbose=True
+        )
+    
+    def solve_problem(self, problem: str) -> str:
+        """Solve a problem using ReAct with CrewAI"""
+        agent = self.create_react_agent()
+        
+        task = Task(
+            description=f"""
+            Solve this problem using the ReAct framework:
+            
+            Problem: {problem}
+            
+            Process:
+            1. Think: Analyze the problem and plan your approach
+            2. Act: Use appropriate tools to gather information
+            3. Observe: Process the results and update understanding
+            4. Repeat: Continue until problem is solved
+            
+            Use the available tools to gather information and perform calculations as needed.
+            """,
+            agent=agent
+        )
+        
+        crew = Crew(
+            agents=[agent],
+            tasks=[task],
+            verbose=True
+        )
+        
+        result = crew.kickoff()
+        return result
+```
+  </CodeGroupItem>
+  
+  <CodeGroupItem title="Multi-Agent ReAct">
+```python
+class MultiAgentReAct:
+    def __init__(self, api_key: str):
+        self.llm = ChatAnthropic(
+            model="claude-3-sonnet-20240229",
+            temperature=0.1
+        )
+    
+    def create_specialized_agents(self):
+        """Create specialized agents for different aspects of problem solving"""
+        
+        # Research agent
+        research_agent = Agent(
+            role="Research Specialist",
+            goal="Gather accurate and relevant information",
+            backstory="You are an expert at finding and verifying information from reliable sources.",
+            llm=self.llm,
+            verbose=True
+        )
+        
+        # Analysis agent
+        analysis_agent = Agent(
+            role="Data Analyst",
+            goal="Analyze data and provide insights",
+            backstory="You are skilled at analyzing information and drawing conclusions.",
+            llm=self.llm,
+            verbose=True
+        )
+        
+        # Synthesis agent
+        synthesis_agent = Agent(
+            role="Solution Synthesizer",
+            goal="Combine information and provide final solutions",
+            backstory="You excel at combining insights from multiple sources into coherent solutions.",
+            llm=self.llm,
+            verbose=True
+        )
+        
+        return research_agent, analysis_agent, synthesis_agent
+    
+    def solve_complex_problem(self, problem: str) -> str:
+        """Solve a complex problem using multiple specialized agents"""
+        
+        research_agent, analysis_agent, synthesis_agent = self.create_specialized_agents()
+        
+        # Define tasks
+        research_task = Task(
+            description=f"Research and gather information about: {problem}",
+            agent=research_agent
+        )
+        
+        analysis_task = Task(
+            description="Analyze the gathered information and provide insights",
+            agent=analysis_agent,
+            context=[research_task]
+        )
+        
+        synthesis_task = Task(
+            description="Synthesize the research and analysis into a comprehensive solution",
+            agent=synthesis_agent,
+            context=[research_task, analysis_task]
+        )
+        
+        # Create crew
+        crew = Crew(
+            agents=[research_agent, analysis_agent, synthesis_agent],
+            tasks=[research_task, analysis_task, synthesis_task],
+            verbose=True
+        )
+        
+        result = crew.kickoff()
+        return result
+```
+  </CodeGroupItem>
+</CodeGroup>
+
+## Best Practices
+
+### 1. **Tool Design**
+
+<Card title="Effective Tool Design">
+  <h4>Tool Definition Best Practices:</h4>
+  <ul>
+    <li><strong>Clear Names:</strong> Use descriptive, unambiguous tool names</li>
+    <li><strong>Detailed Descriptions:</strong> Explain what the tool does and when to use it</li>
+    <li><strong>Proper Parameters:</strong> Define required and optional parameters clearly</li>
+    <li><strong>Error Handling:</strong> Design tools to handle errors gracefully</li>
+    <li><strong>Consistent Outputs:</strong> Ensure tools return predictable, structured results</li>
+  </ul>
+  
+  <h4>Example Tool Definition:</h4>
+  <pre><code>{
+  "type": "function",
+  "function": {
+    "name": "get_stock_price",
+    "description": "Get the current stock price for a given ticker symbol",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "ticker": {
+          "type": "string",
+          "description": "Stock ticker symbol (e.g., AAPL, GOOGL)"
+        },
+        "currency": {
+          "type": "string",
+          "enum": ["USD", "EUR", "GBP"],
+          "default": "USD",
+          "description": "Currency for the price"
+        }
+      },
+      "required": ["ticker"]
+    }
+  }
+}
+</code></pre>
+</Card>
+
+### 2. **Prompt Engineering**
+
+<Card title="ReAct Prompt Design">
+  <h4>Effective ReAct Prompts:</h4>
+  <ul>
+    <li><strong>Clear Structure:</strong> Explicitly outline the ReAct process</li>
+    <li><strong>Tool Context:</strong> Provide information about available tools</li>
+    <li><strong>Goal Orientation:</strong> Keep focus on the original problem</li>
+    <li><strong>Iteration Guidance:</strong> Explain when to continue vs. stop</li>
+  </ul>
+  
+  <h4>Example Prompt Template:</h4>
+  <pre><code>Solve this problem using the ReAct framework:
+
+Problem: {problem}
+
+Available tools: {tool_list}
+
+Process:
+1. Think: Analyze the problem and plan your approach
+2. Act: Use appropriate tools to gather information or perform actions
+3. Observe: Process the results and update your understanding
+4. Repeat: Continue until you have a complete solution
+
+Guidelines:
+- Use tools when you need external information or calculations
+- Think through each step before acting
+- Integrate information from multiple tools if needed
+- Provide a final, comprehensive answer when the problem is solved
+
+Start by thinking about how to approach this problem.
+</code></pre>
+</Card>
+
+### 3. **Error Handling**
+
+<Card title="Robust Error Handling">
+  <h4>Error Handling Strategies:</h4>
+  <ul>
+    <li><strong>Tool Failures:</strong> Handle cases where tools don't work as expected</li>
+    <li><strong>Invalid Inputs:</strong> Validate inputs before tool execution</li>
+    <li><strong>Timeout Handling:</strong> Manage long-running operations</li>
+    <li><strong>Fallback Strategies:</strong> Provide alternative approaches when tools fail</li>
+  </ul>
+  
+  <h4>Implementation Example:</h4>
+  <pre><code>def safe_tool_execution(tool_name, tool_args, tool_function):
+    """Safely execute a tool with error handling"""
+    try:
+        # Validate inputs
+        if not validate_tool_inputs(tool_name, tool_args):
+            return f"Error: Invalid inputs for {tool_name}"
+        
+        # Execute tool with timeout
+        import signal
+        def timeout_handler(signum, frame):
+            raise TimeoutError("Tool execution timed out")
+        
+        signal.signal(signal.SIGALRM, timeout_handler)
+        signal.alarm(30)  # 30 second timeout
+        
+        try:
+            result = tool_function(**tool_args)
+            signal.alarm(0)  # Cancel timeout
+            return result
+        except TimeoutError:
+            return f"Error: {tool_name} execution timed out"
+        except Exception as e:
+            return f"Error executing {tool_name}: {str(e)}"
+            
+    except Exception as e:
+        return f"Unexpected error with {tool_name}: {str(e)}"
+</code></pre>
+</Card>
+
+## Real-World Applications
+
+### 1. **Research and Analysis**
+
+<Card title="Research Applications">
+  <h4>Use Cases:</h4>
+  <ul>
+    <li><strong>Market Research:</strong> Gather and analyze market data</li>
+    <li><strong>Competitive Analysis:</strong> Research competitors and industry trends</li>
+    <li><strong>Academic Research:</strong> Literature review and data analysis</li>
+    <li><strong>Technical Research:</strong> Investigate technologies and solutions</li>
+  </ul>
+  
+  <h4>Example Workflow:</h4>
+  <pre><code>Problem: "Analyze the current state of electric vehicle adoption in Europe"
+
+ReAct Process:
+1. Think: Need to gather data on EV sales, market share, and trends
+2. Act: Use web search to find recent EV statistics
+3. Observe: Found data on EV market share and growth rates
+4. Act: Use calculator to analyze growth trends
+5. Observe: Calculated compound annual growth rate
+6. Act: Search for government policies affecting EV adoption
+7. Observe: Found information on subsidies and regulations
+8. Think: Have enough information for comprehensive analysis
+9. Final Answer: Provide detailed analysis with data and insights
+</code></pre>
+</Card>
+
+### 2. **Customer Support**
+
+<Card title="Support Applications">
+  <h4>Use Cases:</h4>
+  <ul>
+    <li><strong>Issue Diagnosis:</strong> Troubleshoot customer problems</li>
+    <li><strong>Information Retrieval:</strong> Find relevant documentation and solutions</li>
+    <li><strong>Account Management:</strong> Access and update customer information</li>
+    <li><strong>Escalation Decision:</strong> Determine when to escalate to humans</li>
+  </ul>
+  
+  <h4>Example Workflow:</h4>
+  <pre><code>Problem: "Customer reports login issues with error code 401"
+
+ReAct Process:
+1. Think: Need to understand the error and check customer account
+2. Act: Use database tool to check customer account status
+3. Observe: Account is active but password expired 2 days ago
+4. Act: Use knowledge base tool to find password reset procedures
+5. Observe: Found step-by-step password reset guide
+6. Think: Have identified the issue and solution
+7. Final Answer: Provide password reset instructions and explain the issue
+</code></pre>
+</Card>
+
+### 3. **Financial Analysis**
+
+<Card title="Financial Applications">
+  <h4>Use Cases:</h4>
+  <ul>
+    <li><strong>Portfolio Analysis:</strong> Analyze investment performance</li>
+    <li><strong>Risk Assessment:</strong> Evaluate investment risks</li>
+    <li><strong>Market Analysis:</strong> Research market conditions and trends</li>
+    <li><strong>Financial Planning:</strong> Calculate retirement and investment scenarios</li>
+  </ul>
+  
+  <h4>Example Workflow:</h4>
+  <pre><code>Problem: "Calculate the expected return on a $10,000 investment in S&P 500 over 10 years"
+
+ReAct Process:
+1. Think: Need current S&P 500 data and historical performance
+2. Act: Use financial data tool to get current S&P 500 value
+3. Observe: Current S&P 500 is at 4,500
+4. Act: Use historical data tool to get 10-year average return
+5. Observe: Average annual return is 10.5%
+6. Act: Use calculator to compute compound growth
+7. Observe: $10,000 would grow to approximately $27,000
+8. Think: Have complete calculation with realistic assumptions
+9. Final Answer: Provide detailed calculation with assumptions and caveats
+</code></pre>
+</Card>
+
+## Evaluation and Testing
+
+### 1. **Performance Metrics**
+
+<Card title="ReAct Evaluation">
+  <h4>Key Metrics:</h4>
+  <ul>
+    <li><strong>Accuracy:</strong> Correctness of final answers</li>
+    <li><strong>Efficiency:</strong> Number of tool calls needed</li>
+    <li><strong>Reasoning Quality:</strong> Quality of intermediate reasoning</li>
+    <li><strong>Tool Usage:</strong> Appropriateness of tool selection</li>
+    <li><strong>Error Recovery:</strong> Ability to handle failures</li>
+  </ul>
+  
+  <h4>Testing Strategies:</h4>
+  <ul>
+    <li><strong>Unit Testing:</strong> Test individual tools and components</li>
+    <li><strong>Integration Testing:</strong> Test complete ReAct workflows</li>
+    <li><strong>End-to-End Testing:</strong> Test with real-world problems</li>
+    <li><strong>Stress Testing:</strong> Test with complex, multi-step problems</li>
+  </ul>
+</Card>
+
+### 2. **Common Pitfalls**
+
+<Callout type="warning">
+  **Common Issues**: Be aware of these potential problems when implementing ReAct.
+</Callout>
+
+<Table>
+  <TableHead>
+    <TableRow>
+      <TableHeader>Pitfall</TableHeader>
+      <TableHeader>Description</TableHeader>
+      <TableHeader>Solution</TableHeader>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableCell><strong>Tool Overuse</strong></TableCell>
+      <TableCell>Using tools unnecessarily</TableCell>
+      <TableCell>Clear tool selection criteria</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Infinite Loops</strong></TableCell>
+      <TableCell>Getting stuck in reasoning cycles</TableCell>
+      <TableCell>Maximum iteration limits</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Poor Tool Design</strong></TableCell>
+      <TableCell>Tools that are hard to use correctly</TableCell>
+      <TableCell>Clear documentation and validation</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Inadequate Reasoning</strong></TableCell>
+      <TableCell>Jumping to actions without thinking</TableCell>
+      <TableCell>Encourage detailed reasoning</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
+## Related Concepts
+
+<CardGroup cols={3}>
+  <Card title="Chain of Thought" icon="brain" href="../prompting-techniques/chain-of-thought">
+    Step-by-step reasoning techniques
+  </Card>
+  <Card title="Tool Use" icon="wrench" href="../prompting-techniques/tool-use">
+    Integrating external tools and APIs
+  </Card>
+  <Card title="Tree of Thoughts" icon="git-branch" href="../prompting-techniques/tree-of-thoughts">
+    Exploring multiple reasoning paths
+  </Card>
+  <Card title="Self-Consistency" icon="check-circle" href="../prompting-techniques/self-consistency">
+    Generating multiple reasoning paths
+  </Card>
+  <Card title="Prompt Chaining" icon="link" href="../prompting-techniques/prompt-chaining">
+    Chaining multiple prompts together
+  </Card>
+  <Card title="Reflexion" icon="refresh-cw" href="../prompting-techniques/reflexion">
+    Self-reflection and improvement
+  </Card>
+</CardGroup>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>Anthropic Claude Documentation:</strong> <a href="https://docs.anthropic.com/en/docs/overview">https://docs.anthropic.com/en/docs/overview</a></li>
+    <li><strong>Claude Tool Use Guide:</strong> <a href="https://docs.anthropic.com/en/docs/agents-and-tools/tool-use">https://docs.anthropic.com/en/docs/agents-and-tools/tool-use</a></li>
+    <li><strong>ReAct Paper:</strong> <a href="https://arxiv.org/abs/2210.03629">https://arxiv.org/abs/2210.03629</a></li>
+    <li><strong>LangChain Agents:</strong> <a href="https://python.langchain.com/docs/use_cases/autonomous_agents/">https://python.langchain.com/docs/use_cases/autonomous_agents/</a></li>
+    <li><strong>CrewAI Framework:</strong> <a href="https://docs.crewai.com/">https://docs.crewai.com/</a></li>
+  </ul>
+</Card>

@@ -1,0 +1,396 @@
+---
+title: "Zero-Shot Prompting"
+slug: "modules-prompting-techniques-zero-shot"
+updatedAt: "2025-08-18"
+tags: "prompting-technique,zero-shot,basic"
+---
+
+# Zero-Shot Prompting
+
+> Learn how to get AI models to perform tasks without providing any examples or demonstrations.
+
+## What is Zero-Shot Prompting?
+
+Zero-shot prompting is a technique where you ask an AI model to perform a task without providing any examples or demonstrations. The model relies solely on its pre-trained knowledge to understand and execute the request.
+
+## How Zero-Shot Prompting Works
+
+### Basic Concept
+
+Zero-shot prompting leverages the model's existing knowledge and reasoning capabilities to:
+
+- Understand the task from the prompt description
+- Apply relevant knowledge and patterns
+- Generate appropriate responses without examples
+
+### Key Characteristics
+
+- **No Examples Required**: The model performs the task without seeing any demonstrations
+- **Relies on Pre-training**: Uses knowledge acquired during training
+- **Task Understanding**: Model must understand the task from description alone
+- **Generalization**: Works across various domains and task types
+
+## Basic Examples
+
+### Text Classification
+
+**Prompt:**
+
+```
+Classify the sentiment of the following text as positive, negative, or neutral:
+
+Text: "I love this new AI assistant!"
+
+Sentiment:
+```
+
+**Expected Output:**
+
+```
+positive
+```
+
+### Translation
+
+**Prompt:**
+
+```
+Translate the following text from English to French:
+
+English: "Hello, how are you today?"
+
+French:
+```
+
+**Expected Output:**
+
+```
+Bonjour, comment allez-vous aujourd'hui ?
+```
+
+### Question Answering
+
+**Prompt:**
+
+```
+Answer the following question:
+
+Question: What is the capital of France?
+
+Answer:
+```
+
+**Expected Output:**
+
+```
+The capital of France is Paris.
+```
+
+## Advanced Zero-Shot Techniques
+
+### Role-Based Prompting
+
+**Prompt:**
+
+```
+You are an expert data scientist. Analyze the following dataset and provide insights:
+
+Dataset: [Your dataset description]
+
+Analysis:
+```
+
+### Instruction-Based Prompting
+
+**Prompt:**
+
+```
+Instructions: You are a helpful assistant. Your task is to summarize the given text in 2-3 sentences while maintaining the key information.
+
+Text: [Your text here]
+
+Summary:
+```
+
+### Format-Specific Prompting
+
+**Prompt:**
+
+```
+Create a JSON object with the following information about the given text:
+
+Text: "The weather is sunny with a temperature of 25°C and humidity at 60%."
+
+Format the response as:
+{
+  "weather_condition": "string",
+  "temperature": "number",
+  "humidity": "number"
+}
+```
+
+## Best Practices
+
+### 1. Clear Instructions
+
+- Be explicit about what you want the model to do
+- Use clear, unambiguous language
+- Specify the desired output format
+
+### 2. Context Provision
+
+- Provide relevant background information
+- Include necessary constraints or requirements
+- Set clear boundaries and expectations
+
+### 3. Task Specification
+
+- Clearly define the task objective
+- Specify any constraints or limitations
+- Include quality criteria when relevant
+
+### 4. Output Formatting
+
+- Specify the desired output format
+- Include examples of the expected structure
+- Define any specific requirements
+
+## Implementation Examples
+
+### Python Implementation
+
+```python
+def zero_shot_classification(text: str, categories: list) -> str:
+    prompt = f"""
+    Classify the following text into one of the given categories:
+    
+    Categories: {', '.join(categories)}
+    
+    Text: "{text}"
+    
+    Classification:
+    """
+    
+    # Send to AI model
+    response = ai_model.generate(prompt)
+    return response.strip()
+
+# Usage
+categories = ["positive", "negative", "neutral"]
+result = zero_shot_classification("I love this product!", categories)
+print(result)  # Output: positive
+```
+
+### Multi-Task Zero-Shot
+
+```python
+def zero_shot_multi_task(text: str, task: str) -> str:
+    task_prompts = {
+        "summarize": f"Summarize the following text in 2-3 sentences:\n\n{text}",
+        "sentiment": f"Analyze the sentiment of the following text:\n\n{text}",
+        "keywords": f"Extract the main keywords from the following text:\n\n{text}",
+        "translate": f"Translate the following text to Spanish:\n\n{text}"
+    }
+    
+    if task not in task_prompts:
+        raise ValueError(f"Unknown task: {task}")
+    
+    prompt = task_prompts[task]
+    return ai_model.generate(prompt)
+
+# Usage
+text = "Artificial intelligence is transforming the way we work and live."
+summary = zero_shot_multi_task(text, "summarize")
+sentiment = zero_shot_multi_task(text, "sentiment")
+```
+
+## Limitations and Considerations
+
+### 1. Model Dependencies
+
+- Performance varies by model size and training
+- Larger models generally perform better
+- Domain-specific knowledge may be limited
+
+### 2. Task Complexity
+
+- Simple tasks work better than complex ones
+- Multi-step reasoning can be challenging
+- Context-heavy tasks may require more guidance
+
+### 3. Consistency Issues
+
+- Responses may vary between runs
+- No guarantee of consistent formatting
+- Quality depends on prompt clarity
+
+### 4. Error Handling
+
+- Models may not understand complex instructions
+- Fallback strategies may be needed
+- Validation of outputs is important
+
+## Comparison with Other Techniques
+
+### Zero-Shot vs Few-Shot
+
+| Aspect            | Zero-Shot | Few-Shot         |
+| ----------------- | --------- | ---------------- |
+| Examples Required | None      | 1-5 examples     |
+| Performance       | Variable  | Generally better |
+| Setup Time        | Minimal   | Moderate         |
+| Consistency       | Lower     | Higher           |
+
+### Zero-Shot vs Chain-of-Thought
+
+| Aspect       | Zero-Shot             | Chain-of-Thought         |
+| ------------ | --------------------- | ------------------------ |
+| Reasoning    | Implicit              | Explicit                 |
+| Complexity   | Simple tasks          | Complex reasoning        |
+| Transparency | Low                   | High                     |
+| Performance  | Good for simple tasks | Better for complex tasks |
+
+## Real-World Applications
+
+### 1. Content Moderation
+
+```python
+def moderate_content(text: str) -> dict:
+    prompt = f"""
+    Analyze the following text for inappropriate content:
+    
+    Text: "{text}"
+    
+    Check for:
+    - Hate speech
+    - Violence
+    - Spam
+    - Inappropriate language
+    
+    Return a JSON response:
+    {{
+      "is_appropriate": "boolean",
+      "flags": ["list of issues"],
+      "confidence": "number between 0 and 1"
+    }}
+    """
+    
+    response = ai_model.generate(prompt)
+    return json.loads(response)
+```
+
+### 2. Customer Support Classification
+
+```python
+def classify_support_ticket(ticket_text: str) -> str:
+    prompt = f"""
+    Classify this customer support ticket into the most appropriate category:
+    
+    Categories:
+    - Technical Issue
+    - Billing Question
+    - Feature Request
+    - Bug Report
+    - General Inquiry
+    
+    Ticket: "{ticket_text}"
+    
+    Category:
+    """
+    
+    return ai_model.generate(prompt).strip()
+```
+
+### 3. Data Extraction
+
+```python
+def extract_contact_info(text: str) -> dict:
+    prompt = f"""
+    Extract contact information from the following text:
+    
+    Text: "{text}"
+    
+    Return a JSON object with:
+    {{
+      "name": "string or null",
+      "email": "string or null",
+      "phone": "string or null",
+      "address": "string or null"
+    }}
+    """
+    
+    response = ai_model.generate(prompt)
+    return json.loads(response)
+```
+
+## Tips for Success
+
+### 1. Start Simple
+
+- Begin with straightforward tasks
+- Gradually increase complexity
+- Test with multiple examples
+
+### 2. Iterate and Refine
+
+- Experiment with different prompt formulations
+- Analyze failures and adjust
+- Keep track of what works
+
+### 3. Validate Outputs
+
+- Always verify model responses
+- Implement error checking
+- Have fallback strategies
+
+### 4. Consider Context
+
+- Provide relevant background information
+- Include necessary constraints
+- Set appropriate expectations
+
+### Zero-Shot Prompting
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ZTaHqdkxUMs?si=oLXKF49IfGwVm2Rk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen />
+
+Large language models (LLMs) today, such as GPT-3.5 Turbo, GPT-4, and Claude 3, are tuned to follow instructions and are trained on large amounts of data. Large-scale training makes these models capable of performing some tasks in a "zero-shot" manner. Zero-shot prompting means that the prompt used to interact with the model won't contain examples or demonstrations. The zero-shot prompt directly instructs the model to perform a task without any additional examples to steer it.
+
+We tried a few zero-shot examples in the previous section. Here is one of the examples (ie., text classification) we used:
+
+_Prompt:_
+
+```
+Classify the text into neutral, negative or positive. Text: I think the vacation is okay.Sentiment:
+```
+
+_Output:_
+
+```
+Neutral
+```
+
+Note that in the prompt above we didn't provide the model with any examples of text alongside their classifications, the LLM already understands "sentiment" -- that's the zero-shot capabilities at work.
+
+Instruction tuning has been shown to improve zero-shot learning [Wei et al. (2022)](https://arxiv.org/pdf/2109.01652.pdf). Instruction tuning is essentially the concept of finetuning models on datasets described via instructions. Furthermore, [RLHF](https://arxiv.org/abs/1706.03741) (reinforcement learning from human feedback) has been adopted to scale instruction tuning wherein the model is aligned to better fit human preferences. This recent development powers models like ChatGPT. We will discuss all these approaches and methods in upcoming sections.
+
+When zero-shot doesn't work, it's recommended to provide demonstrations or examples in the prompt which leads to few-shot prompting. In the next section, we demonstrate few-shot prompting.
+
+## Next Steps
+
+- **Practice**: Try zero-shot prompting with different tasks
+- **Experiment**: Test various prompt formulations
+- **Compare**: Try few-shot prompting for the same tasks
+- **Optimize**: Refine prompts based on results
+
+## Sources
+
+- [Prompt Engineering Guide - Zero-Shot Prompting](https://www.promptingguide.ai/techniques/zeroshot)
+- [Chain-of-Thought Prompting Research](https://arxiv.org/abs/2201.11903)
+- [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165)
+
+## Related Techniques
+
+- [Few-Shot Prompting](./few-shot)
+- [Chain-of-Thought Prompting](./chain-of-thought)
+- [Meta-Prompting](./meta-prompting)
+- [Self-Consistency](./self-consistency)

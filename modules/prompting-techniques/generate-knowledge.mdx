@@ -1,0 +1,794 @@
+---
+title: "Generate Knowledge"
+description: "Learn how to generate knowledge before making predictions to improve accuracy and reasoning capabilities of AI systems"
+slug: "modules-prompting-techniques-generate-knowledge"
+updatedAt: "2025-08-19"
+tags: [prompting-technique, generate-knowledge, knowledge-generation, reasoning, commonsense]
+---
+
+# Generate Knowledge
+
+<Callout type="info">
+  **Learning Objective**: Master knowledge generation techniques to create relevant information before making predictions, improving AI reasoning and accuracy for complex tasks.
+</Callout>
+
+## Overview
+
+Generate Knowledge is a prompting technique that creates relevant knowledge or information before making predictions. This approach helps AI systems perform better on tasks requiring commonsense reasoning, factual knowledge, or domain expertise by generating the necessary context first.
+
+<CardGroup cols={2}>
+  <Card title="Knowledge Generation" icon="lightbulb">
+    Generate relevant knowledge before making predictions.
+  </Card>
+  <Card title="Enhanced Reasoning" icon="brain">
+    Use generated knowledge to improve reasoning accuracy.
+  </Card>
+</CardGroup>
+
+## What is Generate Knowledge?
+
+Generate Knowledge is a technique that:
+
+- **Creates Context**: Generates relevant knowledge before answering questions
+- **Improves Accuracy**: Uses generated knowledge to make better predictions
+- **Enhances Reasoning**: Provides necessary context for complex reasoning tasks
+- **Addresses Limitations**: Helps overcome knowledge gaps in language models
+
+<Callout type="warning">
+  **Key Insight**: Generate Knowledge improves performance by creating relevant knowledge first, then using that knowledge to make more accurate predictions, especially for tasks requiring commonsense reasoning.
+</Callout>
+
+## Key Concepts
+
+### 1. **Knowledge Generation Process**
+
+<Card title="Two-Stage Process">
+  <ul>
+    <li><strong>Stage 1 - Knowledge Generation:</strong> Create relevant knowledge about the topic</li>
+    <li><strong>Stage 2 - Prediction:</strong> Use generated knowledge to make predictions</li>
+    <li><strong>Knowledge Integration:</strong> Incorporate generated knowledge into the reasoning process</li>
+    <li><strong>Quality Assessment:</strong> Evaluate the relevance and accuracy of generated knowledge</li>
+  </ul>
+</Card>
+
+### 2. **Knowledge Types**
+
+<Card title="Types of Generated Knowledge">
+  <ul>
+    <li><strong>Factual Knowledge:</strong> Objective facts and information</li>
+    <li><strong>Commonsense Knowledge:</strong> Everyday understanding and reasoning</li>
+    <li><strong>Domain Knowledge:</strong> Specialized information in specific fields</li>
+    <li><strong>Procedural Knowledge:</strong> How-to information and processes</li>
+  </ul>
+</Card>
+
+### 3. **Application Domains**
+
+<Card title="Effective Applications">
+  <ul>
+    <li><strong>Commonsense Reasoning:</strong> Everyday knowledge and understanding</li>
+    <li><strong>Factual Questions:</strong> Questions requiring specific knowledge</li>
+    <li><strong>Domain-Specific Tasks:</strong> Specialized knowledge areas</li>
+    <li><strong>Complex Reasoning:</strong> Multi-step reasoning tasks</li>
+  </ul>
+</Card>
+
+## Implementation
+
+### 1. **Basic Knowledge Generation**
+
+<CodeGroup>
+  <CodeGroupItem title="Python" active>
+```python
+from typing import List, Dict, Any, Optional
+import re
+import random
+
+class GenerateKnowledge:
+    def __init__(self, num_knowledge_pieces: int = 3):
+        self.num_knowledge_pieces = num_knowledge_pieces
+        
+        # Knowledge generation templates
+        self.knowledge_templates = [
+            "Knowledge: {knowledge}",
+            "Information: {knowledge}",
+            "Context: {knowledge}",
+            "Background: {knowledge}",
+            "Facts: {knowledge}"
+        ]
+    
+    def generate_knowledge_prompt(self, question: str) -> str:
+        """Generate a prompt for knowledge generation"""
+        
+        # Example knowledge generation prompt
+        prompt = f"""
+        Generate {self.num_knowledge_pieces} pieces of relevant knowledge to help answer the following question.
+        Each piece of knowledge should be factual and directly relevant to the question.
+        
+        Question: {question}
+        
+        Generate knowledge:
+        """
+        
+        return prompt
+    
+    def generate_knowledge(self, question: str) -> List[str]:
+        """Generate knowledge for a given question"""
+        
+        # In practice, this would call an LLM
+        # For demonstration, we'll simulate knowledge generation
+        knowledge_pieces = self.simulate_knowledge_generation(question)
+        
+        return knowledge_pieces
+    
+    def simulate_knowledge_generation(self, question: str) -> List[str]:
+        """Simulate knowledge generation for demonstration"""
+        
+        # Example knowledge for different question types
+        if "golf" in question.lower():
+            return [
+                "The objective of golf is to play a set of holes in the least number of strokes.",
+                "A round of golf typically consists of 18 holes.",
+                "Each stroke is counted as one point, and the total number of strokes determines the winner.",
+                "The player with the lowest score wins the game."
+            ]
+        elif "smoking" in question.lower():
+            return [
+                "Smoking cigarettes increases the risk of lung cancer.",
+                "The risk increases with the number of cigarettes smoked per day.",
+                "Even light smoking (less than one cigarette per day) increases risk.",
+                "Smoking affects multiple organs including lungs, heart, and blood vessels."
+            ]
+        elif "fish" in question.lower():
+            return [
+                "Fish have cognitive abilities and can learn and remember.",
+                "Fish can recognize individual fish and form social relationships.",
+                "Fish have long-term memories and can navigate complex environments.",
+                "Fish intelligence varies by species but many are quite intelligent."
+            ]
+        else:
+            return [
+                "General knowledge about the topic.",
+                "Relevant facts and information.",
+                "Contextual background information."
+            ]
+    
+    def create_qa_prompt(self, question: str, knowledge_pieces: List[str]) -> str:
+        """Create a question-answering prompt with generated knowledge"""
+        
+        knowledge_text = "\n".join([f"Knowledge: {k}" for k in knowledge_pieces])
+        
+        prompt = f"""
+        Question: {question}
+        
+        {knowledge_text}
+        
+        Based on the knowledge provided above, answer the question:
+        """
+        
+        return prompt
+    
+    def answer_with_knowledge(self, question: str) -> Dict[str, Any]:
+        """Answer a question using generated knowledge"""
+        
+        # Step 1: Generate knowledge
+        knowledge_pieces = self.generate_knowledge(question)
+        
+        # Step 2: Create QA prompt with knowledge
+        qa_prompt = self.create_qa_prompt(question, knowledge_pieces)
+        
+        # Step 3: Generate answer (simulated)
+        answer = self.simulate_answer_generation(qa_prompt, question)
+        
+        return {
+            'question': question,
+            'generated_knowledge': knowledge_pieces,
+            'qa_prompt': qa_prompt,
+            'answer': answer
+        }
+    
+    def simulate_answer_generation(self, prompt: str, question: str) -> str:
+        """Simulate answer generation"""
+        
+        if "golf" in question.lower() and "higher point total" in question.lower():
+            return """
+            No, the objective of golf is not to get a higher point total than others. 
+            Rather, the objective is to play a set of holes in the least number of strokes. 
+            The player with the lowest score (fewest strokes) wins the game.
+            """
+        elif "smoking" in question.lower():
+            return """
+            Yes, smoking cigarettes significantly increases the risk of lung cancer. 
+            The risk increases with the amount and duration of smoking.
+            """
+        else:
+            return "Answer based on the generated knowledge provided."
+
+# Example usage
+knowledge_generator = GenerateKnowledge(num_knowledge_pieces=3)
+
+question = "Part of golf is trying to get a higher point total than others. Yes or No?"
+
+result = knowledge_generator.answer_with_knowledge(question)
+
+print(f"Question: {result['question']}")
+print(f"\nGenerated Knowledge:")
+for i, knowledge in enumerate(result['generated_knowledge'], 1):
+    print(f"{i}. {knowledge}")
+print(f"\nAnswer: {result['answer']}")
+```
+  </CodeGroupItem>
+  
+  <CodeGroupItem title="JavaScript">
+```javascript
+class GenerateKnowledge {
+    constructor(numKnowledgePieces = 3) {
+        this.numKnowledgePieces = numKnowledgePieces;
+        
+        // Knowledge generation templates
+        this.knowledgeTemplates = [
+            "Knowledge: {knowledge}",
+            "Information: {knowledge}",
+            "Context: {knowledge}",
+            "Background: {knowledge}",
+            "Facts: {knowledge}"
+        ];
+    }
+    
+    generateKnowledgePrompt(question) {
+        return `
+        Generate ${this.numKnowledgePieces} pieces of relevant knowledge to help answer the following question.
+        Each piece of knowledge should be factual and directly relevant to the question.
+        
+        Question: ${question}
+        
+        Generate knowledge:
+        `;
+    }
+    
+    generateKnowledge(question) {
+        // In practice, this would call an LLM
+        // For demonstration, we'll simulate knowledge generation
+        return this.simulateKnowledgeGeneration(question);
+    }
+    
+    simulateKnowledgeGeneration(question) {
+        // Example knowledge for different question types
+        if (question.toLowerCase().includes('golf')) {
+            return [
+                "The objective of golf is to play a set of holes in the least number of strokes.",
+                "A round of golf typically consists of 18 holes.",
+                "Each stroke is counted as one point, and the total number of strokes determines the winner.",
+                "The player with the lowest score wins the game."
+            ];
+        } else if (question.toLowerCase().includes('smoking')) {
+            return [
+                "Smoking cigarettes increases the risk of lung cancer.",
+                "The risk increases with the number of cigarettes smoked per day.",
+                "Even light smoking (less than one cigarette per day) increases risk.",
+                "Smoking affects multiple organs including lungs, heart, and blood vessels."
+            ];
+        } else if (question.toLowerCase().includes('fish')) {
+            return [
+                "Fish have cognitive abilities and can learn and remember.",
+                "Fish can recognize individual fish and form social relationships.",
+                "Fish have long-term memories and can navigate complex environments.",
+                "Fish intelligence varies by species but many are quite intelligent."
+            ];
+        } else {
+            return [
+                "General knowledge about the topic.",
+                "Relevant facts and information.",
+                "Contextual background information."
+            ];
+        }
+    }
+    
+    createQAPrompt(question, knowledgePieces) {
+        const knowledgeText = knowledgePieces.map(k => `Knowledge: ${k}`).join('\n');
+        
+        return `
+        Question: ${question}
+        
+        ${knowledgeText}
+        
+        Based on the knowledge provided above, answer the question:
+        `;
+    }
+    
+    async answerWithKnowledge(question) {
+        // Step 1: Generate knowledge
+        const knowledgePieces = this.generateKnowledge(question);
+        
+        // Step 2: Create QA prompt with knowledge
+        const qaPrompt = this.createQAPrompt(question, knowledgePieces);
+        
+        // Step 3: Generate answer (simulated)
+        const answer = await this.simulateAnswerGeneration(qaPrompt, question);
+        
+        return {
+            question: question,
+            generatedKnowledge: knowledgePieces,
+            qaPrompt: qaPrompt,
+            answer: answer
+        };
+    }
+    
+    async simulateAnswerGeneration(prompt, question) {
+        // Simulate answer generation
+        if (question.toLowerCase().includes('golf') && question.toLowerCase().includes('higher point total')) {
+            return `
+            No, the objective of golf is not to get a higher point total than others. 
+            Rather, the objective is to play a set of holes in the least number of strokes. 
+            The player with the lowest score (fewest strokes) wins the game.
+            `;
+        } else if (question.toLowerCase().includes('smoking')) {
+            return `
+            Yes, smoking cigarettes significantly increases the risk of lung cancer. 
+            The risk increases with the amount and duration of smoking.
+            `;
+        } else {
+            return "Answer based on the generated knowledge provided.";
+        }
+    }
+}
+
+// Example usage
+async function runExample() {
+    const knowledgeGenerator = new GenerateKnowledge(3);
+    
+    const question = "Part of golf is trying to get a higher point total than others. Yes or No?";
+    
+    const result = await knowledgeGenerator.answerWithKnowledge(question);
+    
+    console.log(`Question: ${result.question}`);
+    console.log('\nGenerated Knowledge:');
+    result.generatedKnowledge.forEach((knowledge, i) => {
+        console.log(`${i + 1}. ${knowledge}`);
+    });
+    console.log(`\nAnswer: ${result.answer}`);
+}
+
+runExample();
+```
+  </CodeGroupItem>
+</CodeGroup>
+
+### 2. **Advanced Knowledge Generation with LangChain**
+
+<Card title="LangChain Integration">
+  <CodeGroup>
+  <CodeGroupItem title="LangChain Implementation" active>
+```python
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+from langchain.llms import OpenAI
+from typing import List, Dict, Any
+import json
+
+class LangChainGenerateKnowledge:
+    def __init__(self, api_key: str, num_knowledge_pieces: int = 3):
+        self.llm = OpenAI(api_key=api_key, temperature=0.7)
+        self.num_knowledge_pieces = num_knowledge_pieces
+        
+        # Knowledge generation prompt
+        self.knowledge_prompt = PromptTemplate(
+            input_variables=["question", "num_pieces"],
+            template="""
+            Generate {num_pieces} pieces of relevant knowledge to help answer the following question.
+            Each piece of knowledge should be factual and directly relevant to the question.
+            Format each piece as a separate knowledge statement.
+            
+            Question: {question}
+            
+            Generate knowledge:
+            """
+        )
+        
+        # QA prompt with knowledge
+        self.qa_prompt = PromptTemplate(
+            input_variables=["question", "knowledge"],
+            template="""
+            Question: {question}
+            
+            Knowledge:
+            {knowledge}
+            
+            Based on the knowledge provided above, answer the question clearly and accurately:
+            """
+        )
+        
+        # Create chains
+        self.knowledge_chain = LLMChain(
+            llm=self.llm,
+            prompt=self.knowledge_prompt,
+            verbose=False
+        )
+        
+        self.qa_chain = LLMChain(
+            llm=self.llm,
+            prompt=self.qa_prompt,
+            verbose=False
+        )
+    
+    def generate_knowledge(self, question: str) -> List[str]:
+        """Generate knowledge using LangChain"""
+        
+        try:
+            response = self.knowledge_chain.run(
+                question=question,
+                num_pieces=self.num_knowledge_pieces
+            )
+            
+            # Parse knowledge pieces from response
+            knowledge_pieces = self.parse_knowledge_response(response)
+            
+            return knowledge_pieces
+            
+        except Exception as e:
+            print(f"Error generating knowledge: {e}")
+            return ["Error generating knowledge"]
+    
+    def parse_knowledge_response(self, response: str) -> List[str]:
+        """Parse knowledge pieces from LLM response"""
+        
+        # Split by common delimiters
+        delimiters = ['\n', '. ', '; ', ' - ', '• ']
+        
+        for delimiter in delimiters:
+            if delimiter in response:
+                pieces = [p.strip() for p in response.split(delimiter) if p.strip()]
+                # Filter out non-knowledge pieces
+                knowledge_pieces = [p for p in pieces if len(p) > 10 and not p.startswith('Question')]
+                if knowledge_pieces:
+                    return knowledge_pieces[:self.num_knowledge_pieces]
+        
+        # Fallback: return response as single piece
+        return [response.strip()]
+    
+    def answer_with_knowledge(self, question: str) -> Dict[str, Any]:
+        """Answer question using generated knowledge"""
+        
+        # Step 1: Generate knowledge
+        knowledge_pieces = self.generate_knowledge(question)
+        
+        # Step 2: Format knowledge for QA
+        knowledge_text = "\n".join([f"• {k}" for k in knowledge_pieces])
+        
+        # Step 3: Generate answer
+        try:
+            answer = self.qa_chain.run(
+                question=question,
+                knowledge=knowledge_text
+            )
+        except Exception as e:
+            answer = f"Error generating answer: {e}"
+        
+        return {
+            'question': question,
+            'generated_knowledge': knowledge_pieces,
+            'knowledge_text': knowledge_text,
+            'answer': answer
+        }
+    
+    def batch_generate_knowledge(self, questions: List[str]) -> Dict[str, List[str]]:
+        """Generate knowledge for multiple questions"""
+        
+        results = {}
+        
+        for question in questions:
+            knowledge = self.generate_knowledge(question)
+            results[question] = knowledge
+        
+        return results
+
+# Example usage
+# knowledge_generator = LangChainGenerateKnowledge("your-api-key", num_knowledge_pieces=3)
+# result = knowledge_generator.answer_with_knowledge("Part of golf is trying to get a higher point total than others. Yes or No?")
+# print(f"Answer: {result['answer']}")
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+### 3. **CrewAI Integration**
+
+<Card title="CrewAI Knowledge Generation">
+  <CodeGroup>
+  <CodeGroupItem title="CrewAI Implementation" active>
+```python
+from crewai import Agent, Task, Crew
+from typing import List, Dict, Any
+
+class CrewAIGenerateKnowledge:
+    def __init__(self):
+        self.knowledge_agent = None
+        self.qa_agent = None
+        self.create_agents()
+    
+    def create_agents(self):
+        """Create specialized agents for knowledge generation and QA"""
+        
+        # Knowledge generation agent
+        self.knowledge_agent = Agent(
+            role="Knowledge Generation Specialist",
+            goal="Generate accurate and relevant knowledge to help answer questions",
+            backstory="""You are an expert at generating relevant knowledge and information. 
+            You have deep understanding of various domains and can create factual, 
+            useful knowledge that helps answer complex questions.""",
+            verbose=False
+        )
+        
+        # Question answering agent
+        self.qa_agent = Agent(
+            role="Question Answering Specialist", 
+            goal="Answer questions accurately using provided knowledge",
+            backstory="""You are an expert at answering questions using provided knowledge. 
+            You carefully analyze the knowledge and provide clear, accurate answers 
+            based on the information given.""",
+            verbose=False
+        )
+    
+    def create_knowledge_task(self, question: str) -> Task:
+        """Create a knowledge generation task"""
+        
+        return Task(
+            description=f"""
+            Generate 3-5 pieces of relevant knowledge to help answer the following question.
+            Each piece of knowledge should be factual and directly relevant to the question.
+            
+            Question: {question}
+            
+            Generate knowledge that would help answer this question accurately.
+            Format each piece of knowledge as a clear, factual statement.
+            """,
+            agent=self.knowledge_agent
+        )
+    
+    def create_qa_task(self, question: str, knowledge: str) -> Task:
+        """Create a question answering task"""
+        
+        return Task(
+            description=f"""
+            Answer the following question using the provided knowledge.
+            
+            Question: {question}
+            
+            Knowledge:
+            {knowledge}
+            
+            Based on the knowledge provided above, answer the question clearly and accurately.
+            If the knowledge is not sufficient, indicate what additional information would be needed.
+            """,
+            agent=self.qa_agent
+        )
+    
+    def answer_with_knowledge(self, question: str) -> Dict[str, Any]:
+        """Answer question using CrewAI knowledge generation"""
+        
+        # Step 1: Generate knowledge
+        knowledge_task = self.create_knowledge_task(question)
+        knowledge_crew = Crew(
+            agents=[self.knowledge_agent],
+            tasks=[knowledge_task],
+            verbose=False
+        )
+        
+        try:
+            knowledge_result = knowledge_crew.kickoff()
+        except Exception as e:
+            knowledge_result = f"Error generating knowledge: {e}"
+        
+        # Step 2: Answer question with knowledge
+        qa_task = self.create_qa_task(question, knowledge_result)
+        qa_crew = Crew(
+            agents=[self.qa_agent],
+            tasks=[qa_task],
+            verbose=False
+        )
+        
+        try:
+            answer_result = qa_crew.kickoff()
+        except Exception as e:
+            answer_result = f"Error generating answer: {e}"
+        
+        return {
+            'question': question,
+            'generated_knowledge': knowledge_result,
+            'answer': answer_result
+        }
+    
+    def batch_process(self, questions: List[str]) -> Dict[str, Dict[str, Any]]:
+        """Process multiple questions with knowledge generation"""
+        
+        results = {}
+        
+        for question in questions:
+            result = self.answer_with_knowledge(question)
+            results[question] = result
+        
+        return results
+
+# Example usage
+# crew_knowledge = CrewAIGenerateKnowledge()
+# result = crew_knowledge.answer_with_knowledge("Part of golf is trying to get a higher point total than others. Yes or No?")
+# print(f"Knowledge: {result['generated_knowledge']}")
+# print(f"Answer: {result['answer']}")
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+## Use Cases
+
+### 1. **Commonsense Reasoning**
+
+<Callout type="info">
+  **Case Study**: Generate Knowledge is particularly effective for commonsense reasoning tasks where the AI needs to understand everyday knowledge and relationships.
+</Callout>
+
+<Card title="Commonsense Applications">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Task Type</TableHeader>
+        <TableHeader>Knowledge Generated</TableHeader>
+        <TableHeader>Benefits</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Everyday Questions</strong></TableCell>
+        <TableCell>Common knowledge about daily activities</TableCell>
+        <TableCell>Improves understanding of everyday situations</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Causal Relationships</strong></TableCell>
+        <TableCell>Cause-and-effect knowledge</TableCell>
+        <TableCell>Better understanding of how things work</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Social Understanding</strong></TableCell>
+        <TableCell>Social norms and human behavior</TableCell>
+        <TableCell>More accurate social reasoning</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Factual Question Answering**
+
+<Card title="Factual Applications">
+  <ul>
+    <li><strong>Historical Questions:</strong> Generate historical context and facts</li>
+    <li><strong>Scientific Questions:</strong> Create scientific knowledge and principles</li>
+    <li><strong>Geographic Questions:</strong> Generate geographic and cultural knowledge</li>
+    <li><strong>Technical Questions:</strong> Create technical knowledge and concepts</li>
+  </ul>
+</Card>
+
+### 3. **Domain-Specific Tasks**
+
+<Card title="Domain Applications">
+  <ul>
+    <li><strong>Medical Diagnosis:</strong> Generate medical knowledge and symptoms</li>
+    <li><strong>Legal Analysis:</strong> Create legal knowledge and precedents</li>
+    <li><strong>Financial Analysis:</strong> Generate financial knowledge and concepts</li>
+    <li><strong>Educational Content:</strong> Create educational knowledge and concepts</li>
+  </ul>
+</Card>
+
+## Best Practices
+
+### 1. **Knowledge Quality**
+
+<CardGroup cols={2}>
+  <Card title="Relevance" icon="target">
+    <ul>
+      <li>Ensure knowledge is directly relevant to the question</li>
+      <li>Focus on facts that directly support the answer</li>
+      <li>Avoid tangential or irrelevant information</li>
+      <li>Prioritize the most important knowledge first</li>
+    </ul>
+  </Card>
+  <Card title="Accuracy" icon="check-circle">
+    <ul>
+      <li>Generate factual, verifiable knowledge</li>
+      <li>Avoid speculative or uncertain information</li>
+      <li>Use reliable sources and established facts</li>
+      <li>Cross-validate knowledge when possible</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+### 2. **Knowledge Integration**
+
+<Card title="Effective Integration">
+  <ul>
+    <li><strong>Clear Structure:</strong> Organize knowledge in a logical structure</li>
+    <li><strong>Explicit Connection:</strong> Make clear connections between knowledge and question</li>
+    <li><strong>Comprehensive Coverage:</strong> Ensure knowledge covers all aspects of the question</li>
+    <li><strong>Appropriate Detail:</strong> Provide sufficient detail without overwhelming</li>
+  </ul>
+</Card>
+
+### 3. **Quality Control**
+
+<Card title="Quality Assurance">
+  <ul>
+    <li><strong>Knowledge Validation:</strong> Verify the accuracy of generated knowledge</li>
+    <li><strong>Relevance Check:</strong> Ensure knowledge is relevant to the question</li>
+    <li><strong>Completeness Assessment:</strong> Check if knowledge is sufficient for answering</li>
+    <li><strong>Consistency Verification:</strong> Ensure knowledge pieces are consistent</li>
+  </ul>
+</Card>
+
+## Real-World Applications
+
+### 1. **Educational Systems**
+
+<Card title="Educational Use Cases">
+  <ul>
+    <li><strong>Homework Help:</strong> Generate relevant knowledge for student questions</li>
+    <li><strong>Concept Explanation:</strong> Create knowledge to explain complex concepts</li>
+    <li><strong>Test Preparation:</strong> Generate knowledge for exam preparation</li>
+    <li><strong>Research Support:</strong> Create knowledge for research projects</li>
+  </ul>
+</Card>
+
+### 2. **Customer Support**
+
+<Card title="Support Applications">
+  <ul>
+    <li><strong>Product Questions:</strong> Generate product knowledge for customer inquiries</li>
+    <li><strong>Troubleshooting:</strong> Create knowledge for technical support</li>
+    <li><strong>Policy Questions:</strong> Generate policy knowledge for customer service</li>
+    <li><strong>General Inquiries:</strong> Create knowledge for general customer questions</li>
+  </ul>
+</Card>
+
+### 3. **Research and Analysis**
+
+<Card title="Research Applications">
+  <ul>
+    <li><strong>Literature Review:</strong> Generate knowledge for research synthesis</li>
+    <li><strong>Data Interpretation:</strong> Create knowledge for data analysis</li>
+    <li><strong>Hypothesis Testing:</strong> Generate knowledge for hypothesis evaluation</li>
+    <li><strong>Report Writing:</strong> Create knowledge for report generation</li>
+  </ul>
+</Card>
+
+## Related Techniques
+
+<CardGroup cols={3}>
+  <Card title="Chain-of-Thought" icon="git-branch" href="./chain-of-thought">
+    Step-by-step reasoning prompts
+  </Card>
+  <Card title="Self-Consistency" icon="check-circle" href="./self-consistency">
+    Multiple reasoning paths
+  </Card>
+  <Card title="Retrieval-Augmented Generation" icon="search" href="./retrieval-augmented-generation">
+    External knowledge retrieval
+  </Card>
+  <Card title="Commonsense Reasoning" icon="brain" href="./commonsense-reasoning">
+    Everyday knowledge understanding
+  </Card>
+  <Card title="Knowledge Graphs" icon="network" href="./knowledge-graphs">
+    Structured knowledge representation
+  </Card>
+  <Card title="Context Enhancement" icon="layers" href="./context-enhancement">
+    Improving context with knowledge
+  </Card>
+</CardGroup>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>Original Paper:</strong> <a href="https://arxiv.org/pdf/2110.08387.pdf">Liu et al. (2022) - Generated Knowledge Prompting for Commonsense Reasoning</a></li>
+    <li><strong>CrewAI Documentation:</strong> <a href="https://docs.crewai.com/en/introduction">https://docs.crewai.com/en/introduction</a></li>
+    <li><strong>AI Design Guide:</strong> <a href="https://aidesign.guide/">https://aidesign.guide/</a></li>
+    <li><strong>LangChain Conceptual Guide:</strong> <a href="https://python.langchain.com/docs/get_started/concepts">https://python.langchain.com/docs/get_started/concepts</a></li>
+    <li><strong>Prompt Engineering Guide:</strong> <a href="https://www.promptingguide.ai/">https://www.promptingguide.ai/</a></li>
+  </ul>
+</Card>

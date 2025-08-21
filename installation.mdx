@@ -1,0 +1,241 @@
+---
+title: "Installation"
+slug: "installation"
+updatedAt: "2025-08-18"
+tags: "installation,setup,guide"
+sidebarTitle: "Installation"
+---
+
+### Cursor Starter — Installation Guide
+
+This guide installs and runs the Cursor Starter from scratch. Steps are ordered exactly as required: download the framework from GitHub, copy the framework files, create directory structures, initialize the framework, and then complete the rest of the setup.
+
+### Supported platforms
+
+- macOS 12\+
+- Ubuntu/Debian Linux (or similar)
+- Windows 11 via WSL2 Ubuntu
+- Docker (optional)
+
+### Prerequisites
+
+- Git 2.35\+ (`git --version`)
+- Node.js 18 LTS or 20 LTS (`node -v`)
+- One package manager: pnpm 8\+ (recommended) / npm 9\+ / yarn 1.x
+- Optional: Docker 24\+ and Docker Compose v2
+
+---
+
+## Installation Steps
+
+<Steps>
+  <Step title="Download the framework (clone from GitHub)" icon="download" stepNumber={1}>
+    **Option A — Use this repository directly:**
+
+    ```bash
+    git clone https://github.com/ngeshlew/cursorstarter.git cursor-starter
+    cd cursor-starter
+    ```
+
+    **Option B — Use as a template (recommended for new projects):**
+
+    - On GitHub, click "Use this template" on `ngeshlew/cursorstarter` and create your new repository.
+    - Then clone your new repo:
+
+    ```bash
+    git clone https://github.com/<your-user>/<your-repo>.git
+    cd <your-repo>
+    ```
+
+    **Option C — Degit (copy without git history):**
+
+    ```bash
+    npm create degit@latest ngeshlew/cursorstarter my-app
+    cd my-app
+    ```
+  </Step>
+  <Step title="Copy the framework files" icon="copy" stepNumber={2}>
+    If you cloned into a temporary folder and wish to copy the framework into another project directory:
+
+    ```bash
+    # Example: copy from ./cursor-starter into ./my-app
+    mkdir -p my-app
+    rsync -a --exclude .git cursor-starter/ my-app/
+    # Fallback without rsync:
+    # cp -a cursor-starter/. my-app/
+    cd my-app
+    ```
+
+    If you already created your repo via "Use this template" or degit, you can skip copying and just `cd` into your project folder.
+  </Step>
+  <Step title="Create directory structures" icon="folder" stepNumber={3}>
+    If these paths do not already exist, create them:
+
+    ```bash
+    mkdir -p .cursor/rules memory-bank/backups docs wiki scripts
+    ```
+
+    These are used by Cursor workflows, memory bank backups, docs, local wiki, and helper scripts.
+  </Step>
+  <Step title="Initialize the framework" icon="play" stepNumber={4}>
+    Run the initialization script to seed required files and update the README with quick Cursor commands:
+
+    ```bash
+    bash scripts/init.sh
+    # or
+    chmod +x scripts/init.sh && ./scripts/init.sh
+    ```
+
+    You should see "Initialization complete. Open in Cursor and start with /init then /plan."
+  </Step>
+  <Step title="Install Node and a package manager" icon="package" stepNumber={5}>
+    **Recommended: nvm \+ pnpm via Corepack.**
+
+    macOS/Linux (including WSL2 Ubuntu):
+
+    ```bash
+    # Install nvm
+    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh"
+    # Install Node LTS
+    nvm install --lts
+    # Enable pnpm
+    corepack enable
+    corepack prepare pnpm@latest --activate
+    ```
+
+    Alternatively, you can use npm or yarn if preferred.
+  </Step>
+  <Step title="Configure environment variables" icon="settings" stepNumber={6}>
+    If present, copy `.env.example` to `.env.local` and fill values:
+
+    ```bash
+    [ -f .env.example ] && cp .env.example .env.local || true
+    ```
+
+    Common variables:
+
+    - `NODE_ENV=development`
+    - `PORT=3000`
+    - Any project‑specific keys (e.g., `NEXT_PUBLIC_*`)
+
+    Never commit secrets; use `.env.local` for local development.
+  </Step>
+  <Step title="Install dependencies" icon="download" stepNumber={7}>
+    ```bash
+    pnpm install
+    # or: npm install
+    # or: yarn install
+    ```
+  </Step>
+  <Step title="Run the development server" icon="server" stepNumber={8}>
+    ```bash
+    pnpm dev
+    # or: npm run dev
+    # or: yarn dev
+    ```
+
+    Open the URL printed in your terminal (commonly `http://localhost:3000`).
+  </Step>
+  <Step title="Linting, formatting, type checks, and tests" icon="check" stepNumber={9}>
+    ```bash
+    pnpm lint
+    pnpm format
+    pnpm typecheck
+    pnpm test
+    ```
+
+    If Husky hooks are used, enable them locally:
+
+    ```bash
+    pnpm dlx husky init
+    ```
+  </Step>
+  <Step title="Build and run for production" icon="rocket" stepNumber={10}>
+    ```bash
+    pnpm build
+    pnpm start
+    ```
+
+    Ensure production environment variables are set (e.g., `.env.production`).
+  </Step>
+  <Step title="Optional: Docker workflow" icon="docker" stepNumber={11}>
+    ```bash
+    # Build image
+    docker build -t cursor-starter:latest .
+    # Run container (adjust port as needed)
+    docker run --name cursor-starter -p 3000:3000 --env-file .env.local cursor-starter:latest
+    ```
+
+    With Compose (if `docker-compose.yml` exists):
+
+    ```bash
+    docker compose up --build
+    ```
+  </Step>
+  <Step title="Optional: GitHub Codespaces" icon="github" stepNumber={12}>
+    - Click "Code → Create codespace on main" in GitHub.
+    - Ensure `.devcontainer/` is present for preinstalled toolchains.
+  </Step>
+  <Step title="Verify your installation" icon="check-circle" stepNumber={13}>
+    - App loads locally without errors
+    - Lint, typecheck, tests pass:
+
+    ```bash
+    pnpm lint && pnpm typecheck && pnpm test
+    ```
+
+    - Production build succeeds:
+
+    ```bash
+    pnpm build
+    ```
+  </Step>
+</Steps>
+
+---
+
+## Troubleshooting
+
+- **Node version mismatch**: use `.nvmrc` if present
+
+  ```bash
+  nvm install
+  nvm use
+  ```
+- **pnpm not found**:
+
+  ```bash
+  corepack enable
+  corepack prepare pnpm@latest --activate
+  ```
+- **Port already in use**:
+
+  ```bash
+  PORT=3001 pnpm dev
+  ```
+- **Permission denied on scripts**:
+
+  ```bash
+  chmod +x ./scripts/*.sh 2>/dev/null || true
+  ```
+
+---
+
+## Upgrading
+
+```bash
+git pull --rebase origin main
+pnpm install
+pnpm up -L
+```
+
+---
+
+## Uninstall / Cleanup
+
+```bash
+pkill -f "pnpm dev" || true
+cd .. && rm -rf <your-project-folder>
+pnpm store prune
+```

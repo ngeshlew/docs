@@ -1,0 +1,1013 @@
+---
+title: "Agents & Orchestration"
+slug: "modules-agents-orchestration"
+updatedAt: "2025-08-16"
+tags: [module, agents, orchestration, crewai]
+---
+
+# Agents & Orchestration
+
+> Start reading here to understand how AI agents work together to solve complex problems.
+
+## What are AI Agents?
+
+AI agents are autonomous units that can perform specific tasks, make decisions, and collaborate with other agents to achieve complex objectives. Think of them as specialized team members, each with their own expertise and responsibilities.
+
+## Agent Design Patterns
+
+<Tabs>
+  <Tab title="Good Design" icon="users">
+    ### ✅ Good Agent Design
+    
+    **Clear Role**: Each agent has a specific function and expertise
+    - **Defined Goals**: Individual objectives guide decision-making
+    - **Appropriate Tools**: Access to relevant capabilities and APIs
+    - **Collaboration**: Can work with other agents when needed
+    
+    **Example Implementation:**
+    ```python
+    # Well-designed research agent
+    researcher = Agent(
+        role="Research Analyst",
+        goal="Find the most relevant and accurate information",
+        backstory="Expert at analyzing market trends and data patterns",
+        tools=[web_search_tool, database_tool],
+        verbose=True,
+        allow_delegation=True  # Can collaborate with other agents
+    )
+    
+    # Well-designed writer agent
+    writer = Agent(
+        role="Content Writer", 
+        goal="Create compelling and accurate content",
+        backstory="Skilled at transforming complex information into clear narratives",
+        tools=[document_tool, grammar_checker],
+        verbose=True
+    )
+    
+    # Clear collaboration setup
+    crew = Crew(
+        agents=[researcher, writer],
+        tasks=[research_task, writing_task],
+        process=Process.sequential  # Clear workflow
+    )
+    ```
+  </Tab>
+  
+  <Tab title="Poor Design" icon="user-x">
+    ### ❌ Poor Agent Design
+    
+    **Vague Responsibilities**: Unclear what the agent should do
+    - **Conflicting Goals**: Multiple agents competing for the same objective
+    - **Tool Mismatch**: Agents given tools they can't effectively use
+    - **Isolation**: Agents that can't communicate or collaborate
+    
+    **Example Implementation:**
+    ```python
+    # Poorly designed agent with vague role
+    agent1 = Agent(
+        role="Helper",  # Too vague
+        goal="Help with stuff",  # Unclear objective
+        backstory="I help people",  # Generic backstory
+        tools=[web_search_tool, database_tool, writing_tool],  # Too many tools
+        verbose=True
+    )
+    
+    # Conflicting agent with same goals
+    agent2 = Agent(
+        role="Assistant",
+        goal="Help with stuff",  # Same goal as agent1
+        backstory="I also help people",
+        tools=[web_search_tool],  # Tool mismatch
+        verbose=True
+    )
+    
+    # No collaboration setup
+    crew = Crew(
+        agents=[agent1, agent2],
+        tasks=[task1, task2],
+        # No process defined - agents work in isolation
+    )
+    ```
+  </Tab>
+</Tabs>
+
+## Agent Components
+
+Every AI agent consists of several key components that define its behavior and capabilities:
+
+### Core Attributes
+
+| Attribute | Type | Description | Example |
+|-----------|------|-------------|---------|
+| **Role** | `str` | Defines the agent's function and expertise | "Research Analyst" |
+| **Goal** | `str` | Individual objective that guides decisions | "Find the most relevant information" |
+| **Backstory** | `str` | Context and personality for interactions | "Expert at analyzing market trends" |
+| **LLM** | `Union[str, LLM]` | Language model that powers the agent | "gpt-4" |
+| **Tools** | `List[BaseTool]` | Capabilities available to the agent | Web search, database access |
+
+### Advanced Configuration
+
+| Attribute | Type | Description | Default |
+|-----------|------|-------------|---------|
+| **Max Iterations** | `int` | Maximum steps before providing best answer | 20 |
+| **Max RPM** | `Optional[int]` | Rate limit for API calls | None |
+| **Max Execution Time** | `Optional[int]` | Time limit in seconds | None |
+| **Allow Delegation** | `bool` | Can delegate tasks to other agents | False |
+| **Verbose** | `bool` | Enable detailed execution logs | False |
+
+## Agent Types and Specializations
+
+### Research Agents
+Specialized in gathering and analyzing information:
+
+```python
+researcher = Agent(
+    role="Research Analyst",
+    goal="Find the most relevant and accurate information",
+    backstory="Expert at analyzing market trends and data patterns",
+    tools=[web_search_tool, database_tool],
+    verbose=True
+)
+```
+
+### Writing Agents
+Focused on content creation and communication:
+
+```python
+writer = Agent(
+    role="Content Writer",
+    goal="Create compelling and accurate content",
+    backstory="Skilled at transforming complex information into clear narratives",
+    tools=[document_tool, grammar_checker],
+    verbose=True
+)
+```
+
+### Analysis Agents
+Specialized in data analysis and insights:
+
+```python
+analyst = Agent(
+    role="Data Analyst",
+    goal="Extract meaningful insights from data",
+    backstory="Expert at statistical analysis and pattern recognition",
+    tools=[data_analysis_tool, visualization_tool],
+    verbose=True
+)
+```
+
+## Orchestration Patterns
+
+### Sequential Processing
+Agents work in a specific order, passing results to the next agent:
+
+```python
+from crewai import Crew, Process
+
+crew = Crew(
+    agents=[researcher, writer, analyst],
+    tasks=[research_task, writing_task, analysis_task],
+    process=Process.sequential
+)
+```
+
+### Hierarchical Processing
+Agents are organized in a hierarchy with managers and workers:
+
+```python
+manager = Agent(
+    role="Project Manager",
+    goal="Coordinate and oversee the project",
+    backstory="Experienced at managing complex projects",
+    tools=[delegation_tool, monitoring_tool],
+    allow_delegation=True
+)
+
+crew = Crew(
+    agents=[manager, researcher, writer, analyst],
+    tasks=[management_task, research_task, writing_task, analysis_task],
+    process=Process.hierarchical
+)
+```
+
+### Collaborative Processing
+Agents work together simultaneously, sharing information:
+
+```python
+crew = Crew(
+    agents=[researcher, writer, analyst],
+    tasks=[research_task, writing_task, analysis_task],
+    process=Process.collaborative
+)
+```
+
+## Advanced Workflow Patterns
+
+Building on the [MCP Agent framework](https://github.com/lastmile-ai/mcp-agent), here are advanced workflow patterns that enable sophisticated agent orchestration:
+
+### Workflow: Routing
+
+Routing workflows direct tasks to specialized agents based on content classification or task type.
+
+<Card title="Routing Implementation">
+  <h4>Key Components:</h4>
+  <ul>
+    <li><strong>Classifier Agent:</strong> Determines task type and routes to appropriate specialist</li>
+    <li><strong>Specialist Agents:</strong> Handle specific task categories</li>
+    <li><strong>Router:</strong> Manages task distribution and result aggregation</li>
+  </ul>
+  
+  <h4>Implementation Example:</h4>
+  ```python
+  from mcp_agent import Agent, Orchestrator
+  
+  # Classifier agent determines task type
+  classifier = Agent(
+      name="Task Classifier",
+      instruction="Classify incoming tasks into categories: research, writing, analysis, or support",
+      functions=[classify_task],
+      server_names=["filesystem"]
+  )
+  
+  # Specialist agents for each category
+  researcher = Agent(
+      name="Research Specialist", 
+      instruction="Conduct thorough research on given topics",
+      functions=[web_search, database_query],
+      server_names=["fetch", "filesystem"]
+  )
+  
+  writer = Agent(
+      name="Content Writer",
+      instruction="Create compelling content based on research",
+      functions=[write_content, edit_text],
+      server_names=["filesystem"]
+  )
+  
+  # Router orchestrates the workflow
+  router = Orchestrator(
+      llm_factory=AnthropicAugmentedLLM,
+      available_agents=[classifier, researcher, writer],
+      planner=planner_llm
+  )
+  ```
+  
+  <h4>Use Cases:</h4>
+  <ul>
+    <li><strong>Customer Service:</strong> Route different query types to specialized agents</li>
+    <li><strong>Content Processing:</strong> Direct content to appropriate analysis or creation agents</li>
+    <li><strong>Model Selection:</strong> Route simple queries to faster models, complex ones to more capable models</li>
+  </ul>
+</Card>
+
+### Workflow: Parallelization
+
+Parallelization workflows run multiple agents simultaneously for speed or diverse perspectives.
+
+<Card title="Parallelization Implementation">
+  <h4>Two Key Variations:</h4>
+  
+  <h5>Sectioning:</h5>
+  <p>Breaking a task into independent subtasks run in parallel</p>
+  
+  <h5>Voting:</h5>
+  <p>Running the same task multiple times to get diverse outputs</p>
+  
+  <h4>Implementation Example:</h4>
+  ```python
+  # Sectioning: Parallel subtask processing
+  content_analyzer = Agent(
+      name="Content Analyzer",
+      instruction="Analyze content for sentiment, key themes, and action items",
+      functions=[analyze_sentiment, extract_themes, identify_actions],
+      server_names=["filesystem"]
+  )
+  
+  safety_checker = Agent(
+      name="Safety Checker", 
+      instruction="Check content for inappropriate or harmful material",
+      functions=[safety_scan, content_filter],
+      server_names=["filesystem"]
+  )
+  
+  # Both agents process the same content in parallel
+  parallel_orchestrator = Orchestrator(
+      llm_factory=AnthropicAugmentedLLM,
+      available_agents=[content_analyzer, safety_checker],
+      planner=planner_llm
+  )
+  
+  # Voting: Multiple perspectives on same task
+  code_reviewer_1 = Agent(
+      name="Security Reviewer",
+      instruction="Review code for security vulnerabilities",
+      functions=[security_scan, vulnerability_check],
+      server_names=["filesystem"]
+  )
+  
+  code_reviewer_2 = Agent(
+      name="Performance Reviewer", 
+      instruction="Review code for performance issues",
+      functions=[performance_analysis, optimization_check],
+      server_names=["filesystem"]
+  )
+  
+  code_reviewer_3 = Agent(
+      name="Best Practices Reviewer",
+      instruction="Review code for best practices and maintainability", 
+      functions=[best_practices_check, maintainability_analysis],
+      server_names=["filesystem"]
+  )
+  ```
+  
+  <h4>Use Cases:</h4>
+  <ul>
+    <li><strong>Content Moderation:</strong> Multiple agents check different aspects simultaneously</li>
+    <li><strong>Code Review:</strong> Different reviewers focus on security, performance, and best practices</li>
+    <li><strong>Quality Assurance:</strong> Parallel validation of different quality dimensions</li>
+  </ul>
+</Card>
+
+### Workflow: Orchestrator-Workers
+
+In orchestrator-workers workflows, a central LLM dynamically breaks down tasks, delegates them to worker LLMs, and synthesizes their results.
+
+<Card title="Orchestrator-Workers Implementation">
+  <h4>Key Characteristics:</h4>
+  <ul>
+    <li><strong>Dynamic Task Breakdown:</strong> Subtasks aren't pre-defined but determined by the orchestrator</li>
+    <li><strong>Flexible Delegation:</strong> Workers can be assigned different tasks based on current needs</li>
+    <li><strong>Result Synthesis:</strong> Orchestrator combines worker outputs into final result</li>
+  </ul>
+  
+  <h4>Implementation Example:</h4>
+  ```python
+  # Central orchestrator agent
+  orchestrator = Agent(
+      name="Project Orchestrator",
+      instruction="Break down complex projects into manageable tasks and coordinate workers",
+      functions=[decompose_task, assign_workers, synthesize_results],
+      server_names=["filesystem"]
+  )
+  
+  # Worker agents with specialized skills
+  finder_agent = Agent(
+      name="Information Finder",
+      instruction="Find relevant information from various sources",
+      functions=[web_search, database_query, file_search],
+      server_names=["fetch", "filesystem"]
+  )
+  
+  writer_agent = Agent(
+      name="Content Writer", 
+      instruction="Create high-quality written content",
+      functions=[write_content, edit_text, format_document],
+      server_names=["filesystem"]
+  )
+  
+  proofreader = Agent(
+      name="Proofreader",
+      instruction="Review and improve content quality",
+      functions=[grammar_check, style_improve, fact_verify],
+      server_names=["filesystem"]
+  )
+  
+  fact_checker = Agent(
+      name="Fact Checker",
+      instruction="Verify factual accuracy of content",
+      functions=[fact_verification, source_validation],
+      server_names=["fetch", "filesystem"]
+  )
+  
+  style_enforcer = Agent(
+      name="Style Enforcer",
+      instruction="Ensure content follows specified style guidelines",
+      functions=[style_check, format_standardize],
+      server_names=["filesystem"]
+  )
+  
+  # Orchestrator manages all workers
+  orchestrator = Orchestrator(
+      llm_factory=AnthropicAugmentedLLM,
+      available_agents=[finder_agent, writer_agent, proofreader, fact_checker, style_enforcer],
+      planner=planner_llm
+  )
+  ```
+  
+  <h4>Use Cases:</h4>
+  <ul>
+    <li><strong>Complex Coding Tasks:</strong> Dynamic file changes based on requirements</li>
+    <li><strong>Research Projects:</strong> Multi-source information gathering and synthesis</li>
+    <li><strong>Content Creation:</strong> Multi-stage content development with specialized workers</li>
+  </ul>
+</Card>
+
+### Workflow: Evaluator-Optimizer
+
+In evaluator-optimizer workflows, one LLM call generates a response while another provides evaluation and feedback in a loop.
+
+<Card title="Evaluator-Optimizer Implementation">
+  <h4>Key Components:</h4>
+  <ul>
+    <li><strong>Generator Agent:</strong> Creates initial responses or content</li>
+    <li><strong>Evaluator Agent:</strong> Assesses quality and provides feedback</li>
+    <li><strong>Optimization Loop:</strong> Iterative improvement based on feedback</li>
+  </ul>
+  
+  <h4>Implementation Example:</h4>
+  ```python
+  # Generator agent creates content
+  generator = Agent(
+      name="Content Generator",
+      instruction="Create high-quality content based on requirements",
+      functions=[generate_content, create_draft],
+      server_names=["filesystem"]
+  )
+  
+  # Evaluator agent provides feedback
+  evaluator = Agent(
+      name="Quality Evaluator",
+      instruction="Evaluate content quality and provide specific improvement feedback",
+      functions=[evaluate_quality, provide_feedback, suggest_improvements],
+      server_names=["filesystem"]
+  )
+  
+  # Optimizer agent implements feedback
+  optimizer = Agent(
+      name="Content Optimizer",
+      instruction="Improve content based on evaluator feedback",
+      functions=[implement_feedback, refine_content, polish_text],
+      server_names=["filesystem"]
+  )
+  
+  # Orchestrator manages the evaluation loop
+  evaluator_orchestrator = Orchestrator(
+      llm_factory=AnthropicAugmentedLLM,
+      available_agents=[generator, evaluator, optimizer],
+      planner=planner_llm
+  )
+  ```
+  
+  <h4>Use Cases:</h4>
+  <ul>
+    <li><strong>Content Refinement:</strong> Iterative improvement of written content</li>
+    <li><strong>Code Optimization:</strong> Continuous improvement of code quality</li>
+    <li><strong>Translation Quality:</strong> Multi-round translation refinement</li>
+  </ul>
+</Card>
+
+### Workflow: Signaling and Human Input
+
+Advanced workflows can pause and resume tasks, allowing for human input and external signals.
+
+<Card title="Human Input Integration">
+  <h4>Key Features:</h4>
+  <ul>
+    <li><strong>Pause/Resume:</strong> Workflows can be paused for human review</li>
+    <li><strong>Human Input Callbacks:</strong> Agents can request user input mid-workflow</li>
+    <li><strong>Approval Gates:</strong> Critical decisions require human approval</li>
+  </ul>
+  
+  <h4>Implementation Example:</h4>
+  ```python
+  from mcp_agent.human_input.handler import console_input_callback
+  
+  # Agent with human input capability
+  customer_service_agent = Agent(
+      name="Customer Service Agent",
+      instruction="Handle customer inquiries with human oversight for complex cases",
+      functions=[escalate_to_human, resolve_simple_issues, transfer_to_specialist],
+      server_names=["fetch", "filesystem"],
+      human_input_callback=console_input_callback  # Enable human input
+  )
+  
+  # Workflow with approval gates
+  approval_workflow = Orchestrator(
+      llm_factory=AnthropicAugmentedLLM,
+      available_agents=[customer_service_agent],
+      planner=planner_llm
+  )
+  ```
+  
+  <h4>Use Cases:</h4>
+  <ul>
+    <li><strong>Customer Service:</strong> Escalation to human agents for complex cases</li>
+    <li><strong>Content Approval:</strong> Human review before publishing</li>
+    <li><strong>Critical Decisions:</strong> Human oversight for important business decisions</li>
+  </ul>
+</Card>
+
+---
+
+## MCP Server Management
+
+The [MCP Agent framework](https://github.com/lastmile-ai/mcp-agent) provides sophisticated tools for managing Model Context Protocol (MCP) servers, enabling seamless integration of external capabilities into your agent workflows.
+
+### MCP Server Configuration
+
+<Card title="Server Setup">
+  <h4>Configuration File:</h4>
+  <p>Create an <code>mcp_agent.config.yaml</code> to define server configuration:</p>
+  
+  ```yaml
+  mcp:
+    servers:
+      fetch:
+        command: "uvx"
+        args: ["mcp-server-fetch"]
+        description: "Fetch content at URLs from the world wide web"
+      
+      filesystem:
+        command: "uvx"
+        args: ["mcp-server-filesystem"]
+        description: "Access local filesystem for reading and writing files"
+      
+      database:
+        command: "uvx"
+        args: ["mcp-server-sqlite"]
+        description: "Query and manage SQLite databases"
+  ```
+  
+  <h4>Secrets Management:</h4>
+  <p>Define secrets via either a gitignored <code>mcp_agent.secrets.yaml</code> or a local <code>.env</code> file. In production, prefer <code>MCP_APP_SETTINGS_PRELOAD</code> to avoid writing plaintext secrets to disk.</p>
+</Card>
+
+### Server Connection Patterns
+
+<Card title="Connection Management">
+  <h4>1. Context Manager Pattern (Recommended):</h4>
+  <p>Use <code>gen_client</code> for automatic lifecycle management:</p>
+  
+  ```python
+  from mcp_agent.mcp.gen_client import gen_client
+  
+  async with gen_client("fetch") as fetch_client:
+      # Fetch server is initialized and ready to use
+      result = await fetch_client.list_tools()
+  
+  # Fetch server is automatically disconnected/shutdown
+  ```
+  
+  <h4>2. Persistent Connections:</h4>
+  <p>For workflows requiring persistent server connections:</p>
+  
+  ```python
+  from mcp_agent.mcp.gen_client import connect, disconnect
+  
+  fetch_client = None
+  try:
+      fetch_client = connect("fetch")
+      result = await fetch_client.list_tools()
+  finally:
+      disconnect("fetch")
+  ```
+  
+  <h4>3. Advanced Connection Management:</h4>
+  <p>Use <code>MCPConnectionManager</code> for fine-grained control:</p>
+  
+  ```python
+  from mcp_agent.context import get_current_context
+  from mcp_agent.mcp.mcp_connection_manager import MCPConnectionManager
+  
+  context = get_current_context()
+  connection_manager = MCPConnectionManager(context.server_registry)
+  
+  async with connection_manager:
+      fetch_client = await connection_manager.get_server("fetch")
+      result = fetch_client.list_tool()
+      fetch_client2 = await connection_manager.get_server("fetch")  # Reuses same connection
+  ```
+</Card>
+
+### MCP Server Aggregation
+
+<Card title="Server Aggregation">
+  <h4>MCPAggregator:</h4>
+  <p>Acts as a "server-of-servers" providing a single MCP server interface for multiple servers:</p>
+  
+  ```python
+  from mcp_agent.mcp.mcp_aggregator import MCPAggregator
+  
+  aggregator = await MCPAggregator.create(server_names=["fetch", "filesystem"])
+  
+  async with aggregator:
+      # Combined list of tools from all servers
+      tools = await aggregator.list_tools()
+      
+      # Namespaced tool calls
+      fetch_result = await aggregator.call_tool(
+          name="fetch-fetch", 
+          arguments={"url": "https://example.com"}
+      )
+      
+      # Non-namespaced tool calls (first server wins)
+      read_file_result = await aggregator.call_tool(
+          name="read_file", 
+          arguments={"path": "data.txt"}
+      )
+  ```
+  
+  <h4>Benefits:</h4>
+  <ul>
+    <li><strong>Unified Interface:</strong> Single point of access to multiple servers</li>
+    <li><strong>Tool Namespacing:</strong> Avoid conflicts between servers with similar tools</li>
+    <li><strong>Simplified Management:</strong> Handle multiple server connections through one interface</li>
+  </ul>
+</Card>
+
+## MCP Agent Framework Benefits
+
+The [MCP Agent framework](https://github.com/lastmile-ai/mcp-agent) provides several core benefits that make it an excellent choice for building sophisticated AI agent systems:
+
+<Card title="Core Benefits">
+  <h4>🤝 Interoperability</h4>
+  <p>Ensures that any tool exposed by any number of MCP servers can seamlessly plug into your agents. This creates a modular ecosystem where you can mix and match capabilities.</p>
+  
+  <h4>⛓️ Composability & Customizability</h4>
+  <p>Implements well-defined workflows in a composable way that enables compound workflows and allows full customization across model provider, logging, orchestrator, etc.</p>
+  
+  <h4>💻 Programmatic Control Flow</h4>
+  <p>Keeps things simple as developers just write code instead of thinking in graphs, nodes and edges. For branching logic, you write <code>if</code> statements. For cycles, use <code>while</code> loops.</p>
+  
+  <h4>🖐️ Human Input & Signals</h4>
+  <p>Supports pausing workflows for external signals, such as human input, which are exposed as tool calls an Agent can make.</p>
+</Card>
+
+### Deployment Options
+
+<Card title="Flexible Deployment">
+  <h4>1. MCP-Agent Server</h4>
+  <p>Expose mcp-agent applications as MCP servers themselves, allowing MCP clients to interface with sophisticated AI workflows using the standard tools API of MCP servers.</p>
+  
+  <h4>2. MCP Client or Host</h4>
+  <p>Embed mcp-agent in an MCP client directly to manage the orchestration across multiple MCP servers.</p>
+  
+  <h4>3. Standalone</h4>
+  <p>Use mcp-agent applications in a standalone fashion (i.e. they aren't part of an MCP client). The examples are all standalone applications.</p>
+</Card>
+
+## Advanced Agent Architectures
+
+*Content from [Prompt Engineering Guide](https://www.promptingguide.ai/agents)*
+
+### Agent Components Deep Dive
+
+#### 1. Memory Systems
+
+Agents need memory to maintain context across interactions:
+
+**Types of Memory:**
+- **Short-term Memory**: Current conversation context
+- **Long-term Memory**: Persistent knowledge and preferences
+- **Episodic Memory**: Past experiences and outcomes
+- **Semantic Memory**: Factual knowledge and concepts
+
+**Memory Implementation:**
+```python
+class AgentMemory:
+    def __init__(self):
+        self.short_term = []
+        self.long_term = {}
+        self.episodic = []
+        self.semantic = {}
+    
+    def add_to_short_term(self, message):
+        self.short_term.append(message)
+        if len(self.short_term) > 10:
+            self.short_term.pop(0)
+    
+    def store_in_long_term(self, key, value):
+        self.long_term[key] = value
+    
+    def retrieve_relevant(self, query):
+        # Implement retrieval logic
+        pass
+```
+
+#### 2. Tool Integration
+
+Tools extend agent capabilities beyond language generation:
+
+**Tool Categories:**
+- **Information Retrieval**: Search engines, databases
+- **Computation**: Calculators, data analysis tools
+- **Communication**: Email, messaging APIs
+- **File Operations**: Read/write files, process documents
+- **External APIs**: Weather, news, financial data
+
+**Tool Implementation:**
+```python
+class Tool:
+    def __init__(self, name, description, function):
+        self.name = name
+        self.description = description
+        self.function = function
+    
+    def execute(self, *args, **kwargs):
+        return self.function(*args, **kwargs)
+
+# Example tools
+web_search = Tool(
+    name="web_search",
+    description="Search the web for current information",
+    function=search_web
+)
+
+calculator = Tool(
+    name="calculator",
+    description="Perform mathematical calculations",
+    function=calculate
+)
+```
+
+#### 3. Planning and Reasoning
+
+Agents need planning capabilities to break down complex tasks:
+
+**Planning Approaches:**
+- **Hierarchical Planning**: Break tasks into subtasks
+- **Reactive Planning**: Respond to immediate needs
+- **Predictive Planning**: Anticipate future requirements
+- **Adaptive Planning**: Modify plans based on feedback
+
+**Planning Implementation:**
+```python
+class Planner:
+    def __init__(self, agent):
+        self.agent = agent
+        self.current_plan = []
+        self.goals = []
+    
+    def create_plan(self, goal):
+        # Break down goal into actionable steps
+        steps = self.decompose_goal(goal)
+        self.current_plan = steps
+        return steps
+    
+    def execute_step(self, step):
+        # Execute a single step in the plan
+        result = self.agent.execute_tool(step.tool, step.parameters)
+        return result
+    
+    def adapt_plan(self, feedback):
+        # Modify plan based on feedback
+        self.current_plan = self.replan(self.current_plan, feedback)
+```
+
+### Multi-Agent Systems
+
+#### 1. Agent Communication
+
+Agents need to communicate effectively with each other:
+
+**Communication Patterns:**
+- **Direct Communication**: Agents talk directly to each other
+- **Broadcast Communication**: One agent sends to all others
+- **Mediated Communication**: Central coordinator manages communication
+- **Structured Communication**: Predefined message formats
+
+**Message Format:**
+```python
+class AgentMessage:
+    def __init__(self, sender, receiver, content, message_type):
+        self.sender = sender
+        self.receiver = receiver
+        self.content = content
+        self.message_type = message_type
+        self.timestamp = time.time()
+        self.id = generate_id()
+
+# Message types
+class MessageType:
+    REQUEST = "request"
+    RESPONSE = "response"
+    NOTIFICATION = "notification"
+    ERROR = "error"
+```
+
+#### 2. Coordination Mechanisms
+
+**Centralized Coordination:**
+- Single coordinator manages all agents
+- Clear hierarchy and control flow
+- Easier to debug and monitor
+
+**Decentralized Coordination:**
+- Agents coordinate directly with each other
+- More flexible and scalable
+- Requires robust communication protocols
+
+**Market-Based Coordination:**
+- Agents bid on tasks
+- Price-based resource allocation
+- Self-organizing system
+
+#### 3. Conflict Resolution
+
+**Common Conflicts:**
+- **Resource Conflicts**: Multiple agents need the same resource
+- **Goal Conflicts**: Agents have competing objectives
+- **Timing Conflicts**: Agents need to coordinate timing
+
+**Resolution Strategies:**
+- **Negotiation**: Agents discuss and compromise
+- **Voting**: Majority decides on conflicts
+- **Priority-Based**: Higher priority agents get preference
+- **Time-Sharing**: Resources shared over time
+
+### Agent Learning and Adaptation
+
+#### 1. Reinforcement Learning
+
+Agents can learn from their experiences:
+
+```python
+class LearningAgent:
+    def __init__(self):
+        self.policy = {}
+        self.value_function = {}
+        self.experience_buffer = []
+    
+    def update_policy(self, state, action, reward, next_state):
+        # Update policy based on experience
+        self.experience_buffer.append((state, action, reward, next_state))
+        self.learn_from_experience()
+    
+    def choose_action(self, state):
+        # Choose action based on learned policy
+        return self.policy.get(state, random_action())
+```
+
+#### 2. Transfer Learning
+
+Agents can transfer knowledge between tasks:
+
+**Knowledge Transfer Methods:**
+- **Feature Transfer**: Share learned features
+- **Policy Transfer**: Adapt policies to new tasks
+- **Model Transfer**: Use pre-trained models
+- **Experience Transfer**: Share relevant experiences
+
+#### 3. Meta-Learning
+
+Agents can learn how to learn:
+
+```python
+class MetaLearner:
+    def __init__(self):
+        self.meta_policy = {}
+        self.task_embeddings = {}
+    
+    def adapt_to_new_task(self, task_description):
+        # Quickly adapt to new tasks
+        task_embedding = self.encode_task(task_description)
+        adapted_policy = self.meta_policy.adapt(task_embedding)
+        return adapted_policy
+```
+
+### Agent Safety and Ethics
+
+#### 1. Safety Mechanisms
+
+**Alignment:**
+- Ensure agents pursue intended goals
+- Prevent goal misalignment
+- Monitor for unintended behaviors
+
+**Constrained Optimization:**
+- Set safety constraints
+- Implement guardrails
+- Monitor constraint violations
+
+**Robustness:**
+- Handle adversarial inputs
+- Maintain performance under stress
+- Recover from failures
+
+#### 2. Ethical Considerations
+
+**Fairness:**
+- Avoid bias in decision-making
+- Ensure equal treatment
+- Monitor for discrimination
+
+**Transparency:**
+- Explain agent decisions
+- Provide reasoning behind actions
+- Enable human oversight
+
+**Accountability:**
+- Track agent actions
+- Maintain audit trails
+- Enable responsibility assignment
+
+### Advanced Orchestration Patterns
+
+#### 1. Swarm Intelligence
+
+Multiple simple agents working together:
+
+```python
+class SwarmAgent:
+    def __init__(self, position, velocity):
+        self.position = position
+        self.velocity = velocity
+        self.best_position = position
+        self.best_fitness = float('inf')
+    
+    def update(self, global_best, neighbors):
+        # Update based on personal best, global best, and neighbors
+        self.velocity = self.calculate_velocity(global_best, neighbors)
+        self.position += self.velocity
+        self.update_best()
+```
+
+#### 2. Emergent Behavior
+
+Complex behaviors arising from simple rules:
+
+**Emergence Examples:**
+- **Flocking**: Birds flying in formation
+- **Traffic Flow**: Cars organizing into lanes
+- **Market Dynamics**: Prices emerging from individual decisions
+
+#### 3. Self-Organizing Systems
+
+Agents organize themselves without central control:
+
+**Self-Organization Principles:**
+- **Local Interactions**: Agents interact with neighbors
+- **Feedback Loops**: Actions affect future behavior
+- **Stigmergy**: Communication through environment
+- **Emergence**: Complex patterns from simple rules
+
+### Agent Evaluation and Testing
+
+#### 1. Performance Metrics
+
+**Task Completion:**
+- Success rate
+- Completion time
+- Quality of results
+
+**Efficiency:**
+- Resource usage
+- Computational cost
+- Communication overhead
+
+**Robustness:**
+- Error handling
+- Recovery time
+- Performance under stress
+
+#### 2. Testing Strategies
+
+**Unit Testing:**
+- Test individual agent components
+- Verify tool functionality
+- Validate decision logic
+
+**Integration Testing:**
+- Test agent interactions
+- Verify communication protocols
+- Validate coordination mechanisms
+
+**System Testing:**
+- Test complete multi-agent systems
+- Verify end-to-end functionality
+- Validate performance under load
+
+#### 3. Continuous Monitoring
+
+**Real-time Monitoring:**
+- Track agent performance
+- Monitor system health
+- Detect anomalies
+
+**Logging and Analytics:**
+- Record agent actions
+- Analyze performance patterns
+- Identify improvement opportunities
+
+## Next Steps
+
+Now that you understand agent architectures and orchestration, explore:
+
+- [Memory & State](../memory-state/index.md) - How agents maintain context and state
+- [RAG Systems](../rag/index.md) - How agents access and use knowledge
+- [Prompting Basics](../prompting-structured-outputs/index.md) - How to design effective agent prompts
+- [Evaluation & Observability](../../production-operations/evaluation-observability/index.md) - How to monitor and evaluate agent performance
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>MCP Agent Framework:</strong> <a href="https://github.com/lastmile-ai/mcp-agent">https://github.com/lastmile-ai/mcp-agent</a></li>
+    <li><strong>Prompt Engineering Guide - Agents:</strong> <a href="https://www.promptingguide.ai/agents">https://www.promptingguide.ai/agents</a></li>
+    <li><strong>CrewAI Documentation:</strong> <a href="https://docs.crewai.com/">https://docs.crewai.com/</a></li>
+    <li><strong>Anthropic Agent Building Guide:</strong> <a href="https://www.anthropic.com/engineering/building-effective-agents">https://www.anthropic.com/engineering/building-effective-agents</a></li>
+    <li><strong>Model Context Protocol:</strong> <a href="https://modelcontextprotocol.io/">https://modelcontextprotocol.io/</a></li>
+  </ul>
+</Card>
+

@@ -1,0 +1,719 @@
+---
+title: "Chain-of-Thought Prompting"
+slug: "modules-prompting-techniques-chain-of-thought"
+updatedAt: "2025-08-19"
+tags: "prompting-technique,chain-of-thought,reasoning,claude,anthropic"
+---
+
+# Chain-of-Thought Prompting
+
+> Learn how to improve AI reasoning by encouraging step-by-step thinking processes, with special focus on Claude's extended thinking capabilities.
+
+## What is Chain-of-Thought Prompting?
+
+Chain-of-Thought (CoT) prompting is a technique that encourages AI models to show their reasoning process step by step, similar to how humans think through problems. Instead of jumping directly to an answer, the model breaks down complex problems into intermediate steps, making the reasoning process transparent and often more accurate.
+
+<Callout type="info">
+  **Claude's Extended Thinking**: Claude 3 models feature extended thinking capabilities that allow for deeper, more thorough reasoning processes, making chain-of-thought prompting particularly effective.
+</Callout>
+
+## Claude's Extended Thinking Capabilities
+
+### Understanding Extended Thinking
+
+<Card title="Claude's Reasoning Enhancement">
+  <p>Claude's extended thinking feature enables the model to engage in more thorough reasoning processes, allowing for:</p>
+  
+  <ul>
+    <li><strong>Deeper Analysis:</strong> More comprehensive problem decomposition</li>
+    <li><strong>Longer Reasoning Chains:</strong> Extended step-by-step thinking</li>
+    <li><strong>Better Accuracy:</strong> Improved performance on complex reasoning tasks</li>
+    <li><strong>Transparent Logic:</strong> Clear visibility into decision-making processes</li>
+  </ul>
+</Card>
+
+### When to Use Extended Thinking
+
+<Table>
+  <TableHead>
+    <TableRow>
+      <TableHeader>Use Case</TableHeader>
+      <TableHeader>Extended Thinking Benefit</TableHeader>
+      <TableHeader>Example</TableHeader>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableCell><strong>Complex Problem Solving</strong></TableCell>
+      <TableCell>Break down multi-step problems</TableCell>
+      <TableCell>Mathematical proofs, logical puzzles</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Decision Analysis</strong></TableCell>
+      <TableCell>Evaluate multiple factors systematically</TableCell>
+      <TableCell>Business strategy, risk assessment</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Code Review</strong></TableCell>
+      <TableCell>Analyze code logic step by step</TableCell>
+      <TableCell>Bug identification, optimization</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Research Tasks</strong></TableCell>
+      <TableCell>Explore multiple hypotheses</TableCell>
+      <TableCell>Literature review, hypothesis testing</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
+## How Chain-of-Thought Prompting Works
+
+### Basic Concept
+
+Chain-of-Thought prompting works by:
+
+- Breaking complex problems into smaller steps
+- Making the reasoning process explicit
+- Allowing the model to work through problems systematically
+- Providing transparency into the decision-making process
+
+### Key Characteristics
+
+- **Step-by-Step Reasoning**: Models show their thinking process
+- **Transparency**: The reasoning path is visible and understandable
+- **Improved Accuracy**: Complex problems are solved more reliably
+- **Error Detection**: Easier to identify where reasoning goes wrong
+
+### Claude-Specific Enhancements
+
+<Card title="Claude's CoT Advantages">
+  <h4>Enhanced Capabilities:</h4>
+  <ul>
+    <li><strong>Extended Context:</strong> 200K token window allows for longer reasoning chains</li>
+    <li><strong>Structured Output:</strong> Better formatting of step-by-step processes</li>
+    <li><strong>Tool Integration:</strong> Can use external tools during reasoning</li>
+    <li><strong>Multimodal Reasoning:</strong> Combine text and visual analysis</li>
+  </ul>
+  
+  <h4>Best Practices for Claude:</h4>
+  <ul>
+    <li>Use explicit "Let's think through this step by step" prompts</li>
+    <li>Encourage detailed explanations for each step</li>
+    <li>Ask for intermediate conclusions</li>
+    <li>Request verification of reasoning</li>
+  </ul>
+</Card>
+
+## Basic Examples
+
+### Mathematical Problem Solving
+
+**Prompt:**
+
+```
+Let's solve this step by step:
+
+Question: If a store has 15 apples and sells 3 each day, how many days until they have 6 apples left?
+
+Let's think through this:
+1. Starting with 15 apples
+2. Selling 3 per day means: 15 - 3 = 12 (day 1), 12 - 3 = 9 (day 2), 9 - 3 = 6 (day 3)
+3. So it takes 3 days to reach 6 apples
+
+Answer: 3 days
+```
+
+### Claude Extended Thinking Example
+
+**Enhanced Prompt for Claude:**
+
+```
+Please solve this problem using extended thinking. Show your reasoning step by step, including any intermediate calculations and logical connections.
+
+Question: A company has 3 departments with budgets of $50,000, $75,000, and $100,000 respectively. If they need to cut 20% from each department and then redistribute 30% of the total savings to the department with the highest original budget, what will be the final budget for each department?
+
+Let me think through this systematically:
+
+1. First, let's calculate the original total budget:
+   - Department A: $50,000
+   - Department B: $75,000  
+   - Department C: $100,000
+   - Total: $50,000 + $75,000 + $100,000 = $225,000
+
+2. Now let's calculate the 20% cuts from each department:
+   - Department A cut: $50,000 × 0.20 = $10,000
+   - Department B cut: $75,000 × 0.20 = $15,000
+   - Department C cut: $100,000 × 0.20 = $20,000
+   - Total cuts: $10,000 + $15,000 + $20,000 = $45,000
+
+3. Calculate 30% of total savings for redistribution:
+   - Redistribution amount: $45,000 × 0.30 = $13,500
+
+4. Department C had the highest original budget ($100,000), so it receives the redistribution:
+   - Department C final: $100,000 - $20,000 + $13,500 = $93,500
+
+5. Final budgets after cuts (no redistribution for A and B):
+   - Department A: $50,000 - $10,000 = $40,000
+   - Department B: $75,000 - $15,000 = $60,000
+   - Department C: $93,500
+
+Answer: Department A: $40,000, Department B: $60,000, Department C: $93,500
+```
+
+### Logical Reasoning
+
+**Prompt:**
+
+```
+Let's solve this step by step:
+
+Question: If all roses are flowers, and some flowers fade quickly, can we conclude that some roses fade quickly?
+
+Let's think through this:
+1. All roses are flowers (given)
+2. Some flowers fade quickly (given)
+3. Since all roses are flowers, roses are a subset of flowers
+4. If some flowers fade quickly, and roses are flowers, then it's possible that some roses fade quickly
+5. However, we can't be certain because "some flowers" might not include any roses
+
+Answer: No, we cannot conclude that some roses fade quickly. The premises don't guarantee this conclusion.
+```
+
+### Multi-Step Problem
+
+**Prompt:**
+
+```
+Let's solve this step by step:
+
+Question: A train leaves station A at 2:00 PM traveling at 60 mph. Another train leaves station B at 3:00 PM traveling at 80 mph toward station A. If the stations are 300 miles apart, when will they meet?
+
+Let's think through this:
+1. Train A leaves at 2:00 PM at 60 mph
+2. Train B leaves at 3:00 PM at 80 mph
+3. By 3:00 PM, Train A has traveled: 60 mph × 1 hour = 60 miles
+4. Remaining distance between trains at 3:00 PM: 300 - 60 = 240 miles
+5. Combined speed: 60 + 80 = 140 mph
+6. Time to meet: 240 miles ÷ 140 mph = 1.71 hours = 1 hour and 43 minutes
+7. Meeting time: 3:00 PM + 1 hour 43 minutes = 4:43 PM
+
+Answer: The trains will meet at 4:43 PM.
+```
+
+## Advanced Chain-of-Thought Techniques
+
+### Zero-Shot Chain-of-Thought
+
+For models that can reason without examples:
+
+**Prompt:**
+
+```
+Let's approach this problem step by step. First, let me understand what we're trying to solve, then break it down into manageable parts, and finally work through each part systematically.
+
+[Your problem here]
+```
+
+### Few-Shot Chain-of-Thought
+
+Providing examples to guide the reasoning:
+
+**Prompt:**
+
+```
+Let's solve similar problems step by step:
+
+Example 1:
+Question: If a car travels 120 miles in 2 hours, what's its average speed?
+Let's think through this:
+1. Distance = 120 miles
+2. Time = 2 hours
+3. Speed = Distance ÷ Time = 120 ÷ 2 = 60 mph
+Answer: 60 mph
+
+Example 2:
+Question: If a store sells 5 items for $25, how much do 12 items cost?
+Let's think through this:
+1. 5 items cost $25
+2. Cost per item = $25 ÷ 5 = $5
+3. 12 items cost = $5 × 12 = $60
+Answer: $60
+
+Now let's solve this problem step by step:
+[Your problem here]
+```
+
+### Claude's Extended Thinking with Tool Use
+
+<Card title="Combining CoT with Tools">
+  <p>Claude can use external tools during chain-of-thought reasoning, enabling more complex problem-solving:</p>
+  
+  <h4>Example Workflow:</h4>
+  <ol>
+    <li><strong>Problem Analysis:</strong> Break down the problem into steps</li>
+    <li><strong>Tool Selection:</strong> Identify which tools are needed</li>
+    <li><strong>Tool Execution:</strong> Use tools to gather information or perform calculations</li>
+    <li><strong>Reasoning Integration:</strong> Incorporate tool results into reasoning</li>
+    <li><strong>Conclusion:</strong> Reach final answer based on complete analysis</li>
+  </ol>
+  
+  <h4>Example Prompt:</h4>
+  ```Let's solve this step by step, using any tools we need:
+
+Question: What's the current weather in Tokyo and how does it compare to the historical average for this date?
+
+Let me think through this:
+1. First, I need to get current weather data for Tokyo
+2. Then I need historical weather data for comparison
+3. Finally, I'll analyze the differences
+
+Let me start by getting the current weather...
+[Tool use for current weather]
+
+Now let me get historical data...
+[Tool use for historical weather]
+
+Based on this data, I can see that...
+[Analysis and conclusion]
+```
+</Card>
+
+## Claude-Specific Implementation
+
+### Python Implementation
+
+```python
+import anthropic
+
+client = anthropic.Anthropic(api_key="your-api-key")
+
+def chain_of_thought_reasoning(problem, model="claude-3-sonnet-20240229"):
+    """
+    Implement chain-of-thought reasoning with Claude
+    """
+    
+    prompt = f"""
+    Let's solve this problem step by step using extended thinking.
+    Show your reasoning process clearly, including intermediate steps and calculations.
+    
+    Problem: {problem}
+    
+    Let me think through this systematically:
+    """
+    
+    response = client.messages.create(
+        model=model,
+        max_tokens=4000,
+        temperature=0.1,  # Lower temperature for more focused reasoning
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    )
+    
+    return response.content[0].text
+
+# Example usage
+problem = """
+A company has 3 products with profit margins of 15%, 25%, and 30% respectively. 
+If they sell $100,000 worth of each product, what's their total profit?
+"""
+
+result = chain_of_thought_reasoning(problem)
+print(result)
+```
+
+### JavaScript Implementation
+
+```javascript
+import Anthropic from '@anthropic-ai/sdk';
+
+const anthropic = new Anthropic({
+  apiKey: 'your-api-key',
+});
+
+async function chainOfThoughtReasoning(problem, model = 'claude-3-sonnet-20240229') {
+  const prompt = `
+Let's solve this problem step by step using extended thinking.
+Show your reasoning process clearly, including intermediate steps and calculations.
+
+Problem: ${problem}
+
+Let me think through this systematically:
+  `;
+
+  const response = await anthropic.messages.create({
+    model: model,
+    max_tokens: 4000,
+    temperature: 0.1, // Lower temperature for more focused reasoning
+    messages: [
+      {
+        role: 'user',
+        content: prompt
+      }
+    ]
+  });
+
+  return response.content[0].text;
+}
+
+// Example usage
+const problem = `
+A company has 3 products with profit margins of 15%, 25%, and 30% respectively. 
+If they sell $100,000 worth of each product, what's their total profit?
+`;
+
+chainOfThoughtReasoning(problem)
+  .then(result => console.log(result))
+  .catch(error => console.error('Error:', error));
+```
+
+### LangChain Integration
+
+```python
+from langchain_anthropic import ChatAnthropic
+from langchain.prompts import ChatPromptTemplate
+from langchain.schema import HumanMessage
+
+def create_cot_chain():
+    """
+    Create a chain-of-thought reasoning chain with Claude
+    """
+    
+    llm = ChatAnthropic(
+        model="claude-3-sonnet-20240229",
+        temperature=0.1,
+        max_tokens=4000
+    )
+    
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", "You are an expert problem solver. Always use step-by-step reasoning."),
+        ("human", """
+        Let's solve this problem step by step using extended thinking.
+        Show your reasoning process clearly, including intermediate steps and calculations.
+        
+        Problem: {problem}
+        
+        Let me think through this systematically:
+        """)
+    ])
+    
+    chain = prompt_template | llm
+    return chain
+
+# Example usage
+chain = create_cot_chain()
+result = chain.invoke({"problem": "Your problem here"})
+print(result.content)
+```
+
+### CrewAI Integration
+
+```python
+from crewai import Agent, Task, Crew
+from langchain_anthropic import ChatAnthropic
+
+def create_reasoning_agent():
+    """
+    Create a CrewAI agent specialized in chain-of-thought reasoning
+    """
+    
+    llm = ChatAnthropic(
+        model="claude-3-sonnet-20240229",
+        temperature=0.1
+    )
+    
+    reasoning_agent = Agent(
+        role="Problem Solver",
+        goal="Solve complex problems using step-by-step reasoning",
+        backstory="You are an expert at breaking down complex problems into manageable steps and using systematic reasoning to find solutions.",
+        llm=llm,
+        verbose=True
+    )
+    
+    return reasoning_agent
+
+def create_reasoning_task(problem):
+    """
+    Create a task for chain-of-thought reasoning
+    """
+    
+    task = Task(
+        description=f"""
+        Solve the following problem using extended chain-of-thought reasoning:
+        
+        {problem}
+        
+        Your response should include:
+        1. Problem breakdown into steps
+        2. Step-by-step reasoning process
+        3. Intermediate calculations and conclusions
+        4. Final answer with verification
+        """,
+        agent=create_reasoning_agent()
+    )
+    
+    return task
+
+# Example usage
+problem = "Your complex problem here"
+task = create_reasoning_task(problem)
+crew = Crew(agents=[task.agent], tasks=[task])
+result = crew.kickoff()
+print(result)
+```
+
+## Best Practices for Claude
+
+### 1. **Prompt Structure**
+
+<Card title="Effective CoT Prompts for Claude">
+  <h4>Key Elements:</h4>
+  <ul>
+    <li><strong>Explicit Instructions:</strong> "Let's solve this step by step"</li>
+    <li><strong>Extended Thinking Cue:</strong> "Use extended thinking to analyze thoroughly"</li>
+    <li><strong>Step Requirements:</strong> "Show each step clearly"</li>
+    <li><strong>Verification Request:</strong> "Verify your reasoning"</li>
+  </ul>
+  
+  <h4>Example Template:</h4>
+  ```Please solve this problem using extended thinking and chain-of-thought reasoning.
+
+Problem: [Your problem]
+
+Let me think through this systematically:
+1. First, I need to understand...
+2. Then I should consider...
+3. Next, I'll calculate...
+4. Finally, I'll verify...
+
+Please show your reasoning step by step, including any intermediate calculations.
+```
+</Card>
+
+### 2. **Model Selection**
+
+<Table>
+  <TableHead>
+    <TableRow>
+      <TableHeader>Task Complexity</TableHeader>
+      <TableHeader>Recommended Model</TableHeader>
+      <TableHeader>Reasoning</TableHeader>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableCell>Simple reasoning tasks</TableCell>
+      <TableCell>Claude 3 Haiku</TableCell>
+      <TableCell>Fast, cost-effective for straightforward problems</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Moderate complexity</TableCell>
+      <TableCell>Claude 3 Sonnet</TableCell>
+      <TableCell>Balanced performance and reasoning capability</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Complex reasoning</TableCell>
+      <TableCell>Claude 3 Opus</TableCell>
+      <TableCell>Highest reasoning capability for challenging problems</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
+### 3. **Parameter Optimization**
+
+<Card title="Optimal Parameters for CoT">
+  <h4>Temperature Settings:</h4>
+  <ul>
+    <li><strong>0.0-0.1:</strong> Most focused reasoning, consistent outputs</li>
+    <li><strong>0.1-0.3:</strong> Balanced creativity and consistency</li>
+    <li><strong>0.3+:</strong> More creative but potentially less reliable</li>
+  </ul>
+  
+  <h4>Token Limits:</h4>
+  <ul>
+    <li><strong>Max Tokens:</strong> Set high enough for complete reasoning</li>
+    <li><strong>Context Window:</strong> Leverage Claude's 200K token capacity</li>
+    <li><strong>Response Length:</strong> Allow for detailed step-by-step explanations</li>
+  </ul>
+</Card>
+
+## Evaluation and Testing
+
+### 1. **Reasoning Quality Assessment**
+
+<Card title="Evaluating CoT Performance">
+  <h4>Quality Metrics:</h4>
+  <ul>
+    <li><strong>Step Completeness:</strong> All necessary steps included</li>
+    <li><strong>Logical Flow:</strong> Steps follow logical sequence</li>
+    <li><strong>Accuracy:</strong> Correct final answer</li>
+    <li><strong>Transparency:</strong> Clear reasoning process</li>
+  </ul>
+  
+  <h4>Testing Strategies:</h4>
+  <ul>
+    <li><strong>Known Problems:</strong> Test with problems that have known solutions</li>
+    <li><strong>Edge Cases:</strong> Test with unusual or complex scenarios</li>
+    <li><strong>Consistency:</strong> Run same problem multiple times</li>
+    <li><strong>Human Review:</strong> Have humans evaluate reasoning quality</li>
+  </ul>
+</Card>
+
+### 2. **Common Pitfalls**
+
+<Callout type="warning">
+  **Common Issues**: Be aware of these potential problems when using chain-of-thought prompting.
+</Callout>
+
+<Table>
+  <TableHead>
+    <TableRow>
+      <TableHeader>Pitfall</TableHeader>
+      <TableHeader>Description</TableHeader>
+      <TableHeader>Solution</TableHeader>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableCell><strong>Circular Reasoning</strong></TableCell>
+      <TableCell>Model repeats same point without progress</TableCell>
+      <TableCell>Ask for specific next steps</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Incomplete Steps</strong></TableCell>
+      <TableCell>Missing intermediate calculations</TableCell>
+      <TableCell>Request explicit calculations</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Logical Errors</strong></TableCell>
+      <TableCell>Incorrect reasoning in steps</TableCell>
+      <TableCell>Ask for verification of each step</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Premature Conclusions</strong></TableCell>
+      <TableCell>Jumping to answer too quickly</TableCell>
+      <TableCell>Encourage thorough analysis</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
+## Real-World Applications
+
+### 1. **Business Analysis**
+
+<Card title="Business Problem Solving">
+  <h4>Example: Market Analysis</h4>
+  ```Let's analyze this market opportunity step by step:
+
+Problem: Should we enter the electric vehicle market?
+
+Let me think through this systematically:
+
+1. Market Size Analysis
+   - Current market size: $500B globally
+   - Growth rate: 25% annually
+   - Projected size in 5 years: $500B × (1.25)^5 = $1.5T
+
+2. Competitive Landscape
+   - Major players: Tesla, Ford, GM, Volkswagen
+   - Market share distribution
+   - Entry barriers and opportunities
+
+3. Our Capabilities Assessment
+   - Technical expertise
+   - Manufacturing capacity
+   - Financial resources
+
+4. Risk Analysis
+   - Regulatory environment
+   - Technology changes
+   - Market volatility
+
+5. Financial Projections
+   - Investment requirements
+   - Revenue projections
+   - Break-even analysis
+
+Based on this analysis, I recommend...
+```
+</Card>
+
+### 2. **Technical Problem Solving**
+
+<Card title="Code Debugging with CoT">
+  <h4>Example: Performance Issue Analysis</h4>
+  ```Let's debug this performance issue step by step:
+
+Problem: Our API is responding slowly under load.
+
+Let me think through this systematically:
+
+1. Identify the Problem
+   - Response times > 2 seconds under load
+   - Affects all endpoints
+   - Started after recent deployment
+
+2. Gather Data
+   - Check server metrics
+   - Analyze database queries
+   - Review recent code changes
+
+3. Hypothesize Causes
+   - Database connection pooling
+   - Memory leaks
+   - Inefficient queries
+   - Resource constraints
+
+4. Test Hypotheses
+   - Monitor database performance
+   - Check memory usage
+   - Profile query execution
+
+5. Implement Solution
+   - Optimize database queries
+   - Add connection pooling
+   - Implement caching
+
+6. Verify Fix
+   - Test under load
+   - Monitor metrics
+   - Validate improvement
+```
+</Card>
+
+## Related Concepts
+
+<CardGroup cols={3}>
+  <Card title="Tree of Thoughts" icon="git-branch" href="../prompting-techniques/tree-of-thoughts">
+    Explore multiple reasoning paths
+  </Card>
+  <Card title="Self-Consistency" icon="check-circle" href="../prompting-techniques/self-consistency">
+    Generate multiple reasoning paths
+  </Card>
+  <Card title="ReAct Framework" icon="zap" href="../prompting-techniques/react">
+    Combine reasoning with action
+  </Card>
+  <Card title="Prompt Chaining" icon="link" href="../prompting-techniques/prompt-chaining">
+    Chain multiple reasoning steps
+  </Card>
+  <Card title="Reflexion" icon="refresh-cw" href="../prompting-techniques/reflexion">
+    Self-reflection and improvement
+  </Card>
+  <Card title="Structured Outputs" icon="file-text" href="../prompting-structured-outputs">
+    Format reasoning outputs
+  </Card>
+</CardGroup>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>Anthropic Claude Documentation:</strong> <a href="https://docs.anthropic.com/en/docs/overview">https://docs.anthropic.com/en/docs/overview</a></li>
+    <li><strong>Claude Extended Thinking:</strong> <a href="https://docs.anthropic.com/en/docs/extended-thinking">https://docs.anthropic.com/en/docs/extended-thinking</a></li>
+    <li><strong>Chain-of-Thought Paper:</strong> <a href="https://arxiv.org/abs/2201.11903">https://arxiv.org/abs/2201.11903</a></li>
+    <li><strong>Prompt Engineering Guide:</strong> <a href="https://docs.anthropic.com/en/docs/prompt-engineering">https://docs.anthropic.com/en/docs/prompt-engineering</a></li>
+  </ul>
+</Card>

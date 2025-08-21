@@ -1,0 +1,876 @@
+---
+title: "Token Context in AI Systems"
+description: "Master the fundamentals of tokenization and context management in AI systems, understanding how language models process and understand text"
+slug: "modules-token-context"
+updatedAt: "2025-08-19"
+tags: [module, token-context, tokenization, language-models, context-management]
+---
+
+# Token Context in AI Systems
+
+<Callout type="info">
+  **Learning Objective**: Understand how tokenization and context management work in AI systems, and how to design effective interfaces that work within token constraints.
+</Callout>
+
+## Overview
+
+Token Context is fundamental to how AI language models process and understand text. Understanding tokenization, context windows, and how to manage these constraints is crucial for designing effective AI applications.
+
+<CardGroup cols={2}>
+  <Card title="Tokenization" icon="hash">
+    The process of breaking text into manageable units that AI models can process.
+  </Card>
+  <Card title="Context Management" icon="database">
+    Managing how much information AI models can access and process at once.
+  </Card>
+</CardGroup>
+
+## Why It's Important for Designers to Know
+
+### 1. **User Experience Impact**
+
+<Card title="Token Constraints on UX">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Constraint</TableHeader>
+        <TableHeader>Impact on UX</TableHeader>
+        <TableHeader>Design Response</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Context Limits</strong></TableCell>
+        <TableCell>AI may forget earlier parts of conversation</TableCell>
+        <TableCell>Design for conversation continuity and memory</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Input Length</strong></TableCell>
+        <TableCell>Users can't send very long messages</TableCell>
+        <TableCell>Provide clear input limits and chunking</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Response Length</strong></TableCell>
+        <TableCell>AI responses may be truncated</TableCell>
+        <TableCell>Design for progressive disclosure</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Processing Time</strong></TableCell>
+        <TableCell>Longer inputs take more time to process</TableCell>
+        <TableCell>Provide feedback and progress indicators</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Design Considerations**
+
+<Callout type="warning">
+  **Key Insight**: Token constraints directly impact how users interact with AI systems and what they can expect from responses.
+</Callout>
+
+<Card title="Design Implications">
+  <ul>
+    <li><strong>Input Design:</strong> Clear limits and guidance for user inputs</li>
+    <li><strong>Conversation Flow:</strong> Managing context across multiple interactions</li>
+    <li><strong>Response Handling:</strong> Dealing with truncated or incomplete responses</li>
+    <li><strong>Performance Expectations:</strong> Setting realistic expectations for response times</li>
+  </ul>
+</Card>
+
+### 3. **Business Impact**
+
+<Card title="Business Considerations">
+  <ul>
+    <li><strong>Cost Management:</strong> Token usage directly impacts API costs</li>
+    <li><strong>Performance Optimization:</strong> Efficient token usage improves response times</li>
+    <li><strong>User Satisfaction:</strong> Understanding constraints helps set proper expectations</li>
+    <li><strong>Feature Planning:</strong> Token limits influence what features are feasible</li>
+  </ul>
+</Card>
+
+## Core Concepts
+
+### 1. **Tokenization Process**
+
+<Card title="How Tokenization Works">
+  <h4>Tokenization Steps:</h4>
+  <ol>
+    <li><strong>Text Preprocessing:</strong> Clean and normalize text</li>
+    <li><strong>Subword Tokenization:</strong> Break text into subword units</li>
+    <li><strong>Vocabulary Mapping:</strong> Convert tokens to numerical IDs</li>
+    <li><strong>Context Assembly:</strong> Build input sequences for the model</li>
+  </ol>
+  
+  <h4>Token Types:</h4>
+  <ul>
+    <li><strong>Word Tokens:</strong> Complete words (common in English)</li>
+    <li><strong>Subword Tokens:</strong> Parts of words (handles rare words)</li>
+    <li><strong>Special Tokens:</strong> Control tokens (start, end, padding)</li>
+    <li><strong>Punctuation Tokens:</strong> Individual punctuation marks</li>
+  </ul>
+</Card>
+
+### 2. **Context Windows**
+
+<Card title="Context Window Management">
+  <h4>Context Window Types:</h4>
+  <ul>
+    <li><strong>Fixed Windows:</strong> Limited context size (e.g., 2048 tokens)</li>
+    <li><strong>Sliding Windows:</strong> Moving context window</li>
+    <li><strong>Hierarchical Windows:</strong> Multi-level context management</li>
+    <li><strong>Dynamic Windows:</strong> Adaptive context sizing</li>
+  </ul>
+  
+  <h4>Context Management Strategies:</h4>
+  <ul>
+    <li><strong>Truncation:</strong> Cut off excess tokens</li>
+    <li><strong>Summarization:</strong> Compress context into summaries</li>
+    <li><strong>Chunking:</strong> Split into manageable pieces</li>
+    <li><strong>Memory Systems:</strong> External context storage</li>
+  </ul>
+</Card>
+
+### 3. **Token Efficiency**
+
+<Card title="Optimizing Token Usage">
+  <h4>Efficiency Strategies:</h4>
+  <ul>
+    <li><strong>Prompt Engineering:</strong> Design concise, effective prompts</li>
+    <li><strong>Response Formatting:</strong> Use structured outputs</li>
+    <li><strong>Context Prioritization:</strong> Focus on most relevant information</li>
+    <li><strong>Compression Techniques:</strong> Reduce token count while maintaining meaning</li>
+  </ul>
+</Card>
+
+## Implementation Strategies
+
+### 1. **Context Management**
+
+<CodeGroup>
+  <CodeGroupItem title="Python" active>
+```python
+import tiktoken
+from typing import List, Dict, Any
+import json
+
+class TokenContextManager:
+    def __init__(self, model_name: str = "gpt-3.5-turbo"):
+        self.encoding = tiktoken.encoding_for_model(model_name)
+        self.max_tokens = 4096  # Adjust based on model
+        self.context_window = []
+        self.conversation_history = []
+    
+    def count_tokens(self, text: str) -> int:
+        """Count tokens in text"""
+        return len(self.encoding.encode(text))
+    
+    def add_to_context(self, message: str, role: str = "user") -> bool:
+        """Add message to context if space allows"""
+        message_tokens = self.count_tokens(message)
+        
+        # Check if adding this message would exceed context limit
+        current_tokens = sum(self.count_tokens(msg) for msg in self.context_window)
+        
+        if current_tokens + message_tokens <= self.max_tokens:
+            self.context_window.append(f"{role}: {message}")
+            return True
+        else:
+            return False
+    
+    def manage_context(self, new_message: str) -> List[str]:
+        """Manage context window to accommodate new message"""
+        new_tokens = self.count_tokens(new_message)
+        
+        # If new message fits, add it
+        if self.count_tokens(new_message) <= self.max_tokens:
+            # Remove oldest messages if needed
+            while (sum(self.count_tokens(msg) for msg in self.context_window) + 
+                   new_tokens > self.max_tokens):
+                self.context_window.pop(0)
+            
+            self.context_window.append(new_message)
+        
+        return self.context_window
+    
+    def summarize_context(self, context: List[str]) -> str:
+        """Create a summary of context to save tokens"""
+        # Simple summarization - in practice, use more sophisticated methods
+        summary = "Previous conversation summary: "
+        key_points = []
+        
+        for message in context[-5:]:  # Last 5 messages
+            if len(message) > 50:
+                key_points.append(message[:50] + "...")
+            else:
+                key_points.append(message)
+        
+        summary += "; ".join(key_points)
+        return summary
+    
+    def get_optimized_context(self, new_message: str) -> str:
+        """Get optimized context for new message"""
+        current_context = self.manage_context(new_message)
+        
+        # If context is too long, create summary
+        total_tokens = sum(self.count_tokens(msg) for msg in current_context)
+        
+        if total_tokens > self.max_tokens * 0.8:  # 80% threshold
+            summary = self.summarize_context(current_context[:-1])  # Exclude new message
+            return f"{summary}\n\nCurrent message: {new_message}"
+        else:
+            return "\n".join(current_context)
+
+# Example usage
+context_manager = TokenContextManager()
+
+# Add messages to context
+messages = [
+    "Hello, I need help with a programming problem.",
+    "I'm working on a Python project and having trouble with error handling.",
+    "The error message says 'IndexError: list index out of range'.",
+    "I'm trying to access elements in a list but getting this error."
+]
+
+for message in messages:
+    success = context_manager.add_to_context(message)
+    print(f"Added message: {success}")
+    print(f"Current tokens: {sum(context_manager.count_tokens(msg) for msg in context_manager.context_window)}")
+
+# Get optimized context
+new_message = "Can you help me fix this error?"
+optimized_context = context_manager.get_optimized_context(new_message)
+print(f"\nOptimized context:\n{optimized_context}")
+```
+  </CodeGroupItem>
+  
+  <CodeGroupItem title="JavaScript">
+```javascript
+class TokenContextManager {
+    constructor(modelName = "gpt-3.5-turbo") {
+        this.modelName = modelName;
+        this.maxTokens = 4096; // Adjust based on model
+        this.contextWindow = [];
+        this.conversationHistory = [];
+        
+        // Simple token estimation (in practice, use proper tokenizer)
+        this.estimateTokens = (text) => {
+            // Rough estimation: 1 token ≈ 4 characters for English
+            return Math.ceil(text.length / 4);
+        };
+    }
+    
+    countTokens(text) {
+        return this.estimateTokens(text);
+    }
+    
+    addToContext(message, role = "user") {
+        const messageTokens = this.countTokens(message);
+        const currentTokens = this.contextWindow.reduce((sum, msg) => 
+            sum + this.countTokens(msg), 0);
+        
+        if (currentTokens + messageTokens <= this.maxTokens) {
+            this.contextWindow.push(`${role}: ${message}`);
+            return true;
+        }
+        return false;
+    }
+    
+    manageContext(newMessage) {
+        const newTokens = this.countTokens(newMessage);
+        
+        if (this.countTokens(newMessage) <= this.maxTokens) {
+            // Remove oldest messages if needed
+            while (this.contextWindow.reduce((sum, msg) => 
+                sum + this.countTokens(msg), 0) + newTokens > this.maxTokens) {
+                this.contextWindow.shift();
+            }
+            
+            this.contextWindow.push(newMessage);
+        }
+        
+        return this.contextWindow;
+    }
+    
+    summarizeContext(context) {
+        const summary = "Previous conversation summary: ";
+        const keyPoints = [];
+        
+        // Last 5 messages
+        const recentMessages = context.slice(-5);
+        
+        for (const message of recentMessages) {
+            if (message.length > 50) {
+                keyPoints.push(message.substring(0, 50) + "...");
+            } else {
+                keyPoints.push(message);
+            }
+        }
+        
+        return summary + keyPoints.join("; ");
+    }
+    
+    getOptimizedContext(newMessage) {
+        const currentContext = this.manageContext(newMessage);
+        const totalTokens = currentContext.reduce((sum, msg) => 
+            sum + this.countTokens(msg), 0);
+        
+        if (totalTokens > this.maxTokens * 0.8) { // 80% threshold
+            const summary = this.summarizeContext(currentContext.slice(0, -1));
+            return `${summary}\n\nCurrent message: ${newMessage}`;
+        } else {
+            return currentContext.join("\n");
+        }
+    }
+}
+
+// Example usage
+const contextManager = new TokenContextManager();
+
+const messages = [
+    "Hello, I need help with a programming problem.",
+    "I'm working on a Python project and having trouble with error handling.",
+    "The error message says 'IndexError: list index out of range'.",
+    "I'm trying to access elements in a list but getting this error."
+];
+
+for (const message of messages) {
+    const success = contextManager.addToContext(message);
+    console.log(`Added message: ${success}`);
+    console.log(`Current tokens: ${contextManager.contextWindow.reduce((sum, msg) => 
+        sum + contextManager.countTokens(msg), 0)}`);
+}
+
+const newMessage = "Can you help me fix this error?";
+const optimizedContext = contextManager.getOptimizedContext(newMessage);
+console.log(`\nOptimized context:\n${optimizedContext}`);
+```
+  </CodeGroupItem>
+</CodeGroup>
+
+### 2. **LangChain Integration**
+
+<Card title="LangChain Token Management">
+  <CodeGroup>
+    <CodeGroupItem title="LangChain Implementation" active>
+```python
+from langchain.llms import OpenAI
+from langchain.chains import LLMChain
+from langchain.prompts import PromptTemplate
+from langchain.memory import ConversationBufferWindowMemory
+from langchain.memory import ConversationSummaryMemory
+import tiktoken
+
+class LangChainTokenManager:
+    def __init__(self, api_key: str, model_name: str = "gpt-3.5-turbo"):
+        self.llm = OpenAI(api_key=api_key, model_name=model_name)
+        self.encoding = tiktoken.encoding_for_model(model_name)
+        self.max_tokens = 4096
+        
+        # Different memory types for different use cases
+        self.window_memory = ConversationBufferWindowMemory(k=10)
+        self.summary_memory = ConversationSummaryMemory(llm=self.llm)
+    
+    def count_tokens(self, text: str) -> int:
+        """Count tokens in text"""
+        return len(self.encoding.encode(text))
+    
+    def create_token_aware_chain(self, prompt_template: str, memory_type: str = "window"):
+        """Create a chain with token-aware memory management"""
+        
+        if memory_type == "window":
+            memory = self.window_memory
+        elif memory_type == "summary":
+            memory = self.summary_memory
+        else:
+            memory = None
+        
+        prompt = PromptTemplate(
+            template=prompt_template,
+            input_variables=["history", "input"]
+        )
+        
+        chain = LLMChain(
+            llm=self.llm,
+            prompt=prompt,
+            memory=memory,
+            verbose=True
+        )
+        
+        return chain
+    
+    def optimize_prompt(self, prompt: str, max_tokens: int = None) -> str:
+        """Optimize prompt to fit within token limits"""
+        
+        if max_tokens is None:
+            max_tokens = self.max_tokens
+        
+        current_tokens = self.count_tokens(prompt)
+        
+        if current_tokens <= max_tokens:
+            return prompt
+        
+        # Simple optimization: truncate while preserving structure
+        words = prompt.split()
+        optimized_words = []
+        current_count = 0
+        
+        for word in words:
+            word_tokens = self.count_tokens(word + " ")
+            if current_count + word_tokens <= max_tokens:
+                optimized_words.append(word)
+                current_count += word_tokens
+            else:
+                break
+        
+        return " ".join(optimized_words) + "..."
+    
+    def create_context_aware_prompt(self, user_input: str, context: str = "") -> str:
+        """Create a prompt that manages context efficiently"""
+        
+        base_prompt = f"""
+        Context: {context}
+        
+        User Input: {user_input}
+        
+        Please provide a helpful response based on the context and user input.
+        """
+        
+        # Check if we need to optimize
+        if self.count_tokens(base_prompt) > self.max_tokens * 0.8:
+            # Use summary memory approach
+            return self.create_summary_based_prompt(user_input, context)
+        
+        return base_prompt
+    
+    def create_summary_based_prompt(self, user_input: str, context: str) -> str:
+        """Create prompt using summary-based context management"""
+        
+        # Create a summary of the context
+        summary_prompt = f"Summarize the following context in 2-3 sentences: {context}"
+        
+        try:
+            summary = self.llm(summary_prompt)
+        except:
+            summary = "Previous conversation context"
+        
+        optimized_prompt = f"""
+        Previous Context Summary: {summary}
+        
+        Current User Input: {user_input}
+        
+        Please provide a helpful response based on the context summary and current input.
+        """
+        
+        return optimized_prompt
+
+# Example usage
+token_manager = LangChainTokenManager("your-api-key")
+
+# Create a token-aware chain
+prompt_template = """
+Previous conversation:
+{history}
+
+Human: {input}
+AI Assistant:"""
+
+chain = token_manager.create_token_aware_chain(prompt_template, "summary")
+
+# Test with long context
+long_context = "This is a very long context that contains a lot of information..." * 100
+user_input = "What should I do next?"
+
+# Create optimized prompt
+optimized_prompt = token_manager.create_context_aware_prompt(user_input, long_context)
+print(f"Optimized prompt length: {token_manager.count_tokens(optimized_prompt)} tokens")
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+### 3. **CrewAI Integration**
+
+<Card title="CrewAI Multi-Agent Token Management">
+  <CodeGroup>
+    <CodeGroupItem title="CrewAI Implementation" active>
+```python
+from crewai import Agent, Task, Crew
+from langchain.tools import Tool
+import tiktoken
+
+class CrewAITokenManager:
+    def __init__(self, model_name: str = "gpt-3.5-turbo"):
+        self.encoding = tiktoken.encoding_for_model(model_name)
+        self.max_tokens = 4096
+        self.context_managers = {}
+    
+    def count_tokens(self, text: str) -> int:
+        """Count tokens in text"""
+        return len(self.encoding.encode(text))
+    
+    def create_token_aware_agent(self, name: str, role: str, goal: str, 
+                               max_context_tokens: int = None) -> Agent:
+        """Create an agent with token-aware context management"""
+        
+        if max_context_tokens is None:
+            max_context_tokens = self.max_tokens
+        
+        # Create a context manager for this agent
+        self.context_managers[name] = {
+            'max_tokens': max_context_tokens,
+            'current_context': [],
+            'token_count': 0
+        }
+        
+        # Create agent with token-aware backstory
+        backstory = f"""
+        You are {name}, a {role}. Your goal is {goal}.
+        
+        Important: You must work within token constraints and provide concise, 
+        focused responses. When context is limited, prioritize the most relevant 
+        information and ask for clarification when needed.
+        """
+        
+        return Agent(
+            role=role,
+            goal=goal,
+            backstory=backstory,
+            verbose=True,
+            allow_delegation=False
+        )
+    
+    def create_optimized_task(self, agent_name: str, task_description: str, 
+                            context: str = "") -> Task:
+        """Create a task with optimized token usage"""
+        
+        context_manager = self.context_managers.get(agent_name, {})
+        max_tokens = context_manager.get('max_tokens', self.max_tokens)
+        
+        # Optimize task description
+        full_description = f"{context}\n\nTask: {task_description}"
+        
+        if self.count_tokens(full_description) > max_tokens * 0.7:
+            # Create a more concise version
+            optimized_description = self.optimize_task_description(
+                task_description, max_tokens * 0.5
+            )
+        else:
+            optimized_description = full_description
+        
+        return Task(
+            description=optimized_description,
+            agent=None  # Will be set when creating crew
+        )
+    
+    def optimize_task_description(self, description: str, max_tokens: int) -> str:
+        """Optimize task description to fit within token limits"""
+        
+        current_tokens = self.count_tokens(description)
+        
+        if current_tokens <= max_tokens:
+            return description
+        
+        # Simple optimization: keep the most important parts
+        sentences = description.split('. ')
+        
+        optimized_sentences = []
+        current_count = 0
+        
+        for sentence in sentences:
+            sentence_tokens = self.count_tokens(sentence + ". ")
+            if current_count + sentence_tokens <= max_tokens:
+                optimized_sentences.append(sentence)
+                current_count += sentence_tokens
+            else:
+                break
+        
+        return ". ".join(optimized_sentences) + "."
+    
+    def run_token_aware_crew(self, agents: list, tasks: list) -> dict:
+        """Run a crew with token-aware management"""
+        
+        # Create crew with token monitoring
+        crew = Crew(
+            agents=agents,
+            tasks=tasks,
+            verbose=True
+        )
+        
+        # Monitor token usage during execution
+        results = crew.kickoff()
+        
+        # Analyze token usage
+        token_analysis = self.analyze_token_usage(agents, tasks)
+        
+        return {
+            'results': results,
+            'token_analysis': token_analysis,
+            'agents': agents,
+            'tasks': tasks
+        }
+    
+    def analyze_token_usage(self, agents: list, tasks: list) -> dict:
+        """Analyze token usage across agents and tasks"""
+        
+        analysis = {
+            'total_tokens': 0,
+            'agent_usage': {},
+            'task_usage': {},
+            'efficiency_score': 0
+        }
+        
+        # Analyze agent token usage
+        for agent in agents:
+            agent_name = agent.role
+            context_manager = self.context_managers.get(agent_name, {})
+            analysis['agent_usage'][agent_name] = {
+                'max_tokens': context_manager.get('max_tokens', self.max_tokens),
+                'current_tokens': context_manager.get('token_count', 0),
+                'utilization': context_manager.get('token_count', 0) / 
+                              context_manager.get('max_tokens', self.max_tokens)
+            }
+        
+        # Analyze task token usage
+        for i, task in enumerate(tasks):
+            task_tokens = self.count_tokens(task.description)
+            analysis['task_usage'][f'task_{i}'] = {
+                'tokens': task_tokens,
+                'description_length': len(task.description)
+            }
+            analysis['total_tokens'] += task_tokens
+        
+        # Calculate efficiency score
+        total_possible = sum(analysis['agent_usage'][agent]['max_tokens'] 
+                           for agent in analysis['agent_usage'])
+        analysis['efficiency_score'] = analysis['total_tokens'] / total_possible
+        
+        return analysis
+
+# Example usage
+token_manager = CrewAITokenManager()
+
+# Create token-aware agents
+researcher = token_manager.create_token_aware_agent(
+    "Research Specialist",
+    "AI Research Analyst",
+    "Conduct thorough research on AI topics",
+    max_context_tokens=2048
+)
+
+writer = token_manager.create_token_aware_agent(
+    "Content Writer",
+    "Technical Writer",
+    "Create clear, concise technical content",
+    max_context_tokens=3072
+)
+
+# Create optimized tasks
+research_task = token_manager.create_optimized_task(
+    "Research Specialist",
+    "Research the latest developments in transformer architecture and their applications in natural language processing. Focus on key innovations, performance improvements, and practical applications.",
+    context="Focus on recent developments from 2023-2024"
+)
+
+writing_task = token_manager.create_optimized_task(
+    "Content Writer",
+    "Write a comprehensive article about transformer architecture based on the research findings. Include technical details, practical examples, and future implications.",
+    context="Target audience: AI practitioners and researchers"
+)
+
+# Run the crew
+results = token_manager.run_token_aware_crew(
+    [researcher, writer],
+    [research_task, writing_task]
+)
+
+print("Results:", results['results'])
+print("Token Analysis:", results['token_analysis'])
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+## Best Practices
+
+### 1. **Context Management**
+
+<CardGroup cols={2}>
+  <Card title="Efficient Context Use" icon="target">
+    <ul>
+      <li>Prioritize relevant information</li>
+      <li>Use summaries for long contexts</li>
+      <li>Implement sliding windows</li>
+      <li>Monitor token usage</li>
+    </ul>
+  </Card>
+  <Card title="User Experience" icon="user">
+    <ul>
+      <li>Set clear input limits</li>
+      <li>Provide token usage feedback</li>
+      <li>Handle context overflow gracefully</li>
+      <li>Maintain conversation continuity</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+### 2. **Performance Optimization**
+
+<Card title="Optimization Strategies">
+  <ul>
+    <li><strong>Prompt Engineering:</strong> Design concise, effective prompts</li>
+    <li><strong>Response Formatting:</strong> Use structured outputs to reduce tokens</li>
+    <li><strong>Caching:</strong> Cache frequently used context</li>
+    <li><strong>Parallel Processing:</strong> Process multiple contexts simultaneously</li>
+  </ul>
+</Card>
+
+### 3. **Cost Management**
+
+<Card title="Cost Optimization">
+  <ul>
+    <li><strong>Token Monitoring:</strong> Track token usage across interactions</li>
+    <li><strong>Efficient Models:</strong> Choose appropriate model sizes</li>
+    <li><strong>Batch Processing:</strong> Group related requests</li>
+    <li><strong>Response Optimization:</strong> Limit response lengths when appropriate</li>
+  </ul>
+</Card>
+
+## Real-World Applications
+
+### 1. **Conversational AI**
+
+<Callout type="info">
+  **Case Study**: Token context management is crucial for conversational AI systems that need to maintain context across multiple interactions while staying within model limits.
+</Callout>
+
+<Card title="Conversation Management">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Challenge</TableHeader>
+        <TableHeader>Token Solution</TableHeader>
+        <TableHeader>User Benefit</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Long Conversations</strong></TableCell>
+        <TableCell>Sliding context window with summaries</TableCell>
+        <TableCell>Maintains conversation continuity</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Complex Queries</strong></TableCell>
+        <TableCell>Context prioritization and chunking</TableCell>
+        <TableCell>Faster, more focused responses</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Multi-turn Interactions</strong></TableCell>
+        <TableCell>Memory systems with token-aware storage</TableCell>
+        <TableCell>Consistent experience across sessions</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Document Processing**
+
+<Card title="Document Applications">
+  <ul>
+    <li><strong>Large Document Analysis:</strong> Chunk documents for processing</li>
+    <li><strong>Multi-document Context:</strong> Manage context across multiple files</li>
+    <li><strong>Progressive Summarization:</strong> Build summaries incrementally</li>
+    <li><strong>Focus Areas:</strong> Prioritize relevant document sections</li>
+  </ul>
+</Card>
+
+### 3. **Code Generation and Analysis**
+
+<Card title="Code Applications">
+  <ul>
+    <li><strong>Large Codebases:</strong> Process code in manageable chunks</li>
+    <li><strong>Context-Aware Suggestions:</strong> Maintain code context</li>
+    <li><strong>Multi-file Analysis:</strong> Manage dependencies across files</li>
+    <li><strong>Incremental Processing:</strong> Build understanding progressively</li>
+  </ul>
+</Card>
+
+## How This Applies to AI-Powered Products
+
+### 1. **Design Implications**
+
+<Card title="Product Design Considerations">
+  <ul>
+    <li><strong>Input Design:</strong> Clear limits and guidance for user inputs</li>
+    <li><strong>Response Handling:</strong> Design for potentially truncated responses</li>
+    <li><strong>Progress Indicators:</strong> Show processing status for long inputs</li>
+    <li><strong>Error Handling:</strong> Graceful handling of context overflow</li>
+  </ul>
+</Card>
+
+### 2. **User Experience Patterns**
+
+<Card title="UX Patterns">
+  <ul>
+    <li><strong>Progressive Disclosure:</strong> Show information incrementally</li>
+    <li><strong>Context Preservation:</strong> Maintain important information across interactions</li>
+    <li><strong>Input Validation:</strong> Prevent users from exceeding limits</li>
+    <li><strong>Feedback Systems:</strong> Inform users about context status</li>
+  </ul>
+</Card>
+
+## Collaboration Prompts for Engineers
+
+### 1. **Technical Architecture Questions**
+
+<Card title="Architecture Discussion">
+  <h4>Key Questions:</h4>
+  <ul>
+    <li>"What token limits should we set for different user tiers?"</li>
+    <li>"How will we handle context overflow in long conversations?"</li>
+    <li>"What's our strategy for context summarization and storage?"</li>
+    <li>"How will we monitor and optimize token usage?"</li>
+    <li>"What fallback mechanisms do we need for token limits?"</li>
+  </ul>
+</Card>
+
+### 2. **Performance and Scalability**
+
+<Card title="Performance Planning">
+  <h4>Key Questions:</h4>
+  <ul>
+    <li>"How will token constraints affect our response times?"</li>
+    <li>"What's our approach to caching and context management?"</li>
+    <li>"How will we handle high-volume token usage?"</li>
+    <li>"What monitoring and alerting do we need for token usage?"</li>
+    <li>"How will we optimize costs while maintaining performance?"</li>
+  </ul>
+</Card>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>CrewAI Documentation:</strong> <a href="https://docs.crewai.com/en/introduction">https://docs.crewai.com/en/introduction</a></li>
+    <li><strong>AI Design Guide:</strong> <a href="https://aidesign.guide/">https://aidesign.guide/</a></li>
+    <li><strong>LangChain Conceptual Guide:</strong> <a href="https://python.langchain.com/docs/get_started/concepts">https://python.langchain.com/docs/get_started/concepts</a></li>
+    <li><strong>NLP and LLMs 2024:</strong> <a href="https://nlp2024.jeju.ai/">https://nlp2024.jeju.ai/</a></li>
+    <li><strong>Prompt Engineering Guide:</strong> <a href="https://www.promptingguide.ai/">https://www.promptingguide.ai/</a></li>
+    <li><strong>Anthropic Tutorial:</strong> <a href="https://www.anthropic.com/">https://www.anthropic.com/</a></li>
+  </ul>
+</Card>
+
+## Figures
+
+<Card title="Token Context Flow">
+  <Frame>
+    <img src="/images/token-context-flow.png" alt="Diagram showing the flow of token processing from input to context management to output" />
+  </Frame>
+</Card>
+
+<Card title="Context Management Strategies">
+  <Frame>
+    <img src="/images/context-management.png" alt="Visualization of different context management strategies and their trade-offs" />
+  </Frame>
+</Card>
+

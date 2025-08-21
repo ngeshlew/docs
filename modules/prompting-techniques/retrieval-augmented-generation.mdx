@@ -1,0 +1,1038 @@
+---
+title: "Retrieval-Augmented Generation (RAG)"
+description: "Learn how to implement retrieval-augmented generation systems that enhance AI responses by retrieving and incorporating relevant external knowledge"
+slug: "modules-prompting-techniques-retrieval-augmented-generation"
+updatedAt: "2025-08-19"
+tags: [prompting-technique, retrieval-augmented-generation, rag, knowledge-retrieval, external-knowledge]
+---
+
+# Retrieval-Augmented Generation (RAG)
+
+<Callout type="info">
+  **Learning Objective**: Master retrieval-augmented generation techniques that enhance AI responses by retrieving and incorporating relevant external knowledge from databases, documents, and knowledge bases.
+</Callout>
+
+## Overview
+
+Retrieval-Augmented Generation (RAG) is a powerful technique that combines information retrieval with text generation to create more accurate, up-to-date, and contextually relevant AI responses. By retrieving relevant information from external knowledge sources before generating responses, RAG systems can provide more factual and comprehensive answers.
+
+<CardGroup cols={2}>
+  <Card title="Knowledge Retrieval" icon="search">
+    Retrieves relevant information from external knowledge sources.
+  </Card>
+  <Card title="Enhanced Generation" icon="message-square">
+    Generates responses augmented with retrieved knowledge.
+  </Card>
+</CardGroup>
+
+## What is Retrieval-Augmented Generation?
+
+RAG is a technique that:
+
+- **Retrieves**: Searches and retrieves relevant information from knowledge bases
+- **Augments**: Enhances AI responses with retrieved knowledge
+- **Generates**: Creates responses that incorporate external information
+- **Improves**: Enhances accuracy, relevance, and factual correctness
+
+<Callout type="warning">
+  **Key Insight**: RAG enables AI systems to access current, specific, and factual information that may not be present in their training data, significantly improving response quality and reliability.
+</Callout>
+
+## Key Concepts
+
+### 1. **RAG Architecture Components**
+
+<Card title="RAG System Architecture">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Component</TableHeader>
+        <TableHeader>Function</TableHeader>
+        <TableHeader>Technologies</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Query Processor</strong></TableCell>
+        <TableCell>Processes user queries for retrieval</TableCell>
+        <TableCell>NLP, Query Expansion, Query Reformulation</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Retriever</strong></TableCell>
+        <TableCell>Searches knowledge base for relevant documents</TableCell>
+        <TableCell>Vector Search, BM25, Dense Retrieval</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Knowledge Base</strong></TableCell>
+        <TableCell>Stores documents and information</TableCell>
+        <TableCell>Vector Databases, Document Stores, Embeddings</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Generator</strong></TableCell>
+        <TableCell>Creates responses using retrieved context</TableCell>
+        <TableCell>Language Models, Text Generation</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Reranker</strong></TableCell>
+        <TableCell>Ranks retrieved documents by relevance</TableCell>
+        <TableCell>Cross-Encoders, Relevance Scoring</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Retrieval Strategies**
+
+<Card title="Retrieval Methods">
+  <h4>1. Sparse Retrieval:</h4>
+  <ul>
+    <li><strong>BM25:</strong> Traditional keyword-based retrieval</li>
+    <li><strong>TF-IDF:</strong> Term frequency-inverse document frequency</li>
+    <li><strong>Boolean Search:</strong> Exact keyword matching</li>
+    <li><strong>Elasticsearch:</strong> Full-text search engine</li>
+  </ul>
+  
+  <h4>2. Dense Retrieval:</h4>
+  <ul>
+    <li><strong>Vector Search:</strong> Semantic similarity using embeddings</li>
+    <li><strong>FAISS:</strong> Facebook AI Similarity Search</li>
+    <li><strong>Pinecone:</strong> Vector database for similarity search</li>
+    <li><strong>Chroma:</strong> Open-source embedding database</li>
+  </ul>
+  
+  <h4>3. Hybrid Retrieval:</h4>
+  <ul>
+    <li><strong>Combined Scoring:</strong> Merge sparse and dense results</li>
+    <li><strong>Reranking:</strong> Apply cross-encoders for final ranking</li>
+    <li><strong>Ensemble Methods:</strong> Combine multiple retrieval approaches</li>
+  </ul>
+</Card>
+
+### 3. **Knowledge Base Types**
+
+<Card title="Knowledge Sources">
+  <ul>
+    <li><strong>Document Collections:</strong> PDFs, articles, reports, manuals</li>
+    <li><strong>Databases:</strong> Structured data, tables, records</li>
+    <li><strong>Web Content:</strong> Websites, APIs, real-time data</li>
+    <li><strong>Knowledge Graphs:</strong> Structured relationships and entities</li>
+    <li><strong>Code Repositories:</strong> Documentation, examples, tutorials</li>
+  </ul>
+</Card>
+
+## Implementation
+
+### 1. **Basic RAG Implementation**
+
+<CodeGroup>
+  <CodeGroupItem title="Python" active>
+```python
+from typing import List, Dict, Any, Optional
+import numpy as np
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
+import json
+import re
+
+class BasicRAGSystem:
+    def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
+        self.embedding_model = SentenceTransformer(model_name)
+        self.knowledge_base = []
+        self.embeddings = []
+        self.metadata = []
+    
+    def add_documents(self, documents: List[Dict[str, Any]]):
+        """Add documents to the knowledge base"""
+        for doc in documents:
+            # Extract text content
+            text = doc.get('text', '')
+            if not text:
+                continue
+            
+            # Create embedding
+            embedding = self.embedding_model.encode(text)
+            
+            # Store document and embedding
+            self.knowledge_base.append(text)
+            self.embeddings.append(embedding)
+            self.metadata.append({
+                'id': doc.get('id', len(self.knowledge_base)),
+                'title': doc.get('title', ''),
+                'source': doc.get('source', ''),
+                'date': doc.get('date', ''),
+                'tags': doc.get('tags', [])
+            })
+    
+    def retrieve_relevant_documents(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+        """Retrieve relevant documents for a query"""
+        
+        # Encode query
+        query_embedding = self.embedding_model.encode(query)
+        
+        # Calculate similarities
+        similarities = []
+        for embedding in self.embeddings:
+            similarity = cosine_similarity([query_embedding], [embedding])[0][0]
+            similarities.append(similarity)
+        
+        # Get top-k documents
+        top_indices = np.argsort(similarities)[::-1][:top_k]
+        
+        results = []
+        for idx in top_indices:
+            results.append({
+                'text': self.knowledge_base[idx],
+                'metadata': self.metadata[idx],
+                'similarity': similarities[idx]
+            })
+        
+        return results
+    
+    def generate_response(self, query: str, retrieved_docs: List[Dict[str, Any]]) -> str:
+        """Generate response using retrieved documents"""
+        
+        # Create context from retrieved documents
+        context = "\n\n".join([doc['text'] for doc in retrieved_docs])
+        
+        # Create prompt with context
+        prompt = f"""
+        Based on the following context, answer the question. If the context doesn't contain 
+        enough information to answer the question, say so.
+        
+        Context:
+        {context}
+        
+        Question: {query}
+        
+        Answer:
+        """
+        
+        # In practice, this would use a language model
+        # For now, return a simple response
+        return f"Based on the retrieved documents, here's what I found about '{query}': {context[:200]}..."
+    
+    def answer_question(self, query: str, top_k: int = 5) -> Dict[str, Any]:
+        """Complete RAG pipeline: retrieve and generate"""
+        
+        # Step 1: Retrieve relevant documents
+        retrieved_docs = self.retrieve_relevant_documents(query, top_k)
+        
+        # Step 2: Generate response
+        response = self.generate_response(query, retrieved_docs)
+        
+        return {
+            'query': query,
+            'response': response,
+            'retrieved_documents': retrieved_docs,
+            'num_documents_retrieved': len(retrieved_docs),
+            'average_similarity': np.mean([doc['similarity'] for doc in retrieved_docs]) if retrieved_docs else 0
+        }
+    
+    def evaluate_retrieval_quality(self, query: str, relevant_doc_ids: List[str]) -> Dict[str, Any]:
+        """Evaluate retrieval quality using ground truth"""
+        
+        retrieved_docs = self.retrieve_relevant_documents(query, top_k=10)
+        retrieved_ids = [doc['metadata']['id'] for doc in retrieved_docs]
+        
+        # Calculate metrics
+        relevant_retrieved = set(relevant_doc_ids) & set(retrieved_ids)
+        precision = len(relevant_retrieved) / len(retrieved_ids) if retrieved_ids else 0
+        recall = len(relevant_retrieved) / len(relevant_doc_ids) if relevant_doc_ids else 0
+        f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
+        
+        return {
+            'precision': precision,
+            'recall': recall,
+            'f1_score': f1_score,
+            'relevant_retrieved': list(relevant_retrieved),
+            'total_relevant': len(relevant_doc_ids),
+            'total_retrieved': len(retrieved_ids)
+        }
+
+# Example usage
+rag_system = BasicRAGSystem()
+
+# Sample documents
+documents = [
+    {
+        'id': 'doc1',
+        'title': 'Machine Learning Basics',
+        'text': 'Machine learning is a subset of artificial intelligence that enables computers to learn and make decisions without being explicitly programmed.',
+        'source': 'AI Textbook',
+        'date': '2024-01-15',
+        'tags': ['machine-learning', 'ai', 'basics']
+    },
+    {
+        'id': 'doc2',
+        'title': 'Deep Learning Applications',
+        'text': 'Deep learning uses neural networks with multiple layers to process complex patterns in data, enabling breakthroughs in image recognition and natural language processing.',
+        'source': 'Research Paper',
+        'date': '2024-02-20',
+        'tags': ['deep-learning', 'neural-networks', 'applications']
+    },
+    {
+        'id': 'doc3',
+        'title': 'Natural Language Processing',
+        'text': 'NLP combines computational linguistics with machine learning to enable computers to understand, interpret, and generate human language.',
+        'source': 'Technical Guide',
+        'date': '2024-03-10',
+        'tags': ['nlp', 'linguistics', 'language-processing']
+    }
+]
+
+# Add documents to knowledge base
+rag_system.add_documents(documents)
+
+# Ask a question
+query = "What is machine learning and how does it relate to deep learning?"
+
+result = rag_system.answer_question(query)
+
+print(f"Query: {result['query']}")
+print(f"Response: {result['response']}")
+print(f"Documents Retrieved: {result['num_documents_retrieved']}")
+print(f"Average Similarity: {result['average_similarity']:.3f}")
+
+# Show retrieved documents
+for i, doc in enumerate(result['retrieved_documents']):
+    print(f"\nDocument {i+1}:")
+    print(f"Title: {doc['metadata']['title']}")
+    print(f"Similarity: {doc['similarity']:.3f}")
+    print(f"Text: {doc['text'][:100]}...")
+```
+  </CodeGroupItem>
+  
+  <CodeGroupItem title="JavaScript">
+```javascript
+class BasicRAGSystem {
+    constructor(modelName = "all-MiniLM-L6-v2") {
+        this.modelName = modelName;
+        this.knowledgeBase = [];
+        this.embeddings = [];
+        this.metadata = [];
+        // In practice, you would initialize the embedding model here
+    }
+    
+    async addDocuments(documents) {
+        for (const doc of documents) {
+            const text = doc.text || '';
+            if (!text) continue;
+            
+            // Create embedding (in practice, use a proper embedding service)
+            const embedding = await this.createEmbedding(text);
+            
+            this.knowledgeBase.push(text);
+            this.embeddings.push(embedding);
+            this.metadata.push({
+                id: doc.id || this.knowledgeBase.length,
+                title: doc.title || '',
+                source: doc.source || '',
+                date: doc.date || '',
+                tags: doc.tags || []
+            });
+        }
+    }
+    
+    async createEmbedding(text) {
+        // In practice, this would call an embedding API
+        // For demo purposes, create a simple hash-based embedding
+        const hash = this.simpleHash(text);
+        return new Array(384).fill(0).map((_, i) => 
+            Math.sin(hash + i) * 0.5 + 0.5
+        );
+    }
+    
+    simpleHash(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32-bit integer
+        }
+        return Math.abs(hash);
+    }
+    
+    cosineSimilarity(vecA, vecB) {
+        const dotProduct = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
+        const normA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
+        const normB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
+        return dotProduct / (normA * normB);
+    }
+    
+    async retrieveRelevantDocuments(query, topK = 5) {
+        const queryEmbedding = await this.createEmbedding(query);
+        
+        const similarities = this.embeddings.map(embedding => 
+            this.cosineSimilarity(queryEmbedding, embedding)
+        );
+        
+        // Get top-k documents
+        const indices = similarities
+            .map((similarity, index) => ({ similarity, index }))
+            .sort((a, b) => b.similarity - a.similarity)
+            .slice(0, topK);
+        
+        return indices.map(({ similarity, index }) => ({
+            text: this.knowledgeBase[index],
+            metadata: this.metadata[index],
+            similarity: similarity
+        }));
+    }
+    
+    generateResponse(query, retrievedDocs) {
+        const context = retrievedDocs.map(doc => doc.text).join('\n\n');
+        
+        const prompt = `
+        Based on the following context, answer the question. If the context doesn't contain 
+        enough information to answer the question, say so.
+        
+        Context:
+        ${context}
+        
+        Question: ${query}
+        
+        Answer:
+        `;
+        
+        // In practice, this would use a language model
+        return `Based on the retrieved documents, here's what I found about '${query}': ${context.substring(0, 200)}...`;
+    }
+    
+    async answerQuestion(query, topK = 5) {
+        const retrievedDocs = await this.retrieveRelevantDocuments(query, topK);
+        const response = this.generateResponse(query, retrievedDocs);
+        
+        const avgSimilarity = retrievedDocs.length > 0 
+            ? retrievedDocs.reduce((sum, doc) => sum + doc.similarity, 0) / retrievedDocs.length 
+            : 0;
+        
+        return {
+            query: query,
+            response: response,
+            retrievedDocuments: retrievedDocs,
+            numDocumentsRetrieved: retrievedDocs.length,
+            averageSimilarity: avgSimilarity
+        };
+    }
+    
+    async evaluateRetrievalQuality(query, relevantDocIds) {
+        const retrievedDocs = await this.retrieveRelevantDocuments(query, 10);
+        const retrievedIds = retrievedDocs.map(doc => doc.metadata.id);
+        
+        const relevantRetrieved = relevantDocIds.filter(id => 
+            retrievedIds.includes(id)
+        );
+        
+        const precision = retrievedIds.length > 0 ? relevantRetrieved.length / retrievedIds.length : 0;
+        const recall = relevantDocIds.length > 0 ? relevantRetrieved.length / relevantDocIds.length : 0;
+        const f1Score = (precision + recall) > 0 ? 2 * (precision * recall) / (precision + recall) : 0;
+        
+        return {
+            precision: precision,
+            recall: recall,
+            f1Score: f1Score,
+            relevantRetrieved: relevantRetrieved,
+            totalRelevant: relevantDocIds.length,
+            totalRetrieved: retrievedIds.length
+        };
+    }
+}
+
+// Example usage
+async function runRAGExample() {
+    const ragSystem = new BasicRAGSystem();
+    
+    const documents = [
+        {
+            id: 'doc1',
+            title: 'Machine Learning Basics',
+            text: 'Machine learning is a subset of artificial intelligence that enables computers to learn and make decisions without being explicitly programmed.',
+            source: 'AI Textbook',
+            date: '2024-01-15',
+            tags: ['machine-learning', 'ai', 'basics']
+        },
+        {
+            id: 'doc2',
+            title: 'Deep Learning Applications',
+            text: 'Deep learning uses neural networks with multiple layers to process complex patterns in data, enabling breakthroughs in image recognition and natural language processing.',
+            source: 'Research Paper',
+            date: '2024-02-20',
+            tags: ['deep-learning', 'neural-networks', 'applications']
+        },
+        {
+            id: 'doc3',
+            title: 'Natural Language Processing',
+            text: 'NLP combines computational linguistics with machine learning to enable computers to understand, interpret, and generate human language.',
+            source: 'Technical Guide',
+            date: '2024-03-10',
+            tags: ['nlp', 'linguistics', 'language-processing']
+        }
+    ];
+    
+    await ragSystem.addDocuments(documents);
+    
+    const query = "What is machine learning and how does it relate to deep learning?";
+    const result = await ragSystem.answerQuestion(query);
+    
+    console.log(`Query: ${result.query}`);
+    console.log(`Response: ${result.response}`);
+    console.log(`Documents Retrieved: ${result.numDocumentsRetrieved}`);
+    console.log(`Average Similarity: ${result.averageSimilarity.toFixed(3)}`);
+    
+    result.retrievedDocuments.forEach((doc, i) => {
+        console.log(`\nDocument ${i+1}:`);
+        console.log(`Title: ${doc.metadata.title}`);
+        console.log(`Similarity: ${doc.similarity.toFixed(3)}`);
+        console.log(`Text: ${doc.text.substring(0, 100)}...`);
+    });
+}
+
+runRAGExample();
+```
+  </CodeGroupItem>
+</CodeGroup>
+
+### 2. **Advanced RAG with LangChain**
+
+<Card title="LangChain RAG Implementation">
+  <CodeGroup>
+    <CodeGroupItem title="LangChain RAG" active>
+```python
+from langchain.document_loaders import TextLoader, DirectoryLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.vectorstores import Chroma
+from langchain.llms import OpenAI
+from langchain.chains import RetrievalQA
+from langchain.retrievers import ContextualCompressionRetriever
+from langchain.retrievers.document_compressors import LLMChainExtractor
+from typing import List, Dict, Any
+import os
+
+class AdvancedRAGSystem:
+    def __init__(self, openai_api_key: str):
+        self.embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
+        self.llm = OpenAI(openai_api_key=openai_api_key, temperature=0)
+        self.vectorstore = None
+        self.retriever = None
+        self.qa_chain = None
+    
+    def load_documents(self, directory_path: str) -> List[Any]:
+        """Load documents from directory"""
+        
+        # Load documents
+        loader = DirectoryLoader(
+            directory_path,
+            glob="**/*.txt",
+            loader_cls=TextLoader
+        )
+        documents = loader.load()
+        
+        # Split documents into chunks
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=1000,
+            chunk_overlap=200,
+            length_function=len,
+        )
+        
+        splits = text_splitter.split_documents(documents)
+        return splits
+    
+    def create_vectorstore(self, documents: List[Any], persist_directory: str = "./chroma_db"):
+        """Create and persist vector store"""
+        
+        self.vectorstore = Chroma.from_documents(
+            documents=documents,
+            embedding=self.embeddings,
+            persist_directory=persist_directory
+        )
+        self.vectorstore.persist()
+        
+        # Create retriever
+        self.retriever = self.vectorstore.as_retriever(
+            search_type="similarity",
+            search_kwargs={"k": 5}
+        )
+    
+    def setup_contextual_compression(self):
+        """Setup contextual compression for better retrieval"""
+        
+        # Create compressor
+        compressor_prompt = """Given the following question and context, extract any relevant text from the context that would help answer the question. If none of the context is relevant, return "No relevant information found."
+
+Question: {question}
+Context: {context}
+
+Relevant text:"""
+        
+        compressor = LLMChainExtractor.from_llm(self.llm, compressor_prompt)
+        
+        # Create contextual compression retriever
+        self.retriever = ContextualCompressionRetriever(
+            base_compressor=compressor,
+            base_retriever=self.retriever
+        )
+    
+    def create_qa_chain(self, chain_type: str = "stuff"):
+        """Create question-answering chain"""
+        
+        self.qa_chain = RetrievalQA.from_chain_type(
+            llm=self.llm,
+            chain_type=chain_type,
+            retriever=self.retriever,
+            return_source_documents=True,
+            verbose=True
+        )
+    
+    def answer_question(self, question: str) -> Dict[str, Any]:
+        """Answer question using RAG"""
+        
+        if not self.qa_chain:
+            raise ValueError("QA chain not initialized. Call create_qa_chain() first.")
+        
+        result = self.qa_chain({"query": question})
+        
+        return {
+            'question': question,
+            'answer': result['result'],
+            'source_documents': result['source_documents'],
+            'num_sources': len(result['source_documents'])
+        }
+    
+    def retrieve_documents(self, query: str, k: int = 5) -> List[Any]:
+        """Retrieve documents for a query"""
+        
+        if not self.retriever:
+            raise ValueError("Retriever not initialized. Call create_vectorstore() first.")
+        
+        documents = self.retriever.get_relevant_documents(query)
+        return documents
+    
+    def add_document(self, text: str, metadata: Dict[str, Any] = None):
+        """Add a single document to the vector store"""
+        
+        if not self.vectorstore:
+            raise ValueError("Vector store not initialized. Call create_vectorstore() first.")
+        
+        self.vectorstore.add_texts(
+            texts=[text],
+            metadatas=[metadata or {}]
+        )
+    
+    def similarity_search(self, query: str, k: int = 5) -> List[Any]:
+        """Perform similarity search"""
+        
+        if not self.vectorstore:
+            raise ValueError("Vector store not initialized. Call create_vectorstore() first.")
+        
+        results = self.vectorstore.similarity_search(query, k=k)
+        return results
+    
+    def get_retrieval_metrics(self, test_queries: List[str], ground_truth: Dict[str, List[str]]) -> Dict[str, Any]:
+        """Evaluate retrieval performance"""
+        
+        metrics = {
+            'precision': [],
+            'recall': [],
+            'f1_score': []
+        }
+        
+        for query in test_queries:
+            retrieved_docs = self.retrieve_documents(query, k=10)
+            retrieved_ids = [doc.metadata.get('id', '') for doc in retrieved_docs]
+            relevant_ids = ground_truth.get(query, [])
+            
+            # Calculate metrics
+            relevant_retrieved = set(relevant_ids) & set(retrieved_ids)
+            precision = len(relevant_retrieved) / len(retrieved_ids) if retrieved_ids else 0
+            recall = len(relevant_retrieved) / len(relevant_ids) if relevant_ids else 0
+            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
+            
+            metrics['precision'].append(precision)
+            metrics['recall'].append(recall)
+            metrics['f1_score'].append(f1)
+        
+        # Calculate averages
+        avg_metrics = {
+            'avg_precision': sum(metrics['precision']) / len(metrics['precision']),
+            'avg_recall': sum(metrics['recall']) / len(metrics['recall']),
+            'avg_f1_score': sum(metrics['f1_score']) / len(metrics['f1_score'])
+        }
+        
+        return avg_metrics
+
+# Example usage
+def setup_advanced_rag():
+    # Initialize system
+    rag_system = AdvancedRAGSystem("your-openai-api-key")
+    
+    # Load documents
+    documents = rag_system.load_documents("./documents")
+    
+    # Create vector store
+    rag_system.create_vectorstore(documents)
+    
+    # Setup contextual compression
+    rag_system.setup_contextual_compression()
+    
+    # Create QA chain
+    rag_system.create_qa_chain()
+    
+    return rag_system
+
+# Test the system
+rag_system = setup_advanced_rag()
+
+# Answer a question
+question = "What are the main benefits of machine learning?"
+result = rag_system.answer_question(question)
+
+print(f"Question: {result['question']}")
+print(f"Answer: {result['answer']}")
+print(f"Sources: {result['num_sources']} documents")
+
+# Show source documents
+for i, doc in enumerate(result['source_documents']):
+    print(f"\nSource {i+1}:")
+    print(f"Content: {doc.page_content[:200]}...")
+    print(f"Metadata: {doc.metadata}")
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+### 3. **CrewAI Integration**
+
+<Card title="CrewAI Multi-Agent RAG">
+  <CodeGroup>
+    <CodeGroupItem title="CrewAI RAG Implementation" active>
+```python
+from crewai import Agent, Task, Crew
+from langchain.tools import Tool
+from typing import List, Dict, Any
+import json
+
+class RAGCrew:
+    def __init__(self):
+        self.researcher_agent = None
+        self.retriever_agent = None
+        self.analyst_agent = None
+        self.synthesizer_agent = None
+        self.knowledge_base = {}
+    
+    def create_agents(self):
+        """Create specialized RAG agents"""
+        
+        # Researcher Agent
+        self.researcher_agent = Agent(
+            role="Research Coordinator",
+            goal="Coordinate research tasks and identify information needs",
+            backstory="""You are an expert research coordinator who excels at understanding 
+            complex questions and breaking them down into researchable components. You 
+            identify what information is needed and where to find it.""",
+            verbose=True,
+            allow_delegation=True
+        )
+        
+        # Retriever Agent
+        self.retriever_agent = Agent(
+            role="Information Retriever",
+            goal="Retrieve relevant information from knowledge sources",
+            backstory="""You are an expert at finding and retrieving relevant information 
+            from various knowledge sources. You excel at search strategies, document 
+            analysis, and identifying the most relevant content.""",
+            verbose=True,
+            allow_delegation=False
+        )
+        
+        # Analyst Agent
+        self.analyst_agent = Agent(
+            role="Information Analyst",
+            goal="Analyze and evaluate retrieved information for relevance and quality",
+            backstory="""You are an expert analyst who excels at evaluating information 
+            quality, relevance, and reliability. You can identify biases, assess credibility, 
+            and determine the most valuable insights from retrieved content.""",
+            verbose=True,
+            allow_delegation=False
+        )
+        
+        # Synthesizer Agent
+        self.synthesizer_agent = Agent(
+            role="Response Synthesizer",
+            goal="Synthesize information into comprehensive, accurate responses",
+            backstory="""You are an expert at synthesizing information from multiple 
+            sources into coherent, comprehensive responses. You excel at combining insights, 
+            resolving contradictions, and creating well-structured answers.""",
+            verbose=True,
+            allow_delegation=False
+        )
+    
+    def create_research_task(self, question: str) -> Task:
+        """Create research coordination task"""
+        return Task(
+            description=f"""
+            Analyze the following question and create a research plan:
+            
+            Question: {question}
+            
+            Your task:
+            1. Break down the question into researchable components
+            2. Identify key concepts and terms that need investigation
+            3. Determine what types of information would be most valuable
+            4. Create a prioritized list of research areas
+            5. Suggest potential knowledge sources to consult
+            
+            Provide a structured research plan that will guide the information retrieval process.
+            """,
+            agent=self.researcher_agent
+        )
+    
+    def create_retrieval_task(self, research_plan: str) -> Task:
+        """Create information retrieval task"""
+        return Task(
+            description=f"""
+            Based on the research plan, retrieve relevant information:
+            
+            Research Plan: {research_plan}
+            
+            Your task:
+            1. Search through available knowledge sources
+            2. Retrieve documents and information relevant to the research areas
+            3. Extract key facts, data, and insights
+            4. Organize retrieved information by topic and relevance
+            5. Provide source citations and metadata
+            
+            Focus on finding the most relevant and reliable information available.
+            """,
+            agent=self.retriever_agent
+        )
+    
+    def create_analysis_task(self, retrieved_info: str) -> Task:
+        """Create information analysis task"""
+        return Task(
+            description=f"""
+            Analyze the retrieved information for quality and relevance:
+            
+            Retrieved Information: {retrieved_info}
+            
+            Your task:
+            1. Evaluate the credibility and reliability of sources
+            2. Assess the relevance of information to the original question
+            3. Identify any biases or limitations in the information
+            4. Determine the most valuable and accurate insights
+            5. Flag any contradictory or uncertain information
+            
+            Provide a critical analysis that highlights the best available information.
+            """,
+            agent=self.analyst_agent
+        )
+    
+    def create_synthesis_task(self, question: str, analysis: str) -> Task:
+        """Create response synthesis task"""
+        return Task(
+            description=f"""
+            Synthesize the analyzed information into a comprehensive response:
+            
+            Original Question: {question}
+            Information Analysis: {analysis}
+            
+            Your task:
+            1. Combine insights from multiple sources
+            2. Resolve any contradictions or inconsistencies
+            3. Structure the response logically and clearly
+            4. Ensure accuracy and completeness
+            5. Provide appropriate citations and attributions
+            
+            Create a well-structured, comprehensive answer that directly addresses the question.
+            """,
+            agent=self.synthesizer_agent
+        )
+    
+    def answer_with_rag_crew(self, question: str) -> Dict[str, Any]:
+        """Answer question using RAG crew"""
+        
+        # Create agents
+        self.create_agents()
+        
+        # Create tasks
+        research_task = self.create_research_task(question)
+        retrieval_task = self.create_retrieval_task("Research plan to be determined")
+        analysis_task = self.create_analysis_task("Retrieved information to be determined")
+        synthesis_task = self.create_synthesis_task(question, "Analysis to be determined")
+        
+        # Create crew
+        crew = Crew(
+            agents=[self.researcher_agent, self.retriever_agent, 
+                   self.analyst_agent, self.synthesizer_agent],
+            tasks=[research_task, retrieval_task, analysis_task, synthesis_task],
+            verbose=True
+        )
+        
+        # Execute crew
+        result = crew.kickoff()
+        
+        return {
+            'question': question,
+            'answer': result,
+            'agents': {
+                'researcher': self.researcher_agent,
+                'retriever': self.retriever_agent,
+                'analyst': self.analyst_agent,
+                'synthesizer': self.synthesizer_agent
+            }
+        }
+
+# Example usage
+rag_crew = RAGCrew()
+
+# Test with complex question
+question = "What are the current trends in artificial intelligence and their potential impact on healthcare?"
+
+result = rag_crew.answer_with_rag_crew(question)
+
+print(f"Question: {result['question']}")
+print(f"Answer: {result['answer']}")
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+## Best Practices
+
+### 1. **Document Processing**
+
+<CardGroup cols={2}>
+  <Card title="Text Chunking" icon="scissors">
+    <ul>
+      <li>Use appropriate chunk sizes (500-2000 tokens)</li>
+      <li>Maintain semantic coherence</li>
+      <li>Include overlap between chunks</li>
+      <li>Preserve context and structure</li>
+    </ul>
+  </Card>
+  <Card title="Metadata Management" icon="database">
+    <ul>
+      <li>Store source information</li>
+      <li>Include timestamps and versions</li>
+      <li>Add tags and categories</li>
+      <li>Track document relationships</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+### 2. **Retrieval Optimization**
+
+<Card title="Retrieval Best Practices">
+  <ul>
+    <li><strong>Query Expansion:</strong> Use synonyms and related terms</li>
+    <li><strong>Reranking:</strong> Apply cross-encoders for final ranking</li>
+    <li><strong>Hybrid Search:</strong> Combine sparse and dense retrieval</li>
+    <li><strong>Context Window:</strong> Optimize for model context limits</li>
+  </ul>
+</Card>
+
+### 3. **Response Generation**
+
+<Card title="Generation Strategies">
+  <ul>
+    <li><strong>Context Integration:</strong> Seamlessly incorporate retrieved information</li>
+    <li><strong>Source Attribution:</strong> Cite sources for transparency</li>
+    <li><strong>Confidence Indication:</strong> Express uncertainty when appropriate</li>
+    <li><strong>Fact Verification:</strong> Cross-reference information when possible</li>
+  </ul>
+</Card>
+
+## Real-World Applications
+
+### 1. **Customer Support**
+
+<Callout type="info">
+  **Case Study**: RAG is widely used in customer support systems to provide accurate, up-to-date information from knowledge bases, FAQs, and product documentation.
+</Callout>
+
+<Card title="Customer Support Applications">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Application</TableHeader>
+        <TableHeader>Knowledge Sources</TableHeader>
+        <TableHeader>Benefits</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>FAQ Systems</strong></TableCell>
+        <TableCell>FAQ databases, product manuals</TableCell>
+        <TableCell>Instant, accurate answers</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Technical Support</strong></TableCell>
+        <TableCell>Documentation, troubleshooting guides</TableCell>
+        <TableCell>Reduced resolution time</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Product Information</strong></TableCell>
+        <TableCell>Product catalogs, specifications</TableCell>
+        <TableCell>Detailed product knowledge</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Research and Analysis**
+
+<Card title="Research Applications">
+  <ul>
+    <li><strong>Academic Research:</strong> Literature review and citation analysis</li>
+    <li><strong>Market Research:</strong> Industry reports and competitor analysis</li>
+    <li><strong>Legal Research:</strong> Case law and legal precedents</li>
+    <li><strong>Medical Research:</strong> Clinical studies and medical literature</li>
+  </ul>
+</Card>
+
+### 3. **Content Creation**
+
+<Card title="Content Creation Use Cases">
+  <ul>
+    <li><strong>Documentation:</strong> Technical writing and user guides</li>
+    <li><strong>Journalism:</strong> Fact-checking and background research</li>
+    <li><strong>Marketing:</strong> Competitive analysis and market insights</li>
+    <li><strong>Education:</strong> Curriculum development and lesson planning</li>
+  </ul>
+</Card>
+
+## Related Techniques
+
+<CardGroup cols={3}>
+  <Card title="Vector Search" icon="search" href="./vector-search">
+    Semantic similarity search
+  </Card>
+  <Card title="Knowledge Graphs" icon="network" href="./knowledge-graphs">
+    Structured knowledge representation
+  </Card>
+  <Card title="Document Processing" icon="file-text" href="./document-processing">
+    Text extraction and analysis
+  </Card>
+  <Card title="Embeddings" icon="layers" href="./embeddings">
+    Semantic vector representations
+  </Card>
+  <Card title="Information Retrieval" icon="database" href="./information-retrieval">
+    Search and retrieval systems
+  </Card>
+  <Card title="Context Management" icon="folder" href="./context-management">
+    Managing conversation context
+  </Card>
+</CardGroup>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>CrewAI Documentation:</strong> <a href="https://docs.crewai.com/en/introduction">https://docs.crewai.com/en/introduction</a></li>
+    <li><strong>AI Design Guide:</strong> <a href="https://aidesign.guide/">https://aidesign.guide/</a></li>
+    <li><strong>LangChain Conceptual Guide:</strong> <a href="https://python.langchain.com/docs/get_started/concepts">https://python.langchain.com/docs/get_started/concepts</a></li>
+    <li><strong>NLP and LLMs 2024:</strong> <a href="https://nlp2024.jeju.ai/">https://nlp2024.jeju.ai/</a></li>
+    <li><strong>Prompt Engineering Guide:</strong> <a href="https://www.promptingguide.ai/">https://www.promptingguide.ai/</a></li>
+    <li><strong>Anthropic Tutorial:</strong> <a href="https://www.anthropic.com/">https://www.anthropic.com/</a></li>
+  </ul>
+</Card>

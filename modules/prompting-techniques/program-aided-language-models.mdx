@@ -1,0 +1,1147 @@
+---
+title: "Program-Aided Language Models"
+description: "Learn how to enhance AI reasoning by integrating programming capabilities with language models for complex problem-solving"
+slug: "modules-prompting-techniques-program-aided-language-models"
+updatedAt: "2025-08-19"
+tags: [prompting-technique, program-aided-language-models, code-generation, reasoning]
+---
+
+# Program-Aided Language Models
+
+<Callout type="info">
+  **Learning Objective**: Master program-aided language models that combine natural language reasoning with code execution for enhanced problem-solving capabilities.
+</Callout>
+
+## Overview
+
+Program-Aided Language Models (PAL) enhance AI reasoning by integrating programming capabilities with language models. This technique enables AI systems to write, execute, and reason with code to solve complex problems that require computational thinking.
+
+<CardGroup cols={2}>
+  <Card title="Code Integration" icon="code">
+    Combines natural language reasoning with executable code for enhanced problem-solving.
+  </Card>
+  <Card title="Computational Thinking" icon="calculator">
+    Enables AI to break down complex problems into computational steps.
+  </Card>
+</CardGroup>
+
+## What is Program-Aided Language Models?
+
+Program-Aided Language Models is a technique that:
+
+- **Generates Code**: Creates executable code to solve problems
+- **Executes Programs**: Runs code to perform calculations and operations
+- **Reasons with Results**: Uses program outputs to inform reasoning
+- **Combines Modalities**: Integrates natural language and programming
+
+<Callout type="warning">
+  **Key Insight**: PAL enables AI to leverage the precision and computational power of programming while maintaining the flexibility of natural language reasoning.
+</Callout>
+
+## Key Concepts
+
+### 1. **Code Generation Patterns**
+
+<Card title="Code Generation Strategies">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Pattern</TableHeader>
+        <TableHeader>Description</TableHeader>
+        <TableHeader>Example</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Mathematical Computation</strong></TableCell>
+        <TableCell>Generate code for mathematical operations</TableCell>
+        <TableCell>Calculating statistics, solving equations</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Data Processing</strong></TableCell>
+        <TableCell>Create code for data manipulation</TableCell>
+        <TableCell>Filtering, sorting, transforming data</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Algorithm Implementation</strong></TableCell>
+        <TableCell>Implement algorithms for problem-solving</TableCell>
+        <TableCell>Search algorithms, optimization methods</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Simulation</strong></TableCell>
+        <TableCell>Generate simulation code</TableCell>
+        <TableCell>Monte Carlo simulations, modeling</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Execution Strategies**
+
+<Card title="Code Execution Approaches">
+  <h4>1. Safe Execution:</h4>
+  <ul>
+    <li><strong>Sandboxed Environment:</strong> Execute code in isolated containers</li>
+    <li><strong>Timeout Limits:</strong> Prevent infinite loops and long-running code</li>
+    <li><strong>Resource Constraints:</strong> Limit memory and CPU usage</li>
+    <li><strong>Input Validation:</strong> Validate code before execution</li>
+  </ul>
+  
+  <h4>2. Error Handling:</h4>
+  <ul>
+    <li><strong>Exception Catching:</strong> Handle runtime errors gracefully</li>
+    <li><strong>Fallback Strategies:</strong> Provide alternative solutions</li>
+    <li><strong>Debugging Support:</strong> Help identify and fix code issues</li>
+    <li><strong>Validation Checks:</strong> Verify code correctness</li>
+  </ul>
+</Card>
+
+### 3. **Integration Patterns**
+
+<Card title="Language-Code Integration">
+  <ul>
+    <li><strong>Code Embedding:</strong> Embed code within natural language responses</li>
+    <li><strong>Result Interpretation:</strong> Explain code outputs in natural language</li>
+    <li><strong>Step-by-Step Reasoning:</strong> Combine code execution with reasoning</li>
+    <li><strong>Validation:</strong> Use code to verify reasoning conclusions</li>
+  </ul>
+</Card>
+
+## Implementation
+
+### 1. **Basic PAL Implementation**
+
+<CodeGroup>
+  <CodeGroupItem title="Python" active>
+```python
+import subprocess
+import tempfile
+import os
+import json
+from typing import Dict, List, Any, Optional
+import ast
+
+class ProgramAidedLanguageModel:
+    def __init__(self):
+        self.safe_modules = ['math', 'random', 'datetime', 'collections', 'itertools']
+        self.max_execution_time = 30  # seconds
+        self.max_memory = 100 * 1024 * 1024  # 100MB
+    
+    def generate_code(self, problem_description: str) -> str:
+        """Generate code based on problem description"""
+        
+        # Simple code generation based on problem type
+        if "calculate" in problem_description.lower():
+            return self.generate_calculation_code(problem_description)
+        elif "sort" in problem_description.lower():
+            return self.generate_sorting_code(problem_description)
+        elif "find" in problem_description.lower():
+            return self.generate_search_code(problem_description)
+        else:
+            return self.generate_general_code(problem_description)
+    
+    def generate_calculation_code(self, problem: str) -> str:
+        """Generate code for mathematical calculations"""
+        return """
+import math
+
+def solve_problem():
+    # Extract numbers from problem description
+    numbers = [1, 2, 3, 4, 5]  # Placeholder
+    
+    # Perform calculations
+    result = sum(numbers)
+    average = result / len(numbers)
+    
+    return {
+        'sum': result,
+        'average': average,
+        'count': len(numbers)
+    }
+
+result = solve_problem()
+print(json.dumps(result))
+"""
+    
+    def generate_sorting_code(self, problem: str) -> str:
+        """Generate code for sorting operations"""
+        return """
+def sort_data():
+    # Sample data
+    data = [3, 1, 4, 1, 5, 9, 2, 6]
+    
+    # Sort the data
+    sorted_data = sorted(data)
+    reverse_sorted = sorted(data, reverse=True)
+    
+    return {
+        'original': data,
+        'sorted': sorted_data,
+        'reverse_sorted': reverse_sorted
+    }
+
+result = sort_data()
+print(json.dumps(result))
+"""
+    
+    def generate_search_code(self, problem: str) -> str:
+        """Generate code for search operations"""
+        return """
+def search_data():
+    # Sample data
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    target = 5
+    
+    # Linear search
+    linear_result = target in data
+    linear_index = data.index(target) if linear_result else -1
+    
+    # Binary search
+    def binary_search(arr, target):
+        left, right = 0, len(arr) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if arr[mid] == target:
+                return mid
+            elif arr[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return -1
+    
+    binary_index = binary_search(data, target)
+    
+    return {
+        'data': data,
+        'target': target,
+        'linear_search': {'found': linear_result, 'index': linear_index},
+        'binary_search': {'found': binary_index != -1, 'index': binary_index}
+    }
+
+result = search_data()
+print(json.dumps(result))
+"""
+    
+    def generate_general_code(self, problem: str) -> str:
+        """Generate general-purpose code"""
+        return """
+def solve_general_problem():
+    # Analyze the problem and implement a solution
+    return {
+        'problem': 'General problem solving',
+        'solution': 'Implemented solution',
+        'result': 'Problem solved successfully'
+    }
+
+result = solve_general_problem()
+print(json.dumps(result))
+"""
+    
+    def validate_code(self, code: str) -> bool:
+        """Validate code for safety and correctness"""
+        try:
+            # Parse the code to check syntax
+            ast.parse(code)
+            
+            # Check for dangerous imports
+            tree = ast.parse(code)
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Import):
+                    for alias in node.names:
+                        if alias.name not in self.safe_modules:
+                            return False
+                elif isinstance(node, ast.ImportFrom):
+                    if node.module not in self.safe_modules:
+                        return False
+            
+            return True
+        except SyntaxError:
+            return False
+    
+    def execute_code(self, code: str) -> Dict[str, Any]:
+        """Execute code safely and return results"""
+        
+        if not self.validate_code(code):
+            return {
+                'error': 'Code validation failed',
+                'success': False
+            }
+        
+        try:
+            # Create temporary file
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+                f.write(code)
+                temp_file = f.name
+            
+            # Execute code with timeout
+            result = subprocess.run(
+                ['python', temp_file],
+                capture_output=True,
+                text=True,
+                timeout=self.max_execution_time
+            )
+            
+            # Clean up
+            os.unlink(temp_file)
+            
+            if result.returncode == 0:
+                try:
+                    output = json.loads(result.stdout.strip())
+                    return {
+                        'success': True,
+                        'output': output,
+                        'stdout': result.stdout,
+                        'stderr': result.stderr
+                    }
+                except json.JSONDecodeError:
+                    return {
+                        'success': True,
+                        'output': result.stdout,
+                        'stdout': result.stdout,
+                        'stderr': result.stderr
+                    }
+            else:
+                return {
+                    'success': False,
+                    'error': result.stderr,
+                    'stdout': result.stdout,
+                    'stderr': result.stderr
+                }
+                
+        except subprocess.TimeoutExpired:
+            return {
+                'success': False,
+                'error': 'Execution timeout',
+                'timeout': True
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def solve_problem(self, problem_description: str) -> Dict[str, Any]:
+        """Solve a problem using program-aided language model"""
+        
+        # Step 1: Generate code
+        code = self.generate_code(problem_description)
+        
+        # Step 2: Execute code
+        execution_result = self.execute_code(code)
+        
+        # Step 3: Interpret results
+        if execution_result['success']:
+            interpretation = self.interpret_results(problem_description, execution_result['output'])
+        else:
+            interpretation = f"Error executing code: {execution_result['error']}"
+        
+        return {
+            'problem': problem_description,
+            'generated_code': code,
+            'execution_result': execution_result,
+            'interpretation': interpretation
+        }
+    
+    def interpret_results(self, problem: str, results: Any) -> str:
+        """Interpret code execution results in natural language"""
+        
+        if isinstance(results, dict):
+            interpretation_parts = []
+            for key, value in results.items():
+                interpretation_parts.append(f"{key}: {value}")
+            return f"Results: {'; '.join(interpretation_parts)}"
+        else:
+            return f"Result: {results}"
+
+# Example usage
+pal_model = ProgramAidedLanguageModel()
+
+# Solve different types of problems
+problems = [
+    "Calculate the sum and average of the numbers 1, 2, 3, 4, 5",
+    "Sort the list [3, 1, 4, 1, 5, 9, 2, 6] in ascending order",
+    "Find the number 5 in the list [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+]
+
+for problem in problems:
+    result = pal_model.solve_problem(problem)
+    print(f"Problem: {problem}")
+    print(f"Interpretation: {result['interpretation']}")
+    print("-" * 50)
+```
+  </CodeGroupItem>
+  
+  <CodeGroupItem title="JavaScript">
+```javascript
+class ProgramAidedLanguageModel {
+    constructor() {
+        this.safeModules = ['math', 'random', 'datetime', 'collections', 'itertools'];
+        this.maxExecutionTime = 30000; // 30 seconds
+    }
+    
+    generateCode(problemDescription) {
+        // Simple code generation based on problem type
+        if (problemDescription.toLowerCase().includes('calculate')) {
+            return this.generateCalculationCode(problemDescription);
+        } else if (problemDescription.toLowerCase().includes('sort')) {
+            return this.generateSortingCode(problemDescription);
+        } else if (problemDescription.toLowerCase().includes('find')) {
+            return this.generateSearchCode(problemDescription);
+        } else {
+            return this.generateGeneralCode(problemDescription);
+        }
+    }
+    
+    generateCalculationCode(problem) {
+        return `
+function solveProblem() {
+    // Extract numbers from problem description
+    const numbers = [1, 2, 3, 4, 5]; // Placeholder
+    
+    // Perform calculations
+    const result = numbers.reduce((sum, num) => sum + num, 0);
+    const average = result / numbers.length;
+    
+    return {
+        sum: result,
+        average: average,
+        count: numbers.length
+    };
+}
+
+const result = solveProblem();
+console.log(JSON.stringify(result));
+`;
+    }
+    
+    generateSortingCode(problem) {
+        return `
+function sortData() {
+    // Sample data
+    const data = [3, 1, 4, 1, 5, 9, 2, 6];
+    
+    // Sort the data
+    const sortedData = [...data].sort((a, b) => a - b);
+    const reverseSorted = [...data].sort((a, b) => b - a);
+    
+    return {
+        original: data,
+        sorted: sortedData,
+        reverseSorted: reverseSorted
+    };
+}
+
+const result = sortData();
+console.log(JSON.stringify(result));
+`;
+    }
+    
+    generateSearchCode(problem) {
+        return `
+function searchData() {
+    // Sample data
+    const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const target = 5;
+    
+    // Linear search
+    const linearIndex = data.indexOf(target);
+    const linearResult = linearIndex !== -1;
+    
+    // Binary search
+    function binarySearch(arr, target) {
+        let left = 0;
+        let right = arr.length - 1;
+        
+        while (left <= right) {
+            const mid = Math.floor((left + right) / 2);
+            if (arr[mid] === target) {
+                return mid;
+            } else if (arr[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
+    
+    const binaryIndex = binarySearch(data, target);
+    
+    return {
+        data: data,
+        target: target,
+        linearSearch: { found: linearResult, index: linearIndex },
+        binarySearch: { found: binaryIndex !== -1, index: binaryIndex }
+    };
+}
+
+const result = searchData();
+console.log(JSON.stringify(result));
+`;
+    }
+    
+    generateGeneralCode(problem) {
+        return `
+function solveGeneralProblem() {
+    // Analyze the problem and implement a solution
+    return {
+        problem: 'General problem solving',
+        solution: 'Implemented solution',
+        result: 'Problem solved successfully'
+    };
+}
+
+const result = solveGeneralProblem();
+console.log(JSON.stringify(result));
+`;
+    }
+    
+    validateCode(code) {
+        try {
+            // Basic validation - check for dangerous patterns
+            const dangerousPatterns = [
+                'eval(',
+                'Function(',
+                'setTimeout(',
+                'setInterval(',
+                'require(',
+                'import('
+            ];
+            
+            for (const pattern of dangerousPatterns) {
+                if (code.includes(pattern)) {
+                    return false;
+                }
+            }
+            
+            // Try to parse the code
+            new Function(code);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+    
+    async executeCode(code) {
+        if (!this.validateCode(code)) {
+            return {
+                error: 'Code validation failed',
+                success: false
+            };
+        }
+        
+        try {
+            // Create a safe execution environment
+            const sandbox = {
+                console: {
+                    log: (output) => {
+                        sandbox.output = output;
+                    }
+                },
+                output: null
+            };
+            
+            // Execute code with timeout
+            const executionPromise = new Promise((resolve) => {
+                const func = new Function('console', code);
+                func(sandbox.console);
+                resolve(sandbox.output);
+            });
+            
+            const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => reject(new Error('Execution timeout')), this.maxExecutionTime);
+            });
+            
+            const result = await Promise.race([executionPromise, timeoutPromise]);
+            
+            return {
+                success: true,
+                output: result,
+                stdout: result
+            };
+            
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message
+            };
+        }
+    }
+    
+    async solveProblem(problemDescription) {
+        // Step 1: Generate code
+        const code = this.generateCode(problemDescription);
+        
+        // Step 2: Execute code
+        const executionResult = await this.executeCode(code);
+        
+        // Step 3: Interpret results
+        let interpretation;
+        if (executionResult.success) {
+            interpretation = this.interpretResults(problemDescription, executionResult.output);
+        } else {
+            interpretation = `Error executing code: ${executionResult.error}`;
+        }
+        
+        return {
+            problem: problemDescription,
+            generatedCode: code,
+            executionResult: executionResult,
+            interpretation: interpretation
+        };
+    }
+    
+    interpretResults(problem, results) {
+        if (typeof results === 'object') {
+            const interpretationParts = [];
+            for (const [key, value] of Object.entries(results)) {
+                interpretationParts.push(`${key}: ${value}`);
+            }
+            return `Results: ${interpretationParts.join('; ')}`;
+        } else {
+            return `Result: ${results}`;
+        }
+    }
+}
+
+// Example usage
+const palModel = new ProgramAidedLanguageModel();
+
+const problems = [
+    "Calculate the sum and average of the numbers 1, 2, 3, 4, 5",
+    "Sort the list [3, 1, 4, 1, 5, 9, 2, 6] in ascending order",
+    "Find the number 5 in the list [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+];
+
+async function runExamples() {
+    for (const problem of problems) {
+        const result = await palModel.solveProblem(problem);
+        console.log(`Problem: ${problem}`);
+        console.log(`Interpretation: ${result.interpretation}`);
+        console.log('-'.repeat(50));
+    }
+}
+
+runExamples();
+```
+  </CodeGroupItem>
+</CodeGroup>
+
+### 2. **Advanced PAL with LangChain**
+
+<Card title="LangChain Integration">
+  <CodeGroup>
+    <CodeGroupItem title="LangChain Implementation" active>
+```python
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+from langchain.llms import OpenAI
+from langchain.tools import Tool
+from typing import Dict, List, Any
+import json
+import subprocess
+import tempfile
+import os
+
+class AdvancedPAL:
+    def __init__(self, api_key: str):
+        self.llm = OpenAI(api_key=api_key, temperature=0.1)
+        self.code_generation_prompt = None
+        self.result_interpretation_prompt = None
+        self.setup_prompts()
+    
+    def setup_prompts(self):
+        """Setup prompt templates for code generation and interpretation"""
+        
+        self.code_generation_prompt = PromptTemplate(
+            template="""
+            You are an expert programmer. Generate Python code to solve the following problem:
+            
+            Problem: {problem}
+            
+            Requirements:
+            1. Write clean, efficient Python code
+            2. Include proper error handling
+            3. Return results as JSON
+            4. Use only safe, standard library modules
+            5. Add comments explaining the logic
+            
+            Generate only the Python code, no explanations:
+            """,
+            input_variables=["problem"]
+        )
+        
+        self.result_interpretation_prompt = PromptTemplate(
+            template="""
+            Interpret the following code execution results in natural language:
+            
+            Problem: {problem}
+            Code Output: {code_output}
+            
+            Provide a clear, natural language explanation of what the code accomplished and what the results mean.
+            """,
+            input_variables=["problem", "code_output"]
+        )
+    
+    def generate_code_with_llm(self, problem: str) -> str:
+        """Generate code using language model"""
+        
+        chain = LLMChain(llm=self.llm, prompt=self.code_generation_prompt)
+        response = chain.run(problem=problem)
+        
+        # Clean up the response to extract just the code
+        code_lines = response.strip().split('\n')
+        code_lines = [line for line in code_lines if line.strip() and not line.startswith('```')]
+        
+        return '\n'.join(code_lines)
+    
+    def execute_code_safely(self, code: str) -> Dict[str, Any]:
+        """Execute code in a safe environment"""
+        
+        try:
+            # Create temporary file
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+                f.write(code)
+                temp_file = f.name
+            
+            # Execute with timeout and resource limits
+            result = subprocess.run(
+                ['python', temp_file],
+                capture_output=True,
+                text=True,
+                timeout=30,
+                cwd=tempfile.gettempdir()
+            )
+            
+            # Clean up
+            os.unlink(temp_file)
+            
+            if result.returncode == 0:
+                try:
+                    output = json.loads(result.stdout.strip())
+                    return {
+                        'success': True,
+                        'output': output,
+                        'stdout': result.stdout,
+                        'stderr': result.stderr
+                    }
+                except json.JSONDecodeError:
+                    return {
+                        'success': True,
+                        'output': result.stdout.strip(),
+                        'stdout': result.stdout,
+                        'stderr': result.stderr
+                    }
+            else:
+                return {
+                    'success': False,
+                    'error': result.stderr,
+                    'stdout': result.stdout,
+                    'stderr': result.stderr
+                }
+                
+        except subprocess.TimeoutExpired:
+            return {
+                'success': False,
+                'error': 'Execution timeout',
+                'timeout': True
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
+    
+    def interpret_results_with_llm(self, problem: str, code_output: Any) -> str:
+        """Interpret results using language model"""
+        
+        chain = LLMChain(llm=self.llm, prompt=self.result_interpretation_prompt)
+        response = chain.run(
+            problem=problem,
+            code_output=json.dumps(code_output) if isinstance(code_output, (dict, list)) else str(code_output)
+        )
+        
+        return response.strip()
+    
+    def solve_problem(self, problem: str) -> Dict[str, Any]:
+        """Solve a problem using PAL approach"""
+        
+        # Step 1: Generate code using LLM
+        generated_code = self.generate_code_with_llm(problem)
+        
+        # Step 2: Execute the generated code
+        execution_result = self.execute_code_safely(generated_code)
+        
+        # Step 3: Interpret results using LLM
+        if execution_result['success']:
+            interpretation = self.interpret_results_with_llm(problem, execution_result['output'])
+        else:
+            interpretation = f"Error: {execution_result['error']}"
+        
+        return {
+            'problem': problem,
+            'generated_code': generated_code,
+            'execution_result': execution_result,
+            'interpretation': interpretation
+        }
+
+# Example usage
+advanced_pal = AdvancedPAL("your-api-key")
+
+# Solve complex problems
+problems = [
+    "Calculate the factorial of 10 and find all prime numbers less than 50",
+    "Sort a list of dictionaries by multiple keys: [{'name': 'Alice', 'age': 30}, {'name': 'Bob', 'age': 25}, {'name': 'Charlie', 'age': 35}]",
+    "Find the longest common subsequence between 'ABCDGH' and 'AEDFHR'"
+]
+
+for problem in problems:
+    result = advanced_pal.solve_problem(problem)
+    print(f"Problem: {problem}")
+    print(f"Generated Code:\n{result['generated_code']}")
+    print(f"Interpretation: {result['interpretation']}")
+    print("-" * 80)
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+### 3. **CrewAI Integration**
+
+<Card title="CrewAI Multi-Agent PAL">
+  <CodeGroup>
+    <CodeGroupItem title="CrewAI Implementation" active>
+```python
+from crewai import Agent, Task, Crew
+from langchain.tools import Tool
+import json
+
+class PALCrew:
+    def __init__(self):
+        self.problem_analyzer_agent = None
+        self.code_generator_agent = None
+        self.code_executor_agent = None
+        self.result_interpreter_agent = None
+    
+    def create_agents(self):
+        """Create specialized PAL agents"""
+        
+        # Problem Analyzer Agent
+        self.problem_analyzer_agent = Agent(
+            role="Problem Analysis Specialist",
+            goal="Analyze problems and determine the best computational approach",
+            backstory="""You are an expert in problem analysis and computational thinking. 
+            You excel at breaking down complex problems into computational components and 
+            determining the best algorithmic approaches.""",
+            verbose=True,
+            allow_delegation=False
+        )
+        
+        # Code Generator Agent
+        self.code_generator_agent = Agent(
+            role="Code Generation Specialist",
+            goal="Generate efficient, safe, and well-documented code",
+            backstory="""You are an expert programmer who specializes in generating 
+            clean, efficient code. You understand multiple programming paradigms and 
+            can implement complex algorithms and data structures.""",
+            verbose=True,
+            allow_delegation=False
+        )
+        
+        # Code Executor Agent
+        self.code_executor_agent = Agent(
+            role="Code Execution Specialist",
+            goal="Execute code safely and handle errors gracefully",
+            backstory="""You are an expert in code execution and runtime management. 
+            You understand how to execute code safely, handle errors, and manage 
+            computational resources effectively.""",
+            verbose=True,
+            allow_delegation=False
+        )
+        
+        # Result Interpreter Agent
+        self.result_interpreter_agent = Agent(
+            role="Result Interpretation Specialist",
+            goal="Interpret computational results in natural language",
+            backstory="""You are an expert in translating computational results into 
+            clear, understandable natural language explanations. You can explain complex 
+            technical concepts in accessible terms.""",
+            verbose=True,
+            allow_delegation=False
+        )
+    
+    def create_analysis_task(self, problem: str) -> Task:
+        """Create task for problem analysis"""
+        return Task(
+            description=f"""
+            Analyze the following problem and determine the best computational approach:
+            
+            Problem: {problem}
+            
+            Your analysis should include:
+            1. Problem type classification
+            2. Required computational steps
+            3. Algorithm recommendations
+            4. Data structure requirements
+            5. Expected complexity considerations
+            
+            Provide a structured analysis that can guide code generation.
+            """,
+            agent=self.problem_analyzer_agent
+        )
+    
+    def create_code_generation_task(self, problem: str, analysis: str) -> Task:
+        """Create task for code generation"""
+        return Task(
+            description=f"""
+            Generate Python code to solve the following problem:
+            
+            Problem: {problem}
+            Analysis: {analysis}
+            
+            Requirements:
+            1. Write clean, efficient Python code
+            2. Include proper error handling
+            3. Return results as JSON
+            4. Use only safe, standard library modules
+            5. Add comprehensive comments
+            6. Follow best practices
+            
+            Generate the complete Python code solution.
+            """,
+            agent=self.code_generator_agent
+        )
+    
+    def create_execution_task(self, code: str) -> Task:
+        """Create task for code execution"""
+        return Task(
+            description=f"""
+            Execute the following Python code safely and return the results:
+            
+            Code:
+            {code}
+            
+            Your task:
+            1. Validate the code for safety
+            2. Execute the code in a controlled environment
+            3. Capture the output and any errors
+            4. Handle execution timeouts and resource limits
+            5. Return structured execution results
+            
+            Provide the execution results in a clear format.
+            """,
+            agent=self.code_executor_agent
+        )
+    
+    def create_interpretation_task(self, problem: str, code: str, results: str) -> Task:
+        """Create task for result interpretation"""
+        return Task(
+            description=f"""
+            Interpret the computational results in natural language:
+            
+            Problem: {problem}
+            Code: {code}
+            Results: {results}
+            
+            Your task:
+            1. Explain what the code accomplished
+            2. Interpret the results in context of the problem
+            3. Provide insights about the solution
+            4. Explain any important findings
+            5. Suggest potential improvements or alternatives
+            
+            Provide a clear, comprehensive interpretation.
+            """,
+            agent=self.result_interpreter_agent
+        )
+    
+    def solve_problem(self, problem: str) -> Dict[str, Any]:
+        """Solve a problem using the PAL crew"""
+        
+        # Create agents
+        self.create_agents()
+        
+        # Create tasks
+        analysis_task = self.create_analysis_task(problem)
+        code_generation_task = self.create_code_generation_task(problem, "")
+        execution_task = self.create_execution_task("")
+        interpretation_task = self.create_interpretation_task(problem, "", "")
+        
+        # Create crew
+        crew = Crew(
+            agents=[
+                self.problem_analyzer_agent,
+                self.code_generator_agent,
+                self.code_executor_agent,
+                self.result_interpreter_agent
+            ],
+            tasks=[analysis_task, code_generation_task, execution_task, interpretation_task],
+            verbose=True
+        )
+        
+        # Execute
+        result = crew.kickoff()
+        
+        return {
+            'problem': problem,
+            'crew_result': result,
+            'agents': {
+                'analyzer': self.problem_analyzer_agent,
+                'generator': self.code_generator_agent,
+                'executor': self.code_executor_agent,
+                'interpreter': self.result_interpreter_agent
+            }
+        }
+
+# Example usage
+pal_crew = PALCrew()
+
+# Solve a complex problem
+problem = "Implement a function to find the shortest path between two nodes in a weighted graph using Dijkstra's algorithm"
+
+result = pal_crew.solve_problem(problem)
+print(result['crew_result'])
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+## Best Practices
+
+### 1. **Code Generation**
+
+<CardGroup cols={2}>
+  <Card title="Code Quality" icon="check-square">
+    <ul>
+      <li>Generate clean, readable code</li>
+      <li>Include proper error handling</li>
+      <li>Add comprehensive comments</li>
+      <li>Follow language conventions</li>
+    </ul>
+  </Card>
+  <Card title="Safety Considerations" icon="shield">
+    <ul>
+      <li>Validate code before execution</li>
+      <li>Use sandboxed environments</li>
+      <li>Limit execution time and resources</li>
+      <li>Restrict dangerous operations</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+### 2. **Execution Management**
+
+<Card title="Execution Best Practices">
+  <ul>
+    <li><strong>Environment Isolation:</strong> Execute code in isolated containers</li>
+    <li><strong>Resource Limits:</strong> Set memory and CPU constraints</li>
+    <li><strong>Timeout Handling:</strong> Prevent infinite loops</li>
+    <li><strong>Error Recovery:</strong> Handle execution failures gracefully</li>
+  </ul>
+</Card>
+
+### 3. **Result Interpretation**
+
+<Card title="Interpretation Strategies">
+  <ul>
+    <li><strong>Context Awareness:</strong> Relate results to the original problem</li>
+    <li><strong>Clarity:</strong> Explain results in accessible language</li>
+    <li><strong>Insights:</strong> Provide meaningful analysis of results</li>
+    <li><strong>Validation:</strong> Verify results make sense</li>
+  </ul>
+</Card>
+
+## Real-World Applications
+
+### 1. **Mathematical Problem Solving**
+
+<Callout type="info">
+  **Case Study**: PAL is particularly effective for mathematical problems that require complex calculations, statistical analysis, or algorithmic solutions.
+</Callout>
+
+<Card title="Mathematical Applications">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Application</TableHeader>
+        <TableHeader>Code Type</TableHeader>
+        <TableHeader>Example</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Statistical Analysis</strong></TableCell>
+        <TableCell>Data processing and analysis</TableCell>
+        <TableCell>Calculating means, standard deviations, correlations</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Optimization Problems</strong></TableCell>
+        <TableCell>Algorithm implementation</TableCell>
+        <TableCell>Linear programming, genetic algorithms</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Simulation</strong></TableCell>
+        <TableCell>Monte Carlo methods</TableCell>
+        <TableCell>Risk assessment, financial modeling</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Data Processing**
+
+<Card title="Data Applications">
+  <ul>
+    <li><strong>Data Cleaning:</strong> Generate code for data preprocessing</li>
+    <li><strong>Feature Engineering:</strong> Create computational features</li>
+    <li><strong>Data Visualization:</strong> Generate plotting code</li>
+    <li><strong>ETL Processes:</strong> Implement data transformation pipelines</li>
+  </ul>
+</Card>
+
+### 3. **Algorithm Implementation**
+
+<Card title="Algorithm Applications">
+  <ul>
+    <li><strong>Search Algorithms:</strong> Implement various search methods</li>
+    <li><strong>Sorting Algorithms:</strong> Generate efficient sorting code</li>
+    <li><strong>Graph Algorithms:</strong> Implement pathfinding and traversal</li>
+    <li><strong>Machine Learning:</strong> Create ML algorithm implementations</li>
+  </ul>
+</Card>
+
+## Related Techniques
+
+<CardGroup cols={3}>
+  <Card title="Chain-of-Thought" icon="git-branch" href="./chain-of-thought">
+    Step-by-step reasoning prompts
+  </Card>
+  <Card title="Automatic Reasoning" icon="brain" href="./automatic-reasoning">
+    Systematic logical analysis
+  </Card>
+  <Card title="Tree of Thoughts" icon="git-merge" href="./tree-of-thoughts">
+    Exploring multiple reasoning branches
+  </Card>
+  <Card title="Graph Prompting" icon="network" href="./graph-prompting">
+    Structured reasoning with graphs
+  </Card>
+  <Card title="Self-Consistency" icon="repeat" href="./self-consistency">
+    Multiple reasoning paths for validation
+  </Card>
+  <Card title="Reflexion" icon="refresh-cw" href="./reflexion">
+    Self-reflection and improvement
+  </Card>
+</CardGroup>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>CrewAI Documentation:</strong> <a href="https://docs.crewai.com/en/introduction">https://docs.crewai.com/en/introduction</a></li>
+    <li><strong>AI Design Guide:</strong> <a href="https://aidesign.guide/">https://aidesign.guide/</a></li>
+    <li><strong>LangChain Conceptual Guide:</strong> <a href="https://python.langchain.com/docs/get_started/concepts">https://python.langchain.com/docs/get_started/concepts</a></li>
+    <li><strong>NLP and LLMs 2024:</strong> <a href="https://nlp2024.jeju.ai/">https://nlp2024.jeju.ai/</a></li>
+    <li><strong>Prompt Engineering Guide:</strong> <a href="https://www.promptingguide.ai/">https://www.promptingguide.ai/</a></li>
+    <li><strong>Anthropic Tutorial:</strong> <a href="https://www.anthropic.com/">https://www.anthropic.com/</a></li>
+  </ul>
+</Card>

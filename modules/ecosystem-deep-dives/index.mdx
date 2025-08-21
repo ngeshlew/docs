@@ -1,0 +1,618 @@
+---
+title: "AI Ecosystem Deep Dives"
+description: "Explore the comprehensive AI ecosystem including major platforms, frameworks, tools, and their interconnections for building sophisticated AI applications"
+slug: "modules-ecosystem-deep-dives"
+updatedAt: "2025-08-19"
+tags: [module, ecosystem, platforms, frameworks, tools]
+---
+
+# AI Ecosystem Deep Dives
+
+<Callout type="info">
+  **Learning Objective**: Understand the comprehensive AI ecosystem landscape, from foundational platforms to specialized tools, and how they interconnect to enable sophisticated AI applications.
+</Callout>
+
+## Overview
+
+The AI ecosystem is a complex, interconnected network of platforms, frameworks, tools, and services that enable the development and deployment of AI applications. Understanding this ecosystem is crucial for making informed decisions about technology choices and building scalable AI solutions.
+
+<CardGroup cols={2}>
+  <Card title="Platform Diversity" icon="layers">
+    The AI ecosystem spans multiple layers from infrastructure to application frameworks, each serving specific needs and use cases.
+  </Card>
+  <Card title="Rapid Evolution" icon="trending-up">
+    The ecosystem evolves rapidly with new tools and platforms emerging constantly, requiring continuous learning and adaptation.
+  </Card>
+</CardGroup>
+
+## Why It's Important for Designers to Know
+
+### 1. **Technology Selection**
+
+<Card title="Informed Technology Choices">
+  <ul>
+    <li><strong>Platform Capabilities:</strong> Understand what each platform can and cannot do</li>
+    <li><strong>Integration Complexity:</strong> Assess how different tools work together</li>
+    <li><strong>Scalability Considerations:</strong> Choose platforms that can grow with your needs</li>
+    <li><strong>Cost Implications:</strong> Understand the pricing models and total cost of ownership</li>
+    <li><strong>Vendor Lock-in:</strong> Consider the risks and benefits of platform dependencies</li>
+  </ul>
+</Card>
+
+### 2. **Architecture Design**
+
+<Callout type="warning">
+  **Critical Insight**: The choice of ecosystem components directly impacts system architecture, performance, and maintainability.
+</Callout>
+
+<Card title="Architecture Implications">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Ecosystem Choice</TableHeader>
+        <TableHeader>Architecture Impact</TableHeader>
+        <TableHeader>Design Considerations</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Cloud vs. Edge</strong></TableCell>
+        <TableCell>Network dependencies, latency, offline capabilities</TableCell>
+        <TableCell>User experience in different network conditions</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Monolithic vs. Microservices</strong></TableCell>
+        <TableCell>Deployment complexity, scalability, maintenance</TableCell>
+        <TableCell>Feature development velocity and system reliability</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Proprietary vs. Open Source</strong></TableCell>
+        <TableCell>Customization flexibility, support, cost</TableCell>
+        <TableCell>Long-term maintainability and feature control</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Real-time vs. Batch</strong></TableCell>
+        <TableCell>User experience, system complexity, cost</TableCell>
+        <TableCell>User expectations and interaction patterns</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 3. **User Experience Design**
+
+<CardGroup cols={2}>
+  <Card title="Platform Constraints" icon="lock">
+    <ul>
+      <li>Understanding platform limitations</li>
+      <li>Designing within technical boundaries</li>
+      <li>Creating fallback experiences</li>
+      <li>Optimizing for platform strengths</li>
+    </ul>
+  </Card>
+  <Card title="Platform Opportunities" icon="zap">
+    <ul>
+      <li>Leveraging platform-specific features</li>
+      <li>Creating native experiences</li>
+      <li>Optimizing for platform performance</li>
+      <li>Integrating with platform ecosystems</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+## Major AI Ecosystem Components
+
+### 1. **Foundation Models & APIs**
+
+<Card title="Large Language Model Providers">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Provider</TableHeader>
+        <TableHeader>Key Models</TableHeader>
+        <TableHeader>Strengths</TableHeader>
+        <TableHeader>Use Cases</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>OpenAI</strong></TableCell>
+        <TableCell>GPT-4, GPT-3.5, DALL-E, Whisper</TableCell>
+        <TableCell>High quality, extensive documentation, reliable API</TableCell>
+        <TableCell>General purpose AI, content generation, analysis</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Anthropic</strong></TableCell>
+        <TableCell>Claude, Claude Instant</TableCell>
+        <TableCell>Safety-focused, constitutional AI, long context</TableCell>
+        <TableCell>Enterprise applications, safety-critical systems</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Google</strong></TableCell>
+        <TableCell>PaLM, Gemini, LaMDA</TableCell>
+        <TableCell>Integration with Google ecosystem, multimodal</TableCell>
+        <TableCell>Google Workspace integration, multimodal tasks</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Meta</strong></TableCell>
+        <TableCell>LLaMA, Code Llama</TableCell>
+        <TableCell>Open source, customizable, code-focused</TableCell>
+        <TableCell>Custom applications, code generation, research</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Development Frameworks**
+
+<Accordion type="single" collapsible>
+  <AccordionItem value="langchain">
+    <AccordionTrigger>LangChain Ecosystem</AccordionTrigger>
+    <AccordionContent>
+      <Card title="LangChain Framework">
+        <h4>Core Components:</h4>
+        <ul>
+          <li><strong>Chains:</strong> Composable sequences of operations</li>
+          <li><strong>Agents:</strong> Autonomous decision-making systems</li>
+          <li><strong>Memory:</strong> State management across interactions</li>
+          <li><strong>Tools:</strong> External integrations and APIs</li>
+          <li><strong>Prompts:</strong> Template management and optimization</li>
+        </ul>
+        
+        <h4>Key Features:</h4>
+        <ul>
+          <li>Multi-model support (OpenAI, Anthropic, local models)</li>
+          <li>Extensive tool integrations</li>
+          <li>Built-in memory and state management</li>
+          <li>Comprehensive documentation and community</li>
+          <li>Production-ready deployment options</li>
+        </ul>
+      </Card>
+    </AccordionContent>
+  </AccordionItem>
+  
+  <AccordionItem value="crewai">
+    <AccordionTrigger>CrewAI Framework</AccordionTrigger>
+    <AccordionContent>
+      <Card title="CrewAI Multi-Agent Framework">
+        <h4>Core Concepts:</h4>
+        <ul>
+          <li><strong>Crews:</strong> Teams of specialized AI agents</li>
+          <li><strong>Agents:</strong> Individual AI workers with specific roles</li>
+          <li><strong>Tasks:</strong> Defined work assignments for agents</li>
+          <li><strong>Processes:</strong> Workflow orchestration and management</li>
+        </ul>
+        
+        <h4>Key Advantages:</h4>
+        <ul>
+          <li>Natural collaboration patterns</li>
+          <li>Role-based specialization</li>
+          <li>Flexible workflow design</li>
+          <li>Human-like team dynamics</li>
+          <li>Scalable agent architectures</li>
+        </ul>
+      </Card>
+    </AccordionContent>
+  </AccordionItem>
+  
+  <AccordionItem value="other-frameworks">
+    <AccordionTrigger>Other Frameworks</AccordionTrigger>
+    <AccordionContent>
+      <Card title="Additional AI Frameworks">
+        <h4>Popular Alternatives:</h4>
+        <ul>
+          <li><strong>AutoGen (Microsoft):</strong> Multi-agent conversation framework</li>
+          <li><strong>Semantic Kernel:</strong> Microsoft's AI orchestration framework</li>
+          <li><strong>LlamaIndex:</strong> Data framework for LLM applications</li>
+          <li><strong>Haystack:</strong> Question answering and search framework</li>
+          <li><strong>Transformers (Hugging Face):</strong> Model library and tools</li>
+        </ul>
+      </Card>
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+### 3. **Infrastructure & Deployment**
+
+<Card title="AI Infrastructure Platforms">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Platform</TableHeader>
+        <TableHeader>Key Services</TableHeader>
+        <TableHeader>Strengths</TableHeader>
+        <TableHeader>Best For</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>AWS</strong></TableCell>
+        <TableCell>SageMaker, Bedrock, Lambda, ECS</TableCell>
+        <TableCell>Comprehensive AI services, enterprise features</TableCell>
+        <TableCell>Enterprise applications, large-scale deployments</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Google Cloud</strong></TableCell>
+        <TableCell>Vertex AI, AI Platform, Cloud Functions</TableCell>
+        <TableCell>Advanced ML capabilities, AutoML features</TableCell>
+        <TableCell>ML-heavy applications, research projects</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Azure</strong></TableCell>
+        <TableCell>Azure ML, Cognitive Services, Functions</TableCell>
+        <TableCell>Enterprise integration, Microsoft ecosystem</TableCell>
+        <TableCell>Microsoft shops, enterprise applications</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Specialized</strong></TableCell>
+        <TableCell>Replicate, Modal, RunPod, Vercel</TableCell>
+        <TableCell>Simplified deployment, developer-friendly</TableCell>
+        <TableCell>Rapid prototyping, small to medium applications</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+## Specialized Tools & Services
+
+### 1. **Vector Databases & Embeddings**
+
+<CardGroup cols={2}>
+  <Card title="Vector Databases" icon="database">
+    <ul>
+      <li><strong>Pinecone:</strong> Managed vector database with high performance</li>
+      <li><strong>Weaviate:</strong> Open-source vector database with GraphQL</li>
+      <li><strong>Qdrant:</strong> Fast vector similarity search engine</li>
+      <li><strong>Chroma:</strong> Embedding database for AI applications</li>
+      <li><strong>Milvus:</strong> Open-source vector database for production</li>
+    </ul>
+  </Card>
+  <Card title="Embedding Models" icon="hash">
+    <ul>
+      <li><strong>OpenAI Embeddings:</strong> High-quality text embeddings</li>
+      <li><strong>Sentence Transformers:</strong> Open-source embedding models</li>
+      <li><strong>Cohere Embeddings:</strong> Multilingual embedding support</li>
+      <li><strong>Hugging Face:</strong> Wide variety of embedding models</li>
+      <li><strong>Custom Models:</strong> Domain-specific embeddings</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+### 2. **Monitoring & Observability**
+
+<Card title="AI Monitoring Tools">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Tool Category</TableHeader>
+        <TableHeader>Popular Tools</TableHeader>
+        <TableHeader>Key Features</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Model Monitoring</strong></TableCell>
+        <TableCell>Weights & Biases, MLflow, Neptune</TableCell>
+        <TableCell>Experiment tracking, model versioning, performance monitoring</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Application Monitoring</strong></TableCell>
+        <TableCell>DataDog, New Relic, Sentry</TableCell>
+        <TableCell>Performance monitoring, error tracking, user experience</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>AI-Specific</strong></TableCell>
+        <TableCell>LangSmith, PromptLayer, Helicone</TableCell>
+        <TableCell>LLM monitoring, prompt optimization, cost tracking</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Observability</strong></TableCell>
+        <TableCell>OpenTelemetry, Jaeger, Prometheus</TableCell>
+        <TableCell>Distributed tracing, metrics collection, alerting</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 3. **Development Tools**
+
+<Card title="AI Development Ecosystem">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Tool Type</TableHeader>
+        <TableHeader>Tools</TableHeader>
+        <TableHeader>Purpose</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>IDE Extensions</strong></TableCell>
+        <TableCell>GitHub Copilot, Cursor, Tabnine</TableCell>
+        <TableCell>AI-powered code completion and assistance</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Testing</strong></TableCell>
+        <TableCell>DeepChecks, Evidently, Great Expectations</TableCell>
+        <TableCell>AI model testing and validation</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Data Processing</strong></TableCell>
+        <TableCell>Pandas, NumPy, Polars, Dask</TableCell>
+        <TableCell>Data manipulation and analysis</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Visualization</strong></TableCell>
+        <TableCell>Streamlit, Gradio, Plotly, Dash</TableCell>
+        <TableCell>AI application interfaces and dashboards</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+## How This Applies to AI-Powered Products
+
+### 1. **Technology Stack Selection**
+
+<Callout type="info">
+  **Key Insight**: The choice of ecosystem components directly impacts development velocity, scalability, and long-term maintainability.
+</Callout>
+
+<Card title="Stack Selection Framework">
+  <h4>Consideration Factors:</h4>
+  <ul>
+    <li><strong>Team Expertise:</strong> Choose technologies your team can effectively use</li>
+    <li><strong>Project Requirements:</strong> Match tools to specific project needs</li>
+    <li><strong>Scalability Needs:</strong> Consider growth requirements from the start</li>
+    <li><strong>Integration Complexity:</strong> Assess how well tools work together</li>
+    <li><strong>Cost Structure:</strong> Understand total cost of ownership</li>
+    <li><strong>Vendor Lock-in:</strong> Balance convenience with flexibility</li>
+  </ul>
+</Card>
+
+### 2. **Architecture Patterns**
+
+<Card title="Common AI Architecture Patterns">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Pattern</TableHeader>
+        <TableHeader>Description</TableHeader>
+        <TableHeader>Use Cases</TableHeader>
+        <TableHeader>Ecosystem Tools</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>RAG (Retrieval-Augmented Generation)</strong></TableCell>
+        <TableCell>Combine knowledge retrieval with text generation</TableCell>
+        <TableCell>Document Q&A, knowledge bases, chatbots</TableCell>
+        <TableCell>LangChain, LlamaIndex, vector databases</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Multi-Agent Systems</strong></TableCell>
+        <TableCell>Multiple specialized AI agents working together</TableCell>
+        <TableCell>Complex workflows, research, analysis</TableCell>
+        <TableCell>CrewAI, AutoGen, LangChain agents</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Pipeline Processing</strong></TableCell>
+        <TableCell>Sequential data processing with multiple stages</TableCell>
+        <TableCell>Data processing, content generation, analysis</TableCell>
+        <TableCell>LangChain chains, Apache Airflow, Prefect</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Event-Driven</strong></TableCell>
+        <TableCell>Reactive systems responding to events</TableCell>
+        <TableCell>Real-time applications, IoT, monitoring</TableCell>
+        <TableCell>AWS Lambda, Google Cloud Functions, Apache Kafka</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 3. **Integration Strategies**
+
+<CardGroup cols={2}>
+  <Card title="API-First Approach" icon="link">
+    <ul>
+      <li>Design systems around well-defined APIs</li>
+      <li>Enable loose coupling between components</li>
+      <li>Facilitate easy testing and debugging</li>
+      <li>Support multiple client implementations</li>
+    </ul>
+  </Card>
+  <Card title="Microservices Architecture" icon="grid">
+    <ul>
+      <li>Decompose applications into focused services</li>
+      <li>Enable independent scaling and deployment</li>
+      <li>Support technology diversity per service</li>
+      <li>Improve fault isolation and resilience</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+## Real-World Ecosystem Examples
+
+### 1. **Modern AI Application Stack**
+
+<Card title="Typical AI Application Architecture">
+  <Frame>
+    <img src="/images/ai-application-stack.png" alt="Diagram showing a typical AI application technology stack" />
+  </Frame>
+  
+  <h4>Component Breakdown:</h4>
+  <ul>
+    <li><strong>Frontend:</strong> React/Next.js with AI-powered components</li>
+    <li><strong>Backend:</strong> FastAPI/Flask with LangChain integration</li>
+    <li><strong>AI Models:</strong> OpenAI GPT-4 + Anthropic Claude for different tasks</li>
+    <li><strong>Vector Database:</strong> Pinecone for semantic search</li>
+    <li><strong>Monitoring:</strong> LangSmith for LLM observability</li>
+    <li><strong>Deployment:</strong> Docker containers on Kubernetes</li>
+  </ul>
+</Card>
+
+### 2. **Enterprise AI Platform**
+
+<Card title="Enterprise AI Ecosystem">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Layer</TableHeader>
+        <TableHeader>Components</TableHeader>
+        <TableHeader>Purpose</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Infrastructure</strong></TableCell>
+        <TableCell>AWS EKS, Azure AKS, Google GKE</TableCell>
+        <TableCell>Container orchestration and scaling</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>AI Services</strong></TableCell>
+        <TableCell>AWS Bedrock, Azure OpenAI, Vertex AI</TableCell>
+        <TableCell>Managed AI model services</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Data Platform</strong></TableCell>
+        <TableCell>Snowflake, Databricks, BigQuery</TableCell>
+        <TableCell>Data warehousing and analytics</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>ML Platform</strong></TableCell>
+        <TableCell>SageMaker, Azure ML, Vertex AI</TableCell>
+        <TableCell>Model training and deployment</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Monitoring</strong></TableCell>
+        <TableCell>DataDog, New Relic, Splunk</TableCell>
+        <TableCell>Application and infrastructure monitoring</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+## Emerging Trends & Future Directions
+
+### 1. **Edge AI & Local Processing**
+
+<Callout type="info">
+  **Trend**: Moving AI processing closer to users for better privacy, lower latency, and reduced costs.
+</Callout>
+
+<Card title="Edge AI Ecosystem">
+  <ul>
+    <li><strong>Local Models:</strong> Llama, Mistral, Phi-2 for on-device processing</li>
+    <li><strong>Edge Frameworks:</strong> TensorFlow Lite, ONNX Runtime, Core ML</li>
+    <li><strong>Hardware:</strong> Apple Neural Engine, Google TPU, NVIDIA Jetson</li>
+    <li><strong>Deployment:</strong> Docker containers, WebAssembly, mobile apps</li>
+  </ul>
+</Card>
+
+### 2. **Multimodal AI**
+
+<Card title="Multimodal AI Platforms">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Platform</TableHeader>
+        <TableHeader>Capabilities</TableHeader>
+        <TableHeader>Use Cases</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>OpenAI GPT-4V</strong></TableCell>
+        <TableCell>Text + Image understanding and generation</TableCell>
+        <TableCell>Visual Q&A, image analysis, content creation</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Google Gemini</strong></TableCell>
+        <TableCell>Text + Image + Video + Audio</TableCell>
+        <TableCell>Multimodal conversations, content analysis</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Anthropic Claude</strong></TableCell>
+        <TableCell>Text + Image understanding</TableCell>
+        <TableCell>Document analysis, visual reasoning</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 3. **AI-Native Development**
+
+<Card title="AI-Native Development Tools">
+  <ul>
+    <li><strong>AI-First IDEs:</strong> Cursor, GitHub Copilot, Replit</li>
+    <li><strong>No-Code AI:</strong> Bubble, Zapier, Make.com</li>
+    <li><strong>AI Agents:</strong> AutoGPT, BabyAGI, CrewAI</li>
+    <li><strong>AI Testing:</strong> AI-powered test generation and validation</li>
+  </ul>
+</Card>
+
+## Best Practices for Ecosystem Navigation
+
+<CardGroup cols={2}>
+  <Card title="Technology Selection" icon="check-square">
+    <ul>
+      <li>Start with proven, well-documented tools</li>
+      <li>Consider team expertise and learning curve</li>
+      <li>Evaluate community support and ecosystem</li>
+      <li>Plan for future scalability and maintenance</li>
+    </ul>
+  </Card>
+  <Card title="Integration Strategy" icon="link">
+    <ul>
+      <li>Design for loose coupling between components</li>
+      <li>Use standard APIs and protocols</li>
+      <li>Implement comprehensive monitoring</li>
+      <li>Plan for graceful degradation</li>
+    </ul>
+  </Card>
+  <Card title="Cost Management" icon="dollar-sign">
+    <ul>
+      <li>Monitor usage and costs across all services</li>
+      <li>Implement usage-based pricing models</li>
+      <li>Optimize for cost efficiency</li>
+      <li>Plan for scaling costs</li>
+    </ul>
+  </Card>
+  <Card title="Security & Compliance" icon="shield">
+    <ul>
+      <li>Implement proper authentication and authorization</li>
+      <li>Ensure data privacy and compliance</li>
+      <li>Regular security audits and updates</li>
+      <li>Plan for incident response</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>CrewAI Documentation:</strong> <a href="https://docs.crewai.com/en/introduction">https://docs.crewai.com/en/introduction</a></li>
+    <li><strong>AI Design Guide:</strong> <a href="https://aidesign.guide/">https://aidesign.guide/</a></li>
+    <li><strong>LangChain Conceptual Guide:</strong> <a href="https://python.langchain.com/docs/get_started/concepts">https://python.langchain.com/docs/get_started/concepts</a></li>
+    <li><strong>NLP and LLMs 2024:</strong> <a href="https://nlp2024.jeju.ai/">https://nlp2024.jeju.ai/</a></li>
+    <li><strong>Prompt Engineering Guide:</strong> <a href="https://www.promptingguide.ai/">https://www.promptingguide.ai/</a></li>
+    <li><strong>Anthropic Tutorial:</strong> <a href="https://www.anthropic.com/">https://www.anthropic.com/</a></li>
+  </ul>
+</Card>
+
+## Figures
+
+<Card title="AI Ecosystem Map">
+  <Frame>
+    <img src="/images/ai-ecosystem-map.png" alt="Comprehensive map of the AI ecosystem showing relationships between different components" />
+  </Frame>
+</Card>
+
+<Card title="Technology Stack Comparison">
+  <Frame>
+    <img src="/images/tech-stack-comparison.png" alt="Comparison chart of different AI technology stacks and their trade-offs" />
+  </Frame>
+</Card>
+

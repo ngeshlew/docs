@@ -1,0 +1,932 @@
+---
+title: "Graph Prompting"
+description: "Learn how to use graph-based prompting techniques to structure complex reasoning, relationships, and knowledge representation in AI systems"
+slug: "modules-prompting-techniques-graph-prompting"
+updatedAt: "2025-08-19"
+tags: [prompting-technique, graph-prompting, knowledge-graphs, structured-reasoning]
+---
+
+# Graph Prompting
+
+<Callout type="info">
+  **Learning Objective**: Master graph-based prompting techniques that use structured knowledge graphs and relationship mapping to enhance AI reasoning and knowledge representation.
+</Callout>
+
+## Overview
+
+Graph Prompting is an advanced technique that uses graph structures to represent knowledge, relationships, and reasoning paths. This approach leverages the power of graph theory to create more structured, interconnected, and comprehensive AI responses.
+
+<CardGroup cols={2}>
+  <Card title="Structured Knowledge" icon="network">
+    Uses graph structures to represent complex relationships and knowledge hierarchies.
+  </Card>
+  <Card title="Relationship Mapping" icon="git-merge">
+    Maps connections between concepts, entities, and ideas for better understanding.
+  </Card>
+</CardGroup>
+
+## What is Graph Prompting?
+
+Graph Prompting is a technique that:
+
+- **Structures Knowledge**: Organizes information in graph format with nodes and edges
+- **Maps Relationships**: Shows connections between concepts, entities, and ideas
+- **Enhances Reasoning**: Uses graph traversal for systematic problem-solving
+- **Improves Understanding**: Provides visual and logical structure to complex topics
+
+<Callout type="warning">
+  **Key Insight**: Graph prompting transforms linear text into structured knowledge networks, enabling AI to better understand relationships and generate more coherent responses.
+</Callout>
+
+## Key Concepts
+
+### 1. **Graph Components**
+
+<Card title="Graph Structure Elements">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Component</TableHeader>
+        <TableHeader>Description</TableHeader>
+        <TableHeader>Example</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Nodes (Vertices)</strong></TableCell>
+        <TableCell>Entities, concepts, or data points in the graph</TableCell>
+        <TableCell>People, places, concepts, events</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Edges (Relationships)</strong></TableCell>
+        <TableCell>Connections between nodes representing relationships</TableCell>
+        <TableCell>Works at, located in, causes, belongs to</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Properties</strong></TableCell>
+        <TableCell>Attributes or characteristics of nodes and edges</TableCell>
+        <TableCell>Age, weight, strength, type</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Paths</strong></TableCell>
+        <TableCell>Sequences of connected nodes forming reasoning chains</TableCell>
+        <TableCell>Problem → Analysis → Solution → Implementation</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Graph Types**
+
+<Card title="Types of Knowledge Graphs">
+  <h4>1. Entity-Relationship Graphs:</h4>
+  <ul>
+    <li><strong>Purpose:</strong> Represent real-world entities and their relationships</li>
+    <li><strong>Example:</strong> Company → employs → Employee → works_on → Project</li>
+    <li><strong>Use Case:</strong> Business intelligence, social networks</li>
+  </ul>
+  
+  <h4>2. Concept Hierarchies:</h4>
+  <ul>
+    <li><strong>Purpose:</strong> Organize concepts in hierarchical structures</li>
+    <li><strong>Example:</strong> Technology → AI → Machine Learning → Neural Networks</li>
+    <li><strong>Use Case:</strong> Knowledge organization, taxonomy building</li>
+  </ul>
+  
+  <h4>3. Reasoning Graphs:</h4>
+  <ul>
+    <li><strong>Purpose:</strong> Map logical reasoning and decision processes</li>
+    <li><strong>Example:</strong> Problem → Analysis → Options → Decision → Action</li>
+    <li><strong>Use Case:</strong> Problem-solving, decision-making</li>
+  </ul>
+  
+  <h4>4. Temporal Graphs:</h4>
+  <ul>
+    <li><strong>Purpose:</strong> Represent time-based relationships and sequences</li>
+    <li><strong>Example:</strong> Event1 → leads_to → Event2 → causes → Event3</li>
+    <li><strong>Use Case:</strong> Process flows, historical analysis</li>
+  </ul>
+</Card>
+
+### 3. **Graph Operations**
+
+<Card title="Common Graph Operations">
+  <ul>
+    <li><strong>Traversal:</strong> Navigate through graph nodes and edges</li>
+    <li><strong>Path Finding:</strong> Find optimal paths between nodes</li>
+    <li><strong>Clustering:</strong> Group related nodes together</li>
+    <li><strong>Centrality Analysis:</strong> Identify important nodes in the graph</li>
+    <li><strong>Pattern Matching:</strong> Find specific graph patterns</li>
+  </ul>
+</Card>
+
+## Implementation
+
+### 1. **Basic Graph Prompting**
+
+<CodeGroup>
+  <CodeGroupItem title="Python" active>
+```python
+import networkx as nx
+import json
+from typing import Dict, List, Any, Tuple
+
+class GraphPrompter:
+    def __init__(self):
+        self.graph = nx.DiGraph()
+        self.node_types = {}
+        self.edge_types = {}
+    
+    def add_node(self, node_id: str, node_type: str, properties: Dict[str, Any] = None):
+        """Add a node to the graph"""
+        self.graph.add_node(node_id, type=node_type, properties=properties or {})
+        self.node_types[node_id] = node_type
+    
+    def add_edge(self, source: str, target: str, edge_type: str, properties: Dict[str, Any] = None):
+        """Add an edge to the graph"""
+        self.graph.add_edge(source, target, type=edge_type, properties=properties or {})
+        self.edge_types[(source, target)] = edge_type
+    
+    def create_knowledge_graph(self, entities: List[Dict], relationships: List[Dict]) -> str:
+        """Create a knowledge graph from entities and relationships"""
+        
+        # Add entities as nodes
+        for entity in entities:
+            self.add_node(
+                entity['id'], 
+                entity['type'], 
+                entity.get('properties', {})
+            )
+        
+        # Add relationships as edges
+        for rel in relationships:
+            self.add_edge(
+                rel['source'], 
+                rel['target'], 
+                rel['type'], 
+                rel.get('properties', {})
+            )
+        
+        return self.graph_to_prompt()
+    
+    def graph_to_prompt(self) -> str:
+        """Convert graph to prompt format"""
+        
+        prompt_parts = ["# Knowledge Graph Structure\n"]
+        
+        # Add nodes
+        prompt_parts.append("## Nodes (Entities)")
+        for node, data in self.graph.nodes(data=True):
+            node_type = data.get('type', 'unknown')
+            properties = data.get('properties', {})
+            
+            prop_str = ", ".join([f"{k}: {v}" for k, v in properties.items()])
+            prompt_parts.append(f"- {node} ({node_type}): {prop_str}")
+        
+        # Add edges
+        prompt_parts.append("\n## Edges (Relationships)")
+        for source, target, data in self.graph.edges(data=True):
+            edge_type = data.get('type', 'related_to')
+            properties = data.get('properties', {})
+            
+            prop_str = ", ".join([f"{k}: {v}" for k, v in properties.items()])
+            prompt_parts.append(f"- {source} --[{edge_type}]--> {target}: {prop_str}")
+        
+        return "\n".join(prompt_parts)
+    
+    def find_paths(self, start_node: str, end_node: str, max_length: int = 5) -> List[List[str]]:
+        """Find paths between two nodes"""
+        try:
+            paths = list(nx.all_simple_paths(self.graph, start_node, end_node, cutoff=max_length))
+            return paths
+        except nx.NetworkXNoPath:
+            return []
+    
+    def get_neighbors(self, node: str, edge_type: str = None) -> List[str]:
+        """Get neighboring nodes"""
+        neighbors = []
+        for neighbor in self.graph.neighbors(node):
+            if edge_type is None or self.graph[node][neighbor].get('type') == edge_type:
+                neighbors.append(neighbor)
+        return neighbors
+    
+    def create_reasoning_prompt(self, question: str, context_nodes: List[str] = None) -> str:
+        """Create a reasoning prompt using the graph"""
+        
+        prompt_parts = [self.graph_to_prompt()]
+        prompt_parts.append(f"\n## Question: {question}")
+        
+        if context_nodes:
+            prompt_parts.append("\n## Relevant Context:")
+            for node in context_nodes:
+                if node in self.graph:
+                    neighbors = self.get_neighbors(node)
+                    prompt_parts.append(f"- {node} connects to: {', '.join(neighbors)}")
+        
+        prompt_parts.append("\n## Instructions:")
+        prompt_parts.append("Use the knowledge graph above to answer the question.")
+        prompt_parts.append("Follow the relationships and paths in the graph to provide a comprehensive answer.")
+        
+        return "\n".join(prompt_parts)
+
+# Example usage
+graph_prompter = GraphPrompter()
+
+# Define entities
+entities = [
+    {"id": "AI", "type": "Technology", "properties": {"field": "Computer Science"}},
+    {"id": "Machine Learning", "type": "Subfield", "properties": {"field": "AI"}},
+    {"id": "Neural Networks", "type": "Technique", "properties": {"field": "Machine Learning"}},
+    {"id": "Deep Learning", "type": "Technique", "properties": {"field": "Neural Networks"}},
+    {"id": "Computer Vision", "type": "Application", "properties": {"field": "AI"}},
+    {"id": "Natural Language Processing", "type": "Application", "properties": {"field": "AI"}}
+]
+
+# Define relationships
+relationships = [
+    {"source": "AI", "target": "Machine Learning", "type": "includes"},
+    {"source": "Machine Learning", "target": "Neural Networks", "type": "uses"},
+    {"source": "Neural Networks", "target": "Deep Learning", "type": "enables"},
+    {"source": "AI", "target": "Computer Vision", "type": "enables"},
+    {"source": "AI", "target": "Natural Language Processing", "type": "enables"},
+    {"source": "Deep Learning", "target": "Computer Vision", "type": "improves"},
+    {"source": "Deep Learning", "target": "Natural Language Processing", "type": "improves"}
+]
+
+# Create knowledge graph
+graph_prompt = graph_prompter.create_knowledge_graph(entities, relationships)
+
+# Create reasoning prompt
+question = "How does deep learning relate to computer vision applications?"
+reasoning_prompt = graph_prompter.create_reasoning_prompt(question, ["Deep Learning", "Computer Vision"])
+
+print(reasoning_prompt)
+```
+  </CodeGroupItem>
+  
+  <CodeGroupItem title="JavaScript">
+```javascript
+class GraphPrompter {
+    constructor() {
+        this.nodes = new Map();
+        this.edges = new Map();
+        this.nodeTypes = new Map();
+        this.edgeTypes = new Map();
+    }
+    
+    addNode(nodeId, nodeType, properties = {}) {
+        this.nodes.set(nodeId, { type: nodeType, properties });
+        this.nodeTypes.set(nodeId, nodeType);
+    }
+    
+    addEdge(source, target, edgeType, properties = {}) {
+        const edgeKey = `${source}->${target}`;
+        this.edges.set(edgeKey, { source, target, type: edgeType, properties });
+        this.edgeTypes.set(edgeKey, edgeType);
+    }
+    
+    createKnowledgeGraph(entities, relationships) {
+        // Add entities as nodes
+        entities.forEach(entity => {
+            this.addNode(entity.id, entity.type, entity.properties || {});
+        });
+        
+        // Add relationships as edges
+        relationships.forEach(rel => {
+            this.addEdge(rel.source, rel.target, rel.type, rel.properties || {});
+        });
+        
+        return this.graphToPrompt();
+    }
+    
+    graphToPrompt() {
+        const promptParts = ["# Knowledge Graph Structure\n"];
+        
+        // Add nodes
+        promptParts.push("## Nodes (Entities)");
+        this.nodes.forEach((data, nodeId) => {
+            const nodeType = data.type;
+            const properties = data.properties;
+            
+            const propStr = Object.entries(properties)
+                .map(([k, v]) => `${k}: ${v}`)
+                .join(", ");
+            
+            promptParts.push(`- ${nodeId} (${nodeType}): ${propStr}`);
+        });
+        
+        // Add edges
+        promptParts.push("\n## Edges (Relationships)");
+        this.edges.forEach((data, edgeKey) => {
+            const { source, target, type, properties } = data;
+            
+            const propStr = Object.entries(properties)
+                .map(([k, v]) => `${k}: ${v}`)
+                .join(", ");
+            
+            promptParts.push(`- ${source} --[${type}]--> ${target}: ${propStr}`);
+        });
+        
+        return promptParts.join("\n");
+    }
+    
+    findPaths(startNode, endNode, maxLength = 5) {
+        // Simple path finding implementation
+        const paths = [];
+        const visited = new Set();
+        
+        const dfs = (current, target, path, depth) => {
+            if (depth > maxLength) return;
+            if (current === target) {
+                paths.push([...path]);
+                return;
+            }
+            
+            visited.add(current);
+            
+            this.edges.forEach((data, edgeKey) => {
+                if (data.source === current && !visited.has(data.target)) {
+                    dfs(data.target, target, [...path, data.target], depth + 1);
+                }
+            });
+            
+            visited.delete(current);
+        };
+        
+        dfs(startNode, endNode, [startNode], 0);
+        return paths;
+    }
+    
+    getNeighbors(node, edgeType = null) {
+        const neighbors = [];
+        
+        this.edges.forEach((data, edgeKey) => {
+            if (data.source === node && (edgeType === null || data.type === edgeType)) {
+                neighbors.push(data.target);
+            }
+        });
+        
+        return neighbors;
+    }
+    
+    createReasoningPrompt(question, contextNodes = null) {
+        const promptParts = [this.graphToPrompt()];
+        promptParts.push(`\n## Question: ${question}`);
+        
+        if (contextNodes) {
+            promptParts.push("\n## Relevant Context:");
+            contextNodes.forEach(node => {
+                if (this.nodes.has(node)) {
+                    const neighbors = this.getNeighbors(node);
+                    promptParts.push(`- ${node} connects to: ${neighbors.join(", ")}`);
+                }
+            });
+        }
+        
+        promptParts.push("\n## Instructions:");
+        promptParts.push("Use the knowledge graph above to answer the question.");
+        promptParts.push("Follow the relationships and paths in the graph to provide a comprehensive answer.");
+        
+        return promptParts.join("\n");
+    }
+}
+
+// Example usage
+const graphPrompter = new GraphPrompter();
+
+// Define entities
+const entities = [
+    { id: "AI", type: "Technology", properties: { field: "Computer Science" } },
+    { id: "Machine Learning", type: "Subfield", properties: { field: "AI" } },
+    { id: "Neural Networks", type: "Technique", properties: { field: "Machine Learning" } },
+    { id: "Deep Learning", type: "Technique", properties: { field: "Neural Networks" } },
+    { id: "Computer Vision", type: "Application", properties: { field: "AI" } },
+    { id: "Natural Language Processing", type: "Application", properties: { field: "AI" } }
+];
+
+// Define relationships
+const relationships = [
+    { source: "AI", target: "Machine Learning", type: "includes" },
+    { source: "Machine Learning", target: "Neural Networks", type: "uses" },
+    { source: "Neural Networks", target: "Deep Learning", type: "enables" },
+    { source: "AI", target: "Computer Vision", type: "enables" },
+    { source: "AI", target: "Natural Language Processing", type: "enables" },
+    { source: "Deep Learning", target: "Computer Vision", type: "improves" },
+    { source: "Deep Learning", target: "Natural Language Processing", type: "improves" }
+];
+
+// Create knowledge graph
+const graphPrompt = graphPrompter.createKnowledgeGraph(entities, relationships);
+
+// Create reasoning prompt
+const question = "How does deep learning relate to computer vision applications?";
+const reasoningPrompt = graphPrompter.createReasoningPrompt(question, ["Deep Learning", "Computer Vision"]);
+
+console.log(reasoningPrompt);
+```
+  </CodeGroupItem>
+</CodeGroup>
+
+### 2. **Advanced Graph Prompting with LangChain**
+
+<Card title="LangChain Integration">
+  <CodeGroup>
+    <CodeGroupItem title="LangChain Implementation" active>
+```python
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+from langchain.llms import OpenAI
+from langchain.graphs import NetworkxEntityGraph
+from langchain.graphs.networkx_graph import NetworkxEntityGraph
+import networkx as nx
+from typing import Dict, List, Any
+import json
+
+class AdvancedGraphPrompter:
+    def __init__(self, api_key: str):
+        self.llm = OpenAI(api_key=api_key, temperature=0.1)
+        self.graph = NetworkxEntityGraph()
+        self.prompt_templates = {}
+    
+    def create_graph_from_text(self, text: str) -> str:
+        """Create a graph from text using LLM"""
+        
+        extraction_prompt = PromptTemplate(
+            template="""
+            Extract entities and relationships from the following text and format them as a graph.
+            
+            Text: {text}
+            
+            Extract:
+            1. Entities (nodes) with their types and properties
+            2. Relationships (edges) between entities
+            
+            Format your response as JSON:
+            {{
+                "entities": [
+                    {{"id": "entity_id", "type": "entity_type", "properties": {{"key": "value"}}}}
+                ],
+                "relationships": [
+                    {{"source": "source_id", "target": "target_id", "type": "relationship_type"}}
+                ]
+            }}
+            """,
+            input_variables=["text"]
+        )
+        
+        chain = LLMChain(llm=self.llm, prompt=extraction_prompt)
+        response = chain.run(text=text)
+        
+        try:
+            graph_data = json.loads(response)
+            return self.build_graph_from_data(graph_data)
+        except json.JSONDecodeError:
+            return "Error parsing graph data"
+    
+    def build_graph_from_data(self, graph_data: Dict[str, Any]) -> str:
+        """Build graph from extracted data"""
+        
+        # Add entities to graph
+        for entity in graph_data.get('entities', []):
+            self.graph.add_node(
+                entity['id'],
+                entity_type=entity['type'],
+                properties=entity.get('properties', {})
+            )
+        
+        # Add relationships to graph
+        for rel in graph_data.get('relationships', []):
+            self.graph.add_edge(
+                rel['source'],
+                rel['target'],
+                rel_type=rel['type']
+            )
+        
+        return self.graph_to_prompt()
+    
+    def graph_to_prompt(self) -> str:
+        """Convert graph to prompt format"""
+        
+        prompt_parts = ["# Knowledge Graph\n"]
+        
+        # Get all nodes
+        nodes = self.graph.get_nodes()
+        prompt_parts.append("## Entities:")
+        for node_id, node_data in nodes.items():
+            node_type = node_data.get('entity_type', 'unknown')
+            properties = node_data.get('properties', {})
+            
+            prop_str = ", ".join([f"{k}: {v}" for k, v in properties.items()])
+            prompt_parts.append(f"- {node_id} ({node_type}): {prop_str}")
+        
+        # Get all edges
+        edges = self.graph.get_edges()
+        prompt_parts.append("\n## Relationships:")
+        for edge in edges:
+            source, target, rel_type = edge
+            prompt_parts.append(f"- {source} --[{rel_type}]--> {target}")
+        
+        return "\n".join(prompt_parts)
+    
+    def query_graph(self, question: str) -> str:
+        """Query the graph with a question"""
+        
+        query_prompt = PromptTemplate(
+            template="""
+            Use the following knowledge graph to answer the question.
+            
+            {graph_structure}
+            
+            Question: {question}
+            
+            Instructions:
+            1. Identify relevant entities and relationships in the graph
+            2. Follow the connections to find the answer
+            3. Provide a comprehensive response based on the graph structure
+            4. If the answer cannot be found in the graph, state this clearly
+            
+            Answer:
+            """,
+            input_variables=["graph_structure", "question"]
+        )
+        
+        chain = LLMChain(llm=self.llm, prompt=query_prompt)
+        response = chain.run(
+            graph_structure=self.graph_to_prompt(),
+            question=question
+        )
+        
+        return response
+    
+    def expand_graph(self, topic: str, depth: int = 2) -> str:
+        """Expand the graph with related information"""
+        
+        expansion_prompt = PromptTemplate(
+            template="""
+            Expand the knowledge graph with additional information about: {topic}
+            
+            Current graph:
+            {current_graph}
+            
+            Add new entities and relationships related to {topic} with depth {depth}.
+            Focus on:
+            1. Related concepts and entities
+            2. Causal relationships
+            3. Hierarchical structures
+            4. Temporal relationships
+            
+            Format your response as JSON with new entities and relationships.
+            """,
+            input_variables=["topic", "current_graph", "depth"]
+        )
+        
+        chain = LLMChain(llm=self.llm, prompt=expansion_prompt)
+        response = chain.run(
+            topic=topic,
+            current_graph=self.graph_to_prompt(),
+            depth=depth
+        )
+        
+        try:
+            new_data = json.loads(response)
+            return self.build_graph_from_data(new_data)
+        except json.JSONDecodeError:
+            return "Error expanding graph"
+
+# Example usage
+advanced_prompter = AdvancedGraphPrompter("your-api-key")
+
+# Create graph from text
+text = """
+Artificial Intelligence (AI) is a branch of computer science that focuses on creating intelligent machines.
+Machine Learning is a subset of AI that enables computers to learn without being explicitly programmed.
+Deep Learning is a type of machine learning that uses neural networks with multiple layers.
+Computer Vision is an application of AI that enables computers to interpret visual information.
+Natural Language Processing (NLP) is another AI application that helps computers understand human language.
+"""
+
+graph_structure = advanced_prompter.create_graph_from_text(text)
+print("Graph Structure:")
+print(graph_structure)
+
+# Query the graph
+question = "What is the relationship between deep learning and computer vision?"
+answer = advanced_prompter.query_graph(question)
+print(f"\nQuestion: {question}")
+print(f"Answer: {answer}")
+
+# Expand the graph
+expanded_graph = advanced_prompter.expand_graph("neural networks", depth=2)
+print(f"\nExpanded Graph:")
+print(expanded_graph)
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+### 3. **CrewAI Integration**
+
+<Card title="CrewAI Multi-Agent Graph Prompting">
+  <CodeGroup>
+    <CodeGroupItem title="CrewAI Implementation" active>
+```python
+from crewai import Agent, Task, Crew
+from langchain.tools import Tool
+import networkx as nx
+import json
+
+class GraphPromptingCrew:
+    def __init__(self):
+        self.graph_builder_agent = None
+        self.graph_analyzer_agent = None
+        self.graph_query_agent = None
+        self.knowledge_graph = nx.DiGraph()
+    
+    def create_agents(self):
+        """Create specialized graph prompting agents"""
+        
+        # Graph Builder Agent
+        self.graph_builder_agent = Agent(
+            role="Knowledge Graph Builder",
+            goal="Build comprehensive knowledge graphs from information and data",
+            backstory="""You are an expert in knowledge graph construction with deep 
+            understanding of entity-relationship modeling. You excel at identifying 
+            entities, relationships, and properties from various information sources.""",
+            verbose=True,
+            allow_delegation=False
+        )
+        
+        # Graph Analyzer Agent
+        self.graph_analyzer_agent = Agent(
+            role="Graph Structure Analyzer",
+            goal="Analyze graph structures and identify patterns and insights",
+            backstory="""You are a graph theory expert who specializes in analyzing 
+            knowledge graphs. You can identify central nodes, important relationships, 
+            and structural patterns in complex graph networks.""",
+            verbose=True,
+            allow_delegation=False
+        )
+        
+        # Graph Query Agent
+        self.graph_query_agent = Agent(
+            role="Graph Query Specialist",
+            goal="Answer questions using knowledge graph structures and relationships",
+            backstory="""You are an expert at querying knowledge graphs and extracting 
+            relevant information. You can navigate complex graph structures to find 
+            answers and provide comprehensive responses based on graph relationships.""",
+            verbose=True,
+            allow_delegation=False
+        )
+    
+    def build_graph_task(self, information: str) -> Task:
+        """Create task for building knowledge graph"""
+        return Task(
+            description=f"""
+            Build a comprehensive knowledge graph from the following information:
+            
+            Information: {information}
+            
+            Your task:
+            1. Identify all entities (nodes) and their types
+            2. Determine relationships (edges) between entities
+            3. Extract properties and attributes for entities
+            4. Create a structured graph representation
+            5. Provide the graph in a clear, organized format
+            
+            Focus on creating meaningful relationships and capturing the full context.
+            """,
+            agent=self.graph_builder_agent
+        )
+    
+    def analyze_graph_task(self, graph_structure: str) -> Task:
+        """Create task for analyzing graph structure"""
+        return Task(
+            description=f"""
+            Analyze the following knowledge graph structure:
+            
+            Graph: {graph_structure}
+            
+            Your analysis should include:
+            1. Central entities and their importance
+            2. Key relationship patterns
+            3. Graph connectivity and structure
+            4. Potential knowledge gaps
+            5. Recommendations for graph improvement
+            
+            Provide insights that can help understand and utilize the graph effectively.
+            """,
+            agent=self.graph_analyzer_agent
+        )
+    
+    def query_graph_task(self, graph_structure: str, question: str) -> Task:
+        """Create task for querying the graph"""
+        return Task(
+            description=f"""
+            Answer the following question using the knowledge graph:
+            
+            Graph Structure: {graph_structure}
+            Question: {question}
+            
+            Your approach:
+            1. Identify relevant entities in the graph
+            2. Follow relationships to find connections
+            3. Trace paths that lead to the answer
+            4. Synthesize information from multiple paths
+            5. Provide a comprehensive, graph-based answer
+            
+            Use the graph structure to provide evidence-based responses.
+            """,
+            agent=self.graph_query_agent
+        )
+    
+    def run_graph_workflow(self, information: str, question: str) -> Dict[str, Any]:
+        """Run the complete graph prompting workflow"""
+        
+        # Create agents
+        self.create_agents()
+        
+        # Create tasks
+        build_task = self.build_graph_task(information)
+        analyze_task = self.analyze_graph_task("")  # Will be updated
+        query_task = self.query_graph_task("", question)  # Will be updated
+        
+        # Create crew
+        crew = Crew(
+            agents=[self.graph_builder_agent, self.graph_analyzer_agent, self.graph_query_agent],
+            tasks=[build_task, analyze_task, query_task],
+            verbose=True
+        )
+        
+        # Execute workflow
+        result = crew.kickoff()
+        
+        return {
+            'information': information,
+            'question': question,
+            'workflow_result': result,
+            'agents': {
+                'builder': self.graph_builder_agent,
+                'analyzer': self.graph_analyzer_agent,
+                'query': self.graph_query_agent
+            }
+        }
+
+# Example usage
+graph_crew = GraphPromptingCrew()
+
+information = """
+Artificial Intelligence (AI) encompasses machine learning, deep learning, and neural networks.
+Machine learning algorithms learn patterns from data to make predictions.
+Deep learning uses multi-layered neural networks for complex pattern recognition.
+Neural networks are inspired by biological brain structures.
+Computer vision and natural language processing are major AI applications.
+"""
+
+question = "How do neural networks relate to deep learning and computer vision?"
+
+result = graph_crew.run_graph_workflow(information, question)
+print(result['workflow_result'])
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+## Best Practices
+
+### 1. **Graph Design**
+
+<CardGroup cols={2}>
+  <Card title="Node Design" icon="circle">
+    <ul>
+      <li>Use clear, descriptive node names</li>
+      <li>Define consistent node types</li>
+      <li>Include relevant properties</li>
+      <li>Ensure node uniqueness</li>
+    </ul>
+  </Card>
+  <Card title="Edge Design" icon="arrow-right">
+    <ul>
+      <li>Use meaningful relationship types</li>
+      <li>Define edge properties when needed</li>
+      <li>Ensure relationship accuracy</li>
+      <li>Consider edge directionality</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+### 2. **Graph Maintenance**
+
+<Card title="Maintenance Strategies">
+  <ul>
+    <li><strong>Regular Updates:</strong> Keep graphs current with new information</li>
+    <li><strong>Quality Control:</strong> Validate relationships and entities</li>
+    <li><strong>Consistency Checks:</strong> Ensure graph structure consistency</li>
+    <li><strong>Performance Optimization:</strong> Optimize for query performance</li>
+  </ul>
+</Card>
+
+### 3. **Query Optimization**
+
+<Card title="Query Best Practices">
+  <ul>
+    <li><strong>Path Planning:</strong> Plan efficient query paths</li>
+    <li><strong>Indexing:</strong> Use appropriate graph indexing</li>
+    <li><strong>Caching:</strong> Cache frequently accessed subgraphs</li>
+    <li><strong>Parallel Processing:</strong> Use parallel graph traversal when possible</li>
+  </ul>
+</Card>
+
+## Real-World Applications
+
+### 1. **Knowledge Management**
+
+<Callout type="info">
+  **Case Study**: Graph prompting is particularly effective for knowledge management systems where complex relationships between concepts need to be represented and queried.
+</Callout>
+
+<Card title="Knowledge Management Applications">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Application</TableHeader>
+        <TableHeader>Graph Type</TableHeader>
+        <TableHeader>Benefits</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Research Literature</strong></TableCell>
+        <TableCell>Citation networks, concept hierarchies</TableCell>
+        <TableCell>Discover research connections, identify gaps</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Corporate Knowledge</strong></TableCell>
+        <TableCell>Entity-relationship graphs</TableCell>
+        <TableCell>Connect people, projects, and expertise</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Medical Knowledge</strong></TableCell>
+        <TableCell>Disease-symptom-treatment graphs</TableCell>
+        <TableCell>Improve diagnosis and treatment planning</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Recommendation Systems**
+
+<Card title="Recommendation Applications">
+  <ul>
+    <li><strong>Content Recommendations:</strong> Graph-based content relationships</li>
+    <li><strong>Product Recommendations:</strong> User-product interaction graphs</li>
+    <li><strong>Social Recommendations:</strong> Social network analysis</li>
+    <li><strong>Learning Recommendations:</strong> Knowledge dependency graphs</li>
+  </ul>
+</Card>
+
+### 3. **Decision Support**
+
+<Card title="Decision Support Systems">
+  <ul>
+    <li><strong>Risk Assessment:</strong> Risk factor relationship graphs</li>
+    <li><strong>Strategic Planning:</strong> Goal-action-outcome graphs</li>
+    <li><strong>Problem Solving:</strong> Cause-effect relationship graphs</li>
+    <li><strong>Resource Planning:</strong> Resource dependency graphs</li>
+  </ul>
+</Card>
+
+## Related Techniques
+
+<CardGroup cols={3}>
+  <Card title="Chain-of-Thought" icon="git-branch" href="./chain-of-thought">
+    Step-by-step reasoning prompts
+  </Card>
+  <Card title="Tree of Thoughts" icon="git-merge" href="./tree-of-thoughts">
+    Exploring multiple reasoning branches
+  </Card>
+  <Card title="Retrieval-Augmented Generation" icon="search" href="./retrieval-augmented-generation">
+    Using external knowledge for responses
+  </Card>
+  <Card title="Automatic Reasoning" icon="brain" href="./automatic-reasoning">
+    Systematic logical analysis
+  </Card>
+  <Card title="Meta-Prompting" icon="layers" href="./meta-prompting">
+    Prompts that generate other prompts
+  </Card>
+  <Card title="Self-Consistency" icon="repeat" href="./self-consistency">
+    Multiple reasoning paths for validation
+  </Card>
+</CardGroup>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>CrewAI Documentation:</strong> <a href="https://docs.crewai.com/en/introduction">https://docs.crewai.com/en/introduction</a></li>
+    <li><strong>AI Design Guide:</strong> <a href="https://aidesign.guide/">https://aidesign.guide/</a></li>
+    <li><strong>LangChain Conceptual Guide:</strong> <a href="https://python.langchain.com/docs/get_started/concepts">https://python.langchain.com/docs/get_started/concepts</a></li>
+    <li><strong>NLP and LLMs 2024:</strong> <a href="https://nlp2024.jeju.ai/">https://nlp2024.jeju.ai/</a></li>
+    <li><strong>Prompt Engineering Guide:</strong> <a href="https://www.promptingguide.ai/">https://www.promptingguide.ai/</a></li>
+    <li><strong>Anthropic Tutorial:</strong> <a href="https://www.anthropic.com/">https://www.anthropic.com/</a></li>
+  </ul>
+</Card>

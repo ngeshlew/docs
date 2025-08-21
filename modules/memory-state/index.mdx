@@ -1,0 +1,424 @@
+---
+title: "Memory & State"
+slug: "modules-memory-state"
+updatedAt: "2025-08-16"
+tags: [module, memory, state, crewai]
+---
+
+# Memory & State
+
+> Start reading here to understand how AI systems remember, learn, and maintain context across conversations.
+
+## What is Memory in AI Systems?
+
+Memory enables AI agents to maintain context, learn from interactions, and build persistent knowledge. Unlike traditional chatbots that start fresh with each conversation, AI systems with memory can remember user preferences, past interactions, and accumulated knowledge.
+
+## Memory Design Patterns
+
+<Tabs>
+  <Tab title="Good Design" icon="brain">
+    ### ✅ Good Memory Design
+    
+    **Contextual Awareness**: Remembers relevant conversation history
+    - **Learning Capability**: Improves responses based on past interactions
+    - **Privacy Respect**: Only stores necessary information
+    - **Performance Optimized**: Fast retrieval without overwhelming the system
+    
+    **Example Implementation:**
+    ```python
+    class SmartMemorySystem:
+        def __init__(self):
+            self.short_term = ShortTermMemory()
+            self.long_term = LongTermMemory()
+            self.entity_memory = EntityMemory()
+            self.privacy_filter = PrivacyFilter()
+        
+        def store_interaction(self, user_id, interaction):
+            # Privacy-first storage
+            if self.privacy_filter.is_safe_to_store(interaction):
+                # Store in appropriate memory type
+                if self.is_contextual(interaction):
+                    self.short_term.store(user_id, interaction)
+                elif self.is_learning(interaction):
+                    self.long_term.store(user_id, interaction)
+                elif self.is_entity(interaction):
+                    self.entity_memory.store(user_id, interaction)
+        
+        def retrieve_context(self, user_id):
+            # Fast, optimized retrieval
+            return {
+                'short_term': self.short_term.get_recent(user_id),
+                'long_term': self.long_term.get_relevant(user_id),
+                'entities': self.entity_memory.get_entities(user_id)
+            }
+    ```
+  </Tab>
+  
+  <Tab title="Poor Design" icon="brain-circuit">
+    ### ❌ Poor Memory Design
+    
+    **Context Loss**: Forgets important information between sessions
+    - **No Learning**: Doesn't improve from past interactions
+    - **Privacy Violations**: Stores sensitive information unnecessarily
+    - **Performance Issues**: Slow retrieval or memory bloat
+    
+    **Example Implementation:**
+    ```python
+    class PoorMemorySystem:
+        def __init__(self):
+            # Single memory store - no optimization
+            self.memory_store = {}
+        
+        def store_interaction(self, user_id, interaction):
+            # Store everything without privacy checks
+            if user_id not in self.memory_store:
+                self.memory_store[user_id] = []
+            
+            # No filtering, no organization
+            self.memory_store[user_id].append(interaction)
+        
+        def retrieve_context(self, user_id):
+            # Slow, unoptimized retrieval
+            # Returns everything without relevance filtering
+            return self.memory_store.get(user_id, [])
+    ```
+  </Tab>
+</Tabs>
+
+## Memory Types in CrewAI
+
+CrewAI provides a comprehensive memory system with four distinct types of memory, each serving different purposes:
+
+### Short-Term Memory
+Temporarily stores recent interactions and outcomes using RAG, enabling agents to recall and utilize information relevant to their current context during the current execution.
+
+```python
+from crewai import Crew, Agent, Task, Process
+
+# Enable basic memory system
+crew = Crew(
+    agents=[...],
+    tasks=[...],
+    process=Process.sequential,
+    memory=True,  # Enables short-term, long-term, and entity memory
+    verbose=True
+)
+```
+
+**Use Cases:**
+- Remembering conversation context within a session
+- Recalling recent task results and decisions
+- Maintaining workflow state during complex operations
+
+### Long-Term Memory
+Preserves valuable insights and learnings from past executions, allowing agents to build and refine their knowledge over time.
+
+```python
+# Long-term memory is automatically managed
+# Agents can access historical context and learnings
+# No additional configuration needed when memory=True
+```
+
+**Use Cases:**
+- Learning from successful and failed approaches
+- Building expertise over multiple sessions
+- Maintaining user preferences and patterns
+
+### Entity Memory
+Captures and organizes information about entities (people, places, concepts) encountered during tasks, facilitating deeper understanding and relationship mapping.
+
+```python
+# Entity memory uses RAG for storing entity information
+# Automatically tracks relationships and context
+```
+
+**Use Cases:**
+- Remembering user details and preferences
+- Tracking relationships between concepts
+- Building knowledge graphs of entities
+
+### Contextual Memory
+Maintains the context of interactions by combining Short-Term Memory, Long-Term Memory, External Memory, and Entity Memory, aiding in the coherence and relevance of agent responses over a sequence of tasks or a conversation.
+
+```python
+# Contextual memory automatically combines all memory types
+# Provides comprehensive context for agent decisions
+```
+
+**Use Cases:**
+- Ensuring conversation coherence across sessions
+- Providing relevant context for complex decisions
+- Maintaining workflow continuity
+
+## Memory Storage and Management
+
+### Storage Locations
+CrewAI uses the `appdirs` package and `CREWAI_STORAGE_DIR` environment variable to determine storage locations following platform conventions:
+
+**macOS:**
+```
+~/Library/Application Support/CrewAI/{project_name}/
+├── knowledge/           # Knowledge base ChromaDB files
+├── short_term_memory/   # Short-term memory ChromaDB files
+├── long_term_memory/    # Long-term memory ChromaDB files
+├── entities/           # Entity memory ChromaDB files
+└── long_term_memory_storage.db  # SQLite database
+```
+
+**Linux:**
+```
+~/.local/share/CrewAI/{project_name}/
+├── knowledge/
+├── short_term_memory/
+├── long_term_memory/
+├── entities/
+└── long_term_memory_storage.db
+```
+
+**Windows:**
+```
+C:\Users\{username}\AppData\Local\CrewAI\{project_name}\
+├── knowledge\
+├── short_term_memory\
+├── long_term_memory\
+├── entities\
+└── long_term_memory_storage.db
+```
+
+### Managing Memory Storage
+
+```python
+from crewai.utilities.paths import db_storage_path
+import os
+
+# Get the base storage path
+storage_path = db_storage_path()
+print(f"CrewAI storage location: {storage_path}")
+
+# List all CrewAI storage directories
+if os.path.exists(storage_path):
+    print("\nStored files and directories:")
+    for item in os.listdir(storage_path):
+        item_path = os.path.join(storage_path, item)
+        if os.path.isdir(item_path):
+            print(f"📁 {item}/")
+            # Show ChromaDB collections
+            if os.path.exists(item_path):
+                for subitem in os.listdir(item_path):
+                    print(f" └── {subitem}")
+        else:
+            print(f"📄 {item}")
+else:
+    print("No CrewAI storage directory found yet.")
+```
+
+## Memory Configuration
+
+### Basic Memory Setup
+```python
+import os
+from crewai import Crew
+
+# Enable memory with default settings
+crew = Crew(
+    agents=[...],
+    tasks=[...],
+    memory=True,  # Enables all memory types
+    verbose=True
+)
+```
+
+### Advanced Memory Configuration
+```python
+from crewai import Crew, Agent, Task, Process
+from crewai.memory import Memory
+
+# Create custom memory configuration
+memory = Memory(
+    short_term_memory=True,
+    long_term_memory=True,
+    entity_memory=True,
+    contextual_memory=True
+)
+
+crew = Crew(
+    agents=[...],
+    tasks=[...],
+    memory=memory,
+    verbose=True
+)
+```
+
+## Memory in Practice
+
+### Conversation Continuity
+```python
+# Agent remembers previous conversation context
+agent = Agent(
+    role="Customer Support",
+    goal="Help users with their issues",
+    backstory="Experienced support specialist",
+    verbose=True
+)
+
+# Memory automatically maintains conversation context
+# No need to manually pass conversation history
+```
+
+### Learning from Interactions
+```python
+# Agents learn from successful and failed approaches
+# Long-term memory stores patterns and best practices
+# Future interactions benefit from accumulated knowledge
+```
+
+### Entity Tracking
+```python
+# Entity memory automatically tracks:
+# - User preferences and history
+# - Product information and relationships
+# - Technical concepts and their connections
+```
+
+## Memory Best Practices
+
+## Memory Best Practices
+
+<Tabs>
+  <Tab title="Do This" icon="check">
+    ### ✅ Do This
+    
+    **Enable Memory**: Use `memory=True` for persistent conversations
+    - **Monitor Storage**: Check memory usage and clean up when needed
+    - **Respect Privacy**: Only store necessary information
+    - **Test Memory**: Verify that agents remember important context
+    - **Optimize Performance**: Balance memory depth with retrieval speed
+    
+    **Example Implementation:**
+    ```python
+    # Good memory practices
+    crew = Crew(
+        agents=[agent1, agent2],
+        tasks=[task1, task2],
+        memory=True,  # Enable memory
+        verbose=True
+    )
+    
+    # Monitor memory usage
+    memory_stats = crew.memory.get_stats()
+    print(f"Memory usage: {memory_stats['usage']}")
+    
+    # Test memory functionality
+    test_context = crew.memory.get_context(user_id="test_user")
+    assert len(test_context) > 0, "Memory not working"
+    ```
+  </Tab>
+  
+  <Tab title="Avoid This" icon="x">
+    ### ❌ Avoid This
+    
+    **Memory Bloat**: Storing unnecessary information
+    - **Privacy Violations**: Storing sensitive user data without consent
+    - **Performance Issues**: Using memory without considering retrieval speed
+    - **Context Loss**: Not verifying that memory is working correctly
+    - **Storage Neglect**: Not monitoring memory storage usage
+    
+    **Example Implementation:**
+    ```python
+    # Bad memory practices
+    crew = Crew(
+        agents=[agent1, agent2],
+        tasks=[task1, task2],
+        memory=False,  # No memory - context loss
+        verbose=True
+    )
+    
+    # No memory monitoring
+    # No privacy checks
+    # No performance optimization
+    # No testing of memory functionality
+    ```
+  </Tab>
+</Tabs>
+
+## Memory Integration Patterns
+
+### Chatbot with Memory
+```python
+# Create a chatbot that remembers user interactions
+chatbot_crew = Crew(
+    agents=[support_agent, sales_agent, general_agent],
+    memory=True,  # Enable memory for conversation continuity
+    verbose=True
+)
+
+# The chatbot will remember:
+# - User preferences and history
+# - Previous conversation context
+# - Successful resolution patterns
+```
+
+### Multi-Session Learning
+```python
+# Agents learn across multiple sessions
+# Long-term memory preserves valuable insights
+# Entity memory builds user profiles over time
+```
+
+### Context-Aware Responses
+```python
+# Agents provide contextually relevant responses
+# Memory ensures coherence across conversation turns
+# Previous interactions inform current decisions
+```
+
+## Memory and RAG Integration
+
+### Knowledge Base Enhancement
+```python
+from crewai.knowledge.source.string_knowledge_source import StringKnowledgeSource
+
+# Create a knowledge source
+content = "Users name is John. He is 30 years old and lives in San Francisco."
+string_source = StringKnowledgeSource(content=content)
+
+# Combine with memory for enhanced context
+crew = Crew(
+    agents=[agent],
+    tasks=[task],
+    memory=True,  # Enable memory
+    knowledge_sources=[string_source],  # Add knowledge base
+    verbose=True
+)
+```
+
+### Dynamic Knowledge Updates
+```python
+# Memory can be updated with new information
+# Knowledge sources can be modified during runtime
+# Agents adapt to changing information
+```
+
+## Collaboration Prompts for Engineers
+
+- **Memory Configuration**: "What memory types should be enabled for our use case?"
+- **Storage Management**: "How should we handle memory storage and cleanup?"
+- **Privacy Compliance**: "What user data can we store in memory?"
+- **Performance Optimization**: "How can we balance memory depth with retrieval speed?"
+- **Integration Strategy**: "How should memory integrate with our existing systems?"
+
+## Sources
+
+- [CrewAI Memory Documentation](https://docs.crewai.com/en/concepts/memory) - Comprehensive guide to memory systems
+- [CrewAI Knowledge Sources](https://docs.crewai.com/en/concepts/knowledge) - How memory integrates with knowledge bases
+- [CrewAI Storage Management](https://docs.crewai.com/en/concepts/memory) - Managing memory storage and configuration
+
+## Next Steps
+
+Now that you understand memory and state management, explore:
+
+- [RAG](../rag/index.md) - How memory integrates with retrieval systems
+- [Agents & Orchestration](../agents-orchestration/index.md) - How agents use memory for collaboration
+- [Evaluation & Observability](../../production-operations/evaluation-observability/index.md) - Monitoring memory performance
+- [Safety & Security](../../production-operations/safety-security/index.md) - Privacy and security considerations
+

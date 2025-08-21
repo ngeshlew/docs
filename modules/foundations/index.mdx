@@ -1,0 +1,636 @@
+---
+title: "AI Foundations"
+description: "Master the fundamental concepts of AI, machine learning, and large language models that form the basis of modern AI applications"
+slug: "modules-foundations"
+updatedAt: "2025-08-19"
+tags: [module, foundations, ai, machine-learning, llms, claude, anthropic]
+---
+
+# AI Foundations
+
+<Callout type="info">
+  **Learning Objective**: Understand the fundamental concepts of AI, machine learning, and large language models that form the basis of modern AI applications and inform design decisions.
+</Callout>
+
+## Overview
+
+AI foundations provide the theoretical and practical understanding needed to build effective AI-powered products. This module covers the core concepts, architectures, and principles that drive modern AI systems, with a focus on how these fundamentals influence design and user experience.
+
+<CardGroup cols={2}>
+  <Card title="Core Concepts" icon="brain">
+    Understanding the fundamental principles of AI and machine learning enables better design decisions and more effective collaboration with engineering teams.
+  </Card>
+  <Card title="Practical Applications" icon="zap">
+    These foundations directly inform how we design AI-powered interfaces, interactions, and user experiences.
+  </Card>
+</CardGroup>
+
+## Anthropic Claude: Enterprise AI Foundation
+
+<Callout type="info">
+  **Claude Overview**: Claude is a family of highly performant and intelligent AI models built by Anthropic, designed to be the most trustworthy and reliable AI available for enterprise applications.
+</Callout>
+
+### Claude's Core Capabilities
+
+<CardGroup cols={3}>
+  <Card title="Text and Code Generation" icon="file-text">
+    <ul>
+      <li>Brand voice adherence for customer experiences</li>
+      <li>Production-level code generation and debugging</li>
+      <li>Automatic translation between languages</li>
+      <li>Complex financial forecasting</li>
+      <li>High-quality technical analysis</li>
+    </ul>
+  </Card>
+  <Card title="Vision Processing" icon="eye">
+    <ul>
+      <li>Chart and graph analysis</li>
+      <li>Code generation from images</li>
+      <li>Image description for accessibility</li>
+      <li>Visual data extraction</li>
+      <li>Document processing</li>
+    </ul>
+  </Card>
+  <Card title="Tool Use" icon="wrench">
+    <ul>
+      <li>External tool integration</li>
+      <li>Structured output generation</li>
+      <li>API interaction capabilities</li>
+      <li>Function calling support</li>
+      <li>Workflow automation</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+### Enterprise Considerations
+
+<Table>
+  <TableHead>
+    <TableRow>
+      <TableHeader>Feature</TableHeader>
+      <TableHeader>Description</TableHeader>
+      <TableHeader>Enterprise Benefit</TableHeader>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableCell><strong>Security</strong></TableCell>
+      <TableCell>Enterprise-grade security, SOC II Type 2 certified, HIPAA compliance options</TableCell>
+      <TableCell>Trust and compliance for sensitive data</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Trustworthiness</strong></TableCell>
+      <TableCell>Resistant to jailbreaks, copyright indemnity protections</TableCell>
+      <TableCell>Safe deployment in high-trust industries</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Capability</strong></TableCell>
+      <TableCell>200K token context window, tool use, multimodal input</TableCell>
+      <TableCell>Handles complex, real-world applications</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Reliability</strong></TableCell>
+      <TableCell>Very low hallucination rates, accurate over long documents</TableCell>
+      <TableCell>Consistent, dependable performance</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Global</strong></TableCell>
+      <TableCell>Fluency in English and non-English languages</TableCell>
+      <TableCell>International deployment capabilities</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Cost Conscious</strong></TableCell>
+      <TableCell>Family of models balancing cost, performance, and intelligence</TableCell>
+      <TableCell>Optimized resource utilization</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
+### Claude Model Family
+
+<Card title="Model Selection Guide">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Model</TableHeader>
+        <TableHeader>Best For</TableHeader>
+        <TableHeader>Context Window</TableHeader>
+        <TableHeader>Use Case</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Claude 3 Opus</strong></TableCell>
+        <TableCell>Most intelligent, complex reasoning</TableCell>
+        <TableCell>200K tokens</TableCell>
+        <TableCell>Research, analysis, creative tasks</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Claude 3 Sonnet</strong></TableCell>
+        <TableCell>Balanced performance and speed</TableCell>
+        <TableCell>200K tokens</TableCell>
+        <TableCell>General business applications</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Claude 3 Haiku</strong></TableCell>
+        <TableCell>Fastest, most cost-effective</TableCell>
+        <TableCell>200K tokens</TableCell>
+        <TableCell>Simple tasks, high-volume processing</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+## Why It's Important for Designers to Know
+
+### 1. **Understanding Model Capabilities and Limitations**
+
+<Card title="Model Understanding Framework">
+  <ul>
+    <li><strong>Context Windows:</strong> How much information a model can process at once</li>
+    <li><strong>Token Limits:</strong> Understanding input/output constraints</li>
+    <li><strong>Latency Characteristics:</strong> How long models take to respond</li>
+    <li><strong>Accuracy Patterns:</strong> When models are reliable vs. uncertain</li>
+    <li><strong>Bias and Safety:</strong> Understanding model limitations and risks</li>
+  </ul>
+</Card>
+
+### 2. **Informing Interaction Design**
+
+<Callout type="warning">
+  **Critical Insight**: AI model limitations directly constrain what's possible in user interface design and interaction patterns.
+</Callout>
+
+<Table>
+  <TableHead>
+    <TableRow>
+      <TableHeader>Model Limitation</TableHeader>
+      <TableHeader>Design Implication</TableHeader>
+      <TableHeader>Design Solution</TableHeader>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableCell><strong>Context Window Limits</strong></TableCell>
+      <TableCell>Can't process unlimited text</TableCell>
+      <TableCell>Chunking, summarization, progressive disclosure</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Latency</strong></TableCell>
+      <TableCell>Response delays affect UX</TableCell>
+      <TableCell>Loading states, streaming, optimistic updates</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Uncertainty</strong></TableCell>
+      <TableCell>Models can be wrong or uncertain</TableCell>
+      <TableCell>Confidence indicators, fallbacks, user controls</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><strong>Token Costs</strong></TableCell>
+      <TableCell>Expensive to process large inputs</TableCell>
+      <TableCell>Efficient prompting, caching, batching</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
+### 3. **Enabling Effective Collaboration**
+
+<Card title="Shared Language with Engineers">
+  <ul>
+    <li><strong>Technical Constraints:</strong> Understand what's technically feasible</li>
+    <li><strong>Performance Trade-offs:</strong> Balance quality vs. speed vs. cost</li>
+    <li><strong>Architecture Decisions:</strong> Participate in system design discussions</li>
+    <li><strong>User Experience Optimization:</strong> Design within technical boundaries</li>
+  </ul>
+</Card>
+
+## Core AI Concepts
+
+### 1. **Machine Learning Fundamentals**
+
+<Accordion type="single" collapsible>
+  <AccordionItem value="supervised-learning">
+    <AccordionTrigger>Supervised Learning</AccordionTrigger>
+    <AccordionContent>
+      <Card title="Learning from Labeled Data">
+        <p>Supervised learning involves training models on data where the correct answers are known.</p>
+        
+        <h4>Key Concepts:</h4>
+        <ul>
+          <li><strong>Training Data:</strong> Labeled examples used to teach the model</li>
+          <li><strong>Validation:</strong> Testing on unseen data to assess performance</li>
+          <li><strong>Overfitting:</strong> When a model memorizes training data instead of learning patterns</li>
+          <li><strong>Generalization:</strong> Ability to perform well on new, unseen data</li>
+        </ul>
+        
+        <h4>Design Implications:</h4>
+        <ul>
+          <li>Models need sufficient, high-quality training data</li>
+          <li>Performance varies based on data quality and quantity</li>
+          <li>Models may struggle with edge cases not in training data</li>
+        </ul>
+      </Card>
+    </AccordionContent>
+  </AccordionItem>
+  
+  <AccordionItem value="unsupervised-learning">
+    <AccordionTrigger>Unsupervised Learning</AccordionTrigger>
+    <AccordionContent>
+      <Card title="Finding Patterns Without Labels">
+        <p>Unsupervised learning discovers hidden patterns in data without predefined answers.</p>
+        
+        <h4>Key Concepts:</h4>
+        <ul>
+          <li><strong>Clustering:</strong> Grouping similar data points together</li>
+          <li><strong>Dimensionality Reduction:</strong> Simplifying complex data representations</li>
+          <li><strong>Anomaly Detection:</strong> Identifying unusual patterns or outliers</li>
+        </ul>
+        
+        <h4>Design Implications:</h4>
+        <ul>
+          <li>Useful for exploratory data analysis</li>
+          <li>Can reveal unexpected insights</li>
+          <li>Results may be less predictable than supervised learning</li>
+        </ul>
+      </Card>
+    </AccordionContent>
+  </AccordionItem>
+  
+  <AccordionItem value="reinforcement-learning">
+    <AccordionTrigger>Reinforcement Learning</AccordionTrigger>
+    <AccordionContent>
+      <Card title="Learning Through Trial and Error">
+        <p>Reinforcement learning agents learn by taking actions and receiving rewards or penalties.</p>
+        
+        <h4>Key Concepts:</h4>
+        <ul>
+          <li><strong>Agent:</strong> The learning system that takes actions</li>
+          <li><strong>Environment:</strong> The world in which the agent operates</li>
+          <li><strong>Reward Function:</strong> Defines what constitutes success</li>
+          <li><strong>Policy:</strong> The strategy for choosing actions</li>
+        </ul>
+        
+        <h4>Design Implications:</h4>
+        <ul>
+          <li>Requires careful reward function design</li>
+          <li>Can learn complex behaviors through interaction</li>
+          <li>May take time to converge to optimal behavior</li>
+        </ul>
+      </Card>
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+### 2. **Neural Networks and Deep Learning**
+
+<Card title="Neural Network Fundamentals">
+  <p>Neural networks are computational models inspired by biological brains, consisting of interconnected nodes (neurons) that process information.</p>
+  
+  <h4>Key Components:</h4>
+  <ul>
+    <li><strong>Input Layer:</strong> Receives the initial data</li>
+    <li><strong>Hidden Layers:</strong> Process and transform the data</li>
+    <li><strong>Output Layer:</strong> Produces the final result</li>
+    <li><strong>Weights and Biases:</strong> Parameters that determine how information flows</li>
+  </ul>
+  
+  <h4>Design Implications:</h4>
+  <ul>
+    <li>Models can learn complex, non-linear relationships</li>
+    <li>Require significant computational resources</li>
+    <li>Training can be time-consuming and expensive</li>
+    <li>Results may be difficult to interpret (black box problem)</li>
+  </ul>
+</Card>
+
+### 3. **Large Language Models (LLMs)**
+
+<Card title="LLM Architecture and Capabilities">
+  <p>Large Language Models are neural networks trained on vast amounts of text data to understand and generate human language.</p>
+  
+  <h4>Key Characteristics:</h4>
+  <ul>
+    <li><strong>Scale:</strong> Billions of parameters trained on massive datasets</li>
+    <li><strong>Context Windows:</strong> Amount of text they can process at once</li>
+    <li><strong>Emergent Abilities:</strong> Capabilities that appear at scale</li>
+    <li><strong>Few-shot Learning:</strong> Ability to learn from examples</li>
+  </ul>
+  
+  <h4>Claude-Specific Capabilities:</h4>
+  <ul>
+    <li><strong>200K Token Context:</strong> Can process very long documents</li>
+    <li><strong>Tool Use:</strong> Can interact with external systems</li>
+    <li><strong>Vision:</strong> Can analyze images and visual content</li>
+    <li><strong>Safety:</strong> Built with constitutional AI principles</li>
+  </ul>
+</Card>
+
+## Claude Implementation Framework
+
+### 1. **Scoping Your Use Case**
+
+<Card title="Use Case Definition">
+  <h4>Key Questions:</h4>
+  <ul>
+    <li>What specific problem are you trying to solve?</li>
+    <li>What are the success criteria and performance requirements?</li>
+    <li>What are the cost and latency constraints?</li>
+    <li>What level of accuracy and reliability is needed?</li>
+  </ul>
+  
+  <h4>Claude-Specific Considerations:</h4>
+  <ul>
+    <li>Choose appropriate model (Opus, Sonnet, Haiku) based on complexity</li>
+    <li>Consider context window requirements for your data</li>
+    <li>Evaluate need for tool use or vision capabilities</li>
+    <li>Assess security and compliance requirements</li>
+  </ul>
+</Card>
+
+### 2. **Designing Your Integration**
+
+<Card title="Integration Architecture">
+  <h4>Deployment Options:</h4>
+  <ul>
+    <li><strong>Anthropic API:</strong> Direct integration with Claude models</li>
+    <li><strong>AWS Bedrock:</strong> Managed Claude deployment on AWS</li>
+    <li><strong>Google Vertex AI:</strong> Claude integration on Google Cloud</li>
+    <li><strong>Custom Deployment:</strong> Self-hosted solutions</li>
+  </ul>
+  
+  <h4>Capability Selection:</h4>
+  <ul>
+    <li><strong>Text Generation:</strong> Content creation, summarization, translation</li>
+    <li><strong>Code Generation:</strong> Programming assistance, debugging</li>
+    <li><strong>Vision Processing:</strong> Image analysis, document understanding</li>
+    <li><strong>Tool Use:</strong> External API integration, function calling</li>
+  </ul>
+</Card>
+
+### 3. **Preparing Your Data**
+
+<Card title="Data Preparation">
+  <h4>Context Management:</h4>
+  <ul>
+    <li><strong>Token Counting:</strong> Monitor input/output token usage</li>
+    <li><strong>Context Optimization:</strong> Efficient use of 200K token window</li>
+    <li><strong>Data Cleaning:</strong> Ensure high-quality inputs</li>
+    <li><strong>Structured Data:</strong> Format data for optimal processing</li>
+  </ul>
+  
+  <h4>Claude-Specific Data Considerations:</h4>
+  <ul>
+    <li>Leverage Claude's ability to handle long documents</li>
+    <li>Use structured prompts for consistent outputs</li>
+    <li>Consider multimodal inputs (text + images)</li>
+    <li>Plan for tool integration if needed</li>
+  </ul>
+</Card>
+
+### 4. **Developing Your Prompts**
+
+<Card title="Prompt Engineering with Claude">
+  <h4>Claude Best Practices:</h4>
+  <ul>
+    <li><strong>Be Clear and Direct:</strong> Claude responds well to explicit instructions</li>
+    <li><strong>Use Examples:</strong> Few-shot prompting improves performance</li>
+    <li><strong>Let Claude Think:</strong> Encourage step-by-step reasoning</li>
+    <li><strong>Use XML Tags:</strong> Structure complex prompts effectively</li>
+    <li><strong>Give Claude a Role:</strong> System prompts define behavior</li>
+  </ul>
+  
+  <h4>Advanced Techniques:</h4>
+  <ul>
+    <li><strong>Chain of Thought:</strong> Encourage step-by-step reasoning</li>
+    <li><strong>Few-shot Learning:</strong> Provide examples for complex tasks</li>
+    <li><strong>Role Definition:</strong> Give Claude a specific persona</li>
+    <li><strong>Iterative Refinement:</strong> Build complex prompts gradually</li>
+  </ul>
+</Card>
+
+### 5. **Testing and Evaluation**
+
+<Card title="Claude Evaluation Framework">
+  <h4>Success Criteria:</h4>
+  <ul>
+    <li><strong>Accuracy:</strong> Measure correctness of outputs</li>
+    <li><strong>Relevance:</strong> Assess alignment with user intent</li>
+    <li><strong>Safety:</strong> Evaluate adherence to safety guidelines</li>
+    <li><strong>Performance:</strong> Monitor latency and throughput</li>
+  </ul>
+  
+  <h4>Testing Strategies:</h4>
+  <ul>
+    <li><strong>Red Teaming:</strong> Test for potential misuse</li>
+    <li><strong>A/B Testing:</strong> Compare different approaches</li>
+    <li><strong>User Testing:</strong> Gather real-world feedback</li>
+    <li><strong>Automated Evaluation:</strong> Scale testing processes</li>
+  </ul>
+</Card>
+
+### 6. **Safety and Guardrails**
+
+<Card title="Claude Safety Features">
+  <h4>Built-in Protections:</h4>
+  <ul>
+    <li><strong>Constitutional AI:</strong> Safety principles built into training</li>
+    <li><strong>Jailbreak Resistance:</strong> Resistant to prompt injection attacks</li>
+    <li><strong>Hallucination Reduction:</strong> Lower rates of false information</li>
+    <li><strong>Content Filtering:</strong> Automatic detection of harmful content</li>
+  </ul>
+  
+  <h4>Additional Guardrails:</h4>
+  <ul>
+    <li><strong>Output Validation:</strong> Verify Claude's responses</li>
+    <li><strong>Input Sanitization:</strong> Clean user inputs</li>
+    <li><strong>Rate Limiting:</strong> Prevent abuse</li>
+    <li><strong>Monitoring:</strong> Track usage and behavior</li>
+  </ul>
+</Card>
+
+## Real-World Applications
+
+### 1. **Customer Support Systems**
+
+<Card title="Claude in Customer Support">
+  <h4>Use Cases:</h4>
+  <ul>
+    <li><strong>Ticket Routing:</strong> Automatically categorize and route support tickets</li>
+    <li><strong>Response Generation:</strong> Create personalized, accurate responses</li>
+    <li><strong>Knowledge Base Search:</strong> Find relevant information quickly</li>
+    <li><strong>Escalation Detection:</strong> Identify cases needing human intervention</li>
+  </ul>
+  
+  <h4>Claude Advantages:</h4>
+  <ul>
+    <li>200K context window handles long conversation histories</li>
+    <li>Tool use enables integration with support systems</li>
+    <li>Vision capabilities for analyzing screenshots and documents</li>
+    <li>High accuracy reduces need for human oversight</li>
+  </ul>
+</Card>
+
+### 2. **Content Creation and Management**
+
+<Card title="Content Generation with Claude">
+  <h4>Applications:</h4>
+  <ul>
+    <li><strong>Marketing Copy:</strong> Generate brand-consistent content</li>
+    <li><strong>Technical Documentation:</strong> Create clear, accurate docs</li>
+    <li><strong>Code Documentation:</strong> Explain complex codebases</li>
+    <li><strong>Multilingual Content:</strong> Translate and localize materials</li>
+  </ul>
+  
+  <h4>Claude Strengths:</h4>
+  <ul>
+    <li>Maintains brand voice and style consistency</li>
+    <li>Handles technical topics with high accuracy</li>
+    <li>Can process and reference source materials</li>
+    <li>Supports multiple languages effectively</li>
+  </ul>
+</Card>
+
+### 3. **Data Analysis and Insights**
+
+<Card title="Analytics with Claude">
+  <h4>Capabilities:</h4>
+  <ul>
+    <li><strong>Data Interpretation:</strong> Analyze complex datasets</li>
+    <li><strong>Chart Analysis:</strong> Extract insights from visualizations</li>
+    <li><strong>Report Generation:</strong> Create comprehensive summaries</li>
+    <li><strong>Trend Identification:</strong> Spot patterns and anomalies</li>
+  </ul>
+  
+  <h4>Claude Features:</h4>
+  <ul>
+    <li>Vision capabilities for chart and graph analysis</li>
+    <li>Long context window for comprehensive reports</li>
+    <li>Tool use for database queries and calculations</li>
+    <li>Structured output for consistent formatting</li>
+  </ul>
+</Card>
+
+## Best Practices for Claude Integration
+
+### 1. **Model Selection**
+
+<Card title="Choosing the Right Claude Model">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Use Case</TableHeader>
+        <TableHeader>Recommended Model</TableHeader>
+        <TableHeader>Reasoning</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell>Simple Q&A, high volume</TableCell>
+        <TableCell>Claude 3 Haiku</TableCell>
+        <TableCell>Fast, cost-effective for straightforward tasks</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>General business applications</TableCell>
+        <TableCell>Claude 3 Sonnet</TableCell>
+        <TableCell>Balanced performance and cost for most use cases</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Complex reasoning, research</TableCell>
+        <TableCell>Claude 3 Opus</TableCell>
+        <TableCell>Highest intelligence for challenging problems</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Prompt Engineering**
+
+<Card title="Effective Claude Prompting">
+  <h4>Structure Your Prompts:</h4>
+  <ul>
+    <li><strong>Clear Instructions:</strong> Be specific about what you want</li>
+    <li><strong>Context Provision:</strong> Provide relevant background information</li>
+    <li><strong>Example Outputs:</strong> Show Claude the desired format</li>
+    <li><strong>Constraints:</strong> Specify limitations and requirements</li>
+  </ul>
+  
+  <h4>Advanced Techniques:</h4>
+  <ul>
+    <li><strong>Chain of Thought:</strong> Encourage step-by-step reasoning</li>
+    <li><strong>Few-shot Learning:</strong> Provide examples for complex tasks</li>
+    <li><strong>Role Definition:</strong> Give Claude a specific persona</li>
+    <li><strong>Iterative Refinement:</strong> Build complex prompts gradually</li>
+  </ul>
+</Card>
+
+### 3. **Performance Optimization**
+
+<Card title="Optimizing Claude Performance">
+  <h4>Context Management:</h4>
+  <ul>
+    <li><strong>Token Efficiency:</strong> Minimize unnecessary context</li>
+    <li><strong>Structured Inputs:</strong> Organize information clearly</li>
+    <li><strong>Caching:</strong> Store and reuse common responses</li>
+    <li><strong>Batching:</strong> Process multiple requests together</li>
+  </ul>
+  
+  <h4>Cost Optimization:</h4>
+  <ul>
+    <li><strong>Model Selection:</strong> Choose appropriate model for task complexity</li>
+    <li><strong>Prompt Efficiency:</strong> Minimize input tokens</li>
+    <li><strong>Response Limits:</strong> Set appropriate output constraints</li>
+    <li><strong>Usage Monitoring:</strong> Track token consumption and costs</li>
+  </ul>
+</Card>
+
+## Related Concepts
+
+<CardGroup cols={3}>
+  <Card title="Prompt Engineering" icon="edit" href="../prompting-techniques/chain-of-thought">
+    Master the art of crafting effective prompts
+  </Card>
+  <Card title="Tool Use" icon="wrench" href="../prompting-techniques/react">
+    Integrate external tools and APIs
+  </Card>
+  <Card title="Evaluation" icon="check-circle" href="../evaluation-observability">
+    Measure and improve AI system performance
+  </Card>
+  <Card title="Safety" icon="shield" href="../safety-security">
+    Build safe and trustworthy AI systems
+  </Card>
+  <Card title="Multimodality" icon="image" href="../multimodality">
+    Work with text, images, and other data types
+  </Card>
+  <Card title="Enterprise AI" icon="building" href="../productization-mlops">
+    Deploy AI systems at scale
+  </Card>
+</CardGroup>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>Anthropic Claude Documentation:</strong> <a href="https://docs.anthropic.com/en/docs/overview">https://docs.anthropic.com/en/docs/overview</a></li>
+    <li><strong>Claude API Reference:</strong> <a href="https://docs.anthropic.com/en/api">https://docs.anthropic.com/en/api</a></li>
+    <li><strong>Prompt Engineering Guide:</strong> <a href="https://docs.anthropic.com/en/docs/prompt-engineering">https://docs.anthropic.com/en/docs/prompt-engineering</a></li>
+    <li><strong>Tool Use Documentation:</strong> <a href="https://docs.anthropic.com/en/docs/agents-and-tools/tool-use">https://docs.anthropic.com/en/docs/agents-and-tools/tool-use</a></li>
+    <li><strong>Safety and Trust:</strong> <a href="https://trust.anthropic.com/">https://trust.anthropic.com/</a></li>
+  </ul>
+</Card>
+
+## Figures
+
+<Card title="Transformer Architecture">
+  <Frame>
+    <img src="/assets/concepts/transformer-pipeline.webp" alt="Diagram showing the transformer architecture pipeline" />
+  </Frame>
+  <figcaption>Credit: synthesized from multiple sources</figcaption>
+</Card>
+
+<Card title="AI Model Scaling">
+  <Frame>
+    <img src="/assets/concepts/transformer-architecture.webp" alt="Visualization of transformer architecture components" />
+  </Frame>
+</Card>
+

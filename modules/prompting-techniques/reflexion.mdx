@@ -1,0 +1,1111 @@
+---
+title: "Reflexion"
+description: "Learn how to implement reflexion techniques that enable AI systems to self-reflect, self-correct, and improve their reasoning through iterative feedback loops"
+slug: "modules-prompting-techniques-reflexion"
+updatedAt: "2025-08-19"
+tags: [prompting-technique, reflexion, self-reflection, self-improvement, iterative-reasoning]
+---
+
+# Reflexion
+
+<Callout type="info">
+  **Learning Objective**: Master reflexion techniques that enable AI systems to self-reflect, self-correct, and improve their reasoning through iterative feedback loops.
+</Callout>
+
+## Overview
+
+Reflexion is an advanced prompting technique that enables AI systems to reflect on their own reasoning, identify errors, and improve their responses through iterative self-feedback. This approach mimics human metacognitive processes to enhance AI performance.
+
+<CardGroup cols={2}>
+  <Card title="Self-Reflection" icon="eye">
+    Enables AI to examine and evaluate its own reasoning processes.
+  </Card>
+  <Card title="Self-Improvement" icon="trending-up">
+    Allows AI to correct errors and enhance responses through iteration.
+  </Card>
+</CardGroup>
+
+## What is Reflexion?
+
+Reflexion is a technique that:
+
+- **Self-Evaluates**: AI examines its own reasoning and conclusions
+- **Identifies Errors**: Detects mistakes, inconsistencies, or gaps in reasoning
+- **Self-Corrects**: Revises responses based on self-reflection
+- **Iterates**: Repeats the process to improve quality
+
+<Callout type="warning">
+  **Key Insight**: Reflexion enables AI to go beyond single-pass reasoning by incorporating metacognitive awareness and iterative improvement.
+</Callout>
+
+## Key Concepts
+
+### 1. **Reflection Components**
+
+<Card title="Reflection Process Elements">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Component</TableHeader>
+        <TableHeader>Description</TableHeader>
+        <TableHeader>Example</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Self-Assessment</strong></TableCell>
+        <TableCell>AI evaluates the quality of its own reasoning</TableCell>
+        <TableCell>"Is my logic sound? Are there gaps in my reasoning?"</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Error Detection</strong></TableCell>
+        <TableCell>Identifies mistakes or inconsistencies</TableCell>
+        <TableCell>"I made an assumption without evidence"</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Improvement Planning</strong></TableCell>
+        <TableCell>Plans how to address identified issues</TableCell>
+        <TableCell>"I should gather more evidence before concluding"</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Iterative Refinement</strong></TableCell>
+        <TableCell>Implements improvements and repeats the process</TableCell>
+        <TableCell>Revises response with better reasoning</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Reflection Types**
+
+<Card title="Types of Reflection">
+  <h4>1. Content Reflection:</h4>
+  <ul>
+    <li><strong>Factual Accuracy:</strong> Check if information is correct</li>
+    <li><strong>Logical Consistency:</strong> Verify reasoning is sound</li>
+    <li><strong>Completeness:</strong> Ensure all aspects are covered</li>
+    <li><strong>Relevance:</strong> Confirm information is pertinent</li>
+  </ul>
+  
+  <h4>2. Process Reflection:</h4>
+  <ul>
+    <li><strong>Reasoning Quality:</strong> Evaluate thinking process</li>
+    <li><strong>Assumption Validity:</strong> Check underlying assumptions</li>
+    <li><strong>Methodology:</strong> Assess approach effectiveness</li>
+    <li><strong>Bias Awareness:</strong> Identify potential biases</li>
+  </ul>
+  
+  <h4>3. Meta-Reflection:</h4>
+  <ul>
+    <li><strong>Reflection Quality:</strong> Evaluate reflection process itself</li>
+    <li><strong>Improvement Tracking:</strong> Monitor progress over iterations</li>
+    <li><strong>Learning Integration:</strong> Apply insights to future reasoning</li>
+    <li><strong>Adaptation:</strong> Adjust reflection strategies</li>
+  </ul>
+</Card>
+
+### 3. **Reflection Strategies**
+
+<Card title="Reflection Strategies">
+  <ul>
+    <li><strong>Questioning:</strong> Ask critical questions about reasoning</li>
+    <li><strong>Alternative Perspectives:</strong> Consider different viewpoints</li>
+    <li><strong>Evidence Review:</strong> Re-examine supporting evidence</li>
+    <li><strong>Consequence Analysis:</strong> Consider implications of conclusions</li>
+  </ul>
+</Card>
+
+## Implementation
+
+### 1. **Basic Reflexion Implementation**
+
+<CodeGroup>
+  <CodeGroupItem title="Python" active>
+```python
+from typing import Dict, List, Any, Optional
+import json
+import time
+
+class ReflexionSystem:
+    def __init__(self, max_iterations: int = 3):
+        self.max_iterations = max_iterations
+        self.reflection_history = []
+        self.improvement_tracker = {}
+    
+    def generate_initial_response(self, question: str) -> str:
+        """Generate initial response to a question"""
+        # In practice, this would use a language model
+        return f"Initial response to: {question}"
+    
+    def reflect_on_response(self, question: str, response: str, iteration: int) -> Dict[str, Any]:
+        """Reflect on the quality of the response"""
+        
+        reflection_prompt = f"""
+        Reflect on the following response to the question:
+        
+        Question: {question}
+        Response: {response}
+        Iteration: {iteration}
+        
+        Evaluate the response on the following criteria:
+        1. Accuracy: Is the information correct?
+        2. Completeness: Does it address all aspects of the question?
+        3. Logic: Is the reasoning sound?
+        4. Clarity: Is the response clear and understandable?
+        5. Relevance: Is the information pertinent to the question?
+        
+        Provide:
+        - Overall assessment (1-10 scale)
+        - Specific issues identified
+        - Suggestions for improvement
+        - Confidence in the assessment
+        """
+        
+        # In practice, this would use a language model
+        reflection = {
+            'assessment_score': 7,
+            'issues_identified': [
+                'Response could be more comprehensive',
+                'Missing specific examples',
+                'Reasoning could be clearer'
+            ],
+            'improvement_suggestions': [
+                'Add concrete examples',
+                'Provide step-by-step reasoning',
+                'Include counterarguments'
+            ],
+            'confidence': 0.8,
+            'iteration': iteration
+        }
+        
+        return reflection
+    
+    def generate_improved_response(self, question: str, original_response: str, 
+                                 reflection: Dict[str, Any]) -> str:
+        """Generate an improved response based on reflection"""
+        
+        improvement_prompt = f"""
+        Improve the following response based on the reflection:
+        
+        Original Question: {question}
+        Original Response: {original_response}
+        
+        Reflection Analysis:
+        - Assessment Score: {reflection['assessment_score']}/10
+        - Issues: {', '.join(reflection['issues_identified'])}
+        - Suggestions: {', '.join(reflection['improvement_suggestions'])}
+        
+        Generate an improved response that addresses the identified issues.
+        """
+        
+        # In practice, this would use a language model
+        improved_response = f"Improved response to: {question} (addressing: {', '.join(reflection['improvement_suggestions'])})"
+        
+        return improved_response
+    
+    def should_continue_reflecting(self, reflection: Dict[str, Any], iteration: int) -> bool:
+        """Determine if reflection should continue"""
+        
+        # Stop if max iterations reached
+        if iteration >= self.max_iterations:
+            return False
+        
+        # Stop if assessment score is high enough
+        if reflection['assessment_score'] >= 9:
+            return False
+        
+        # Stop if confidence is low (uncertain about improvements)
+        if reflection['confidence'] < 0.5:
+            return False
+        
+        # Continue if there are significant issues to address
+        return len(reflection['issues_identified']) > 0
+    
+    def solve_with_reflexion(self, question: str) -> Dict[str, Any]:
+        """Solve a problem using reflexion technique"""
+        
+        responses = []
+        reflections = []
+        current_response = self.generate_initial_response(question)
+        responses.append(current_response)
+        
+        iteration = 0
+        
+        while iteration < self.max_iterations:
+            iteration += 1
+            
+            # Reflect on current response
+            reflection = self.reflect_on_response(question, current_response, iteration)
+            reflections.append(reflection)
+            
+            # Check if we should continue
+            if not self.should_continue_reflecting(reflection, iteration):
+                break
+            
+            # Generate improved response
+            improved_response = self.generate_improved_response(question, current_response, reflection)
+            responses.append(improved_response)
+            current_response = improved_response
+        
+        # Final reflection
+        final_reflection = self.reflect_on_response(question, current_response, iteration + 1)
+        reflections.append(final_reflection)
+        
+        return {
+            'question': question,
+            'responses': responses,
+            'reflections': reflections,
+            'final_response': current_response,
+            'iterations': iteration,
+            'improvement_trajectory': self.calculate_improvement_trajectory(reflections)
+        }
+    
+    def calculate_improvement_trajectory(self, reflections: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Calculate improvement metrics across iterations"""
+        
+        scores = [r['assessment_score'] for r in reflections]
+        
+        return {
+            'initial_score': scores[0] if scores else 0,
+            'final_score': scores[-1] if scores else 0,
+            'improvement': scores[-1] - scores[0] if len(scores) > 1 else 0,
+            'score_trajectory': scores,
+            'total_issues_resolved': sum(len(r['issues_identified']) for r in reflections[:-1]),
+            'final_issues_remaining': len(reflections[-1]['issues_identified']) if reflections else 0
+        }
+    
+    def analyze_reflection_patterns(self, reflections: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Analyze patterns in reflection process"""
+        
+        all_issues = []
+        all_suggestions = []
+        
+        for reflection in reflections:
+            all_issues.extend(reflection['issues_identified'])
+            all_suggestions.extend(reflection['improvement_suggestions'])
+        
+        # Count common issues and suggestions
+        issue_counts = {}
+        for issue in all_issues:
+            issue_counts[issue] = issue_counts.get(issue, 0) + 1
+        
+        suggestion_counts = {}
+        for suggestion in all_suggestions:
+            suggestion_counts[suggestion] = suggestion_counts.get(suggestion, 0) + 1
+        
+        return {
+            'common_issues': sorted(issue_counts.items(), key=lambda x: x[1], reverse=True),
+            'common_suggestions': sorted(suggestion_counts.items(), key=lambda x: x[1], reverse=True),
+            'reflection_depth': len(reflections),
+            'average_confidence': sum(r['confidence'] for r in reflections) / len(reflections) if reflections else 0
+        }
+
+# Example usage
+reflexion_system = ReflexionSystem(max_iterations=3)
+
+# Test with a complex question
+question = "Explain the impact of artificial intelligence on modern society, considering both positive and negative aspects."
+
+result = reflexion_system.solve_with_reflexion(question)
+
+print(f"Question: {result['question']}")
+print(f"Final Response: {result['final_response']}")
+print(f"Iterations: {result['iterations']}")
+print(f"Improvement: {result['improvement_trajectory']['improvement']} points")
+print(f"Final Score: {result['improvement_trajectory']['final_score']}/10")
+
+# Analyze reflection patterns
+patterns = reflexion_system.analyze_reflection_patterns(result['reflections'])
+print(f"\nCommon Issues: {patterns['common_issues'][:3]}")
+print(f"Common Suggestions: {patterns['common_suggestions'][:3]}")
+```
+  </CodeGroupItem>
+  
+  <CodeGroupItem title="JavaScript">
+```javascript
+class ReflexionSystem {
+    constructor(maxIterations = 3) {
+        this.maxIterations = maxIterations;
+        this.reflectionHistory = [];
+        this.improvementTracker = {};
+    }
+    
+    generateInitialResponse(question) {
+        // In practice, this would use a language model
+        return `Initial response to: ${question}`;
+    }
+    
+    reflectOnResponse(question, response, iteration) {
+        const reflectionPrompt = `
+        Reflect on the following response to the question:
+        
+        Question: ${question}
+        Response: ${response}
+        Iteration: ${iteration}
+        
+        Evaluate the response on the following criteria:
+        1. Accuracy: Is the information correct?
+        2. Completeness: Does it address all aspects of the question?
+        3. Logic: Is the reasoning sound?
+        4. Clarity: Is the response clear and understandable?
+        5. Relevance: Is the information pertinent to the question?
+        
+        Provide:
+        - Overall assessment (1-10 scale)
+        - Specific issues identified
+        - Suggestions for improvement
+        - Confidence in the assessment
+        `;
+        
+        // In practice, this would use a language model
+        const reflection = {
+            assessmentScore: 7,
+            issuesIdentified: [
+                'Response could be more comprehensive',
+                'Missing specific examples',
+                'Reasoning could be clearer'
+            ],
+            improvementSuggestions: [
+                'Add concrete examples',
+                'Provide step-by-step reasoning',
+                'Include counterarguments'
+            ],
+            confidence: 0.8,
+            iteration: iteration
+        };
+        
+        return reflection;
+    }
+    
+    generateImprovedResponse(question, originalResponse, reflection) {
+        const improvementPrompt = `
+        Improve the following response based on the reflection:
+        
+        Original Question: ${question}
+        Original Response: ${originalResponse}
+        
+        Reflection Analysis:
+        - Assessment Score: ${reflection.assessmentScore}/10
+        - Issues: ${reflection.issuesIdentified.join(', ')}
+        - Suggestions: ${reflection.improvementSuggestions.join(', ')}
+        
+        Generate an improved response that addresses the identified issues.
+        `;
+        
+        // In practice, this would use a language model
+        const improvedResponse = `Improved response to: ${question} (addressing: ${reflection.improvementSuggestions.join(', ')})`;
+        
+        return improvedResponse;
+    }
+    
+    shouldContinueReflecting(reflection, iteration) {
+        // Stop if max iterations reached
+        if (iteration >= this.maxIterations) {
+            return false;
+        }
+        
+        // Stop if assessment score is high enough
+        if (reflection.assessmentScore >= 9) {
+            return false;
+        }
+        
+        // Stop if confidence is low (uncertain about improvements)
+        if (reflection.confidence < 0.5) {
+            return false;
+        }
+        
+        // Continue if there are significant issues to address
+        return reflection.issuesIdentified.length > 0;
+    }
+    
+    solveWithReflexion(question) {
+        const responses = [];
+        const reflections = [];
+        let currentResponse = this.generateInitialResponse(question);
+        responses.push(currentResponse);
+        
+        let iteration = 0;
+        
+        while (iteration < this.maxIterations) {
+            iteration++;
+            
+            // Reflect on current response
+            const reflection = this.reflectOnResponse(question, currentResponse, iteration);
+            reflections.push(reflection);
+            
+            // Check if we should continue
+            if (!this.shouldContinueReflecting(reflection, iteration)) {
+                break;
+            }
+            
+            // Generate improved response
+            const improvedResponse = this.generateImprovedResponse(question, currentResponse, reflection);
+            responses.push(improvedResponse);
+            currentResponse = improvedResponse;
+        }
+        
+        // Final reflection
+        const finalReflection = this.reflectOnResponse(question, currentResponse, iteration + 1);
+        reflections.push(finalReflection);
+        
+        return {
+            question: question,
+            responses: responses,
+            reflections: reflections,
+            finalResponse: currentResponse,
+            iterations: iteration,
+            improvementTrajectory: this.calculateImprovementTrajectory(reflections)
+        };
+    }
+    
+    calculateImprovementTrajectory(reflections) {
+        const scores = reflections.map(r => r.assessmentScore);
+        
+        return {
+            initialScore: scores[0] || 0,
+            finalScore: scores[scores.length - 1] || 0,
+            improvement: scores.length > 1 ? scores[scores.length - 1] - scores[0] : 0,
+            scoreTrajectory: scores,
+            totalIssuesResolved: reflections.slice(0, -1).reduce((sum, r) => sum + r.issuesIdentified.length, 0),
+            finalIssuesRemaining: reflections[reflections.length - 1]?.issuesIdentified.length || 0
+        };
+    }
+    
+    analyzeReflectionPatterns(reflections) {
+        const allIssues = [];
+        const allSuggestions = [];
+        
+        for (const reflection of reflections) {
+            allIssues.push(...reflection.issuesIdentified);
+            allSuggestions.push(...reflection.improvementSuggestions);
+        }
+        
+        // Count common issues and suggestions
+        const issueCounts = {};
+        for (const issue of allIssues) {
+            issueCounts[issue] = (issueCounts[issue] || 0) + 1;
+        }
+        
+        const suggestionCounts = {};
+        for (const suggestion of allSuggestions) {
+            suggestionCounts[suggestion] = (suggestionCounts[suggestion] || 0) + 1;
+        }
+        
+        return {
+            commonIssues: Object.entries(issueCounts).sort((a, b) => b[1] - a[1]),
+            commonSuggestions: Object.entries(suggestionCounts).sort((a, b) => b[1] - a[1]),
+            reflectionDepth: reflections.length,
+            averageConfidence: reflections.reduce((sum, r) => sum + r.confidence, 0) / reflections.length || 0
+        };
+    }
+}
+
+// Example usage
+const reflexionSystem = new ReflexionSystem(3);
+
+// Test with a complex question
+const question = "Explain the impact of artificial intelligence on modern society, considering both positive and negative aspects.";
+
+const result = reflexionSystem.solveWithReflexion(question);
+
+console.log(`Question: ${result.question}`);
+console.log(`Final Response: ${result.finalResponse}`);
+console.log(`Iterations: ${result.iterations}`);
+console.log(`Improvement: ${result.improvementTrajectory.improvement} points`);
+console.log(`Final Score: ${result.improvementTrajectory.finalScore}/10`);
+
+// Analyze reflection patterns
+const patterns = reflexionSystem.analyzeReflectionPatterns(result.reflections);
+console.log(`\nCommon Issues: ${patterns.commonIssues.slice(0, 3)}`);
+console.log(`Common Suggestions: ${patterns.commonSuggestions.slice(0, 3)}`);
+```
+  </CodeGroupItem>
+</CodeGroup>
+
+### 2. **Advanced Reflexion with LangChain**
+
+<Card title="LangChain Integration">
+  <CodeGroup>
+    <CodeGroupItem title="LangChain Implementation" active>
+```python
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+from langchain.llms import OpenAI
+from typing import Dict, List, Any
+import json
+
+class AdvancedReflexionSystem:
+    def __init__(self, api_key: str, max_iterations: int = 3):
+        self.llm = OpenAI(api_key=api_key, temperature=0.1)
+        self.max_iterations = max_iterations
+        self.reflection_prompt = None
+        self.improvement_prompt = None
+        self.setup_prompts()
+    
+    def setup_prompts(self):
+        """Setup prompt templates for reflection and improvement"""
+        
+        self.reflection_prompt = PromptTemplate(
+            template="""
+            You are an expert evaluator. Reflect on the following response to a question:
+            
+            Question: {question}
+            Response: {response}
+            Iteration: {iteration}
+            
+            Evaluate the response on these criteria:
+            1. Accuracy (1-10): Is the information correct and well-supported?
+            2. Completeness (1-10): Does it address all aspects of the question?
+            3. Logic (1-10): Is the reasoning sound and coherent?
+            4. Clarity (1-10): Is the response clear and understandable?
+            5. Relevance (1-10): Is the information pertinent to the question?
+            
+            Provide your evaluation in JSON format:
+            {{
+                "overall_score": <average of all scores>,
+                "accuracy_score": <score>,
+                "completeness_score": <score>,
+                "logic_score": <score>,
+                "clarity_score": <score>,
+                "relevance_score": <score>,
+                "issues_identified": ["issue1", "issue2", ...],
+                "improvement_suggestions": ["suggestion1", "suggestion2", ...],
+                "confidence": <0.0-1.0>,
+                "reasoning": "Brief explanation of your evaluation"
+            }}
+            """,
+            input_variables=["question", "response", "iteration"]
+        )
+        
+        self.improvement_prompt = PromptTemplate(
+            template="""
+            Improve the following response based on the reflection analysis:
+            
+            Original Question: {question}
+            Original Response: {original_response}
+            
+            Reflection Analysis:
+            {reflection_analysis}
+            
+            Generate an improved response that addresses the identified issues and incorporates the improvement suggestions.
+            Make sure the improved response is more accurate, complete, logical, clear, and relevant.
+            """,
+            input_variables=["question", "original_response", "reflection_analysis"]
+        )
+    
+    def reflect_on_response(self, question: str, response: str, iteration: int) -> Dict[str, Any]:
+        """Reflect on response quality using language model"""
+        
+        chain = LLMChain(llm=self.llm, prompt=self.reflection_prompt)
+        reflection_text = chain.run(
+            question=question,
+            response=response,
+            iteration=iteration
+        )
+        
+        try:
+            reflection = json.loads(reflection_text)
+            return reflection
+        except json.JSONDecodeError:
+            // Fallback if JSON parsing fails
+            return {
+                "overall_score": 7,
+                "issues_identified": ["Unable to parse reflection"],
+                "improvement_suggestions": ["Improve response quality"],
+                "confidence": 0.5,
+                "reasoning": "Fallback reflection"
+            }
+    
+    def generate_improved_response(self, question: str, original_response: str, 
+                                 reflection: Dict[str, Any]) -> str:
+        """Generate improved response based on reflection"""
+        
+        reflection_analysis = f"""
+        Overall Score: {reflection.get('overall_score', 0)}/10
+        Issues: {', '.join(reflection.get('issues_identified', []))}
+        Suggestions: {', '.join(reflection.get('improvement_suggestions', []))}
+        Reasoning: {reflection.get('reasoning', 'No reasoning provided')}
+        """
+        
+        chain = LLMChain(llm=self.llm, prompt=self.improvement_prompt)
+        improved_response = chain.run(
+            question=question,
+            original_response=original_response,
+            reflection_analysis=reflection_analysis
+        )
+        
+        return improved_response.strip()
+    
+    def should_continue_reflecting(self, reflection: Dict[str, Any], iteration: int) -> bool:
+        """Determine if reflection should continue"""
+        
+        if iteration >= self.max_iterations:
+            return False
+        
+        overall_score = reflection.get('overall_score', 0)
+        confidence = reflection.get('confidence', 0)
+        issues_count = len(reflection.get('issues_identified', []))
+        
+        // Stop if score is high enough
+        if overall_score >= 9:
+            return False
+        
+        // Stop if confidence is low
+        if confidence < 0.5:
+            return False
+        
+        // Stop if no significant issues
+        if issues_count == 0:
+            return False
+        
+        return True
+    
+    def solve_with_reflexion(self, question: str) -> Dict[str, Any]:
+        """Solve a problem using advanced reflexion"""
+        
+        responses = []
+        reflections = []
+        current_response = f"Initial response to: {question}"
+        responses.append(current_response)
+        
+        iteration = 0
+        
+        while iteration < self.max_iterations:
+            iteration += 1
+            
+            // Reflect on current response
+            reflection = self.reflect_on_response(question, current_response, iteration)
+            reflections.append(reflection)
+            
+            // Check if we should continue
+            if (!this.shouldContinueReflecting(reflection, iteration)) {
+                break
+            }
+            
+            // Generate improved response
+            improved_response = self.generate_improved_response(question, current_response, reflection)
+            responses.append(improved_response)
+            current_response = improved_response
+        
+        // Final reflection
+        final_reflection = self.reflect_on_response(question, current_response, iteration + 1)
+        reflections.append(final_reflection)
+        
+        return {
+            'question': question,
+            'responses': responses,
+            'reflections': reflections,
+            'final_response': current_response,
+            'iterations': iteration,
+            'improvement_metrics': self.calculate_improvement_metrics(reflections)
+        }
+    
+    def calculate_improvement_metrics(self, reflections: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Calculate detailed improvement metrics"""
+        
+        scores = [r.get('overall_score', 0) for r in reflections]
+        confidences = [r.get('confidence', 0) for r in reflections]
+        
+        return {
+            'initial_score': scores[0] if scores else 0,
+            'final_score': scores[-1] if scores else 0,
+            'score_improvement': scores[-1] - scores[0] if len(scores) > 1 else 0,
+            'average_confidence': sum(confidences) / len(confidences) if confidences else 0,
+            'score_trajectory': scores,
+            'confidence_trajectory': confidences,
+            'total_issues_addressed': sum(len(r.get('issues_identified', [])) for r in reflections[:-1]),
+            'final_issues_remaining': len(reflections[-1].get('issues_identified', [])) if reflections else 0
+        }
+
+# Example usage
+advanced_reflexion = AdvancedReflexionSystem("your-api-key", max_iterations=3)
+
+// Test with complex question
+question = "Analyze the ethical implications of autonomous vehicles, considering safety, privacy, and employment impacts."
+
+result = advanced_reflexion.solve_with_reflexion(question)
+
+print(f"Question: {result['question']}")
+print(f"Final Response: {result['final_response'][:200]}...")
+print(f"Iterations: {result['iterations']}")
+print(f"Score Improvement: {result['improvement_metrics']['score_improvement']} points")
+print(f"Final Score: {result['improvement_metrics']['final_score']}/10")
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+### 3. **CrewAI Integration**
+
+<Card title="CrewAI Multi-Agent Reflexion">
+  <CodeGroup>
+    <CodeGroupItem title="CrewAI Implementation" active>
+```python
+from crewai import Agent, Task, Crew
+from langchain.tools import Tool
+import json
+
+class ReflexionCrew:
+    def __init__(self):
+        self.responder_agent = None
+        self.evaluator_agent = None
+        self.improver_agent = None
+        self.coordinator_agent = None
+    
+    def create_agents(self):
+        """Create specialized reflexion agents"""
+        
+        // Responder Agent
+        self.responder_agent = Agent(
+            role="Initial Responder",
+            goal="Generate initial responses to questions",
+            backstory="""You are an expert at providing initial responses to complex questions. 
+            You focus on providing comprehensive, well-structured answers that address the 
+            core aspects of the question.""",
+            verbose=True,
+            allow_delegation=False
+        )
+        
+        // Evaluator Agent
+        self.evaluator_agent = Agent(
+            role="Response Evaluator",
+            goal="Critically evaluate response quality and identify areas for improvement",
+            backstory="""You are an expert evaluator with deep experience in assessing 
+            response quality. You excel at identifying gaps, inconsistencies, and areas 
+            for improvement in written responses.""",
+            verbose=True,
+            allow_delegation=False
+        )
+        
+        // Improver Agent
+        self.improver_agent = Agent(
+            role="Response Improver",
+            goal="Enhance responses based on evaluation feedback",
+            backstory="""You are an expert at improving written responses. You excel at 
+            incorporating feedback, addressing identified issues, and enhancing the 
+            overall quality of responses.""",
+            verbose=True,
+            allow_delegation=False
+        )
+        
+        // Coordinator Agent
+        self.coordinator_agent = Agent(
+            role="Reflexion Coordinator",
+            goal="Coordinate the reflexion process and determine when to stop iterating",
+            backstory="""You are an expert coordinator who manages iterative improvement 
+            processes. You excel at determining when responses have reached sufficient 
+            quality and when to continue refining them.""",
+            verbose=True,
+            allow_delegation=True
+        )
+    
+    def create_initial_response_task(self, question: str) -> Task:
+        """Create task for generating initial response"""
+        return Task(
+            description=f"""
+            Generate a comprehensive initial response to the following question:
+            
+            Question: {question}
+            
+            Your response should:
+            1. Address all aspects of the question
+            2. Provide clear, logical reasoning
+            3. Include relevant examples and evidence
+            4. Be well-structured and easy to understand
+            5. Demonstrate expertise and depth of knowledge
+            
+            Provide a thorough, high-quality response.
+            """,
+            agent=self.responder_agent
+        )
+    
+    def create_evaluation_task(self, question: str, response: str, iteration: int) -> Task:
+        """Create task for evaluating response quality"""
+        return Task(
+            description=f"""
+            Evaluate the following response to the question:
+            
+            Question: {question}
+            Response: {response}
+            Iteration: {iteration}
+            
+            Evaluate the response on these criteria:
+            1. Accuracy: Is the information correct and well-supported?
+            2. Completeness: Does it address all aspects of the question?
+            3. Logic: Is the reasoning sound and coherent?
+            4. Clarity: Is the response clear and understandable?
+            5. Relevance: Is the information pertinent to the question?
+            
+            Provide:
+            - Overall assessment (1-10 scale)
+            - Specific issues identified
+            - Suggestions for improvement
+            - Confidence in your evaluation
+            - Reasoning for your assessment
+            
+            Be thorough and constructive in your evaluation.
+            """,
+            agent=self.evaluator_agent
+        )
+    
+    def create_improvement_task(self, question: str, original_response: str, 
+                              evaluation: str) -> Task:
+        """Create task for improving response"""
+        return Task(
+            description=f"""
+            Improve the following response based on the evaluation:
+            
+            Original Question: {question}
+            Original Response: {original_response}
+            
+            Evaluation Feedback:
+            {evaluation}
+            
+            Generate an improved response that:
+            1. Addresses all identified issues
+            2. Incorporates improvement suggestions
+            3. Maintains the strengths of the original response
+            4. Enhances overall quality and clarity
+            5. Provides more comprehensive and accurate information
+            
+            Ensure the improved response is significantly better than the original.
+            """,
+            agent=self.improver_agent
+        )
+    
+    def create_coordination_task(self, question: str, responses: List[str], 
+                               evaluations: List[str]) -> Task:
+        """Create task for coordinating the reflexion process"""
+        return Task(
+            description=f"""
+            Coordinate the reflexion process for the following question:
+            
+            Question: {question}
+            
+            Responses Generated:
+            {chr(10).join([f"Response {i+1}: {response[:100]}..." for i, response in enumerate(responses)])}
+            
+            Evaluations:
+            {chr(10).join([f"Evaluation {i+1}: {eval[:100]}..." for i, eval in enumerate(evaluations)])}
+            
+            Your task:
+            1. Assess the quality improvement trajectory
+            2. Determine if further iterations are needed
+            3. Identify the best response from the sequence
+            4. Provide recommendations for final improvements
+            5. Decide when the reflexion process should conclude
+            
+            Provide clear guidance on whether to continue iterating or finalize the response.
+            """,
+            agent=self.coordinator_agent
+        )
+    
+    def solve_with_reflexion_crew(self, question: str, max_iterations: int = 3) -> Dict[str, Any]:
+        """Solve a problem using the reflexion crew"""
+        
+        // Create agents
+        self.create_agents()
+        
+        responses = []
+        evaluations = []
+        
+        // Generate initial response
+        initial_task = self.create_initial_response_task(question)
+        initial_response = initial_task.execute()
+        responses.append(initial_response)
+        
+        iteration = 0
+        
+        while iteration < max_iterations:
+            iteration += 1
+            
+            // Evaluate current response
+            evaluation_task = self.create_evaluation_task(question, responses[-1], iteration)
+            evaluation = evaluation_task.execute()
+            evaluations.append(evaluation)
+            
+            // Check if we should continue (simplified logic)
+            if "high quality" in evaluation.lower() or "excellent" in evaluation.lower():
+                break
+            
+            // Improve response
+            improvement_task = self.create_improvement_task(question, responses[-1], evaluation)
+            improved_response = improvement_task.execute()
+            responses.append(improved_response)
+        
+        // Coordinate final assessment
+        coordination_task = self.create_coordination_task(question, responses, evaluations)
+        coordination_result = coordination_task.execute()
+        
+        return {
+            'question': question,
+            'responses': responses,
+            'evaluations': evaluations,
+            'final_response': responses[-1],
+            'iterations': iteration,
+            'coordination_result': coordination_result,
+            'agents': {
+                'responder': self.responder_agent,
+                'evaluator': self.evaluator_agent,
+                'improver': self.improver_agent,
+                'coordinator': self.coordinator_agent
+            }
+        }
+
+# Example usage
+reflexion_crew = ReflexionCrew()
+
+// Test with complex question
+question = "Explain the potential impact of quantum computing on cryptography and cybersecurity, including both threats and opportunities."
+
+result = reflexion_crew.solve_with_reflexion_crew(question, max_iterations=3)
+
+print(f"Question: {result['question']}")
+print(f"Final Response: {result['final_response'][:200]}...")
+print(f"Iterations: {result['iterations']}")
+print(f"Coordination Result: {result['coordination_result'][:100]}...")
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+## Best Practices
+
+### 1. **Reflection Quality**
+
+<CardGroup cols={2}>
+  <Card title="Effective Reflection" icon="eye">
+    <ul>
+      <li>Be specific about issues identified</li>
+      <li>Provide actionable improvement suggestions</li>
+      <li>Consider multiple evaluation criteria</li>
+      <li>Maintain objectivity in assessment</li>
+    </ul>
+  </Card>
+  <Card title="Iteration Control" icon="repeat">
+    <ul>
+      <li>Set clear stopping criteria</li>
+      <li>Monitor improvement trajectory</li>
+      <li>Avoid infinite loops</li>
+      <li>Balance quality vs. efficiency</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+### 2. **Improvement Strategies**
+
+<Card title="Improvement Best Practices">
+  <ul>
+    <li><strong>Targeted Improvements:</strong> Focus on specific identified issues</li>
+    <li><strong>Incremental Enhancement:</strong> Make focused improvements in each iteration</li>
+    <li><strong>Quality Preservation:</strong> Maintain strengths while addressing weaknesses</li>
+    <li><strong>Evidence-Based Changes:</strong> Base improvements on concrete feedback</li>
+  </ul>
+</Card>
+
+### 3. **Evaluation Criteria**
+
+<Card title="Evaluation Framework">
+  <ul>
+    <li><strong>Accuracy:</strong> Factual correctness and reliability</li>
+    <li><strong>Completeness:</strong> Coverage of all relevant aspects</li>
+    <li><strong>Logic:</strong> Sound reasoning and coherence</li>
+    <li><strong>Clarity:</strong> Understandability and communication quality</li>
+    <li><strong>Relevance:</strong> Pertinence to the original question</li>
+  </ul>
+</Card>
+
+## Real-World Applications
+
+### 1. **Content Creation**
+
+<Callout type="info">
+  **Case Study**: Reflexion is particularly effective for content creation tasks where quality and accuracy are critical, such as academic writing, technical documentation, and creative content.
+</Callout>
+
+<Card title="Content Creation Applications">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Application</TableHeader>
+        <TableHeader>Reflection Focus</TableHeader>
+        <TableHeader>Improvement Areas</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Academic Writing</strong></TableCell>
+        <TableCell>Argument strength, evidence quality</TableCell>
+        <TableCell>Clarity, logical flow, citations</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Technical Documentation</strong></TableCell>
+        <TableCell>Accuracy, completeness, clarity</TableCell>
+        <TableCell>Step-by-step instructions, examples</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Creative Content</strong></TableCell>
+        <TableCell>Engagement, originality, coherence</TableCell>
+        <TableCell>Narrative flow, character development</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Problem Solving**
+
+<Card title="Problem Solving Applications">
+  <ul>
+    <li><strong>Analytical Problems:</strong> Verify solution correctness and completeness</li>
+    <li><strong>Creative Problems:</strong> Evaluate solution originality and feasibility</li>
+    <li><strong>Strategic Planning:</strong> Assess plan robustness and implementation</li>
+    <li><strong>Decision Making:</strong> Review decision rationale and consequences</li>
+  </ul>
+</Card>
+
+### 3. **Quality Assurance**
+
+<Card title="Quality Assurance Use Cases">
+  <ul>
+    <li><strong>Code Review:</strong> Self-review code quality and best practices</li>
+    <li><strong>Design Validation:</strong> Evaluate design completeness and usability</li>
+    <li><strong>Process Optimization:</strong> Assess workflow efficiency and effectiveness</li>
+    <li><strong>Risk Assessment:</strong> Review risk analysis thoroughness</li>
+  </ul>
+</Card>
+
+## Related Techniques
+
+<CardGroup cols={3}>
+  <Card title="Chain-of-Thought" icon="git-branch" href="./chain-of-thought">
+    Step-by-step reasoning prompts
+  </Card>
+  <Card title="Self-Consistency" icon="repeat" href="./self-consistency">
+    Multiple reasoning paths for validation
+  </Card>
+  <Card title="Tree of Thoughts" icon="git-merge" href="./tree-of-thoughts">
+    Exploring multiple reasoning branches
+  </Card>
+  <Card title="Automatic Reasoning" icon="brain" href="./automatic-reasoning">
+    Systematic logical analysis
+  </Card>
+  <Card title="Graph Prompting" icon="network" href="./graph-prompting">
+    Structured reasoning with graphs
+  </Card>
+  <Card title="Program-Aided Language Models" icon="code" href="./program-aided-language-models">
+    Using code to enhance reasoning
+  </Card>
+</CardGroup>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>CrewAI Documentation:</strong> <a href="https://docs.crewai.com/en/introduction">https://docs.crewai.com/en/introduction</a></li>
+    <li><strong>AI Design Guide:</strong> <a href="https://aidesign.guide/">https://aidesign.guide/</a></li>
+    <li><strong>LangChain Conceptual Guide:</strong> <a href="https://python.langchain.com/docs/get_started/concepts">https://python.langchain.com/docs/get_started/concepts</a></li>
+    <li><strong>NLP and LLMs 2024:</strong> <a href="https://nlp2024.jeju.ai/">https://nlp2024.jeju.ai/</a></li>
+    <li><strong>Prompt Engineering Guide:</strong> <a href="https://www.promptingguide.ai/">https://www.promptingguide.ai/</a></li>
+    <li><strong>Anthropic Tutorial:</strong> <a href="https://www.anthropic.com/">https://www.anthropic.com/</a></li>
+  </ul>
+</Card>

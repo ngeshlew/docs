@@ -1,0 +1,544 @@
+---
+title: "Few-Shot Prompting"
+slug: "modules-prompting-techniques-few-shot"
+updatedAt: "2025-08-18"
+tags: "prompting-technique,few-shot,examples"
+---
+
+# Few-Shot Prompting
+
+> Learn how to improve AI model performance by providing a few examples in your prompts.
+
+## What is Few-Shot Prompting?
+
+Few-shot prompting is a technique where you provide a small number of examples (typically 1-5) to help the AI model understand the task and expected output format. This approach helps the model learn the pattern from the examples and apply it to new inputs.
+
+## How Few-Shot Prompting Works
+
+### Basic Concept
+
+Few-shot prompting works by:
+
+- Providing 1-5 examples of input-output pairs
+- Demonstrating the desired format and style
+- Allowing the model to learn the pattern
+- Applying the learned pattern to new inputs
+
+### Key Characteristics
+
+- **Example-Driven**: Uses concrete examples to teach the model
+- **Pattern Learning**: Model learns from the provided examples
+- **Format Consistency**: Helps maintain consistent output format
+- **Task Clarity**: Examples clarify the expected task and style
+
+## Basic Examples
+
+### Text Classification
+
+**Prompt:**
+
+```
+Classify the sentiment of the following texts:
+
+Text: "This product is amazing!"
+Sentiment: positive
+
+Text: "I'm disappointed with the service."
+Sentiment: negative
+
+Text: "The weather is cloudy today."
+Sentiment: neutral
+
+Text: "I love this new AI assistant!"
+Sentiment:
+```
+
+**Expected Output:**
+
+```
+positive
+```
+
+### Translation
+
+**Prompt:**
+
+```
+Translate the following English sentences to French:
+
+English: "Hello, how are you?"
+French: "Bonjour, comment allez-vous ?"
+
+English: "I love this city."
+French: "J'aime cette ville."
+
+English: "What time is it?"
+French: "Quelle heure est-il ?"
+
+English: "The weather is beautiful today."
+French:
+```
+
+**Expected Output:**
+
+```
+"Le temps est beau aujourd'hui."
+```
+
+### Code Generation
+
+**Prompt:**
+
+```
+Generate Python functions based on the descriptions:
+
+Description: "Function that adds two numbers"
+Code:
+def add_numbers(a, b):
+    return a + b
+
+Description: "Function that finds the maximum of three numbers"
+Code:
+def find_max(a, b, c):
+    return max(a, b, c)
+
+Description: "Function that reverses a string"
+Code:
+```
+
+**Expected Output:**
+
+```
+def reverse_string(text):
+    return text[::-1]
+```
+
+## Advanced Few-Shot Techniques
+
+### Chain-of-Thought Few-Shot
+
+**Prompt:**
+
+```
+Solve these math problems step by step:
+
+Question: If a store has 15 apples and sells 3 each day, how many days until they have 6 apples left?
+
+Let's solve this step by step:
+1. Starting with 15 apples
+2. Selling 3 per day means: 15 - 3 = 12 (day 1), 12 - 3 = 9 (day 2), 9 - 3 = 6 (day 3)
+3. So it takes 3 days to reach 6 apples
+
+Answer: 3 days
+
+Question: If a train travels 120 km in 2 hours, what is its speed in km/h?
+
+Let's solve this step by step:
+```
+
+**Expected Output:**
+
+```
+1. Distance = 120 km
+2. Time = 2 hours
+3. Speed = Distance / Time = 120 / 2 = 60 km/h
+
+Answer: 60 km/h
+```
+
+### Structured Output Few-Shot
+
+**Prompt:**
+
+```
+Extract information from the following texts and format as JSON:
+
+Text: "John Doe is 30 years old and works as a Software Engineer."
+Output: {"name": "John Doe", "age": 30, "occupation": "Software Engineer"}
+
+Text: "Sarah Smith is 25 years old and works as a Data Scientist."
+Output: {"name": "Sarah Smith", "age": 25, "occupation": "Data Scientist"}
+
+Text: "Mike Johnson is 35 years old and works as a Product Manager."
+Output:
+```
+
+**Expected Output:**
+
+```
+{"name": "Mike Johnson", "age": 35, "occupation": "Product Manager"}
+```
+
+## Best Practices
+
+### 1. Example Quality
+
+- **Relevance**: Examples should be relevant to the target task
+- **Diversity**: Include varied examples to improve generalization
+- **Clarity**: Examples should be clear and unambiguous
+- **Consistency**: Maintain consistent format across examples
+
+### 2. Example Quantity
+
+- **1-3 Examples**: Good for simple tasks
+- **3-5 Examples**: Optimal for most tasks
+- **5\+ Examples**: May not provide additional benefit
+- **Balance**: More examples increase token usage
+
+### 3. Example Selection
+
+- **Representative**: Choose examples that represent the task well
+- **Edge Cases**: Include examples that cover edge cases
+- **Difficulty**: Vary the complexity of examples
+- **Format**: Ensure examples demonstrate the desired output format
+
+### 4. Prompt Structure
+
+- **Clear Separation**: Clearly separate examples from the target input
+- **Consistent Format**: Maintain consistent formatting throughout
+- **Explicit Instructions**: Include clear instructions when needed
+- **Proper Spacing**: Use proper spacing for readability
+
+## Implementation Examples
+
+### Python Implementation
+
+```python
+def few_shot_classification(text: str, examples: list, categories: list) -> str:
+    prompt = "Classify the sentiment of the following texts:\n\n"
+    
+    # Add examples
+    for example in examples:
+        prompt += f"Text: \"{example['text']}\"\n"
+        prompt += f"Sentiment: {example['sentiment']}\n\n"
+    
+    # Add target text
+    prompt += f"Text: \"{text}\"\n"
+    prompt += "Sentiment:"
+    
+    # Send to AI model
+    response = ai_model.generate(prompt)
+    return response.strip()
+
+# Usage
+examples = [
+    {"text": "This product is amazing!", "sentiment": "positive"},
+    {"text": "I'm disappointed with the service.", "sentiment": "negative"},
+    {"text": "The weather is cloudy today.", "sentiment": "neutral"}
+]
+
+result = few_shot_classification("I love this new AI assistant!", examples, ["positive", "negative", "neutral"])
+print(result)  # Output: positive
+```
+
+### Dynamic Few-Shot Generation
+
+```python
+def generate_few_shot_prompt(task_type: str, examples: list, target_input: str) -> str:
+    task_templates = {
+        "classification": {
+            "header": "Classify the following texts:",
+            "format": "Text: \"{text}\"\nClassification: {classification}\n\n"
+        },
+        "translation": {
+            "header": "Translate the following texts:",
+            "format": "Source: \"{source}\"\nTarget: \"{target}\"\n\n"
+        },
+        "summarization": {
+            "header": "Summarize the following texts:",
+            "format": "Text: \"{text}\"\nSummary: {summary}\n\n"
+        }
+    }
+    
+    if task_type not in task_templates:
+        raise ValueError(f"Unknown task type: {task_type}")
+    
+    template = task_templates[task_type]
+    prompt = f"{template['header']}\n\n"
+    
+    # Add examples
+    for example in examples:
+        prompt += template["format"].format(**example)
+    
+    # Add target input
+    prompt += f"Input: \"{target_input}\"\n"
+    prompt += "Output:"
+    
+    return prompt
+
+# Usage
+translation_examples = [
+    {"source": "Hello, how are you?", "target": "Bonjour, comment allez-vous ?"},
+    {"source": "I love this city.", "target": "J'aime cette ville."}
+]
+
+prompt = generate_few_shot_prompt("translation", translation_examples, "What time is it?")
+print(prompt)
+```
+
+## Comparison with Other Techniques
+
+### Few-Shot vs Zero-Shot
+
+| Aspect            | Few-Shot         | Zero-Shot |
+| ----------------- | ---------------- | --------- |
+| Examples Required | 1-5 examples     | None      |
+| Performance       | Generally better | Variable  |
+| Setup Time        | Moderate         | Minimal   |
+| Consistency       | Higher           | Lower     |
+| Token Usage       | Higher           | Lower     |
+
+### Few-Shot vs Chain-of-Thought
+
+| Aspect       | Few-Shot           | Chain-of-Thought       |
+| ------------ | ------------------ | ---------------------- |
+| Focus        | Pattern learning   | Reasoning process      |
+| Examples     | Input-output pairs | Step-by-step reasoning |
+| Complexity   | Simple to moderate | Complex reasoning      |
+| Transparency | Low                | High                   |
+
+## Real-World Applications
+
+### 1. Customer Support Ticket Classification
+
+```python
+def classify_support_tickets(ticket_text: str) -> str:
+    examples = [
+        {"text": "I can't log into my account", "category": "Technical Issue"},
+        {"text": "How do I change my billing information?", "category": "Billing Question"},
+        {"text": "I found a bug in the app", "category": "Bug Report"},
+        {"text": "Can you add a new feature?", "category": "Feature Request"}
+    ]
+    
+    prompt = "Classify these customer support tickets:\n\n"
+    
+    for example in examples:
+        prompt += f"Ticket: \"{example['text']}\"\n"
+        prompt += f"Category: {example['category']}\n\n"
+    
+    prompt += f"Ticket: \"{ticket_text}\"\n"
+    prompt += "Category:"
+    
+    return ai_model.generate(prompt).strip()
+```
+
+### 2. Data Extraction
+
+```python
+def extract_contact_info(text: str) -> dict:
+    examples = [
+        {
+            "text": "Contact John Doe at john@example.com or call 555-1234",
+            "output": '{"name": "John Doe", "email": "john@example.com", "phone": "555-1234"}'
+        },
+        {
+            "text": "Sarah Smith can be reached at sarah@company.com",
+            "output": '{"name": "Sarah Smith", "email": "sarah@company.com", "phone": null}'
+        }
+    ]
+    
+    prompt = "Extract contact information from the following texts:\n\n"
+    
+    for example in examples:
+        prompt += f"Text: \"{example['text']}\"\n"
+        prompt += f"Output: {example['output']}\n\n"
+    
+    prompt += f"Text: \"{text}\"\n"
+    prompt += "Output:"
+    
+    response = ai_model.generate(prompt)
+    return json.loads(response)
+```
+
+### 3. Code Generation
+
+```python
+def generate_code_function(description: str) -> str:
+    examples = [
+        {
+            "description": "Function that calculates the factorial of a number",
+            "code": "def factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n-1)"
+        },
+        {
+            "description": "Function that checks if a string is a palindrome",
+            "code": "def is_palindrome(text):\n    return text.lower() == text.lower()[::-1]"
+        }
+    ]
+    
+    prompt = "Generate Python functions based on the descriptions:\n\n"
+    
+    for example in examples:
+        prompt += f"Description: \"{example['description']}\"\n"
+        prompt += f"Code:\n{example['code']}\n\n"
+    
+    prompt += f"Description: \"{description}\"\n"
+    prompt += "Code:"
+    
+    return ai_model.generate(prompt)
+```
+
+## Tips for Success
+
+### 1. Choose Representative Examples
+
+- Select examples that cover the task well
+- Include edge cases and variations
+- Ensure examples are clear and unambiguous
+
+### 2. Maintain Consistency
+
+- Use consistent formatting across examples
+- Keep the same style and tone
+- Ensure output format is consistent
+
+### 3. Test and Iterate
+
+- Test with different example sets
+- Analyze failures and adjust examples
+- Iterate to improve performance
+
+### 4. Consider Token Limits
+
+- Balance example quantity with token usage
+- Use concise but clear examples
+- Consider the cost-benefit trade-off
+
+## Limitations and Considerations
+
+### 1. Token Usage
+
+- More examples increase token consumption
+- Consider cost implications
+- Balance performance with efficiency
+
+### 2. Example Quality
+
+- Poor examples can hurt performance
+- Examples must be accurate and relevant
+- Regular updates may be needed
+
+### 3. Task Complexity
+
+- Complex tasks may need more examples
+- Some tasks may not benefit from few-shot
+- Consider alternative approaches for complex tasks
+
+### 4. Consistency
+
+- Model responses may still vary
+- Examples don't guarantee perfect consistency
+- Validation is still important
+
+### Few-Shot Prompting
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ojtbHUqw1LA?si=r03o6vsyByDVTagp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen />
+
+While large-language models demonstrate remarkable zero-shot capabilities, they still fall short on more complex tasks when using the zero-shot setting. Few-shot prompting can be used as a technique to enable in-context learning where we provide demonstrations in the prompt to steer the model to better performance. The demonstrations serve as conditioning for subsequent examples where we would like the model to generate a response.
+
+According to [Touvron et al. 2023](https://arxiv.org/pdf/2302.13971.pdf) few shot properties first appeared when models were scaled to a sufficient size [(Kaplan et al., 2020)](https://arxiv.org/abs/2001.08361).
+
+Let's demonstrate few-shot prompting via an example that was presented in [Brown et al. 2020](https://arxiv.org/abs/2005.14165). In the example, the task is to correctly use a new word in a sentence.
+
+_Prompt:_
+
+```
+A "whatpu" is a small, furry animal native to Tanzania. An example of a sentence that uses the word whatpu is:We were traveling in Africa and we saw these very cute whatpus. To do a "farduddle" means to jump up and down really fast. An example of a sentence that uses the word farduddle is:
+```
+
+_Output:_
+
+```
+When we won the game, we all started to farduddle in celebration.
+```
+
+We can observe that the model has somehow learned how to perform the task by providing it with just one example (i.e., 1-shot). For more difficult tasks, we can experiment with increasing the demonstrations (e.g., 3-shot, 5-shot, 10-shot, etc.).
+
+Following the findings from [Min et al. (2022)](https://arxiv.org/abs/2202.12837), here are a few more tips about demonstrations/exemplars when doing few-shot:
+
+- "the label space and the distribution of the input text specified by the demonstrations are both important (regardless of whether the labels are correct for individual inputs)"
+- the format you use also plays a key role in performance, even if you just use random labels, this is much better than no labels at all.
+- additional results show that selecting random labels from a true distribution of labels (instead of a uniform distribution) also helps.
+
+Let's try out a few examples. Let's first try an example with random labels (meaning the labels Negative and Positive are randomly assigned to the inputs):
+
+_Prompt:_
+
+```
+This is awesome! // NegativeThis is bad! // PositiveWow that movie was rad! // PositiveWhat a horrible show! //
+```
+
+_Output:_
+
+```
+Negative
+```
+
+We still get the correct answer, even though the labels have been randomized. Note that we also kept the format, which helps too. In fact, with further experimentation, it seems the newer GPT models we are experimenting with are becoming more robust to even random formats. Example:
+
+_Prompt:_
+
+```
+Positive This is awesome! This is bad! NegativeWow that movie was rad!PositiveWhat a horrible show! --
+```
+
+_Output:_
+
+```
+Negative
+```
+
+There is no consistency in the format above but the model still predicted the correct label. We have to conduct a more thorough analysis to confirm if this holds for different and more complex tasks, including different variations of prompts.
+
+### **Limitations of Few-shot Prompting**
+
+Standard few-shot prompting works well for many tasks but is still not a perfect technique, especially when dealing with more complex reasoning tasks. Let's demonstrate why this is the case. Do you recall the previous example where we provided the following task:
+
+```
+The odd numbers in this group add up to an even number: 15, 32, 5, 13, 82, 7, 1. A: 
+```
+
+If we try this again, the model outputs the following:
+
+```
+Yes, the odd numbers in this group add up to 107, which is an even number.
+```
+
+This is not the correct response, which not only highlights the limitations of these systems but that there is a need for more advanced prompt engineering.
+
+Let's try to add some examples to see if few-shot prompting improves the results.
+
+_Prompt:_
+
+```
+The odd numbers in this group add up to an even number: 4, 8, 9, 15, 12, 2, 1.A: The answer is False.The odd numbers in this group add up to an even number: 17,  10, 19, 4, 8, 12, 24.A: The answer is True.The odd numbers in this group add up to an even number: 16,  11, 14, 4, 8, 13, 24.A: The answer is True.The odd numbers in this group add up to an even number: 17,  9, 10, 12, 13, 4, 2.A: The answer is False.The odd numbers in this group add up to an even number: 15, 32, 5, 13, 82, 7, 1. A: 
+```
+
+_Output:_
+
+```
+The answer is True.
+```
+
+That didn't work. It seems like few-shot prompting is not enough to get reliable responses for this type of reasoning problem. The example above provides basic information on the task. If you take a closer look, the type of task we have introduced involves a few more reasoning steps. In other words, it might help if we break the problem down into steps and demonstrate that to the model. More recently, [chain-of-thought (CoT) prompting](https://arxiv.org/abs/2201.11903) has been popularized to address more complex arithmetic, commonsense, and symbolic reasoning tasks.
+
+Overall, it seems that providing examples is useful for solving some tasks. When zero-shot prompting and few-shot prompting are not sufficient, it might mean that whatever was learned by the model isn't enough to do well at the task. From here it is recommended to start thinking about fine-tuning your models or experimenting with more advanced prompting techniques. Up next we talk about one of the popular prompting techniques called chain-of-thought prompting which has gained a lot of popularity.
+
+## Next Steps
+
+- **Practice**: Try few-shot prompting with different tasks
+- **Experiment**: Test various example combinations
+- **Compare**: Compare with zero-shot and other techniques
+- **Optimize**: Find the optimal number of examples for your tasks
+
+## Sources
+
+- [Prompt Engineering Guide - Few-Shot Prompting](https://www.promptingguide.ai/techniques/fewshot)
+- [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165)
+- [Chain-of-Thought Prompting Research](https://arxiv.org/abs/2201.11903)
+
+## Related Techniques
+
+- [Zero-Shot Prompting](./zero-shot)
+- [Chain-of-Thought Prompting](./chain-of-thought)
+- [Self-Consistency](./self-consistency)
+- [Meta-Prompting](./meta-prompting)

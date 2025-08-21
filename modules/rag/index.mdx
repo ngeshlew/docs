@@ -1,0 +1,716 @@
+---
+title: "Retrieval-Augmented Generation (RAG)"
+slug: "modules-rag"
+updatedAt: "2025-08-16"
+tags: "module,rag,knowledge,crewai"
+---
+
+# Retrieval-Augmented Generation (RAG)
+
+> Start reading here to understand how RAG combines AI generation with external knowledge retrieval for more accurate and up-to-date responses.
+
+## What is RAG?
+
+Retrieval-Augmented Generation (RAG) combines the generative capabilities of large language models with external knowledge retrieval to create more accurate, up-to-date, and contextually relevant responses. It addresses the limitations of static training data by dynamically retrieving relevant information at inference time.
+
+## RAG Design Patterns
+
+<Tabs>
+  <Tab title="Good Design">
+    **Relevant Retrieval**: Finds the most pertinent information for the query
+
+    - **Accurate Generation**: Uses retrieved information to create precise responses
+    - **Up-to-Date Knowledge**: Accesses current information beyond training data
+    - **Contextual Understanding**: Maintains conversation context while retrieving
+
+    **Example Implementation:**
+
+    ```python expandable
+    from crewai import Agent, Task, Crew, Process, LLM
+    from crewai.knowledge.source.string_knowledge_source import StringKnowledgeSource
+    
+    # Well-designed RAG system
+    class GoodRAGSystem:
+        def __init__(self):
+            # Multiple knowledge sources for comprehensive coverage
+            self.knowledge_sources = [
+                StringKnowledgeSource(content="Current product information"),
+                WebContentSource(urls=["https://docs.example.com"]),
+                DatabaseSource(connection_string="...")
+            ]
+            
+            # Optimized retrieval with relevance scoring
+            self.retriever = SemanticRetriever(
+                model="sentence-transformers/all-MiniLM-L6-v2",
+                top_k=5,  # Retrieve most relevant documents
+                similarity_threshold=0.7  # Only highly relevant results
+            )
+            
+            # Context-aware generation
+            self.generator = LLM(
+                model="gpt-4",
+                temperature=0.1,  # Consistent outputs
+                max_tokens=500
+            )
+        
+        def answer_query(self, query, conversation_context):
+            # Retrieve relevant information
+            relevant_docs = self.retriever.retrieve(
+                query, 
+                context=conversation_context
+            )
+            
+            # Generate accurate response using retrieved info
+            response = self.generator.generate(
+                prompt=self.build_prompt(query, relevant_docs, conversation_context)
+            )
+            
+            return response
+    ```
+  </Tab>
+  <Tab title="Poor Design">
+    **Irrelevant Results**: Retrieves information that doesn't match the query
+
+    - **Outdated Information**: Uses stale or incorrect data
+    - **Context Loss**: Fails to maintain conversation flow
+    - **Poor Performance**: Slow retrieval or generation times
+
+    **Example Implementation:**
+
+    ```python expandable
+    # Poorly designed RAG system
+    class PoorRAGSystem:
+        def __init__(self):
+            # Single, outdated knowledge source
+            self.knowledge_source = StaticDatabase(
+                last_updated="2020-01-01"  # Outdated information
+            )
+            
+            # Simple keyword matching - no semantic understanding
+            self.retriever = KeywordRetriever(
+                method="exact_match",  # No semantic search
+                top_k=100  # Too many irrelevant results
+            )
+            
+            # No context awareness
+            self.generator = LLM(
+                model="gpt-3.5-turbo",
+                temperature=0.9,  # Inconsistent outputs
+                max_tokens=1000  # Too verbose
+            )
+        
+        def answer_query(self, query):
+            # No conversation context
+            # Retrieve without considering relevance
+            docs = self.retriever.retrieve(query)
+            
+            # Generate without using retrieved information effectively
+            response = self.generator.generate(
+                prompt=f"Answer: {query}"  # No retrieved context
+            )
+            
+            return response
+    ```
+  </Tab>
+</Tabs>
+
+## RAG Components in CrewAI
+
+CrewAI provides a comprehensive RAG system with multiple knowledge sources and retrieval strategies:
+
+### Knowledge Sources
+
+CrewAI supports various types of knowledge sources:
+
+---
+
+<Tabs>
+  <Tab title="String Knowledge Source">
+    Simple text-based knowledge storage:
+
+    ```python
+    from crewai import Agent, Task, Crew, Process, LLM
+    from crewai.knowledge.source.string_knowledge_source import StringKnowledgeSource
+    
+    # Create a knowledge source
+    content = "Users name is John. He is 30 years old and lives in San Francisco."
+    string_source = StringKnowledgeSource(content=content)
+    
+    # Create an LLM with a temperature of 0 to ensure deterministic outputs
+    llm = LLM(model="gpt-4o-mini", temperature=0)
+    
+    # Create an agent with the knowledge store
+    agent = Agent(
+        role="About User",
+        goal="You know everything about the user.",
+        backstory="You are a master at understanding people and their preferences.",
+        verbose=True,
+        allow_delegation=False,
+        llm=llm,
+    )
+    
+    task = Task(
+        description="Answer the following questions about the user: {question}",
+        expected_output="An answer to the question.",
+        agent=agent,
+    )
+    
+    crew = Crew(
+        agents=[agent],
+        tasks=[task],
+        verbose=True,
+        process=Process.sequential,
+        knowledge_sources=[string_source],  # Enable knowledge by adding the sources here
+    )
+    
+    result = crew.kickoff(inputs={"question": "What city does John live in and how old is he?"})
+    ```
+  </Tab>
+  <Tab title="Web Content Knowledge Source">
+    Retrieve knowledge from web content using Docling:
+
+    ```python expandable
+    from crewai import LLM, Agent, Crew, Process, Task
+    from crewai.knowledge.source.crew_docling_source import CrewDoclingSource
+    
+    # Create a knowledge source from web content
+    content_source = CrewDoclingSource(
+        file_paths=[
+            "https://lilianweng.github.io/posts/2024-11-28-reward-hacking",
+            "https://lilianweng.github.io/posts/2024-11-28-reward-hacking",
+        ],
+    )
+    
+    # Create an LLM with a temperature of 0 to ensure deterministic outputs
+    llm = LLM(model="gpt-4o-mini", temperature=0)
+    
+    # Create an agent with the knowledge store
+    agent = Agent(
+        role="About papers",
+        goal="You know everything about the papers.",
+        backstory="You are a master at understanding papers and their content.",
+        verbose=True,
+        allow_delegation=False,
+        llm=llm,
+    )
+    
+    task = Task(
+        description="Answer the following questions about the papers: {question}",
+        expected_output="An answer to the question.",
+        agent=agent,
+    )
+    
+    crew = Crew(
+        agents=[agent],
+        tasks=[task],
+        verbose=True,
+        process=Process.sequential,
+        knowledge_sources=[content_source],  # Enable knowledge by adding the sources here
+    )
+    
+    result = crew.kickoff(inputs={"question": "What is reward hacking?"})
+    ```
+  </Tab>
+</Tabs>
+
+---
+
+## Advanced RAG Techniques
+
+[_Content from Prompt Engineering Guide_](https://www.promptingguide.ai/techniques/rag)
+
+### RAG Architecture Components
+
+#### 1. Document Processing Pipeline
+
+<Tabs>
+  <Tab title="Document Loading">
+    ```python expandable
+    from langchain.document_loaders import TextLoader, PDFLoader, WebBaseLoader
+    
+    # Load different document types
+    text_loader = TextLoader("data.txt")
+    pdf_loader = PDFLoader("document.pdf")
+    web_loader = WebBaseLoader("https://example.com")
+    
+    documents = text_loader.load() + pdf_loader.load() + web_loader.load()
+    ```
+  </Tab>
+  <Tab title="Text Chunking">
+    ```python expandable
+    from langchain.text_splitter import RecursiveCharacterTextSplitter
+    
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1000,
+        chunk_overlap=200,
+        length_function=len,
+        separators=["\n\n", "\n", " ", ""]
+    )
+    
+    chunks = text_splitter.split_documents(documents)
+    ```
+  </Tab>
+  <Tab title="Embedding Generation">
+    ```python expandable
+    from langchain.embeddings import OpenAIEmbeddings
+    
+    embeddings = OpenAIEmbeddings()
+    chunk_embeddings = embeddings.embed_documents([chunk.page_content for chunk in chunks])
+    ```
+  </Tab>
+</Tabs>
+
+#### 2. Vector Database Storage
+
+<Tabs>
+  <Tab title="Chroma Vector Store">
+    ```python expandable
+    import chromadb
+    from langchain.vectorstores import Chroma
+    
+    # Create vector store
+    vectorstore = Chroma.from_documents(
+        documents=chunks,
+        embedding=embeddings,
+        persist_directory="./chroma_db"
+    )
+    ```
+  </Tab>
+  <Tab title="Pinecone Vector Store">
+    ```python expandable
+    from langchain.vectorstores import Pinecone
+    import pinecone
+    
+    pinecone.init(api_key="your-api-key", environment="your-environment")
+    vectorstore = Pinecone.from_documents(chunks, embeddings, index_name="my-index")
+    ```
+  </Tab>
+  <Tab title="Weaviate Vector Store">
+    ```python expandable
+    from langchain.vectorstores import Weaviate
+    import weaviate
+    
+    client = weaviate.Client("http://localhost:8080")
+    vectorstore = Weaviate.from_documents(chunks, embeddings, client=client)
+    ```
+  </Tab>
+</Tabs>
+
+### Advanced Retrieval Strategies
+
+<Tabs>
+  <Tab title="1. Multi-Vector Retrieval">
+    Retrieve multiple relevant documents and combine them:
+
+    ```python expandable
+    def multi_vector_retrieval(query, vectorstore, k=5):
+        # Retrieve multiple documents
+        docs = vectorstore.similarity_search(query, k=k)
+        
+        # Combine context from all documents
+        combined_context = "\n\n".join([doc.page_content for doc in docs])
+        
+        return combined_context
+    ```
+  </Tab>
+  <Tab title="2. Hybrid Search">
+    Combine dense vector search with sparse keyword search:
+
+    ```python expandable
+    from langchain.retrievers import BM25Retriever
+    from langchain.retrievers import EnsembleRetriever
+    
+    # Dense retriever (vector search)
+    dense_retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+    
+    # Sparse retriever (keyword search)
+    sparse_retriever = BM25Retriever.from_documents(chunks)
+    
+    # Combine retrievers
+    ensemble_retriever = EnsembleRetriever(
+        retrievers=[dense_retriever, sparse_retriever],
+        weights=[0.7, 0.3]
+    )
+    ```
+  </Tab>
+  <Tab title="3. Contextual Compression">
+    Compress retrieved documents to focus on relevant information:
+
+    ```python expandable
+    from langchain.retrievers import ContextualCompressionRetriever
+    from langchain.retrievers.document_compressors import LLMChainExtractor
+    
+    # Create compressor
+    compressor = LLMChainExtractor.from_llm(llm)
+    
+    # Create compressed retriever
+    compression_retriever = ContextualCompressionRetriever(
+        base_retriever=vectorstore.as_retriever(),
+        base_compressor=compressor
+    )
+    ```
+  </Tab>
+  <Tab title="4. Multi-Query Retrieval">
+    Generate multiple queries to improve retrieval:
+
+    ```python expandable
+    from langchain.retrievers import MultiQueryRetriever
+    
+    # Create multi-query retriever
+    multi_query_retriever = MultiQueryRetriever.from_llm(
+        retriever=vectorstore.as_retriever(),
+        llm=llm
+    )
+    ```
+  </Tab>
+</Tabs>
+
+### RAG Generation Strategies
+
+<Tabs>
+  <Tab title="1. Prompt Engineering for RAG">
+    **Basic RAG Prompt:**
+
+    ```
+    Use the following context to answer the question. If you cannot find the answer in the context, say "I don't have enough information to answer this question."
+    
+    Context: {context}
+    
+    Question: {question}
+    
+    Answer:
+    ```
+
+    **Advanced RAG Prompt:**
+
+    ```expandable
+    You are a helpful assistant. Use the provided context to answer the user's question. Follow these guidelines:
+    
+    1. Base your answer primarily on the provided context
+    2. If the context doesn't contain enough information, acknowledge this limitation
+    3. If you need to make assumptions, clearly state them
+    4. Provide specific citations from the context when possible
+    5. Keep your answer concise but comprehensive
+    
+    Context: {context}
+    
+    Question: {question}
+    
+    Answer:
+    ```
+  </Tab>
+  <Tab title="2. Structured Output RAG">
+    Generate structured responses with RAG:
+
+    ```python expandable
+    from pydantic import BaseModel
+    from typing import List
+    
+    class RAGResponse(BaseModel):
+        answer: str
+        sources: List[str]
+        confidence: float
+        limitations: List[str]
+    
+    # Prompt for structured output
+    structured_rag_prompt = """
+    Use the following context to answer the question. Provide your response in JSON format with the following structure:
+    {
+        "answer": "Your answer based on the context",
+        "sources": ["source1", "source2"],
+        "confidence": 0.95,
+        "limitations": ["limitation1", "limitation2"]
+    }
+    
+    Context: {context}
+    Question: {question}
+    
+    Response:
+    """
+    ```
+  </Tab>
+  <Tab title="3. Multi-Step RAG">
+    Break complex queries into multiple steps:
+
+    ```python expandable
+    def multi_step_rag(query, vectorstore, llm):
+        # Step 1: Query decomposition
+        decomposition_prompt = f"""
+        Break down this complex question into simpler sub-questions:
+        Question: {query}
+        
+        Sub-questions:
+        """
+        
+        sub_questions = llm.predict(decomposition_prompt).split('\n')
+        
+        # Step 2: Retrieve for each sub-question
+        sub_answers = []
+        for sub_q in sub_questions:
+            if sub_q.strip():
+                docs = vectorstore.similarity_search(sub_q, k=3)
+                context = "\n".join([doc.page_content for doc in docs])
+                
+                answer_prompt = f"""
+                Context: {context}
+                Question: {sub_q}
+                Answer:
+                """
+                
+                answer = llm.predict(answer_prompt)
+                sub_answers.append(answer)
+        
+        # Step 3: Synthesize final answer
+        synthesis_prompt = f"""
+        Original Question: {query}
+        
+        Sub-answers:
+        {chr(10).join([f"{i+1}. {answer}" for i, answer in enumerate(sub_answers)])}
+        
+        Synthesize these answers into a comprehensive response:
+        """
+        
+        final_answer = llm.predict(synthesis_prompt)
+        return final_answer
+    ```
+  </Tab>
+</Tabs>
+
+### RAG Evaluation and Optimization
+
+#### 1. Retrieval Evaluation
+
+**Relevance Metrics:**
+```python
+def evaluate_retrieval(query, retrieved_docs, relevant_docs):
+    # Precision@k
+    retrieved_ids = set([doc.id for doc in retrieved_docs])
+    relevant_ids = set([doc.id for doc in relevant_docs])
+    
+    precision = len(retrieved_ids & relevant_ids) / len(retrieved_ids)
+    recall = len(retrieved_ids & relevant_ids) / len(relevant_ids)
+    
+    return {
+        "precision": precision,
+        "recall": recall,
+        "f1": 2 * (precision * recall) / (precision + recall)
+    }
+```
+
+**Diversity Metrics:**
+```python
+def evaluate_diversity(retrieved_docs):
+    # Calculate diversity based on document similarity
+    similarities = []
+    for i in range(len(retrieved_docs)):
+        for j in range(i+1, len(retrieved_docs)):
+            similarity = calculate_similarity(retrieved_docs[i], retrieved_docs[j])
+            similarities.append(similarity)
+    
+    diversity = 1 - np.mean(similarities)
+    return diversity
+```
+
+#### 2. Generation Evaluation
+
+**Faithfulness Metrics:**
+```python
+def evaluate_faithfulness(generated_answer, retrieved_context):
+    # Check if the answer is faithful to the retrieved context
+    faithfulness_score = calculate_faithfulness(generated_answer, retrieved_context)
+    return faithfulness_score
+```
+
+**Answer Quality Metrics:**
+```python
+def evaluate_answer_quality(generated_answer, reference_answer):
+    # BLEU, ROUGE, or other NLP metrics
+    bleu_score = calculate_bleu(generated_answer, reference_answer)
+    rouge_score = calculate_rouge(generated_answer, reference_answer)
+    
+    return {
+        "bleu": bleu_score,
+        "rouge": rouge_score
+    }
+```
+
+#### 3. End-to-End RAG Evaluation
+
+**RAGAS Framework:**
+```python
+from ragas import evaluate
+from ragas.metrics import faithfulness, answer_relevancy, context_relevancy
+
+# Evaluate RAG pipeline
+results = evaluate(
+    dataset=rag_dataset,
+    metrics=[
+        context_relevancy,
+        faithfulness,
+        answer_relevancy
+    ]
+)
+```
+
+### RAG Optimization Techniques
+
+#### 1. Query Optimization
+
+**Query Expansion:**
+```python
+def expand_query(query, llm):
+    expansion_prompt = f"""
+    Generate 3 different ways to ask this question that might retrieve different relevant documents:
+    
+    Original query: {query}
+    
+    Alternative queries:
+    1.
+    2.
+    3.
+    """
+    
+    expanded_queries = llm.predict(expansion_prompt)
+    return [query] + expanded_queries.split('\n')[1:4]
+```
+
+**Query Reformulation:**
+```python
+def reformulate_query(query, conversation_history):
+    reformulation_prompt = f"""
+    Reformulate this query to be more specific and retrievable, given the conversation history:
+    
+    History: {conversation_history}
+    Current query: {query}
+    
+    Reformulated query:
+    """
+    
+    return llm.predict(reformulation_prompt)
+```
+
+#### 2. Context Optimization
+
+**Context Reordering:**
+```python
+def reorder_context(context_chunks, query):
+    # Reorder chunks by relevance to query
+    relevance_scores = []
+    for chunk in context_chunks:
+        score = calculate_relevance(chunk, query)
+        relevance_scores.append((score, chunk))
+    
+    # Sort by relevance score (descending)
+    relevance_scores.sort(key=lambda x: x[0], reverse=True)
+    
+    return [chunk for score, chunk in relevance_scores]
+```
+
+**Context Truncation:**
+```python
+def truncate_context(context, max_tokens=4000):
+    # Truncate context to fit within token limits
+    tokens = tokenize(context)
+    
+    if len(tokens) <= max_tokens:
+        return context
+    
+    # Keep most relevant parts
+    truncated_tokens = tokens[:max_tokens]
+    return detokenize(truncated_tokens)
+```
+
+#### 3. Model Optimization
+
+**Temperature Tuning:**
+```python
+# Lower temperature for more factual responses
+llm = LLM(model="gpt-4", temperature=0.1)
+
+# Higher temperature for more creative responses
+llm = LLM(model="gpt-4", temperature=0.7)
+```
+
+**Prompt Engineering:**
+```python
+# Add system instructions for better RAG performance
+system_prompt = """
+You are a helpful assistant that answers questions based on provided context. 
+Always cite specific parts of the context when possible.
+If the context doesn't contain enough information, clearly state this limitation.
+"""
+```
+
+### RAG Applications and Use Cases
+
+#### 1. Question Answering Systems
+
+**Customer Support:**
+- Retrieve relevant documentation
+- Provide accurate answers
+- Maintain conversation context
+
+**Research Assistant:**
+- Search through research papers
+- Generate summaries
+- Answer specific questions
+
+#### 2. Content Generation
+
+**Documentation:**
+- Generate documentation from code
+- Create user guides
+- Update existing documentation
+
+**Content Marketing:**
+- Generate blog posts from research
+- Create product descriptions
+- Develop marketing copy
+
+#### 3. Data Analysis
+
+**Business Intelligence:**
+- Query business data
+- Generate reports
+- Provide insights
+
+**Scientific Research:**
+- Analyze research papers
+- Generate hypotheses
+- Summarize findings
+
+### RAG Challenges and Solutions
+
+#### 1. Hallucination Prevention
+
+**Techniques:**
+- Source attribution
+- Confidence scoring
+- Fact verification
+- Context validation
+
+#### 2. Context Window Limitations
+
+**Solutions:**
+- Context compression
+- Hierarchical retrieval
+- Streaming responses
+- Chunk optimization
+
+#### 3. Retrieval Quality
+
+**Improvements:**
+- Better embeddings
+- Query optimization
+- Multi-modal retrieval
+- Real-time updates
+
+## Next Steps
+
+Now that you understand RAG fundamentals and advanced techniques, explore:
+
+- [Memory & State](../memory-state/index.md) - How to maintain context across conversations
+- [Agents & Orchestration](../agents-orchestration/index.md) - How to build RAG-powered agents
+- [Prompting Basics](../prompting-structured-outputs/index.md) - How to design effective RAG prompts
+- [Evaluation & Observability](../../production-operations/evaluation-observability/index.md) - How to evaluate and monitor RAG performance
+

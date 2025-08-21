@@ -1,0 +1,82 @@
+---
+title: "Transformer Architecture"
+description: "Master the fundamentals of transformer architecture, the foundation of modern AI systems including attention mechanisms, scaling behavior, and practical implications for AI applications"
+slug: "modules-transformers"
+updatedAt: "2025-08-16"
+tags: [module, transformers, attention, architecture, ai-foundations]
+---
+
+> Synthesis: Transformers revolutionized NLP through self-attention mechanisms, enabling parallel processing and capturing long-range dependencies that RNNs couldn't handle efficiently.
+
+## Why it's important for designers to know
+
+Transformers are the foundation of modern AI systems. Understanding their architecture helps designers:
+
+- **Context Windows**: Know the limits of how much information a model can "remember" in a single conversation
+- **Attention Patterns**: Understand how models focus on different parts of input, affecting response quality
+- **Scaling Behavior**: Recognize that larger models aren't just "smarter" but have different emergent capabilities
+- **Latency Trade-offs**: Balance response quality vs. speed based on model size and complexity
+
+## How this applies to the AI-powered bot
+
+Design decisions directly impact transformer performance:
+
+- **Prompt Engineering**: Structure prompts to leverage attention mechanisms effectively
+- **Context Management**: Design conversation flows that work within context window limits
+- **Response Streaming**: Use transformer's ability to generate tokens incrementally for better UX
+- **Retrieval Integration**: Combine transformer understanding with external knowledge sources
+
+## Collaboration prompts for engineers
+
+- What transformer architecture are we using (GPT, BERT, T5, etc.)?
+- What's our context window size and how are we managing it?
+- Are we using any attention optimizations (flash attention, etc.)?
+- How are we handling the quadratic complexity of attention?
+- What's our strategy for fine-tuning vs. prompting?
+
+## Sources
+
+- "Attention Is All You Need" - Vaswani et al. (2017)
+- "Scaling Laws for Neural Language Models" - Kaplan et al. (2020)
+- "FlashAttention: Fast and Memory-Efficient Exact Attention" - Dao et al. (2022)
+- Anthropic's Constitutional AI papers
+- OpenAI's GPT series technical reports
+
+## Figures
+
+![Transformer Architecture](../assets/concepts/transformer-architecture.webp)
+<figcaption>Credit: Adapted from "Attention Is All You Need"</figcaption>
+
+## Key Concepts
+
+### Self-Attention Mechanism
+The core innovation that allows transformers to process sequences in parallel while capturing relationships between any positions:
+
+```
+Attention(Q,K,V) = softmax(QK^T/√d_k)V
+```
+
+### Multi-Head Attention
+Multiple attention mechanisms running in parallel, each focusing on different aspects of the input.
+
+### Positional Encoding
+Since transformers process all tokens simultaneously, they need explicit position information to understand sequence order.
+
+### Encoder-Decoder Architecture
+- **Encoder**: Processes input and creates representations
+- **Decoder**: Generates output using encoder representations and previous outputs
+
+## Practical Implications
+
+### For Product Design
+1. **Context Limits**: Design conversations that work within ~8K-32K token windows
+2. **Attention Visualization**: Show users what the model is "paying attention to"
+3. **Incremental Generation**: Stream responses as they're generated
+4. **Retrieval Integration**: Combine with external knowledge when context is insufficient
+
+### For Engineering Collaboration
+- Discuss model size vs. latency requirements
+- Plan for context window management strategies
+- Consider attention optimization techniques
+- Design prompt engineering workflows
+

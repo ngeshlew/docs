@@ -1,0 +1,582 @@
+---
+title: "Design Patterns"
+slug: "modules-design-patterns"
+updatedAt: "2025-08-18"
+tags: [module, design-patterns, architecture, best-practices]
+---
+
+# Design Patterns
+
+> Learn essential design patterns for building scalable, maintainable, and efficient AI-powered applications.
+
+## What are Design Patterns?
+
+Design patterns are proven solutions to common problems in software design. They provide reusable templates for solving recurring design challenges, making code more maintainable, scalable, and understandable. In AI applications, design patterns help structure complex interactions between models, data, and user interfaces.
+
+## Why Design Patterns Matter
+
+### Benefits
+
+- **Reusability**: Proven solutions that can be applied across projects
+- **Maintainability**: Well-structured code that's easier to understand and modify
+- **Scalability**: Patterns that support growth and complexity
+- **Consistency**: Standardized approaches across teams and projects
+- **Best Practices**: Incorporates industry-proven methodologies
+
+### Common Challenges in AI Applications
+
+- Complex model interactions
+- State management across sessions
+- Error handling and fallbacks
+- Performance optimization
+- User experience consistency
+
+## Creational Patterns
+
+### Singleton Pattern
+
+Ensure a class has only one instance and provide global access to it.
+
+```python
+class AIConfigManager:
+    _instance = None
+    _initialized = False
+    
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+    
+    def __init__(self):
+        if not self._initialized:
+            self.config = {}
+            self._initialized = True
+    
+    def set_config(self, key: str, value: any):
+        self.config[key] = value
+    
+    def get_config(self, key: str):
+        return self.config.get(key)
+
+# Usage
+config_manager = AIConfigManager()
+config_manager.set_config('model_name', 'gpt-4')
+```
+
+### Factory Pattern
+
+Create objects without specifying their exact class.
+
+```python
+from abc import ABC, abstractmethod
+from typing import Dict, Any
+
+class AIModel(ABC):
+    @abstractmethod
+    def generate(self, prompt: str) -> str:
+        pass
+
+class GPTModel(AIModel):
+    def generate(self, prompt: str) -> str:
+        return f"GPT response to: {prompt}"
+
+class ClaudeModel(AIModel):
+    def generate(self, prompt: str) -> str:
+        return f"Claude response to: {prompt}"
+
+class AIModelFactory:
+    @staticmethod
+    def create_model(model_type: str) -> AIModel:
+        models = {
+            'gpt': GPTModel,
+            'claude': ClaudeModel
+        }
+        
+        if model_type not in models:
+            raise ValueError(f"Unknown model type: {model_type}")
+        
+        return models[model_type]()
+
+# Usage
+factory = AIModelFactory()
+gpt_model = factory.create_model('gpt')
+claude_model = factory.create_model('claude')
+```
+
+## Structural Patterns
+
+### Adapter Pattern
+
+Allow incompatible interfaces to work together.
+
+```python
+class LegacyAIService:
+    def process_text(self, text: str) -> Dict[str, str]:
+        return {"result": f"Legacy processed: {text}"}
+
+class ModernAIInterface:
+    def generate_response(self, input_text: str) -> str:
+        return f"Modern response: {input_text}"
+
+class AIAdapter:
+    def __init__(self, legacy_service: LegacyAIService):
+        self.legacy_service = legacy_service
+    
+    def generate_response(self, input_text: str) -> str:
+        # Adapt the legacy interface to the modern one
+        result = self.legacy_service.process_text(input_text)
+        return result["result"]
+
+# Usage
+legacy_service = LegacyAIService()
+adapter = AIAdapter(legacy_service)
+response = adapter.generate_response("Hello, world!")
+```
+
+### Decorator Pattern
+
+Add new functionality to objects without altering their structure.
+
+```python
+from abc import ABC, abstractmethod
+
+class AIResponse(ABC):
+    @abstractmethod
+    def get_response(self) -> str:
+        pass
+
+class BasicAIResponse(AIResponse):
+    def __init__(self, text: str):
+        self.text = text
+    
+    def get_response(self) -> str:
+        return self.text
+
+class ResponseDecorator(AIResponse):
+    def __init__(self, ai_response: AIResponse):
+        self.ai_response = ai_response
+    
+    def get_response(self) -> str:
+        return self.ai_response.get_response()
+
+class LoggingDecorator(ResponseDecorator):
+    def get_response(self) -> str:
+        response = self.ai_response.get_response()
+        print(f"Logging response: {response}")
+        return response
+
+class CachingDecorator(ResponseDecorator):
+    def __init__(self, ai_response: AIResponse):
+        super().__init__(ai_response)
+        self.cache = {}
+    
+    def get_response(self) -> str:
+        # Simple caching implementation
+        response = self.ai_response.get_response()
+        if response not in self.cache:
+            self.cache[response] = response
+        return self.cache[response]
+
+# Usage
+basic_response = BasicAIResponse("Hello, AI!")
+logged_response = LoggingDecorator(basic_response)
+cached_logged_response = CachingDecorator(logged_response)
+result = cached_logged_response.get_response()
+```
+
+## Behavioral Patterns
+
+### Observer Pattern
+
+Define a one-to-many dependency between objects.
+
+```python
+from abc import ABC, abstractmethod
+from typing import List
+
+class Observer(ABC):
+    @abstractmethod
+    def update(self, message: str):
+        pass
+
+class AIService:
+    def __init__(self):
+        self.observers: List[Observer] = []
+    
+    def add_observer(self, observer: Observer):
+        self.observers.append(observer)
+    
+    def remove_observer(self, observer: Observer):
+        self.observers.remove(observer)
+    
+    def notify_observers(self, message: str):
+        for observer in self.observers:
+            observer.update(message)
+    
+    def process_request(self, request: str):
+        # Process the request
+        result = f"Processed: {request}"
+        # Notify all observers
+        self.notify_observers(result)
+
+class LoggingObserver(Observer):
+    def update(self, message: str):
+        print(f"Logging: {message}")
+
+class MetricsObserver(Observer):
+    def update(self, message: str):
+        print(f"Metrics: Processing request of length {len(message)}")
+
+# Usage
+ai_service = AIService()
+logging_observer = LoggingObserver()
+metrics_observer = MetricsObserver()
+
+ai_service.add_observer(logging_observer)
+ai_service.add_observer(metrics_observer)
+
+ai_service.process_request("Hello, AI!")
+```
+
+### Strategy Pattern
+
+Define a family of algorithms and make them interchangeable.
+
+```python
+from abc import ABC, abstractmethod
+
+class PromptStrategy(ABC):
+    @abstractmethod
+    def generate_prompt(self, input_text: str) -> str:
+        pass
+
+class SimplePromptStrategy(PromptStrategy):
+    def generate_prompt(self, input_text: str) -> str:
+        return f"Answer this question: {input_text}"
+
+class DetailedPromptStrategy(PromptStrategy):
+    def generate_prompt(self, input_text: str) -> str:
+        return f"""
+        Please provide a detailed and comprehensive answer to the following question.
+        Include examples, explanations, and relevant context.
+        
+        Question: {input_text}
+        
+        Please structure your response with:
+        1. Direct answer
+        2. Explanation
+        3. Examples
+        4. Related concepts
+        """
+
+class CreativePromptStrategy(PromptStrategy):
+    def generate_prompt(self, input_text: str) -> str:
+        return f"""
+        Think creatively and provide an innovative perspective on:
+        {input_text}
+        
+        Consider:
+        - Alternative viewpoints
+        - Creative solutions
+        - Future implications
+        - Unconventional approaches
+        """
+
+class AIContext:
+    def __init__(self, strategy: PromptStrategy):
+        self.strategy = strategy
+    
+    def set_strategy(self, strategy: PromptStrategy):
+        self.strategy = strategy
+    
+    def process_input(self, input_text: str) -> str:
+        prompt = self.strategy.generate_prompt(input_text)
+        # Here you would send the prompt to an AI model
+        return f"Generated prompt: {prompt}"
+
+# Usage
+simple_strategy = SimplePromptStrategy()
+detailed_strategy = DetailedPromptStrategy()
+creative_strategy = CreativePromptStrategy()
+
+context = AIContext(simple_strategy)
+print(context.process_input("What is AI?"))
+
+context.set_strategy(detailed_strategy)
+print(context.process_input("What is AI?"))
+
+context.set_strategy(creative_strategy)
+print(context.process_input("What is AI?"))
+```
+
+## AI-Specific Patterns
+
+### Chain of Responsibility Pattern
+
+Pass requests along a chain of handlers.
+
+```python
+from abc import ABC, abstractmethod
+from typing import Optional
+
+class Request:
+    def __init__(self, text: str, request_type: str):
+        self.text = text
+        self.request_type = request_type
+        self.response = None
+
+class Handler(ABC):
+    def __init__(self):
+        self.next_handler: Optional[Handler] = None
+    
+    def set_next(self, handler: 'Handler') -> 'Handler':
+        self.next_handler = handler
+        return handler
+    
+    @abstractmethod
+    def handle(self, request: Request) -> bool:
+        pass
+
+class InputValidationHandler(Handler):
+    def handle(self, request: Request) -> bool:
+        if not request.text or len(request.text.strip()) == 0:
+            request.response = "Error: Empty input"
+            return False
+        
+        if len(request.text) > 1000:
+            request.response = "Error: Input too long"
+            return False
+        
+        return self.next_handler.handle(request) if self.next_handler else True
+
+class ContentFilterHandler(Handler):
+    def handle(self, request: Request) -> bool:
+        inappropriate_words = ['spam', 'inappropriate', 'blocked']
+        
+        for word in inappropriate_words:
+            if word in request.text.lower():
+                request.response = f"Error: Content contains inappropriate word: {word}"
+                return False
+        
+        return self.next_handler.handle(request) if self.next_handler else True
+
+class AIProcessingHandler(Handler):
+    def handle(self, request: Request) -> bool:
+        # Simulate AI processing
+        request.response = f"AI processed: {request.text}"
+        return True
+
+# Usage
+validation_handler = InputValidationHandler()
+filter_handler = ContentFilterHandler()
+ai_handler = AIProcessingHandler()
+
+# Chain the handlers
+validation_handler.set_next(filter_handler).set_next(ai_handler)
+
+# Test requests
+request1 = Request("Hello, AI!", "general")
+validation_handler.handle(request1)
+print(request1.response)
+
+request2 = Request("", "general")
+validation_handler.handle(request2)
+print(request2.response)
+
+request3 = Request("This is spam content", "general")
+validation_handler.handle(request3)
+print(request3.response)
+```
+
+### Template Method Pattern
+
+Define the skeleton of an algorithm in a base class.
+
+```python
+from abc import ABC, abstractmethod
+
+class AIPipeline(ABC):
+    def process(self, input_data: str) -> str:
+        """Template method defining the algorithm structure"""
+        # Step 1: Preprocess
+        processed_data = self.preprocess(input_data)
+        
+        # Step 2: Validate
+        if not self.validate(processed_data):
+            return "Validation failed"
+        
+        # Step 3: Generate response
+        response = self.generate_response(processed_data)
+        
+        # Step 4: Post-process
+        final_response = self.postprocess(response)
+        
+        return final_response
+    
+    @abstractmethod
+    def preprocess(self, data: str) -> str:
+        pass
+    
+    @abstractmethod
+    def validate(self, data: str) -> bool:
+        pass
+    
+    @abstractmethod
+    def generate_response(self, data: str) -> str:
+        pass
+    
+    @abstractmethod
+    def postprocess(self, response: str) -> str:
+        pass
+
+class ChatbotPipeline(AIPipeline):
+    def preprocess(self, data: str) -> str:
+        return data.strip().lower()
+    
+    def validate(self, data: str) -> bool:
+        return len(data) > 0 and len(data) <= 500
+    
+    def generate_response(self, data: str) -> str:
+        return f"Chatbot response to: {data}"
+    
+    def postprocess(self, response: str) -> str:
+        return response.capitalize()
+
+class TranslationPipeline(AIPipeline):
+    def preprocess(self, data: str) -> str:
+        return data.strip()
+    
+    def validate(self, data: str) -> bool:
+        return len(data) > 0
+    
+    def generate_response(self, data: str) -> str:
+        return f"Translated: {data}"
+    
+    def postprocess(self, response: str) -> str:
+        return response + " [Translation complete]"
+
+# Usage
+chatbot = ChatbotPipeline()
+translation = TranslationPipeline()
+
+print(chatbot.process("Hello, how are you?"))
+print(translation.process("Bonjour, comment allez-vous?"))
+```
+
+## Best Practices
+
+### 1. Choose the Right Pattern
+
+- **Creational**: When object creation is complex or needs to be controlled
+- **Structural**: When you need to compose objects or provide alternative interfaces
+- **Behavioral**: When you need to manage algorithms, relationships, and responsibilities
+
+### 2. Keep It Simple
+
+- Don't over-engineer solutions
+- Use patterns only when they add value
+- Consider the complexity trade-offs
+
+### 3. Document Your Patterns
+
+- Explain why you chose a specific pattern
+- Document the responsibilities of each component
+- Provide usage examples
+
+### 4. Test Your Patterns
+
+- Unit test each pattern implementation
+- Test pattern interactions
+- Verify that patterns solve the intended problem
+
+## Implementation Examples
+
+### Configuration Management
+
+```python
+class ConfigManager:
+    def __init__(self):
+        self.config = {}
+        self.observers = []
+    
+    def set_config(self, key: str, value: any):
+        self.config[key] = value
+        self.notify_observers(key, value)
+    
+    def get_config(self, key: str, default=None):
+        return self.config.get(key, default)
+    
+    def add_observer(self, observer):
+        self.observers.append(observer)
+    
+    def notify_observers(self, key: str, value: any):
+        for observer in self.observers:
+            observer.config_changed(key, value)
+
+class LoggingObserver:
+    def config_changed(self, key: str, value: any):
+        print(f"Config changed: {key} = {value}")
+
+# Usage
+config = ConfigManager()
+config.add_observer(LoggingObserver())
+config.set_config('model_name', 'gpt-4')
+```
+
+### Error Handling Strategy
+
+```python
+class ErrorHandler:
+    def __init__(self):
+        self.strategies = {
+            'retry': self.retry_strategy,
+            'fallback': self.fallback_strategy,
+            'ignore': self.ignore_strategy
+        }
+    
+    def handle_error(self, error: Exception, strategy: str = 'retry'):
+        if strategy in self.strategies:
+            return self.strategies[strategy](error)
+        else:
+            raise error
+    
+    def retry_strategy(self, error: Exception):
+        print(f"Retrying after error: {error}")
+        # Implement retry logic
+        return "Retry successful"
+    
+    def fallback_strategy(self, error: Exception):
+        print(f"Using fallback for error: {error}")
+        return "Fallback response"
+    
+    def ignore_strategy(self, error: Exception):
+        print(f"Ignoring error: {error}")
+        return None
+```
+
+## Next Steps
+
+- **Study**: Learn more about design patterns and their applications
+- **Practice**: Implement patterns in your own projects
+- **Refactor**: Apply patterns to existing code to improve structure
+- **Share**: Document and share pattern implementations with your team
+
+## Sources
+
+- [Design Patterns: Elements of Reusable Object-Oriented Software](https://en.wikipedia.org/wiki/Design_Patterns)
+- [Python Design Patterns](https://python-patterns.guide/)
+- [Refactoring Guru - Design Patterns](https://refactoring.guru/design-patterns)
+
+## Collaboration Prompts for Engineers
+
+### For Frontend Developers
+"Implement the Observer pattern for real-time UI updates"
+
+### For Backend Developers
+"Design a Strategy pattern for different authentication methods"
+
+### For DevOps Engineers
+"Create a Factory pattern for different deployment strategies"
+
+### For Data Scientists
+"Build a Chain of Responsibility pattern for data validation pipelines"

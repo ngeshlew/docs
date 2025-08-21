@@ -1,0 +1,1269 @@
+---
+title: "Automatic Prompt Engineering"
+description: "Learn how to automate the process of creating, testing, and optimizing prompts using AI systems, enabling more efficient and effective prompt development"
+slug: "modules-prompting-techniques-automatic-prompt-engineer"
+updatedAt: "2025-08-19"
+tags: [prompting-technique, automatic-prompt-engineer, prompt-optimization, ai-automation]
+---
+
+# Automatic Prompt Engineering
+
+<Callout type="info">
+  **Learning Objective**: Master the techniques for automating prompt creation, testing, and optimization using AI systems to build more effective and efficient prompting workflows.
+</Callout>
+
+## Overview
+
+Automatic Prompt Engineering (APE) is an advanced technique that uses AI systems to automatically generate, test, and optimize prompts. This approach leverages machine learning to create better prompts than human engineers, often discovering novel and effective prompting strategies.
+
+<CardGroup cols={2}>
+  <Card title="AI-Driven Optimization" icon="zap">
+    Uses AI to automatically discover and optimize prompts, often finding strategies humans might miss.
+  </Card>
+  <Card title="Systematic Testing" icon="check-square">
+    Automatically tests multiple prompt variations to find the most effective approach.
+  </Card>
+</CardGroup>
+
+## What is Automatic Prompt Engineering?
+
+Automatic Prompt Engineering is a technique where AI systems are used to:
+
+- **Generate Prompts**: Create multiple prompt variations automatically
+- **Test Performance**: Evaluate prompts against specific metrics and datasets
+- **Optimize Results**: Iteratively improve prompts based on performance feedback
+- **Discover Patterns**: Find effective prompting strategies through systematic exploration
+
+<Callout type="warning">
+  **Key Insight**: APE can discover novel prompting strategies that human engineers might not think of, leading to better performance and more efficient prompt development.
+</Callout>
+
+## Key Concepts
+
+### 1. **Prompt Generation Strategies**
+
+<Card title="Automated Prompt Creation">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Strategy</TableHeader>
+        <TableHeader>Description</TableHeader>
+        <TableHeader>Advantages</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Template-Based</strong></TableCell>
+        <TableCell>Use predefined templates with variable substitution</TableCell>
+        <TableCell>Consistent structure, easy to implement</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Evolutionary</strong></TableCell>
+        <TableCell>Use genetic algorithms to evolve prompts</TableCell>
+        <TableCell>Can discover novel strategies, global optimization</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Neural Generation</strong></TableCell>
+        <TableCell>Use language models to generate prompts</TableCell>
+        <TableCell>Creative variations, natural language</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Rule-Based</strong></TableCell>
+        <TableCell>Apply transformation rules to base prompts</TableCell>
+        <TableCell>Controllable, interpretable results</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Evaluation Metrics**
+
+<Card title="Performance Evaluation">
+  <p>Automatic prompt engineering requires robust evaluation metrics to assess prompt quality:</p>
+  
+  <h4>Primary Metrics:</h4>
+  <ul>
+    <li><strong>Accuracy:</strong> How often the prompt produces correct outputs</li>
+    <li><strong>Consistency:</strong> How reliable the prompt is across different inputs</li>
+    <li><strong>Efficiency:</strong> How many tokens the prompt uses</li>
+    <li><strong>Robustness:</strong> How well the prompt handles edge cases</li>
+  </ul>
+  
+  <h4>Secondary Metrics:</h4>
+  <ul>
+    <li><strong>User Satisfaction:</strong> Subjective quality ratings</li>
+    <li><strong>Task Completion Rate:</strong> Percentage of successful completions</li>
+    <li><strong>Response Time:</strong> How quickly the model responds</li>
+    <li><strong>Cost Efficiency:</strong> Cost per successful completion</li>
+  </ul>
+</Card>
+
+### 3. **Optimization Algorithms**
+
+<Card title="Optimization Approaches">
+  <h4>Search-Based Optimization:</h4>
+  <ul>
+    <li><strong>Grid Search:</strong> Systematically test parameter combinations</li>
+    <li><strong>Random Search:</strong> Randomly sample from parameter space</li>
+    <li><strong>Bayesian Optimization:</strong> Use probabilistic models to guide search</li>
+    <li><strong>Genetic Algorithms:</strong> Evolve prompts through selection and mutation</li>
+  </ul>
+  
+  <h4>Learning-Based Optimization:</h4>
+  <ul>
+    <li><strong>Reinforcement Learning:</strong> Learn optimal prompts through trial and error</li>
+    <li><strong>Gradient-Based:</strong> Use gradients to optimize continuous parameters</li>
+    <li><strong>Meta-Learning:</strong> Learn to generate good prompts for new tasks</li>
+  </ul>
+</Card>
+
+## Implementation
+
+### 1. **Basic Automatic Prompt Engineering**
+
+<CodeGroup>
+  <CodeGroupItem title="Python" active>
+```python
+import openai
+import itertools
+from typing import List, Dict, Any
+import json
+
+class AutomaticPromptEngineer:
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+        openai.api_key = api_key
+        self.evaluation_data = []
+        self.best_prompt = None
+        self.best_score = 0
+    
+    def generate_prompt_variations(self, base_prompt: str, variations: Dict[str, List[str]]) -> List[str]:
+        """Generate multiple prompt variations based on templates"""
+        prompts = []
+        
+        # Generate all combinations of variations
+        keys = list(variations.keys())
+        values = list(variations.values())
+        
+        for combination in itertools.product(*values):
+            prompt = base_prompt
+            for key, value in zip(keys, combination):
+                placeholder = f"{{{key}}}"
+                prompt = prompt.replace(placeholder, value)
+            prompts.append(prompt)
+        
+        return prompts
+    
+    def evaluate_prompt(self, prompt: str, test_cases: List[Dict[str, Any]]) -> float:
+        """Evaluate a prompt against test cases"""
+        correct = 0
+        total = len(test_cases)
+        
+        for test_case in test_cases:
+            try:
+                response = self._call_llm(prompt, test_case['input'])
+                if self._is_correct(response, test_case['expected']):
+                    correct += 1
+            except Exception as e:
+                print(f"Error evaluating prompt: {e}")
+        
+        return correct / total if total > 0 else 0
+    
+    def _call_llm(self, prompt: str, input_text: str) -> str:
+        """Call the language model with the prompt"""
+        full_prompt = f"{prompt}\n\nInput: {input_text}\nOutput:"
+        
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=full_prompt,
+            max_tokens=100,
+            temperature=0.1
+        )
+        
+        return response.choices[0].text.strip()
+    
+    def _is_correct(self, response: str, expected: str) -> bool:
+        """Check if the response matches the expected output"""
+        # Simple exact match - could be made more sophisticated
+        return response.lower().strip() == expected.lower().strip()
+    
+    def optimize_prompts(self, base_prompt: str, variations: Dict[str, List[str]], 
+                        test_cases: List[Dict[str, Any]]) -> str:
+        """Find the best prompt through systematic testing"""
+        
+        # Generate all variations
+        prompts = self.generate_prompt_variations(base_prompt, variations)
+        
+        # Evaluate each prompt
+        for prompt in prompts:
+            score = self.evaluate_prompt(prompt, test_cases)
+            
+            if score > self.best_score:
+                self.best_score = score
+                self.best_prompt = prompt
+            
+            self.evaluation_data.append({
+                'prompt': prompt,
+                'score': score
+            })
+        
+        return self.best_prompt
+
+# Example usage
+ape = AutomaticPromptEngineer("your-api-key")
+
+base_prompt = """
+You are a helpful assistant. Your task is to {task_description}.
+Please provide {response_style} responses.
+{additional_instructions}
+"""
+
+variations = {
+    'task_description': [
+        'classify the sentiment of the given text',
+        'analyze the sentiment of the input',
+        'determine if the text is positive, negative, or neutral'
+    ],
+    'response_style': [
+        'clear and concise',
+        'detailed and thorough',
+        'simple and direct'
+    ],
+    'additional_instructions': [
+        'Focus on the overall tone of the text.',
+        'Consider both explicit and implicit sentiment.',
+        'Provide confidence scores for your classification.'
+    ]
+}
+
+test_cases = [
+    {'input': 'I love this product!', 'expected': 'positive'},
+    {'input': 'This is terrible.', 'expected': 'negative'},
+    {'input': 'The weather is okay.', 'expected': 'neutral'}
+]
+
+best_prompt = ape.optimize_prompts(base_prompt, variations, test_cases)
+print(f"Best prompt: {best_prompt}")
+print(f"Best score: {ape.best_score}")
+```
+  </CodeGroupItem>
+  
+  <CodeGroupItem title="JavaScript">
+```javascript
+class AutomaticPromptEngineer {
+    constructor(apiKey) {
+        this.apiKey = apiKey;
+        this.evaluationData = [];
+        this.bestPrompt = null;
+        this.bestScore = 0;
+    }
+    
+    generatePromptVariations(basePrompt, variations) {
+        const prompts = [];
+        const keys = Object.keys(variations);
+        const values = Object.values(variations);
+        
+        // Generate all combinations
+        const combinations = this.getCombinations(values);
+        
+        for (const combination of combinations) {
+            let prompt = basePrompt;
+            for (let i = 0; i < keys.length; i++) {
+                const placeholder = `{${keys[i]}}`;
+                prompt = prompt.replace(placeholder, combination[i]);
+            }
+            prompts.push(prompt);
+        }
+        
+        return prompts;
+    }
+    
+    getCombinations(arrays) {
+        const result = [];
+        
+        function combine(current, index) {
+            if (index === arrays.length) {
+                result.push([...current]);
+                return;
+            }
+            
+            for (const item of arrays[index]) {
+                current[index] = item;
+                combine(current, index + 1);
+            }
+        }
+        
+        combine(new Array(arrays.length), 0);
+        return result;
+    }
+    
+    async evaluatePrompt(prompt, testCases) {
+        let correct = 0;
+        const total = testCases.length;
+        
+        for (const testCase of testCases) {
+            try {
+                const response = await this.callLLM(prompt, testCase.input);
+                if (this.isCorrect(response, testCase.expected)) {
+                    correct++;
+                }
+            } catch (error) {
+                console.error('Error evaluating prompt:', error);
+            }
+        }
+        
+        return total > 0 ? correct / total : 0;
+    }
+    
+    async callLLM(prompt, inputText) {
+        const fullPrompt = `${prompt}\n\nInput: ${inputText}\nOutput:`;
+        
+        const response = await fetch('https://api.openai.com/v1/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.apiKey}`
+            },
+            body: JSON.stringify({
+                model: 'text-davinci-003',
+                prompt: fullPrompt,
+                max_tokens: 100,
+                temperature: 0.1
+            })
+        });
+        
+        const data = await response.json();
+        return data.choices[0].text.trim();
+    }
+    
+    isCorrect(response, expected) {
+        return response.toLowerCase().trim() === expected.toLowerCase().trim();
+    }
+    
+    async optimizePrompts(basePrompt, variations, testCases) {
+        const prompts = this.generatePromptVariations(basePrompt, variations);
+        
+        for (const prompt of prompts) {
+            const score = await this.evaluatePrompt(prompt, testCases);
+            
+            if (score > this.bestScore) {
+                this.bestScore = score;
+                this.bestPrompt = prompt;
+            }
+            
+            this.evaluationData.push({
+                prompt: prompt,
+                score: score
+            });
+        }
+        
+        return this.bestPrompt;
+    }
+}
+
+// Example usage
+const ape = new AutomaticPromptEngineer('your-api-key');
+
+const basePrompt = `
+You are a helpful assistant. Your task is to {taskDescription}.
+Please provide {responseStyle} responses.
+{additionalInstructions}
+`;
+
+const variations = {
+    taskDescription: [
+        'classify the sentiment of the given text',
+        'analyze the sentiment of the input',
+        'determine if the text is positive, negative, or neutral'
+    ],
+    responseStyle: [
+        'clear and concise',
+        'detailed and thorough',
+        'simple and direct'
+    ],
+    additionalInstructions: [
+        'Focus on the overall tone of the text.',
+        'Consider both explicit and implicit sentiment.',
+        'Provide confidence scores for your classification.'
+    ]
+};
+
+const testCases = [
+    { input: 'I love this product!', expected: 'positive' },
+    { input: 'This is terrible.', expected: 'negative' },
+    { input: 'The weather is okay.', expected: 'neutral' }
+];
+
+ape.optimizePrompts(basePrompt, variations, testCases)
+    .then(bestPrompt => {
+        console.log('Best prompt:', bestPrompt);
+        console.log('Best score:', ape.bestScore);
+    });
+```
+  </CodeGroupItem>
+</CodeGroup>
+
+### 2. **Advanced APE with LangChain**
+
+<Card title="LangChain Integration">
+  <CodeGroup>
+    <CodeGroupItem title="LangChain Implementation" active>
+```python
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+from langchain.llms import OpenAI
+from langchain.evaluation import load_evaluator
+import numpy as np
+from typing import List, Dict, Any
+import json
+
+class AdvancedAPE:
+    def __init__(self, api_key: str):
+        self.llm = OpenAI(api_key=api_key, temperature=0.1)
+        self.evaluator = load_evaluator("criteria", criteria="correctness")
+        self.prompt_history = []
+        self.performance_metrics = {}
+    
+    def create_prompt_template(self, template: str, input_variables: List[str]) -> PromptTemplate:
+        """Create a LangChain prompt template"""
+        return PromptTemplate(
+            template=template,
+            input_variables=input_variables
+        )
+    
+    def generate_prompt_candidates(self, base_template: str, 
+                                 input_variables: List[str],
+                                 num_candidates: int = 10) -> List[str]:
+        """Generate multiple prompt candidates using the LLM"""
+        
+        generation_prompt = f"""
+        You are an expert prompt engineer. Generate {num_candidates} different variations of the following prompt template.
+        Each variation should be effective but different in approach.
+        
+        Base template: {base_template}
+        Input variables: {input_variables}
+        
+        Generate {num_candidates} variations, one per line:
+        """
+        
+        response = self.llm(generation_prompt)
+        candidates = [line.strip() for line in response.split('\n') if line.strip()]
+        
+        return candidates[:num_candidates]
+    
+    def evaluate_prompt_performance(self, prompt_template: PromptTemplate, 
+                                  test_data: List[Dict[str, Any]]) -> Dict[str, float]:
+        """Evaluate prompt performance using multiple metrics"""
+        
+        results = {
+            'accuracy': 0.0,
+            'consistency': 0.0,
+            'efficiency': 0.0,
+            'robustness': 0.0
+        }
+        
+        correct_responses = 0
+        response_times = []
+        token_counts = []
+        
+        for test_case in test_data:
+            try:
+                # Format prompt
+                formatted_prompt = prompt_template.format(**test_case['input'])
+                
+                # Measure response time and tokens
+                import time
+                start_time = time.time()
+                
+                response = self.llm(formatted_prompt)
+                
+                end_time = time.time()
+                response_time = end_time - start_time
+                response_times.append(response_time)
+                
+                # Count tokens (simplified)
+                token_count = len(formatted_prompt.split()) + len(response.split())
+                token_counts.append(token_count)
+                
+                # Check accuracy
+                if self._is_correct(response, test_case['expected']):
+                    correct_responses += 1
+                
+            except Exception as e:
+                print(f"Error in evaluation: {e}")
+        
+        # Calculate metrics
+        total_cases = len(test_data)
+        if total_cases > 0:
+            results['accuracy'] = correct_responses / total_cases
+            results['consistency'] = 1.0 - np.std(response_times) / np.mean(response_times) if response_times else 0.0
+            results['efficiency'] = 1.0 / (np.mean(token_counts) / 100) if token_counts else 0.0  # Normalize by 100 tokens
+            results['robustness'] = len([r for r in response_times if r < 5.0]) / len(response_times) if response_times else 0.0
+        
+        return results
+    
+    def _is_correct(self, response: str, expected: str) -> bool:
+        """Check if response matches expected output"""
+        # This could be made more sophisticated with semantic similarity
+        return response.lower().strip() == expected.lower().strip()
+    
+    def optimize_prompts(self, base_template: str, input_variables: List[str],
+                        test_data: List[Dict[str, Any]], 
+                        optimization_rounds: int = 3) -> Dict[str, Any]:
+        """Multi-round prompt optimization"""
+        
+        best_prompt = base_template
+        best_score = 0.0
+        optimization_history = []
+        
+        for round_num in range(optimization_rounds):
+            print(f"Optimization round {round_num + 1}")
+            
+            # Generate candidates
+            candidates = self.generate_prompt_candidates(base_template, input_variables)
+            
+            # Evaluate each candidate
+            candidate_scores = []
+            for candidate in candidates:
+                template = self.create_prompt_template(candidate, input_variables)
+                metrics = self.evaluate_prompt_performance(template, test_data)
+                
+                # Calculate composite score
+                composite_score = (
+                    metrics['accuracy'] * 0.4 +
+                    metrics['consistency'] * 0.2 +
+                    metrics['efficiency'] * 0.2 +
+                    metrics['robustness'] * 0.2
+                )
+                
+                candidate_scores.append({
+                    'prompt': candidate,
+                    'metrics': metrics,
+                    'score': composite_score
+                })
+            
+            # Select best candidate
+            best_candidate = max(candidate_scores, key=lambda x: x['score'])
+            
+            if best_candidate['score'] > best_score:
+                best_score = best_candidate['score']
+                best_prompt = best_candidate['prompt']
+            
+            optimization_history.append({
+                'round': round_num + 1,
+                'candidates': candidate_scores,
+                'best_candidate': best_candidate
+            })
+            
+            # Use best candidate as base for next round
+            base_template = best_candidate['prompt']
+        
+        return {
+            'best_prompt': best_prompt,
+            'best_score': best_score,
+            'optimization_history': optimization_history
+        }
+
+# Example usage
+ape = AdvancedAPE("your-api-key")
+
+base_template = """
+You are a helpful assistant. Your task is to {task}.
+Please provide {style} responses.
+{instructions}
+"""
+
+input_variables = ["task", "style", "instructions"]
+
+test_data = [
+    {
+        'input': {
+            'task': 'classify sentiment',
+            'style': 'concise',
+            'instructions': 'Focus on overall tone'
+        },
+        'expected': 'positive'
+    },
+    {
+        'input': {
+            'task': 'classify sentiment',
+            'style': 'concise',
+            'instructions': 'Focus on overall tone'
+        },
+        'expected': 'negative'
+    }
+]
+
+results = ape.optimize_prompts(base_template, input_variables, test_data)
+print(f"Best prompt: {results['best_prompt']}")
+print(f"Best score: {results['best_score']}")
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+### 3. **CrewAI Integration for APE**
+
+<Card title="CrewAI Multi-Agent APE">
+  <CodeGroup>
+    <CodeGroupItem title="CrewAI Implementation" active>
+```python
+from crewai import Agent, Task, Crew
+from langchain.tools import Tool
+import json
+
+class APECrew:
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+        self.prompt_generator = None
+        self.prompt_evaluator = None
+        self.prompt_optimizer = None
+    
+    def create_agents(self):
+        """Create specialized agents for automatic prompt engineering"""
+        
+        # Prompt Generator Agent
+        self.prompt_generator = Agent(
+            role="Prompt Generator",
+            goal="Generate diverse and effective prompt variations",
+            backstory="""You are an expert prompt engineer with deep understanding of 
+            language models and effective prompting strategies. You excel at creating 
+            prompts that are clear, specific, and optimized for different tasks.""",
+            verbose=True,
+            allow_delegation=False
+        )
+        
+        # Prompt Evaluator Agent
+        self.prompt_evaluator = Agent(
+            role="Prompt Evaluator",
+            goal="Evaluate prompt performance and identify areas for improvement",
+            backstory="""You are a meticulous evaluator with expertise in measuring 
+            prompt effectiveness. You understand various evaluation metrics and can 
+            provide detailed analysis of prompt performance.""",
+            verbose=True,
+            allow_delegation=False
+        )
+        
+        # Prompt Optimizer Agent
+        self.prompt_optimizer = Agent(
+            role="Prompt Optimizer",
+            goal="Optimize prompts based on evaluation results and performance data",
+            backstory="""You are an optimization specialist who excels at improving 
+            prompts based on performance data. You can identify patterns in successful 
+            prompts and apply systematic improvements.""",
+            verbose=True,
+            allow_delegation=False
+        )
+    
+    def generate_prompts_task(self, base_prompt: str, task_description: str) -> Task:
+        """Create task for prompt generation"""
+        return Task(
+            description=f"""
+            Generate 10 different variations of the following prompt for the task: {task_description}
+            
+            Base prompt: {base_prompt}
+            
+            Requirements:
+            1. Each variation should be effective but different in approach
+            2. Consider different prompting techniques (few-shot, chain-of-thought, etc.)
+            3. Vary the tone, structure, and specificity
+            4. Ensure all variations are clear and actionable
+            
+            Output format: Return a JSON array of prompt variations with descriptions.
+            """,
+            agent=self.prompt_generator
+        )
+    
+    def evaluate_prompts_task(self, prompts: List[str], test_data: List[Dict]) -> Task:
+        """Create task for prompt evaluation"""
+        return Task(
+            description=f"""
+            Evaluate the following prompts against the provided test data:
+            
+            Prompts: {json.dumps(prompts, indent=2)}
+            Test Data: {json.dumps(test_data, indent=2)}
+            
+            For each prompt, evaluate:
+            1. Accuracy: How often it produces correct outputs
+            2. Consistency: How reliable it is across different inputs
+            3. Efficiency: How concise and clear it is
+            4. Robustness: How well it handles edge cases
+            
+            Provide detailed analysis and scores for each prompt.
+            Output format: Return a JSON object with evaluation results.
+            """,
+            agent=self.prompt_evaluator
+        )
+    
+    def optimize_prompts_task(self, evaluation_results: Dict) -> Task:
+        """Create task for prompt optimization"""
+        return Task(
+            description=f"""
+            Based on the evaluation results, optimize the prompts:
+            
+            Evaluation Results: {json.dumps(evaluation_results, indent=2)}
+            
+            Your task:
+            1. Identify the best performing prompts
+            2. Analyze what makes them effective
+            3. Generate improved versions based on successful patterns
+            4. Provide specific recommendations for further optimization
+            
+            Output format: Return a JSON object with optimized prompts and recommendations.
+            """,
+            agent=self.prompt_optimizer
+        )
+    
+    def run_ape_workflow(self, base_prompt: str, task_description: str, 
+                        test_data: List[Dict]) -> Dict[str, Any]:
+        """Run the complete APE workflow"""
+        
+        # Create agents
+        self.create_agents()
+        
+        # Create tasks
+        generation_task = self.generate_prompts_task(base_prompt, task_description)
+        evaluation_task = self.evaluate_prompts_task([], test_data)  # Will be updated
+        optimization_task = self.optimize_prompts_task({})  # Will be updated
+        
+        # Create crew
+        crew = Crew(
+            agents=[self.prompt_generator, self.prompt_evaluator, self.prompt_optimizer],
+            tasks=[generation_task, evaluation_task, optimization_task],
+            verbose=True
+        )
+        
+        # Execute workflow
+        result = crew.kickoff()
+        
+        return {
+            'workflow_result': result,
+            'agents': {
+                'generator': self.prompt_generator,
+                'evaluator': self.prompt_evaluator,
+                'optimizer': self.prompt_optimizer
+            }
+        }
+
+# Example usage
+ape_crew = APECrew("your-api-key")
+
+base_prompt = """
+You are a helpful assistant. Your task is to {task}.
+Please provide {style} responses.
+{instructions}
+"""
+
+task_description = "Classify the sentiment of given text as positive, negative, or neutral"
+
+test_data = [
+    {
+        'input': {'task': 'classify sentiment', 'style': 'concise', 'instructions': 'Focus on tone'},
+        'expected': 'positive'
+    },
+    {
+        'input': {'task': 'classify sentiment', 'style': 'concise', 'instructions': 'Focus on tone'},
+        'expected': 'negative'
+    }
+]
+
+results = ape_crew.run_ape_workflow(base_prompt, task_description, test_data)
+print(results['workflow_result'])
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+## Advanced Techniques
+
+### 1. **Evolutionary Prompt Optimization**
+
+<Card title="Genetic Algorithm for Prompts">
+  <p>Use evolutionary algorithms to optimize prompts through selection, mutation, and crossover:</p>
+  
+  <CodeGroup>
+    <CodeGroupItem title="Evolutionary APE" active>
+```python
+import random
+import numpy as np
+from typing import List, Dict, Any
+
+class EvolutionaryAPE:
+    def __init__(self, population_size: int = 50, generations: int = 100):
+        self.population_size = population_size
+        self.generations = generations
+        self.population = []
+        self.fitness_history = []
+    
+    def initialize_population(self, base_prompt: str) -> List[str]:
+        """Initialize population with variations of base prompt"""
+        population = []
+        
+        # Create variations by modifying different parts
+        variations = [
+            "You are an expert assistant.",
+            "You are a helpful AI.",
+            "You are a knowledgeable guide.",
+            "You are a skilled professional.",
+            "You are an intelligent helper."
+        ]
+        
+        instructions = [
+            "Please provide clear and accurate responses.",
+            "Give detailed and helpful answers.",
+            "Respond with precision and clarity.",
+            "Offer comprehensive and useful information.",
+            "Provide insightful and actionable guidance."
+        ]
+        
+        for _ in range(self.population_size):
+            prompt = base_prompt.replace(
+                "You are a helpful assistant.",
+                random.choice(variations)
+            ).replace(
+                "Please provide clear responses.",
+                random.choice(instructions)
+            )
+            population.append(prompt)
+        
+        return population
+    
+    def mutate_prompt(self, prompt: str, mutation_rate: float = 0.1) -> str:
+        """Apply random mutations to a prompt"""
+        words = prompt.split()
+        mutated_words = []
+        
+        for word in words:
+            if random.random() < mutation_rate:
+                # Apply different types of mutations
+                mutation_type = random.choice(['replace', 'insert', 'delete'])
+                
+                if mutation_type == 'replace':
+                    synonyms = {
+                        'helpful': ['useful', 'beneficial', 'assisting'],
+                        'clear': ['precise', 'explicit', 'unambiguous'],
+                        'accurate': ['correct', 'precise', 'exact'],
+                        'detailed': ['comprehensive', 'thorough', 'complete']
+                    }
+                    
+                    if word.lower() in synonyms:
+                        mutated_words.append(random.choice(synonyms[word.lower()]))
+                    else:
+                        mutated_words.append(word)
+                
+                elif mutation_type == 'insert':
+                    # Insert a random word
+                    insert_words = ['very', 'highly', 'extremely', 'particularly']
+                    mutated_words.extend([word, random.choice(insert_words)])
+                
+                elif mutation_type == 'delete':
+                    # Skip this word (delete it)
+                    continue
+            else:
+                mutated_words.append(word)
+        
+        return ' '.join(mutated_words)
+    
+    def crossover_prompts(self, parent1: str, parent2: str) -> str:
+        """Combine two prompts to create a child"""
+        words1 = parent1.split()
+        words2 = parent2.split()
+        
+        # Simple crossover: take first half from parent1, second half from parent2
+        crossover_point = len(words1) // 2
+        
+        child_words = words1[:crossover_point] + words2[crossover_point:]
+        return ' '.join(child_words)
+    
+    def evaluate_fitness(self, prompt: str, test_data: List[Dict[str, Any]]) -> float:
+        """Evaluate the fitness of a prompt"""
+        # This would integrate with your LLM evaluation
+        # For now, return a random score as placeholder
+        return random.random()
+    
+    def select_parents(self, population: List[str], fitness_scores: List[float]) -> List[str]:
+        """Select parents for next generation using tournament selection"""
+        tournament_size = 3
+        selected = []
+        
+        for _ in range(2):  # Select 2 parents
+            tournament = random.sample(list(zip(population, fitness_scores)), tournament_size)
+            winner = max(tournament, key=lambda x: x[1])
+            selected.append(winner[0])
+        
+        return selected
+    
+    def evolve_prompts(self, base_prompt: str, test_data: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Run the evolutionary optimization process"""
+        
+        # Initialize population
+        self.population = self.initialize_population(base_prompt)
+        
+        best_prompt = None
+        best_fitness = 0
+        
+        for generation in range(self.generations):
+            # Evaluate fitness for all individuals
+            fitness_scores = []
+            for prompt in self.population:
+                fitness = self.evaluate_fitness(prompt, test_data)
+                fitness_scores.append(fitness)
+                
+                if fitness > best_fitness:
+                    best_fitness = fitness
+                    best_prompt = prompt
+            
+            # Track fitness history
+            avg_fitness = np.mean(fitness_scores)
+            self.fitness_history.append(avg_fitness)
+            
+            # Create next generation
+            new_population = []
+            
+            # Elitism: keep best individual
+            best_index = np.argmax(fitness_scores)
+            new_population.append(self.population[best_index])
+            
+            # Generate rest of population through crossover and mutation
+            while len(new_population) < self.population_size:
+                # Select parents
+                parents = self.select_parents(self.population, fitness_scores)
+                
+                # Crossover
+                child = self.crossover_prompts(parents[0], parents[1])
+                
+                # Mutation
+                child = self.mutate_prompt(child)
+                
+                new_population.append(child)
+            
+            self.population = new_population
+            
+            if generation % 10 == 0:
+                print(f"Generation {generation}: Best fitness = {best_fitness:.3f}")
+        
+        return {
+            'best_prompt': best_prompt,
+            'best_fitness': best_fitness,
+            'fitness_history': self.fitness_history,
+            'final_population': self.population
+        }
+
+# Example usage
+evolutionary_ape = EvolutionaryAPE(population_size=20, generations=50)
+
+base_prompt = "You are a helpful assistant. Please provide clear and accurate responses."
+
+test_data = [
+    {'input': 'Hello', 'expected': 'Hi there!'},
+    {'input': 'How are you?', 'expected': 'I am doing well, thank you!'}
+]
+
+results = evolutionary_ape.evolve_prompts(base_prompt, test_data)
+print(f"Best prompt: {results['best_prompt']}")
+print(f"Best fitness: {results['best_fitness']}")
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+### 2. **Neural Prompt Generation**
+
+<Card title="Using LLMs to Generate Prompts">
+  <p>Leverage language models to generate and improve prompts:</p>
+  
+  <CodeGroup>
+    <CodeGroupItem title="Neural APE" active>
+```python
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+from langchain.llms import OpenAI
+import json
+
+class NeuralAPE:
+    def __init__(self, api_key: str):
+        self.llm = OpenAI(api_key=api_key, temperature=0.7)
+        self.generation_chain = None
+        self.improvement_chain = None
+    
+    def setup_chains(self):
+        """Setup LangChain chains for prompt generation and improvement"""
+        
+        # Chain for generating prompt variations
+        generation_template = """
+        You are an expert prompt engineer. Generate 5 different variations of the following prompt.
+        Each variation should be effective but use different approaches or techniques.
+        
+        Original prompt: {original_prompt}
+        Task description: {task_description}
+        Target audience: {target_audience}
+        
+        Generate 5 variations, each with a brief explanation of why it might be effective:
+        """
+        
+        self.generation_chain = LLMChain(
+            llm=self.llm,
+            prompt=PromptTemplate(
+                template=generation_template,
+                input_variables=["original_prompt", "task_description", "target_audience"]
+            )
+        )
+        
+        # Chain for improving prompts based on feedback
+        improvement_template = """
+        You are an expert prompt engineer. Improve the following prompt based on the evaluation feedback.
+        
+        Original prompt: {original_prompt}
+        Evaluation feedback: {feedback}
+        Performance metrics: {metrics}
+        
+        Generate an improved version of the prompt that addresses the feedback and improves performance.
+        Explain the key improvements made:
+        """
+        
+        self.improvement_chain = LLMChain(
+            llm=self.llm,
+            prompt=PromptTemplate(
+                template=improvement_template,
+                input_variables=["original_prompt", "feedback", "metrics"]
+            )
+        )
+    
+    def generate_variations(self, original_prompt: str, task_description: str, 
+                          target_audience: str = "general users") -> List[str]:
+        """Generate prompt variations using the LLM"""
+        
+        if not self.generation_chain:
+            self.setup_chains()
+        
+        response = self.generation_chain.run({
+            "original_prompt": original_prompt,
+            "task_description": task_description,
+            "target_audience": target_audience
+        })
+        
+        # Parse the response to extract variations
+        # This is a simplified parser - you might need more sophisticated parsing
+        variations = []
+        lines = response.split('\n')
+        
+        for line in lines:
+            if line.strip() and not line.startswith('#'):
+                # Extract the prompt part (before any explanation)
+                prompt_part = line.split(':')[0] if ':' in line else line
+                variations.append(prompt_part.strip())
+        
+        return variations[:5]  # Return up to 5 variations
+    
+    def improve_prompt(self, original_prompt: str, feedback: str, 
+                      metrics: Dict[str, float]) -> str:
+        """Improve a prompt based on evaluation feedback"""
+        
+        if not self.improvement_chain:
+            self.setup_chains()
+        
+        response = self.improvement_chain.run({
+            "original_prompt": original_prompt,
+            "feedback": feedback,
+            "metrics": json.dumps(metrics)
+        })
+        
+        # Extract the improved prompt from the response
+        # This is a simplified extraction - you might need more sophisticated parsing
+        lines = response.split('\n')
+        improved_prompt = lines[0] if lines else original_prompt
+        
+        return improved_prompt
+    
+    def iterative_improvement(self, base_prompt: str, task_description: str,
+                            test_data: List[Dict[str, Any]], 
+                            iterations: int = 3) -> Dict[str, Any]:
+        """Iteratively improve prompts using neural generation"""
+        
+        current_prompt = base_prompt
+        improvement_history = []
+        
+        for iteration in range(iterations):
+            print(f"Iteration {iteration + 1}")
+            
+            # Generate variations
+            variations = self.generate_variations(
+                current_prompt, task_description
+            )
+            
+            # Evaluate variations (simplified - you'd integrate with your evaluation)
+            best_variation = variations[0]  # Placeholder
+            best_score = 0.8  # Placeholder
+            
+            # Generate feedback for improvement
+            feedback = f"Current performance score: {best_score}. Looking for improvements in clarity and effectiveness."
+            metrics = {"accuracy": best_score, "clarity": 0.7}
+            
+            # Improve the prompt
+            improved_prompt = self.improve_prompt(
+                best_variation, feedback, metrics
+            )
+            
+            improvement_history.append({
+                'iteration': iteration + 1,
+                'original_prompt': current_prompt,
+                'variations': variations,
+                'best_variation': best_variation,
+                'improved_prompt': improved_prompt,
+                'score': best_score
+            })
+            
+            current_prompt = improved_prompt
+        
+        return {
+            'final_prompt': current_prompt,
+            'improvement_history': improvement_history
+        }
+
+# Example usage
+neural_ape = NeuralAPE("your-api-key")
+
+base_prompt = "You are a helpful assistant. Please provide clear responses."
+
+task_description = "Classify the sentiment of text as positive, negative, or neutral"
+
+test_data = [
+    {'input': 'I love this!', 'expected': 'positive'},
+    {'input': 'This is terrible.', 'expected': 'negative'}
+]
+
+results = neural_ape.iterative_improvement(base_prompt, task_description, test_data)
+print(f"Final improved prompt: {results['final_prompt']}")
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+## Best Practices
+
+### 1. **Evaluation Strategy**
+
+<CardGroup cols={2}>
+  <Card title="Comprehensive Testing" icon="check-square">
+    <ul>
+      <li>Test on diverse datasets</li>
+      <li>Include edge cases and outliers</li>
+      <li>Evaluate across multiple metrics</li>
+      <li>Test with different model versions</li>
+    </ul>
+  </Card>
+  <Card title="Iterative Improvement" icon="refresh-cw">
+    <ul>
+      <li>Start with simple prompts</li>
+      <li>Gradually increase complexity</li>
+      <li>Track performance over time</li>
+      <li>Learn from successful patterns</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+### 2. **Performance Optimization**
+
+<Card title="Optimization Strategies">
+  <ul>
+    <li><strong>Parallel Evaluation:</strong> Test multiple prompts simultaneously</li>
+    <li><strong>Caching Results:</strong> Cache evaluation results to avoid recomputation</li>
+    <li><strong>Early Stopping:</strong> Stop optimization when performance plateaus</li>
+    <li><strong>Resource Management:</strong> Balance optimization time with performance gains</li>
+  </ul>
+</Card>
+
+### 3. **Quality Assurance**
+
+<Card title="Quality Control">
+  <ul>
+    <li><strong>Human Review:</strong> Have humans review automatically generated prompts</li>
+    <li><strong>Safety Checks:</strong> Ensure prompts don't generate harmful content</li>
+    <li><strong>Consistency Validation:</strong> Verify prompts work consistently across inputs</li>
+    <li><strong>Documentation:</strong> Document the optimization process and results</li>
+  </ul>
+</Card>
+
+## Real-World Applications
+
+### 1. **Customer Support Automation**
+
+<Callout type="info">
+  **Case Study**: Automatic prompt engineering can optimize customer support chatbots for better response quality and consistency.
+</Callout>
+
+<Card title="Support Bot Optimization">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Optimization Goal</TableHeader>
+        <TableHeader>APE Strategy</TableHeader>
+        <TableHeader>Expected Outcome</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Response Accuracy</strong></TableCell>
+        <TableCell>Test multiple prompt variations on support tickets</TableCell>
+        <TableCell>Higher resolution rates</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Customer Satisfaction</strong></TableCell>
+        <TableCell>Optimize for empathy and helpfulness</TableCell>
+        <TableCell>Better customer experience</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Response Speed</strong></TableCell>
+        <TableCell>Optimize for concise, clear responses</TableCell>
+        <TableCell>Faster issue resolution</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Content Generation Systems**
+
+<Card title="Content Optimization">
+  <ul>
+    <li><strong>Blog Post Generation:</strong> Optimize prompts for engaging, SEO-friendly content</li>
+    <li><strong>Product Descriptions:</strong> Generate compelling, accurate product descriptions</li>
+    <li><strong>Email Marketing:</strong> Create effective email subject lines and content</li>
+    <li><strong>Social Media:</strong> Generate engaging social media posts</li>
+  </ul>
+</Card>
+
+## Related Techniques
+
+<CardGroup cols={3}>
+  <Card title="Active Prompt" icon="refresh-cw" href="./active-prompt">
+    Dynamic, context-aware prompts
+  </Card>
+  <Card title="Meta-Prompting" icon="layers" href="./meta-prompting">
+    Prompts that generate other prompts
+  </Card>
+  <Card title="Chain-of-Thought" icon="git-branch" href="./chain-of-thought">
+    Step-by-step reasoning prompts
+  </Card>
+  <Card title="Few-Shot Prompting" icon="list" href="./few-shot">
+    Using examples to guide behavior
+  </Card>
+  <Card title="Zero-Shot Prompting" icon="zap" href="./zero-shot">
+    Prompts that work without examples
+  </Card>
+  <Card title="Tree of Thoughts" icon="git-merge" href="./tree-of-thoughts">
+    Exploring multiple reasoning paths
+  </Card>
+</CardGroup>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>CrewAI Documentation:</strong> <a href="https://docs.crewai.com/en/introduction">https://docs.crewai.com/en/introduction</a></li>
+    <li><strong>AI Design Guide:</strong> <a href="https://aidesign.guide/">https://aidesign.guide/</a></li>
+    <li><strong>LangChain Conceptual Guide:</strong> <a href="https://python.langchain.com/docs/get_started/concepts">https://python.langchain.com/docs/get_started/concepts</a></li>
+    <li><strong>NLP and LLMs 2024:</strong> <a href="https://nlp2024.jeju.ai/">https://nlp2024.jeju.ai/</a></li>
+    <li><strong>Prompt Engineering Guide:</strong> <a href="https://www.promptingguide.ai/">https://www.promptingguide.ai/</a></li>
+    <li><strong>Anthropic Tutorial:</strong> <a href="https://www.anthropic.com/">https://www.anthropic.com/</a></li>
+  </ul>
+</Card>

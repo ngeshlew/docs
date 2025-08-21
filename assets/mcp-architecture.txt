@@ -1,0 +1,9 @@
+MCP Architecture Diagram Placeholder
+
+This would show:
+- MCP Host (Claude Desktop, Cursor IDE, etc.)
+- MCP Client (1:1 relationship with servers)
+- MCP Servers (local or remote)
+- Data Sources (local files, databases, remote APIs)
+
+The diagram would illustrate the flow from Host -> Client -> Server -> Data Sources

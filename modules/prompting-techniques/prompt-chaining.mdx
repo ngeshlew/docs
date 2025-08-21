@@ -1,0 +1,845 @@
+---
+title: "Prompt Chaining"
+description: "Learn how to break complex tasks into subtasks and chain prompts together to improve reliability, transparency, and performance of AI systems"
+slug: "modules-prompting-techniques-prompt-chaining"
+updatedAt: "2025-08-19"
+tags: [prompting-technique, prompt-chaining, task-decomposition, workflow, reliability]
+---
+
+# Prompt Chaining
+
+<Callout type="info">
+  **Learning Objective**: Master prompt chaining techniques to break complex tasks into manageable subtasks, improving AI system reliability, transparency, and performance.
+</Callout>
+
+## Overview
+
+Prompt chaining is a powerful technique that breaks complex tasks into smaller, manageable subtasks. Each subtask is handled by a separate prompt, with the output of one prompt serving as input to the next. This approach improves reliability, transparency, and performance of AI systems.
+
+<CardGroup cols={2}>
+  <Card title="Task Decomposition" icon="scissors">
+    Break complex tasks into smaller, manageable subtasks.
+  </Card>
+  <Card title="Sequential Processing" icon="arrow-right">
+    Chain prompts together with output flowing as input.
+  </Card>
+</CardGroup>
+
+## What is Prompt Chaining?
+
+Prompt chaining is a prompting technique that:
+
+- **Decomposes Tasks**: Breaks complex tasks into smaller, focused subtasks
+- **Sequential Processing**: Processes subtasks in a logical sequence
+- **Output Transformation**: Uses each step's output as input for the next
+- **Improved Reliability**: Reduces complexity and improves accuracy
+
+<Callout type="warning">
+  **Key Insight**: Prompt chaining improves performance by allowing each prompt to focus on a specific, well-defined task rather than handling complex, multi-step processes in a single prompt.
+</Callout>
+
+## Key Concepts
+
+### 1. **Task Decomposition**
+
+<Card title="Breaking Down Complex Tasks">
+  <ul>
+    <li><strong>Identify Subtasks:</strong> Break complex tasks into logical components</li>
+    <li><strong>Define Dependencies:</strong> Understand how subtasks relate to each other</li>
+    <li><strong>Establish Flow:</strong> Determine the sequence of operations</li>
+    <li><strong>Set Boundaries:</strong> Define clear inputs and outputs for each step</li>
+  </ul>
+</Card>
+
+### 2. **Chain Architecture**
+
+<Card title="Chain Design Patterns">
+  <ul>
+    <li><strong>Linear Chains:</strong> Simple sequential processing</li>
+    <li><strong>Branching Chains:</strong> Conditional processing paths</li>
+    <li><strong>Parallel Chains:</strong> Independent processing with aggregation</li>
+    <li><strong>Recursive Chains:</strong> Self-referential processing loops</li>
+  </ul>
+</Card>
+
+### 3. **Data Flow Management**
+
+<Card title="Managing Data Between Steps">
+  <ul>
+    <li><strong>Output Formatting:</strong> Structure outputs for next step consumption</li>
+    <li><strong>Data Validation:</strong> Verify outputs before passing to next step</li>
+    <li><strong>Error Handling:</strong> Manage failures at each step</li>
+    <li><strong>Context Preservation:</strong> Maintain relevant information across steps</li>
+  </ul>
+</Card>
+
+## Implementation
+
+### 1. **Basic Prompt Chaining**
+
+<CodeGroup>
+  <CodeGroupItem title="Python" active>
+```python
+from typing import Dict, Any, List, Optional
+import json
+import re
+
+class PromptChain:
+    def __init__(self):
+        self.chain_history = []
+        self.intermediate_results = {}
+    
+    def add_step(self, step_name: str, prompt: str, input_keys: List[str], 
+                 output_format: Optional[str] = None):
+        """Add a step to the chain"""
+        
+        step = {
+            'name': step_name,
+            'prompt': prompt,
+            'input_keys': input_keys,
+            'output_format': output_format
+        }
+        
+        self.chain_history.append(step)
+    
+    def execute_chain(self, initial_inputs: Dict[str, Any]) -> Dict[str, Any]:
+        """Execute the entire prompt chain"""
+        
+        current_context = initial_inputs.copy()
+        results = {}
+        
+        for i, step in enumerate(self.chain_history):
+            print(f"Executing step {i+1}: {step['name']}")
+            
+            # Prepare inputs for this step
+            step_inputs = {}
+            for key in step['input_keys']:
+                if key in current_context:
+                    step_inputs[key] = current_context[key]
+                else:
+                    raise ValueError(f"Missing required input '{key}' for step '{step['name']}'")
+            
+            # Execute the step
+            step_result = self.execute_step(step, step_inputs)
+            
+            # Store result
+            results[step['name']] = step_result
+            current_context[step['name'] + '_result'] = step_result
+            
+            # Update context for next step
+            current_context.update(step_result)
+        
+        return results
+    
+    def execute_step(self, step: Dict[str, Any], inputs: Dict[str, Any]) -> Dict[str, Any]:
+        """Execute a single step in the chain"""
+        
+        # Format the prompt with inputs
+        formatted_prompt = step['prompt']
+        for key, value in inputs.items():
+            placeholder = f"{{{{{key}}}}}"
+            formatted_prompt = formatted_prompt.replace(placeholder, str(value))
+        
+        # In practice, this would call a language model
+        # For demonstration, we'll simulate the response
+        response = self.simulate_llm_response(formatted_prompt, step.get('output_format'))
+        
+        # Parse response based on output format
+        if step.get('output_format') == 'json':
+            try:
+                parsed_response = json.loads(response)
+                return parsed_response
+            except json.JSONDecodeError:
+                return {'raw_response': response, 'error': 'Failed to parse JSON'}
+        else:
+            return {'response': response}
+    
+    def simulate_llm_response(self, prompt: str, output_format: Optional[str]) -> str:
+        """Simulate LLM response for demonstration"""
+        
+        if "extract quotes" in prompt.lower():
+            return """
+            <quotes>
+            - Chain-of-thought (CoT) prompting
+            - Generated knowledge prompting
+            - Least-to-most prompting
+            - Self-consistency decoding
+            - Tree-of-thought prompting
+            </quotes>
+            """
+        elif "compose answer" in prompt.lower():
+            return """
+            The document discusses several important prompting techniques:
+            
+            1. Chain-of-thought (CoT) prompting - enables step-by-step reasoning
+            2. Generated knowledge prompting - creates knowledge before answering
+            3. Least-to-most prompting - breaks problems into smaller parts
+            4. Self-consistency decoding - generates multiple answers and selects best
+            5. Tree-of-thought prompting - explores multiple reasoning paths
+            
+            These techniques help improve the performance and reliability of language models.
+            """
+        else:
+            return "Simulated response for: " + prompt[:50] + "..."
+    
+    def add_document_qa_chain(self):
+        """Add a document Q&A chain as an example"""
+        
+        # Step 1: Extract relevant quotes
+        self.add_step(
+            step_name="quote_extraction",
+            prompt="""
+            You are a helpful assistant. Your task is to help answer a question given in a document. 
+            The first step is to extract quotes relevant to the question from the document, 
+            delimited by ####. Please output the list of quotes using <quotes></quotes>. 
+            Respond with "No relevant quotes found!" if no relevant quotes were found.
+            
+            Document: {{{{document}}}}
+            Question: {{{{question}}}}
+            """,
+            input_keys=["document", "question"],
+            output_format="text"
+        )
+        
+        # Step 2: Compose answer from quotes
+        self.add_step(
+            step_name="answer_composition",
+            prompt="""
+            Given a set of relevant quotes (delimited by <quotes></quotes>) extracted from a document 
+            and the original document (delimited by ####), please compose an answer to the question. 
+            Ensure that the answer is accurate, has a friendly tone, and sounds helpful.
+            
+            Document: {{{{document}}}}
+            Question: {{{{question}}}}
+            Quotes: {{{{quote_extraction_result}}}}
+            """,
+            input_keys=["document", "question", "quote_extraction_result"],
+            output_format="text"
+        )
+
+# Example usage
+chain = PromptChain()
+chain.add_document_qa_chain()
+
+# Test the chain
+document = """
+Prompt engineering is the practice of designing inputs for generative AI tools that will produce optimal outputs. 
+Several techniques have been developed including:
+- Chain-of-thought (CoT) prompting
+- Generated knowledge prompting  
+- Least-to-most prompting
+- Self-consistency decoding
+- Tree-of-thought prompting
+"""
+
+question = "What prompting techniques are discussed in the document?"
+
+results = chain.execute_chain({
+    'document': document,
+    'question': question
+})
+
+print("Chain Results:")
+for step_name, result in results.items():
+    print(f"\n{step_name}:")
+    print(result)
+```
+  </CodeGroupItem>
+  
+  <CodeGroupItem title="JavaScript">
+```javascript
+class PromptChain {
+    constructor() {
+        this.chainHistory = [];
+        this.intermediateResults = {};
+    }
+    
+    addStep(stepName, prompt, inputKeys, outputFormat = null) {
+        const step = {
+            name: stepName,
+            prompt: prompt,
+            inputKeys: inputKeys,
+            outputFormat: outputFormat
+        };
+        
+        this.chainHistory.push(step);
+    }
+    
+    async executeChain(initialInputs) {
+        let currentContext = { ...initialInputs };
+        const results = {};
+        
+        for (let i = 0; i < this.chainHistory.length; i++) {
+            const step = this.chainHistory[i];
+            console.log(`Executing step ${i + 1}: ${step.name}`);
+            
+            // Prepare inputs for this step
+            const stepInputs = {};
+            for (const key of step.inputKeys) {
+                if (key in currentContext) {
+                    stepInputs[key] = currentContext[key];
+                } else {
+                    throw new Error(`Missing required input '${key}' for step '${step.name}'`);
+                }
+            }
+            
+            // Execute the step
+            const stepResult = await this.executeStep(step, stepInputs);
+            
+            // Store result
+            results[step.name] = stepResult;
+            currentContext[`${step.name}_result`] = stepResult;
+            
+            // Update context for next step
+            currentContext = { ...currentContext, ...stepResult };
+        }
+        
+        return results;
+    }
+    
+    async executeStep(step, inputs) {
+        // Format the prompt with inputs
+        let formattedPrompt = step.prompt;
+        for (const [key, value] of Object.entries(inputs)) {
+            const placeholder = `{{${key}}}`;
+            formattedPrompt = formattedPrompt.replace(new RegExp(placeholder, 'g'), String(value));
+        }
+        
+        // In practice, this would call a language model
+        const response = await this.simulateLLMResponse(formattedPrompt, step.outputFormat);
+        
+        // Parse response based on output format
+        if (step.outputFormat === 'json') {
+            try {
+                const parsedResponse = JSON.parse(response);
+                return parsedResponse;
+            } catch (error) {
+                return { rawResponse: response, error: 'Failed to parse JSON' };
+            }
+        } else {
+            return { response: response };
+        }
+    }
+    
+    async simulateLLMResponse(prompt, outputFormat) {
+        // Simulate LLM response for demonstration
+        if (prompt.toLowerCase().includes('extract quotes')) {
+            return `
+            <quotes>
+            - Chain-of-thought (CoT) prompting
+            - Generated knowledge prompting
+            - Least-to-most prompting
+            - Self-consistency decoding
+            - Tree-of-thought prompting
+            </quotes>
+            `;
+        } else if (prompt.toLowerCase().includes('compose answer')) {
+            return `
+            The document discusses several important prompting techniques:
+            
+            1. Chain-of-thought (CoT) prompting - enables step-by-step reasoning
+            2. Generated knowledge prompting - creates knowledge before answering
+            3. Least-to-most prompting - breaks problems into smaller parts
+            4. Self-consistency decoding - generates multiple answers and selects best
+            5. Tree-of-thought prompting - explores multiple reasoning paths
+            
+            These techniques help improve the performance and reliability of language models.
+            `;
+        } else {
+            return `Simulated response for: ${prompt.substring(0, 50)}...`;
+        }
+    }
+    
+    addDocumentQAChain() {
+        // Step 1: Extract relevant quotes
+        this.addStep(
+            'quote_extraction',
+            `
+            You are a helpful assistant. Your task is to help answer a question given in a document. 
+            The first step is to extract quotes relevant to the question from the document, 
+            delimited by ####. Please output the list of quotes using <quotes></quotes>. 
+            Respond with "No relevant quotes found!" if no relevant quotes were found.
+            
+            Document: {{document}}
+            Question: {{question}}
+            `,
+            ['document', 'question'],
+            'text'
+        );
+        
+        // Step 2: Compose answer from quotes
+        this.addStep(
+            'answer_composition',
+            `
+            Given a set of relevant quotes (delimited by <quotes></quotes>) extracted from a document 
+            and the original document (delimited by ####), please compose an answer to the question. 
+            Ensure that the answer is accurate, has a friendly tone, and sounds helpful.
+            
+            Document: {{document}}
+            Question: {{question}}
+            Quotes: {{quote_extraction_result}}
+            `,
+            ['document', 'question', 'quote_extraction_result'],
+            'text'
+        );
+    }
+}
+
+// Example usage
+async function runExample() {
+    const chain = new PromptChain();
+    chain.addDocumentQAChain();
+    
+    const document = `
+    Prompt engineering is the practice of designing inputs for generative AI tools that will produce optimal outputs. 
+    Several techniques have been developed including:
+    - Chain-of-thought (CoT) prompting
+    - Generated knowledge prompting  
+    - Least-to-most prompting
+    - Self-consistency decoding
+    - Tree-of-thought prompting
+    `;
+    
+    const question = "What prompting techniques are discussed in the document?";
+    
+    const results = await chain.executeChain({
+        document: document,
+        question: question
+    });
+    
+    console.log("Chain Results:");
+    for (const [stepName, result] of Object.entries(results)) {
+        console.log(`\n${stepName}:`);
+        console.log(result);
+    }
+}
+
+runExample();
+```
+  </CodeGroupItem>
+</CodeGroup>
+
+### 2. **Advanced Chain Patterns**
+
+<Card title="Advanced Chain Architectures">
+  <CodeGroup>
+  <CodeGroupItem title="Branching Chains" active>
+```python
+class BranchingPromptChain:
+    def __init__(self):
+        self.steps = {}
+        self.conditions = {}
+    
+    def add_branching_step(self, step_name: str, condition_prompt: str, 
+                          true_branch: str, false_branch: str):
+        """Add a step with conditional branching"""
+        
+        self.steps[step_name] = {
+            'condition_prompt': condition_prompt,
+            'true_branch': true_branch,
+            'false_branch': false_branch
+        }
+    
+    def execute_branching_chain(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
+        """Execute chain with conditional branching"""
+        
+        results = {}
+        current_inputs = inputs.copy()
+        
+        for step_name, step_config in self.steps.items():
+            # Evaluate condition
+            condition_result = self.evaluate_condition(
+                step_config['condition_prompt'], current_inputs
+            )
+            
+            # Choose branch based on condition
+            if condition_result:
+                branch_prompt = step_config['true_branch']
+                branch_name = f"{step_name}_true"
+            else:
+                branch_prompt = step_config['false_branch']
+                branch_name = f"{step_name}_false"
+            
+            # Execute chosen branch
+            branch_result = self.execute_prompt(branch_prompt, current_inputs)
+            results[branch_name] = branch_result
+            current_inputs.update(branch_result)
+        
+        return results
+    
+    def evaluate_condition(self, condition_prompt: str, inputs: Dict[str, Any]) -> bool:
+        """Evaluate a condition to determine branching"""
+        
+        # Format prompt with inputs
+        formatted_prompt = condition_prompt
+        for key, value in inputs.items():
+            placeholder = f"{{{{{key}}}}}"
+            formatted_prompt = formatted_prompt.replace(placeholder, str(value))
+        
+        # In practice, this would call an LLM
+        # For demo, return a simple condition
+        return "urgent" in formatted_prompt.lower()
+    
+    def execute_prompt(self, prompt: str, inputs: Dict[str, Any]) -> Dict[str, Any]:
+        """Execute a single prompt"""
+        
+        # Format and execute prompt
+        formatted_prompt = prompt
+        for key, value in inputs.items():
+            placeholder = f"{{{{{key}}}}}"
+            formatted_prompt = formatted_prompt.replace(placeholder, str(value))
+        
+        # Simulate response
+        if "urgent" in formatted_prompt.lower():
+            return {"priority": "high", "response": "Urgent handling required"}
+        else:
+            return {"priority": "normal", "response": "Standard processing"}
+
+# Example usage
+branching_chain = BranchingPromptChain()
+
+branching_chain.add_branching_step(
+    "priority_assessment",
+    "Is this request urgent? Request: {{{{request}}}}",
+    "Handle as urgent priority with immediate response",
+    "Process with standard priority and normal timeline"
+)
+
+results = branching_chain.execute_branching_chain({
+    "request": "This is an urgent customer complaint"
+})
+
+print("Branching Chain Results:", results)
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+### 3. **LangChain Integration**
+
+<Card title="LangChain Prompt Chains">
+  <CodeGroup>
+  <CodeGroupItem title="LangChain Implementation" active>
+```python
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain, SimpleSequentialChain
+from langchain.llms import OpenAI
+from typing import List, Dict, Any
+
+class LangChainPromptChain:
+    def __init__(self, api_key: str):
+        self.llm = OpenAI(api_key=api_key, temperature=0)
+        self.chains = {}
+    
+    def create_document_qa_chain(self):
+        """Create a document Q&A chain using LangChain"""
+        
+        # Step 1: Quote extraction prompt
+        quote_extraction_template = """
+        You are a helpful assistant. Extract quotes relevant to the question from the document.
+        Output the quotes using <quotes></quotes> tags.
+        
+        Document: {document}
+        Question: {question}
+        
+        Relevant quotes:
+        """
+        
+        quote_extraction_prompt = PromptTemplate(
+            input_variables=["document", "question"],
+            template=quote_extraction_template
+        )
+        
+        quote_chain = LLMChain(
+            llm=self.llm,
+            prompt=quote_extraction_prompt,
+            output_key="quotes"
+        )
+        
+        # Step 2: Answer composition prompt
+        answer_composition_template = """
+        Based on the extracted quotes and original document, compose a helpful answer.
+        
+        Document: {document}
+        Question: {question}
+        Extracted Quotes: {quotes}
+        
+        Answer:
+        """
+        
+        answer_composition_prompt = PromptTemplate(
+            input_variables=["document", "question", "quotes"],
+            template=answer_composition_template
+        )
+        
+        answer_chain = LLMChain(
+            llm=self.llm,
+            prompt=answer_composition_prompt,
+            output_key="answer"
+        )
+        
+        # Create sequential chain
+        full_chain = SimpleSequentialChain(
+            chains=[quote_chain, answer_chain],
+            verbose=True
+        )
+        
+        return full_chain
+    
+    def create_content_generation_chain(self):
+        """Create a content generation chain"""
+        
+        # Step 1: Research prompt
+        research_template = """
+        Research the topic: {topic}
+        Provide key points and facts.
+        """
+        
+        research_prompt = PromptTemplate(
+            input_variables=["topic"],
+            template=research_template
+        )
+        
+        research_chain = LLMChain(
+            llm=self.llm,
+            prompt=research_prompt,
+            output_key="research"
+        )
+        
+        # Step 2: Outline prompt
+        outline_template = """
+        Based on the research, create an outline for: {topic}
+        
+        Research: {research}
+        
+        Outline:
+        """
+        
+        outline_prompt = PromptTemplate(
+            input_variables=["topic", "research"],
+            template=outline_template
+        )
+        
+        outline_chain = LLMChain(
+            llm=self.llm,
+            prompt=outline_prompt,
+            output_key="outline"
+        )
+        
+        # Step 3: Content writing prompt
+        content_template = """
+        Write content based on the outline and research.
+        
+        Topic: {topic}
+        Research: {research}
+        Outline: {outline}
+        
+        Content:
+        """
+        
+        content_prompt = PromptTemplate(
+            input_variables=["topic", "research", "outline"],
+            template=content_template
+        )
+        
+        content_chain = LLMChain(
+            llm=self.llm,
+            prompt=content_prompt,
+            output_key="content"
+        )
+        
+        # Create sequential chain
+        full_chain = SimpleSequentialChain(
+            chains=[research_chain, outline_chain, content_chain],
+            verbose=True
+        )
+        
+        return full_chain
+
+# Example usage
+# chain_manager = LangChainPromptChain("your-api-key")
+# qa_chain = chain_manager.create_document_qa_chain()
+# content_chain = chain_manager.create_content_generation_chain()
+```
+  </CodeGroupItem>
+  </CodeGroup>
+</Card>
+
+## Use Cases
+
+### 1. **Document Q&A Systems**
+
+<Callout type="info">
+  **Case Study**: Prompt chaining is particularly effective for document Q&A systems where you need to extract relevant information and then compose comprehensive answers.
+</Callout>
+
+<Card title="Document Q&A Workflow">
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableHeader>Step</TableHeader>
+        <TableHeader>Purpose</TableHeader>
+        <TableHeader>Output</TableHeader>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell><strong>Quote Extraction</strong></TableCell>
+        <TableCell>Find relevant passages from document</TableCell>
+        <TableCell>List of relevant quotes</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Answer Composition</strong></TableCell>
+        <TableCell>Create comprehensive answer from quotes</TableCell>
+        <TableCell>Structured answer with citations</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell><strong>Citation Cleanup</strong></TableCell>
+        <TableCell>Remove technical citations for readability</TableCell>
+        <TableCell>Clean, user-friendly response</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</Card>
+
+### 2. **Content Generation Pipelines**
+
+<Card title="Content Generation Workflow">
+  <ul>
+    <li><strong>Research Phase:</strong> Gather information and facts about the topic</li>
+    <li><strong>Outline Creation:</strong> Structure the content with logical flow</li>
+    <li><strong>Content Writing:</strong> Generate the actual content</li>
+    <li><strong>Review and Edit:</strong> Improve quality and accuracy</li>
+    <li><strong>Formatting:</strong> Apply final formatting and styling</li>
+  </ul>
+</Card>
+
+### 3. **Customer Support Systems**
+
+<Card title="Support Workflow">
+  <ul>
+    <li><strong>Intent Classification:</strong> Determine what the customer needs</li>
+    <li><strong>Information Retrieval:</strong> Find relevant support articles</li>
+    <li><strong>Response Generation:</strong> Create personalized response</li>
+    <li><strong>Escalation Check:</strong> Determine if human intervention is needed</li>
+  </ul>
+</Card>
+
+## Best Practices
+
+### 1. **Chain Design**
+
+<CardGroup cols={2}>
+  <Card title="Step Design" icon="list">
+    <ul>
+      <li>Keep each step focused and specific</li>
+      <li>Define clear inputs and outputs</li>
+      <li>Minimize dependencies between steps</li>
+      <li>Plan for error handling at each step</li>
+    </ul>
+  </Card>
+  <Card title="Data Flow" icon="arrow-right">
+    <ul>
+      <li>Structure outputs for easy consumption</li>
+      <li>Validate data between steps</li>
+      <li>Maintain context across steps</li>
+      <li>Handle missing or invalid data</li>
+    </ul>
+  </Card>
+</CardGroup>
+
+### 2. **Error Handling**
+
+<Card title="Error Management">
+  <ul>
+    <li><strong>Step-Level Validation:</strong> Validate outputs at each step</li>
+    <li><strong>Fallback Mechanisms:</strong> Provide alternative processing paths</li>
+    <li><strong>Retry Logic:</strong> Implement retry mechanisms for transient failures</li>
+    <li><strong>Graceful Degradation:</strong> Continue processing with partial results</li>
+  </ul>
+</Card>
+
+### 3. **Performance Optimization**
+
+<Card title="Optimization Strategies">
+  <ul>
+    <li><strong>Parallel Processing:</strong> Execute independent steps in parallel</li>
+    <li><strong>Caching:</strong> Cache intermediate results for reuse</li>
+    <li><strong>Early Termination:</strong> Stop processing when conditions are met</li>
+    <li><strong>Resource Management:</strong> Monitor and optimize resource usage</li>
+  </ul>
+</Card>
+
+## Real-World Applications
+
+### 1. **E-commerce Product Recommendations**
+
+<Card title="Recommendation Pipeline">
+  <ul>
+    <li><strong>User Intent Analysis:</strong> Understand what the user is looking for</li>
+    <li><strong>Product Matching:</strong> Find relevant products in catalog</li>
+    <li><strong>Personalization:</strong> Apply user preferences and history</li>
+    <li><strong>Ranking and Filtering:</strong> Sort and filter results</li>
+    <li><strong>Explanation Generation:</strong> Create explanations for recommendations</li>
+  </ul>
+</Card>
+
+### 2. **Legal Document Analysis**
+
+<Card title="Legal Analysis Workflow">
+  <ul>
+    <li><strong>Document Classification:</strong> Identify document type and purpose</li>
+    <li><strong>Key Information Extraction:</strong> Extract dates, parties, obligations</li>
+    <li><strong>Risk Assessment:</strong> Identify potential legal risks</li>
+    <li><strong>Summary Generation:</strong> Create executive summary</li>
+    <li><strong>Action Item Identification:</strong> Extract required actions</li>
+  </ul>
+</Card>
+
+### 3. **Healthcare Diagnosis Support**
+
+<Card title="Diagnostic Support Pipeline">
+  <ul>
+    <li><strong>Symptom Analysis:</strong> Analyze patient symptoms</li>
+    <li><strong>Differential Diagnosis:</strong> Generate possible conditions</li>
+    <li><strong>Evidence Review:</strong> Check against medical literature</li>
+    <li><strong>Recommendation Generation:</strong> Suggest next steps</li>
+    <li><strong>Risk Assessment:</strong> Evaluate urgency and severity</li>
+  </ul>
+</Card>
+
+## Related Techniques
+
+<CardGroup cols={3}>
+  <Card title="Chain-of-Thought" icon="git-branch" href="./chain-of-thought">
+    Step-by-step reasoning prompts
+  </Card>
+  <Card title="Task Decomposition" icon="scissors" href="./task-decomposition">
+    Breaking complex problems into parts
+  </Card>
+  <Card title="Workflow Automation" icon="settings" href="./workflow-automation">
+    Automated process management
+  </Card>
+  <Card title="Multi-Agent Systems" icon="users" href="./multi-agent-systems">
+    Coordinated agent collaboration
+  </Card>
+  <Card title="Pipeline Architecture" icon="layers" href="./pipeline-architecture">
+    Sequential processing systems
+  </Card>
+  <Card title="Error Handling" icon="alert-triangle" href="./error-handling">
+    Robust error management
+  </Card>
+</CardGroup>
+
+## Sources
+
+<Card title="Reference Materials">
+  <ul>
+    <li><strong>CrewAI Documentation:</strong> <a href="https://docs.crewai.com/en/introduction">https://docs.crewai.com/en/introduction</a></li>
+    <li><strong>AI Design Guide:</strong> <a href="https://aidesign.guide/">https://aidesign.guide/</a></li>
+    <li><strong>LangChain Conceptual Guide:</strong> <a href="https://python.langchain.com/docs/get_started/concepts">https://python.langchain.com/docs/get_started/concepts</a></li>
+    <li><strong>NLP and LLMs 2024:</strong> <a href="https://nlp2024.jeju.ai/">https://nlp2024.jeju.ai/</a></li>
+    <li><strong>Prompt Engineering Guide:</strong> <a href="https://www.promptingguide.ai/">https://www.promptingguide.ai/</a></li>
+    <li><strong>Anthropic Tutorial:</strong> <a href="https://www.anthropic.com/">https://www.anthropic.com/</a></li>
+  </ul>
+</Card>
