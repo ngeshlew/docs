@@ -386,7 +386,7 @@ AI UX behavior is fundamentally different from traditional software UX. Users in
         "tool_used": tool_name,
         "tool_message": tool_messages.get(tool_name, "I used a tool to help with your request..."),
         "result": tool_result,
-        "context": f"Based on the {tool_name} results, here's what I found...",
+        "context": "Based on the " + tool_name + " results, here's what I found...",
         "user_query": user_query
     }
 </code></pre>

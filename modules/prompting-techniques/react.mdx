@@ -361,9 +361,9 @@ print(result)
     react_prompt = f"""
     Solve this complex problem using the ReAct framework:
     
-    Problem: {problem}
+    Problem: \{problem\}
     
-    Available tools: {[tool['function']['name'] for tool in tools]}
+    Available tools: \{[tool['function']['name'] for tool in tools]\}
     
     Process:
     1. REASON: Think about what information you need and how to approach this

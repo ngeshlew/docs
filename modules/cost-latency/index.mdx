@@ -598,7 +598,7 @@ import asyncio
 class OptimizedClaudeClient:
     def __init__(self, api_key):
         self.client = anthropic.Anthropic(api_key=api_key)
-        self.conversation_cache = {}
+        self.conversation_cache = \{\}
     
     async def get_optimized_response(self, user_input, task_type="general"):
         # Select model based on task complexity
@@ -619,13 +619,13 @@ class OptimizedClaudeClient:
         }}
         
         # Check cache for similar requests
-                    cache_key = f"{task_type}:{user_input[:100]}"
+                    cache_key = task_type + ":" + user_input[:100]
         if cache_key in self.conversation_cache:
             return self.conversation_cache[cache_key]
         
         # Make API call
         response = await self.client.messages.create(
-                            messages=[{"role": "user", "content": user_input}],
+                            messages=[\{"role": "user", "content": user_input\}],
             **params
         )
         
@@ -671,14 +671,14 @@ class OptimizedClaudeClient:
         }})
     
     def calculate_cost(self, model, input_tokens, output_tokens):
-        rates = self.cost_rates.get(model, {"input": 3.00, "output": 15.00})
+        rates = self.cost_rates.get(model, \{"input": 3.00, "output": 15.00\})
         input_cost = (input_tokens / 1_000_000) * rates["input"]
         output_cost = (output_tokens / 1_000_000) * rates["output"]
         return input_cost + output_cost
     
     def get_cost_analytics(self):
         if not self.usage_data:
-            return {}
+            return \{\}
         
         total_cost = sum(item["cost"] for item in self.usage_data)
         total_tokens = sum(item["total_tokens"] for item in self.usage_data)

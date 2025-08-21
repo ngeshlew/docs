@@ -11,12 +11,12 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: []
-- path: "../assets/www.promptingguide.ai/www.promptingguide.ai-introduction-basics/dc0eed1ff96d.webp"
-caption: "INTRO1"
-credit_name: "www.promptingguide.ai"
-credit_url: "https://www.promptingguide.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fsky.b60b009f.png&w=2048&q=75"
-license: "internal-copy"
+figures:
+  - path: "../assets/www.promptingguide.ai/www.promptingguide.ai-introduction-basics/dc0eed1ff96d.webp"
+    caption: "INTRO1"
+    credit_name: "www.promptingguide.ai"
+    credit_url: "https://www.promptingguide.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fsky.b60b009f.png&w=2048&q=75"
+    license: "internal-copy"
 updatedAt: "'2025-08-18'"
 completed: false
 ---
