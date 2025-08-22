@@ -90,11 +90,11 @@ class GenerateKnowledge:
         
         # Knowledge generation templates
         self.knowledge_templates = [
-            "Knowledge: {knowledge}",
-            "Information: {knowledge}",
-            "Context: {knowledge}",
-            "Background: {knowledge}",
-            "Facts: {knowledge}"
+            "Knowledge: \{knowledge\}",
+            "Information: \{knowledge\}",
+            "Context: \{knowledge\}",
+            "Background: \{knowledge\}",
+            "Facts: \{knowledge\}"
         ]
     
     def generate_knowledge_prompt(self, question: str) -> str:
@@ -102,10 +102,10 @@ class GenerateKnowledge:
         
         # Example knowledge generation prompt
         prompt = f"""
-        Generate {self.num_knowledge_pieces} pieces of relevant knowledge to help answer the following question.
+        Generate \{self.num_knowledge_pieces\} pieces of relevant knowledge to help answer the following question.
         Each piece of knowledge should be factual and directly relevant to the question.
         
-        Question: {question}
+        Question: \{question\}
         
         Generate knowledge:
         """
@@ -156,12 +156,12 @@ class GenerateKnowledge:
     def create_qa_prompt(self, question: str, knowledge_pieces: List[str]) -> str:
         """Create a question-answering prompt with generated knowledge"""
         
-        knowledge_text = "\n".join([f"Knowledge: {k}" for k in knowledge_pieces])
+        knowledge_text = "\n".join([f"Knowledge: \{k\}" for k in knowledge_pieces])
         
         prompt = f"""
-        Question: {question}
+        Question: \{question\}
         
-        {knowledge_text}
+        \{knowledge_text\}
         
         Based on the knowledge provided above, answer the question:
         """
@@ -180,12 +180,12 @@ class GenerateKnowledge:
         # Step 3: Generate answer (simulated)
         answer = self.simulate_answer_generation(qa_prompt, question)
         
-        return {
+        return \{
             'question': question,
             'generated_knowledge': knowledge_pieces,
             'qa_prompt': qa_prompt,
             'answer': answer
-        }
+        \}
     
     def simulate_answer_generation(self, prompt: str, question: str) -> str:
         """Simulate answer generation"""
@@ -211,11 +211,11 @@ question = "Part of golf is trying to get a higher point total than others. Yes 
 
 result = knowledge_generator.answer_with_knowledge(question)
 
-print(f"Question: {result['question']}")
-print(f"\nGenerated Knowledge:")
-for i, knowledge in enumerate(result['generated_knowledge'], 1):
-    print(f"{i}. {knowledge}")
-print(f"\nAnswer: {result['answer']}")
+        print(f"Question: \{result['question']\}")
+        print(f"\nGenerated Knowledge:")
+        for i, knowledge in enumerate(result['generated_knowledge'], 1):
+            print(f"{i}. \{knowledge\}")
+        print(f"\nAnswer: \{result['answer']\}")
 ```
   </CodeGroupItem>
   
@@ -227,20 +227,20 @@ class GenerateKnowledge {
         
         // Knowledge generation templates
         this.knowledgeTemplates = [
-            "Knowledge: {knowledge}",
-            "Information: {knowledge}",
-            "Context: {knowledge}",
-            "Background: {knowledge}",
-            "Facts: {knowledge}"
+            "Knowledge: \{knowledge\}",
+            "Information: \{knowledge\}",
+            "Context: \{knowledge\}",
+            "Background: \{knowledge\}",
+            "Facts: \{knowledge\}"
         ];
     }
     
     generateKnowledgePrompt(question) {
         return `
-        Generate ${this.numKnowledgePieces} pieces of relevant knowledge to help answer the following question.
+        Generate \${this.numKnowledgePieces} pieces of relevant knowledge to help answer the following question.
         Each piece of knowledge should be factual and directly relevant to the question.
         
-        Question: ${question}
+        Question: \${question}
         
         Generate knowledge:
         `;
@@ -285,12 +285,12 @@ class GenerateKnowledge {
     }
     
     createQAPrompt(question, knowledgePieces) {
-        const knowledgeText = knowledgePieces.map(k => `Knowledge: ${k}`).join('\n');
+        const knowledgeText = knowledgePieces.map(k => `Knowledge: \${k}`).join('\n');
         
         return `
-        Question: ${question}
+        Question: \${question}
         
-        ${knowledgeText}
+        \${knowledgeText}
         
         Based on the knowledge provided above, answer the question:
         `;
@@ -306,12 +306,12 @@ class GenerateKnowledge {
         // Step 3: Generate answer (simulated)
         const answer = await this.simulateAnswerGeneration(qaPrompt, question);
         
-        return {
+        return \{
             question: question,
             generatedKnowledge: knowledgePieces,
             qaPrompt: qaPrompt,
             answer: answer
-        };
+        \};
     }
     
     async simulateAnswerGeneration(prompt, question) {
@@ -341,12 +341,12 @@ async function runExample() {
     
     const result = await knowledgeGenerator.answerWithKnowledge(question);
     
-    console.log(`Question: ${result.question}`);
+    console.log(`Question: \${result.question}`);
     console.log('\nGenerated Knowledge:');
     result.generatedKnowledge.forEach((knowledge, i) => {
-        console.log(`${i + 1}. ${knowledge}`);
+        console.log(`\${i + 1}. \${knowledge}`);
     });
-    console.log(`\nAnswer: ${result.answer}`);
+    console.log(`\nAnswer: \${result.answer}`);
 }
 
 runExample();
@@ -375,11 +375,11 @@ class LangChainGenerateKnowledge:
         self.knowledge_prompt = PromptTemplate(
             input_variables=["question", "num_pieces"],
             template="""
-            Generate {num_pieces} pieces of relevant knowledge to help answer the following question.
+            Generate \{num_pieces\} pieces of relevant knowledge to help answer the following question.
             Each piece of knowledge should be factual and directly relevant to the question.
             Format each piece as a separate knowledge statement.
             
-            Question: {question}
+            Question: \{question\}
             
             Generate knowledge:
             """
@@ -389,10 +389,10 @@ class LangChainGenerateKnowledge:
         self.qa_prompt = PromptTemplate(
             input_variables=["question", "knowledge"],
             template="""
-            Question: {question}
+            Question: \{question\}
             
             Knowledge:
-            {knowledge}
+            \{knowledge\}
             
             Based on the knowledge provided above, answer the question clearly and accurately:
             """
@@ -426,7 +426,7 @@ class LangChainGenerateKnowledge:
             return knowledge_pieces
             
         except Exception as e:
-            print(f"Error generating knowledge: {e}")
+            print(f"Error generating knowledge: \{e\}")
             return ["Error generating knowledge"]
     
     def parse_knowledge_response(self, response: str) -> List[str]:
@@ -453,7 +453,7 @@ class LangChainGenerateKnowledge:
         knowledge_pieces = self.generate_knowledge(question)
         
         # Step 2: Format knowledge for QA
-        knowledge_text = "\n".join([f"• {k}" for k in knowledge_pieces])
+        knowledge_text = "\n".join([f"• \{k\}" for k in knowledge_pieces])
         
         # Step 3: Generate answer
         try:
@@ -462,19 +462,19 @@ class LangChainGenerateKnowledge:
                 knowledge=knowledge_text
             )
         except Exception as e:
-            answer = f"Error generating answer: {e}"
+            answer = f"Error generating answer: \{e\}"
         
-        return {
+        return \{
             'question': question,
             'generated_knowledge': knowledge_pieces,
             'knowledge_text': knowledge_text,
             'answer': answer
-        }
+        \}
     
     def batch_generate_knowledge(self, questions: List[str]) -> Dict[str, List[str]]:
         """Generate knowledge for multiple questions"""
         
-        results = {}
+        results = \{\}
         
         for question in questions:
             knowledge = self.generate_knowledge(question)
@@ -485,7 +485,7 @@ class LangChainGenerateKnowledge:
 # Example usage
 # knowledge_generator = LangChainGenerateKnowledge("your-api-key", num_knowledge_pieces=3)
 # result = knowledge_generator.answer_with_knowledge("Part of golf is trying to get a higher point total than others. Yes or No?")
-# print(f"Answer: {result['answer']}")
+# print(f"Answer: \{result['answer']\}")
 ```
   </CodeGroupItem>
   </CodeGroup>
@@ -537,7 +537,7 @@ class CrewAIGenerateKnowledge:
             Generate 3-5 pieces of relevant knowledge to help answer the following question.
             Each piece of knowledge should be factual and directly relevant to the question.
             
-            Question: {question}
+            Question: \{question\}
             
             Generate knowledge that would help answer this question accurately.
             Format each piece of knowledge as a clear, factual statement.
@@ -552,10 +552,10 @@ class CrewAIGenerateKnowledge:
             description=f"""
             Answer the following question using the provided knowledge.
             
-            Question: {question}
+            Question: \{question\}
             
             Knowledge:
-            {knowledge}
+            \{knowledge\}
             
             Based on the knowledge provided above, answer the question clearly and accurately.
             If the knowledge is not sufficient, indicate what additional information would be needed.
@@ -577,7 +577,7 @@ class CrewAIGenerateKnowledge:
         try:
             knowledge_result = knowledge_crew.kickoff()
         except Exception as e:
-            knowledge_result = f"Error generating knowledge: {e}"
+            knowledge_result = f"Error generating knowledge: \{e\}"
         
         # Step 2: Answer question with knowledge
         qa_task = self.create_qa_task(question, knowledge_result)
@@ -590,18 +590,18 @@ class CrewAIGenerateKnowledge:
         try:
             answer_result = qa_crew.kickoff()
         except Exception as e:
-            answer_result = f"Error generating answer: {e}"
+            answer_result = f"Error generating answer: \{e\}"
         
-        return {
+        return \{
             'question': question,
             'generated_knowledge': knowledge_result,
             'answer': answer_result
-        }
+        \}
     
     def batch_process(self, questions: List[str]) -> Dict[str, Dict[str, Any]]:
         """Process multiple questions with knowledge generation"""
         
-        results = {}
+        results = \{\}
         
         for question in questions:
             result = self.answer_with_knowledge(question)
@@ -612,8 +612,8 @@ class CrewAIGenerateKnowledge:
 # Example usage
 # crew_knowledge = CrewAIGenerateKnowledge()
 # result = crew_knowledge.answer_with_knowledge("Part of golf is trying to get a higher point total than others. Yes or No?")
-# print(f"Knowledge: {result['generated_knowledge']}")
-# print(f"Answer: {result['answer']}")
+# print(f"Knowledge: \{result['generated_knowledge']\}")
+# print(f"Answer: \{result['answer']\}")
 ```
   </CodeGroupItem>
   </CodeGroup>
