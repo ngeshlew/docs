@@ -227,86 +227,86 @@ Streaming UX in AI applications refers to the real-time delivery of content as i
 <CodeGroup>
   <CodeGroupItem title="React" active>
 ```jsx
-import React, { useState, useEffect } from 'react';
+import React, \{ useState, useEffect \} from 'react';
 
-const StreamingChat = () => {
+const StreamingChat = () => \{
   const [messages, setMessages] = useState([]);
   const [isStreaming, setIsStreaming] = useState(false);
   const [currentStream, setCurrentStream] = useState('');
 
-  const sendMessage = async (userMessage) => {
+  const sendMessage = async (userMessage) => \{
     setIsStreaming(true);
     setCurrentStream('');
     
     // Add user message
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setMessages(prev => [...prev, \{ role: 'user', content: userMessage \}]);
     
-    try {
-      const response = await fetch('/api/stream-chat', {
+    try \{
+      const response = await fetch('/api/stream-chat', \{
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage })
-      });
+        headers: \{ 'Content-Type': 'application/json' \},
+        body: JSON.stringify(\{ message: userMessage \})
+      \});
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
 
-      while (true) {
-        const { done, value } = await reader.read();
+      while (true) \{
+        const \{ done, value \} = await reader.read();
         
         if (done) break;
         
         const chunk = decoder.decode(value);
         setCurrentStream(prev => prev + chunk);
-      }
+      \}
       
       // Add complete response to messages
-      setMessages(prev => [...prev, { 
+      setMessages(prev => [...prev, \{ 
         role: 'assistant', 
         content: currentStream 
-      }]);
+      \}]);
       
-    } catch (error) {
+    \} catch (error) \{
       console.error('Streaming error:', error);
-    } finally {
+    \} finally \{
       setIsStreaming(false);
       setCurrentStream('');
-    }
-  };
+    \}
+  \};
 
   return (
     <div className="chat-container">
       <div className="messages">
-        {messages.map((msg, index) => (
-          <div key={index} className={`message ${msg.role}`}>
-            {msg.content}
+        \{messages.map((msg, index) => (
+          <div key=\{index\} className=\{\`message \${msg.role}\`\}>
+            \{msg.content\}
           </div>
-        ))}
+        ))\}
         
-        {isStreaming && (
+        \{isStreaming && (
           <div className="message assistant streaming">
-            {currentStream}
+            \{currentStream\}
             <span className="cursor">|</span>
           </div>
-        )}
+        )\}
       </div>
       
       <div className="input-area">
         <input 
           type="text" 
           placeholder="Type your message..."
-          disabled={isStreaming}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter' && !isStreaming) {
+          disabled=\{isStreaming\}
+          onKeyPress=\{(e) => \{
+            if (e.key === 'Enter' && !isStreaming) \{
               sendMessage(e.target.value);
               e.target.value = '';
-            }
-          }}
+            \}
+          \}\}
         />
       </div>
     </div>
   );
-};
+\};
 
 export default StreamingChat;
 ```
@@ -322,11 +322,11 @@ export default StreamingChat;
         :key="index" 
         :class="['message', message.role]"
       >
-        {{ message.content }}
+        \{\{ message.content \}\}
       </div>
       
       <div v-if="isStreaming" class="message assistant streaming">
-        {{ currentStream }}<span class="cursor">|</span>
+        \{\{ currentStream \}\}<span class="cursor">|</span>
       </div>
     </div>
     
@@ -361,23 +361,23 @@ export default {
       this.currentStream = '';
       
       // Add user message
-      this.messages.push({ 
+      this.messages.push(\{ 
         role: 'user', 
         content: this.userInput 
-      });
+      \});
       
-      try {
-        const response = await fetch('/api/stream-chat', {
+      try \{
+        const response = await fetch('/api/stream-chat', \{
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: this.userInput })
-        });
+          headers: \{ 'Content-Type': 'application/json' \},
+          body: JSON.stringify(\{ message: this.userInput \})
+        \});
 
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
 
-        while (true) {
-          const { done, value } = await reader.read();
+        while (true) \{
+          const \{ done, value \} = await reader.read();
           
           if (done) break;
           
@@ -386,14 +386,14 @@ export default {
         }
         
         // Add complete response
-        this.messages.push({ 
+        this.messages.push(\{ 
           role: 'assistant', 
           content: this.currentStream 
-        });
+        \});
         
-      } catch (error) {
+      \} catch (error) \{
         console.error('Streaming error:', error);
-      } finally {
+      \} finally \{
         this.isStreaming = false;
         this.currentStream = '';
         this.userInput = '';
@@ -423,32 +423,32 @@ class StreamingChat {
   }
   
   render() {
-    this.container.innerHTML = `
+    this.container.innerHTML = \`
       <div class="messages">
-        ${this.messages.map(msg => `
-          <div class="message ${msg.role}">
-            ${msg.content}
+        \${this.messages.map(msg => \`
+          <div class="message \${msg.role}">
+            \${msg.content}
           </div>
-        `).join('')}
+        \`).join('')}
         
-        ${this.isStreaming ? `
+        \${this.isStreaming ? \`
           <div class="message assistant streaming">
-            ${this.currentStream}<span class="cursor">|</span>
+            \${this.currentStream}<span class="cursor">|</span>
           </div>
-        ` : ''}
+        \` : ''}
       </div>
       
       <div class="input-area">
         <input 
           type="text" 
           placeholder="Type your message..."
-          ${this.isStreaming ? 'disabled' : ''}
+          \${this.isStreaming ? 'disabled' : ''}
         />
-        <button ${this.isStreaming ? 'disabled' : ''}>
+        <button \${this.isStreaming ? 'disabled' : ''}>
           Send
         </button>
       </div>
-    `;
+    \`;
   }
   
   bindEvents() {
@@ -477,21 +477,21 @@ class StreamingChat {
     this.currentStream = '';
     
     // Add user message
-    this.messages.push({ role: 'user', content: userMessage });
+    this.messages.push(\{ role: 'user', content: userMessage \});
     this.render();
     
-    try {
-      const response = await fetch('/api/stream-chat', {
+    try \{
+      const response = await fetch('/api/stream-chat', \{
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage })
-      });
+        headers: \{ 'Content-Type': 'application/json' \},
+        body: JSON.stringify(\{ message: userMessage \})
+      \});
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
 
-      while (true) {
-        const { done, value } = await reader.read();
+      while (true) \{
+        const \{ done, value \} = await reader.read();
         
         if (done) break;
         
@@ -501,14 +501,14 @@ class StreamingChat {
       }
       
       // Add complete response
-      this.messages.push({ 
+      this.messages.push(\{ 
         role: 'assistant', 
         content: this.currentStream 
-      });
+      \});
       
-    } catch (error) {
+    \} catch (error) \{
       console.error('Streaming error:', error);
-    } finally {
+    \} finally \{
       this.isStreaming = false;
       this.currentStream = '';
       this.render();
@@ -533,8 +533,8 @@ const app = express();
 
 app.use(express.json());
 
-app.post('/api/stream-chat', async (req, res) => {
-  const { message } = req.body;
+app.post('/api/stream-chat', async (req, res) => \{
+  const \{ message \} = req.body;
   
   // Set headers for streaming
   res.setHeader('Content-Type', 'text/plain');
@@ -652,7 +652,7 @@ llm = OpenAI(
 
 prompt = PromptTemplate(
     input_variables=["user_message"],
-    template="You are a helpful assistant. User says: {user_message}. Please respond:"
+    template="You are a helpful assistant. User says: \{user_message\}. Please respond:"
 )
 
 chain = LLMChain(llm=llm, prompt=prompt)
@@ -664,7 +664,7 @@ async def stream_chat(request: Request):
     
     async def generate():
         # Stream the response using LangChain
-        async for chunk in chain.astream({"user_message": user_message}):
+        async for chunk in chain.astream(\{"user_message": user_message\}):
             if chunk:
                 yield chunk.get("text", "")
     
@@ -698,7 +698,7 @@ async def stream_chat_callback(request: Request):
         # Start the chain in background
         asyncio.create_task(
             chain.arun(
-                {"user_message": user_message},
+                \{"user_message": user_message\},
                 callbacks=[callback_handler]
             )
         )
@@ -944,7 +944,7 @@ async def stream_claude_response(user_input):
     stream = await client.messages.create(
         model="claude-3-sonnet-20240229",
         max_tokens=1000,
-        messages=[{{"role": "user", "content": user_input}}],
+        messages=[\{\{"role": "user", "content": user_input\}\}],
         stream=True  # Enable streaming
     )
     
@@ -985,7 +985,7 @@ asyncio.run(main())
     
     async def stream_with_interruption(self, user_input, interruption_callback=None):
         self.is_streaming = True
-        self.conversation_history.append({{"role": "user", "content": user_input}})
+        self.conversation_history.append(\{\{"role": "user", "content": user_input\}\})
         
         try:
             stream = await self.client.messages.create(
@@ -1013,7 +1013,7 @@ asyncio.run(main())
             
             if self.is_streaming:
                 # Complete response
-                self.conversation_history.append({{"role": "assistant", "content": response_text}})
+                self.conversation_history.append(\{\{"role": "assistant", "content": response_text\}\})
         
         finally:
             self.is_streaming = False
