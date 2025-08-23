@@ -49,7 +49,7 @@ class AIConfigManager:
     
     def __init__(self):
         if not self._initialized:
-            self.config = {}
+            self.config = \{\}
             self._initialized = True
     
     def set_config(self, key: str, value: any):
@@ -78,11 +78,11 @@ class AIModel(ABC):
 
 class GPTModel(AIModel):
     def generate(self, prompt: str) -> str:
-        return f"GPT response to: {prompt}"
+        return f"GPT response to: \{prompt\}"
 
 class ClaudeModel(AIModel):
     def generate(self, prompt: str) -> str:
-        return f"Claude response to: {prompt}"
+        return f"Claude response to: \{prompt\}"
 
 class AIModelFactory:
     @staticmethod
@@ -93,7 +93,7 @@ class AIModelFactory:
         }
         
         if model_type not in models:
-            raise ValueError(f"Unknown model type: {model_type}")
+            raise ValueError(f"Unknown model type: \{model_type\}")
         
         return models[model_type]()
 
@@ -112,11 +112,11 @@ Allow incompatible interfaces to work together.
 ```python
 class LegacyAIService:
     def process_text(self, text: str) -> Dict[str, str]:
-        return {"result": f"Legacy processed: {text}"}
+        return \{"result": f"Legacy processed: \{text\}"\}
 
 class ModernAIInterface:
     def generate_response(self, input_text: str) -> str:
-        return f"Modern response: {input_text}"
+        return f"Modern response: \{input_text\}"
 
 class AIAdapter:
     def __init__(self, legacy_service: LegacyAIService):
@@ -162,13 +162,13 @@ class ResponseDecorator(AIResponse):
 class LoggingDecorator(ResponseDecorator):
     def get_response(self) -> str:
         response = self.ai_response.get_response()
-        print(f"Logging response: {response}")
+        print(f"Logging response: \{response\}")
         return response
 
 class CachingDecorator(ResponseDecorator):
     def __init__(self, ai_response: AIResponse):
         super().__init__(ai_response)
-        self.cache = {}
+        self.cache = \{\}
     
     def get_response(self) -> str:
         # Simple caching implementation
@@ -215,17 +215,17 @@ class AIService:
     
     def process_request(self, request: str):
         # Process the request
-        result = f"Processed: {request}"
+        result = f"Processed: \{request\}"
         # Notify all observers
         self.notify_observers(result)
 
 class LoggingObserver(Observer):
     def update(self, message: str):
-        print(f"Logging: {message}")
+        print(f"Logging: \{message\}")
 
 class MetricsObserver(Observer):
     def update(self, message: str):
-        print(f"Metrics: Processing request of length {len(message)}")
+        print(f"Metrics: Processing request of length \{len(message)\}")
 
 # Usage
 ai_service = AIService()
@@ -252,7 +252,7 @@ class PromptStrategy(ABC):
 
 class SimplePromptStrategy(PromptStrategy):
     def generate_prompt(self, input_text: str) -> str:
-        return f"Answer this question: {input_text}"
+        return f"Answer this question: \{input_text\}"
 
 class DetailedPromptStrategy(PromptStrategy):
     def generate_prompt(self, input_text: str) -> str:
@@ -260,7 +260,7 @@ class DetailedPromptStrategy(PromptStrategy):
         Please provide a detailed and comprehensive answer to the following question.
         Include examples, explanations, and relevant context.
         
-        Question: {input_text}
+        Question: \{input_text\}
         
         Please structure your response with:
         1. Direct answer
@@ -273,7 +273,7 @@ class CreativePromptStrategy(PromptStrategy):
     def generate_prompt(self, input_text: str) -> str:
         return f"""
         Think creatively and provide an innovative perspective on:
-        {input_text}
+        \{input_text\}
         
         Consider:
         - Alternative viewpoints
@@ -292,7 +292,7 @@ class AIContext:
     def process_input(self, input_text: str) -> str:
         prompt = self.strategy.generate_prompt(input_text)
         # Here you would send the prompt to an AI model
-        return f"Generated prompt: {prompt}"
+        return f"Generated prompt: \{prompt\}"
 
 # Usage
 simple_strategy = SimplePromptStrategy()
@@ -355,7 +355,7 @@ class ContentFilterHandler(Handler):
         
         for word in inappropriate_words:
             if word in request.text.lower():
-                request.response = f"Error: Content contains inappropriate word: {word}"
+                request.response = f"Error: Content contains inappropriate word: \{word\}"
                 return False
         
         return self.next_handler.handle(request) if self.next_handler else True
@@ -363,7 +363,7 @@ class ContentFilterHandler(Handler):
 class AIProcessingHandler(Handler):
     def handle(self, request: Request) -> bool:
         # Simulate AI processing
-        request.response = f"AI processed: {request.text}"
+        request.response = f"AI processed: \{request.text\}"
         return True
 
 # Usage
@@ -437,7 +437,7 @@ class ChatbotPipeline(AIPipeline):
         return len(data) > 0 and len(data) <= 500
     
     def generate_response(self, data: str) -> str:
-        return f"Chatbot response to: {data}"
+        return f"Chatbot response to: \{data\}"
     
     def postprocess(self, response: str) -> str:
         return response.capitalize()
@@ -450,7 +450,7 @@ class TranslationPipeline(AIPipeline):
         return len(data) > 0
     
     def generate_response(self, data: str) -> str:
-        return f"Translated: {data}"
+        return f"Translated: \{data\}"
     
     def postprocess(self, response: str) -> str:
         return response + " [Translation complete]"
@@ -496,7 +496,7 @@ print(translation.process("Bonjour, comment allez-vous?"))
 ```python
 class ConfigManager:
     def __init__(self):
-        self.config = {}
+        self.config = \{\}
         self.observers = []
     
     def set_config(self, key: str, value: any):
@@ -515,7 +515,7 @@ class ConfigManager:
 
 class LoggingObserver:
     def config_changed(self, key: str, value: any):
-        print(f"Config changed: {key} = {value}")
+        print(f"Config changed: \{key\} = \{value\}")
 
 # Usage
 config = ConfigManager()
@@ -541,16 +541,16 @@ class ErrorHandler:
             raise error
     
     def retry_strategy(self, error: Exception):
-        print(f"Retrying after error: {error}")
+        print(f"Retrying after error: \{error\}")
         # Implement retry logic
         return "Retry successful"
     
     def fallback_strategy(self, error: Exception):
-        print(f"Using fallback for error: {error}")
+        print(f"Using fallback for error: \{error\}")
         return "Fallback response"
     
     def ignore_strategy(self, error: Exception):
-        print(f"Ignoring error: {error}")
+        print(f"Ignoring error: \{error\}")
         return None
 ```
 

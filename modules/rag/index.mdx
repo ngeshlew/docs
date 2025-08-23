@@ -106,7 +106,7 @@ Retrieval-Augmented Generation (RAG) combines the generative capabilities of lar
             
             # Generate without using retrieved information effectively
             response = self.generator.generate(
-                prompt=f"Answer: {query}"  # No retrieved context
+                prompt=f"Answer: \{query\}"  # No retrieved context
             )
             
             return response
@@ -150,7 +150,7 @@ CrewAI supports various types of knowledge sources:
     )
     
     task = Task(
-        description="Answer the following questions about the user: {question}",
+        description="Answer the following questions about the user: \{question\}",
         expected_output="An answer to the question.",
         agent=agent,
     )
@@ -163,7 +163,7 @@ CrewAI supports various types of knowledge sources:
         knowledge_sources=[string_source],  # Enable knowledge by adding the sources here
     )
     
-    result = crew.kickoff(inputs={"question": "What city does John live in and how old is he?"})
+    result = crew.kickoff(inputs=\{"question": "What city does John live in and how old is he?"\})
     ```
   </Tab>
   <Tab title="Web Content Knowledge Source">
@@ -195,7 +195,7 @@ CrewAI supports various types of knowledge sources:
     )
     
     task = Task(
-        description="Answer the following questions about the papers: {question}",
+        description="Answer the following questions about the papers: \{question\}",
         expected_output="An answer to the question.",
         agent=agent,
     )
@@ -208,7 +208,7 @@ CrewAI supports various types of knowledge sources:
         knowledge_sources=[content_source],  # Enable knowledge by adding the sources here
     )
     
-    result = crew.kickoff(inputs={"question": "What is reward hacking?"})
+    result = crew.kickoff(inputs=\{"question": "What is reward hacking?"\})
     ```
   </Tab>
 </Tabs>
@@ -321,7 +321,7 @@ CrewAI supports various types of knowledge sources:
     from langchain.retrievers import EnsembleRetriever
     
     # Dense retriever (vector search)
-    dense_retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+    dense_retriever = vectorstore.as_retriever(search_kwargs=\{"k": 3\})
     
     # Sparse retriever (keyword search)
     sparse_retriever = BM25Retriever.from_documents(chunks)
@@ -374,9 +374,9 @@ CrewAI supports various types of knowledge sources:
     ```
     Use the following context to answer the question. If you cannot find the answer in the context, say "I don't have enough information to answer this question."
     
-    Context: {context}
+    Context: \{context\}
     
-    Question: {question}
+    Question: \{question\}
     
     Answer:
     ```
@@ -392,9 +392,9 @@ CrewAI supports various types of knowledge sources:
     4. Provide specific citations from the context when possible
     5. Keep your answer concise but comprehensive
     
-    Context: {context}
+    Context: \{context\}
     
-    Question: {question}
+    Question: \{question\}
     
     Answer:
     ```
@@ -422,8 +422,8 @@ CrewAI supports various types of knowledge sources:
         "limitations": ["limitation1", "limitation2"]
     }
     
-    Context: {context}
-    Question: {question}
+    Context: \{context\}
+    Question: \{question\}
     
     Response:
     """
@@ -437,7 +437,7 @@ CrewAI supports various types of knowledge sources:
         # Step 1: Query decomposition
         decomposition_prompt = f"""
         Break down this complex question into simpler sub-questions:
-        Question: {query}
+        Question: \{query\}
         
         Sub-questions:
         """
@@ -452,8 +452,8 @@ CrewAI supports various types of knowledge sources:
                 context = "\n".join([doc.page_content for doc in docs])
                 
                 answer_prompt = f"""
-                Context: {context}
-                Question: {sub_q}
+                Context: \{context\}
+                Question: \{sub_q\}
                 Answer:
                 """
                 
@@ -462,10 +462,10 @@ CrewAI supports various types of knowledge sources:
         
         # Step 3: Synthesize final answer
         synthesis_prompt = f"""
-        Original Question: {query}
+        Original Question: \{query\}
         
         Sub-answers:
-        {chr(10).join([f"{i+1}. {answer}" for i, answer in enumerate(sub_answers)])}
+        \{chr(10).join([f"{i+1}. \{answer\}" for i, answer in enumerate(sub_answers)])\}
         
         Synthesize these answers into a comprehensive response:
         """
@@ -562,7 +562,7 @@ def expand_query(query, llm):
     expansion_prompt = f"""
     Generate 3 different ways to ask this question that might retrieve different relevant documents:
     
-    Original query: {query}
+    Original query: \{query\}
     
     Alternative queries:
     1.
@@ -580,8 +580,8 @@ def reformulate_query(query, conversation_history):
     reformulation_prompt = f"""
     Reformulate this query to be more specific and retrievable, given the conversation history:
     
-    History: {conversation_history}
-    Current query: {query}
+    History: \{conversation_history\}
+    Current query: \{query\}
     
     Reformulated query:
     """
