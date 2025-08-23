@@ -141,7 +141,7 @@ async def fetch_data_async(query: str) -> str:
 """Asynchronously fetch data based on the query."""
 # Simulate async operation
 await asyncio.sleep(1)
-return f"Data retrieved for {query}"
+    return f"Data retrieved for \{query\}"
 from crewai.tools import BaseTool
 class AsyncCustomTool(BaseTool):
 name: str = "async_custom_tool"
@@ -150,7 +150,7 @@ async def _run(self, query: str = "") -> str:
 """Asynchronously run the tool"""
 # Your async implementation here
 await asyncio.sleep(1)
-return f"Processed {query} asynchronously"
+    return f"Processed \{query\} asynchronously"
 # In standard Crew
 agent = Agent(role="researcher", tools=[async_custom_tool])
 # In Flow

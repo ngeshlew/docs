@@ -296,7 +296,7 @@ def chain_of_thought_reasoning(problem, model="claude-3-sonnet-20240229"):
     Let's solve this problem step by step using extended thinking.
     Show your reasoning process clearly, including intermediate steps and calculations.
     
-    Problem: {problem}
+    Problem: \{problem\}
     
     Let me think through this systematically:
     """
@@ -306,10 +306,10 @@ def chain_of_thought_reasoning(problem, model="claude-3-sonnet-20240229"):
         max_tokens=4000,
         temperature=0.1,  # Lower temperature for more focused reasoning
         messages=[
-            {
+            \{
                 "role": "user",
                 "content": prompt
-            }
+            \}
         ]
     )
     
@@ -394,7 +394,7 @@ def create_cot_chain():
         Let's solve this problem step by step using extended thinking.
         Show your reasoning process clearly, including intermediate steps and calculations.
         
-        Problem: {problem}
+        Problem: \{problem\}
         
         Let me think through this systematically:
         """)
@@ -405,7 +405,7 @@ def create_cot_chain():
 
 # Example usage
 chain = create_cot_chain()
-result = chain.invoke({"problem": "Your problem here"})
+result = chain.invoke(\{"problem": "Your problem here"\})
 print(result.content)
 ```
 
@@ -444,7 +444,7 @@ def create_reasoning_task(problem):
         description=f"""
         Solve the following problem using extended chain-of-thought reasoning:
         
-        {problem}
+        \{problem\}
         
         Your response should include:
         1. Problem breakdown into steps
