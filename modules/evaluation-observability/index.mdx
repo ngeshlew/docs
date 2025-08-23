@@ -37,7 +37,7 @@ AI Evaluation & Observability encompasses the practices, tools, and methodologie
             self.monitor = RealTimeMonitor()
         
         def evaluate_system(self, ai_system):
-            results = {}
+            results = \{\}
             for name, metric in self.metrics.items():
                 results[name] = metric.evaluate(ai_system)
             
@@ -232,7 +232,7 @@ class ABTest:
         self.variant_a = variant_a
         self.variant_b = variant_b
         self.test_duration = test_duration
-        self.results = {"A": [], "B": []}
+        self.results = \{"A": [], "B": []\}
     
     def run_test(self):
         """Run A/B test comparing two AI system variants."""
@@ -298,7 +298,7 @@ class AISystemLogger:
             "timestamp": datetime.now().isoformat(),
             "user_input": user_input,
             "ai_output": ai_output,
-            "metadata": metadata or {},
+            "metadata": metadata or \{\},
             "performance_metrics": self.calculate_performance_metrics(user_input, ai_output)
         }
         
@@ -311,7 +311,7 @@ class AISystemLogger:
             "timestamp": datetime.now().isoformat(),
             "error_type": type(error).__name__,
             "error_message": str(error),
-            "context": context or {}
+            "context": context or \{\}
         }
         
         self.logger.error(json.dumps(error_entry))
@@ -431,7 +431,7 @@ class QualityMetrics:
     
     def detect_anomalies(self):
         """Detect anomalous metric values."""
-        anomalies = {}
+        anomalies = \{\}
         for metric_type, values in self.metrics.items():
             if len(values) > 10:  # Need sufficient data
                 mean = np.mean(values)
@@ -596,13 +596,13 @@ class AutomatedEvaluator:
         failed_tests = [r for r in self.results if not r["success"]]
         
         if not self.results:
-            return {"error": "No test results available"}
+            return \{"error": "No test results available"\}
         
         # Calculate aggregate metrics
         all_metrics = [r["metrics"] for r in successful_tests if "metrics" in r]
         
         if all_metrics:
-            aggregate_metrics = {}
+            aggregate_metrics = \{\}
             for dimension in ["accuracy", "relevance", "completeness", "clarity", "safety"]:
                 values = [m[dimension] for m in all_metrics if dimension in m]
                 aggregate_metrics[dimension] = {
@@ -612,7 +612,7 @@ class AutomatedEvaluator:
                     "max": np.max(values)
                 }
         else:
-            aggregate_metrics = {}
+            aggregate_metrics = \{\}
         
         return {
             "total_tests": len(self.results),
@@ -643,7 +643,7 @@ class HumanEvaluator:
     
     def get_expert_evaluation(self, output, criteria):
         """Get evaluation from human experts."""
-        expert_scores = {}
+        expert_scores = \{\}
         
         for evaluator in self.evaluators:
             scores = evaluator.evaluate(output, criteria)
@@ -653,7 +653,7 @@ class HumanEvaluator:
                 expert_scores[criterion].append(score)
         
         # Calculate average scores across experts
-        average_scores = {}
+        average_scores = \{\}
         for criterion, scores in expert_scores.items():
             average_scores[criterion] = np.mean(scores)
         
@@ -665,7 +665,7 @@ class HumanEvaluator:
     
     def calculate_expert_agreement(self, expert_scores):
         """Calculate agreement between expert evaluators."""
-        agreement_scores = {}
+        agreement_scores = \{\}
         
         for criterion, scores in expert_scores.items():
             if len(scores) > 1:
@@ -691,9 +691,9 @@ class PerformanceDashboard:
         self.metrics_history = []
         self.alerts = []
         self.thresholds = {
-            "response_time": {"max": 5.0, "critical": 10.0},
-            "error_rate": {"max": 0.05, "critical": 0.1},
-            "user_satisfaction": {"min": 0.7, "critical": 0.5}
+            "response_time": \{"max": 5.0, "critical": 10.0\},
+            "error_rate": \{"max": 0.05, "critical": 0.1\},
+            "user_satisfaction": \{"min": 0.7, "critical": 0.5\}
         }
     
     def update_metrics(self, current_metrics):
@@ -736,7 +736,7 @@ class PerformanceDashboard:
                         "value": value,
                         "threshold": threshold["max"],
                         "severity": severity,
-                        "message": f"{metric_name} exceeded threshold: {value} > {threshold['max']}"
+                        "message": f"{metric_name} exceeded threshold: \{value\} > \{threshold['max']\}"
                     })
                 
                 elif "min" in threshold and value < threshold["min"]:
@@ -747,7 +747,7 @@ class PerformanceDashboard:
                         "value": value,
                         "threshold": threshold["min"],
                         "severity": severity,
-                        "message": f"{metric_name} below threshold: {value} < {threshold['min']}"
+                        "message": f"{metric_name} below threshold: \{value\} < \{threshold['min']\}"
                     })
         
         return alerts
@@ -755,9 +755,9 @@ class PerformanceDashboard:
     def calculate_trends(self):
         """Calculate trends from historical metrics."""
         if len(self.metrics_history) < 2:
-            return {}
+            return \{\}
         
-        trends = {}
+        trends = \{\}
         recent_metrics = self.metrics_history[-10:]  # Last 10 data points
         
         for metric_name in ["response_time", "error_rate", "user_satisfaction"]:

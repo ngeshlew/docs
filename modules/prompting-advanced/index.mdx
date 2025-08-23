@@ -80,9 +80,9 @@ def self_consistency_prompting(question, num_paths=5):
     prompts = []
     for i in range(num_paths):
         prompt = f"""
-        Let's solve this step by step (approach {i+1}):
+        Let's solve this step by step (approach \{i+1\}):
 
-        Question: {question}
+        Question: \{question\}
 
         Let's think through this:
         """
@@ -129,20 +129,20 @@ Reasoning + Acting: Combine reasoning with tool use for complex problem-solving.
 ```python
 react_prompt = """
 You have access to the following tools:
-{tools}
+\{tools\}
 
 Use the following format:
 
 Question: the input question you must answer
 Thought: you should always think about what to do
-Action: the action to take, should be one of [{tool_names}]
+Action: the action to take, should be one of [\{tool_names\}]
 Action Input: the input to the action
 Observation: the result of the action
 ... (this Thought/Action/Action Input/Observation can repeat N times)
 Thought: I now know the final answer
 Final Answer: the final answer to the original input question
 
-Question: {question}
+Question: \{question\}
 """
 ```
 
@@ -165,7 +165,7 @@ Let's solve this using Python:
 distance = 120  # km
 time = 2  # hours
 speed = distance / time
-print(f"Speed: {speed} km/h")
+print(f"Speed: \{speed\} km/h")
 ```
 
 Answer: The train's speed is 60 km/h.
@@ -231,13 +231,13 @@ def complex_reasoning_prompt(problem, context, constraints):
     You are an expert problem solver. Analyze the following problem step by step.
 
     CONTEXT:
-    {context}
+    \{context\}
 
     PROBLEM:
-    {problem}
+    \{problem\}
 
     CONSTRAINTS:
-    {constraints}
+    \{constraints\}
 
     APPROACH:
     1. Break down the problem into smaller parts
@@ -257,10 +257,10 @@ def multimodal_prompt(text, image_description, task):
     return f"""
     You are analyzing both text and visual information.
 
-    TEXT: {text}
-    IMAGE: {image_description}
+    TEXT: \{text\}
+    IMAGE: \{image_description\}
 
-    TASK: {task}
+    TASK: \{task\}
 
     Please provide a comprehensive analysis that considers both the text and visual elements.
     """
