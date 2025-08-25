@@ -705,6 +705,747 @@ If the context doesn't contain enough information, clearly state this limitation
 - Multi-modal retrieval
 - Real-time updates
 
+> **Note:** The following article is reproduced verbatim from  
+> Abhinav Kimothi, *Towards Data Science* (Oct 4, 2024):  
+> [Stop Guessing and Measure Your RAG System to Drive Real Improvements](https://towardsdatascience.com/stop-guessing-and-measure-your-rag-system-to-drive-real-improvements-bfc03f29ede3/)  
+> for internal educational use only (non-profit).
+
+# Stop Guessing and Measure Your RAG System to Drive Real Improvements
+
+Advancements in Large Language Models (LLMs) have captured the imagination of the world. With the release of ChatGPT by OpenAI, in November, 2022, previously obscure terms like Generative AI entered the public discourse. In a short time LLMs found a wide applicability in modern language processing tasks and even paved the way for autonomous AI agents. Some call it a watershed moment in technology and make lofty comparisons with the advent of the internet or even the invention of the light bulb. Consequently, a vast majority of business leaders, software developers and entrepreneurs are in hot pursuit of using LLMs to their advantage.
+
+Retrieval Augmented Generation, or RAG, stands as a pivotal technique shaping the landscape of the applied generative AI. A novel concept introduced by Lewis et al in their seminal paper Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks, RAG has swiftly emerged as a cornerstone, enhancing reliability and trustworthiness in the outputs from Large Language Models.
+
+In this blog post, we will go into the details of evaluating RAG systems. But before that, let us set up the context by understanding the need for RAG and getting an overview of the implementation of RAG pipelines.
+
+## The Curse of the LLMs
+
+Despite the enormous capability the LLMs possess, they come with their own set of challenges. Many users started using ChatGPT as a source of information, like an alternative to Google. Users expected knowledge and wisdom from LLMs, yet LLMs are sophisticated predictors of what word comes next.
+
+![LLMs are predictors of the next word/token (Source: Image by Author)](https://towardsdatascience.com/wp-content/uploads/2024/10/1oQMby_7-oLLyVYQhKbaCjg.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+As a result, users started encountering prominent weaknesses in the system. LLM responses are, more often than not, plagued with sub-optimal information and inherent memory limitations. As the world became aware of the magical text generation ability of the LLMs, it also became aware of their "Hallucinations" – The propensity of LLMs to generate incorrect information with confidence. The questions around reliability and trust began to emerge rapidly.
+
+There are, essentially, three main limitations of LLMs:
+
+### 1. Knowledge Cut-off Date
+
+Training an LLM is an expensive and time-consuming process. It takes massive volumes of data and several weeks, or even months, to train an LLM. The data that LLMs are trained on is therefore not always up to the current. e.g. The latest GPT4o by OpenAI, updated on 13th May, 2024 has knowledge only till October 2023. Any event that happened after this knowledge cut-off date is not available to the model. So, if we ask a question (without web browsing), "Who won the 2024 Stanley Cup Finals?", the model will not have this information.
+
+![Source: Screenshot by author of his account on https://chat.openai.com](https://towardsdatascience.com/wp-content/uploads/2024/10/17tjkr15hrdDQ_xSOO0RDmw.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+This is not ideal but, at least, ChatGPT is honest in its response.
+
+### 2. Hallucinations
+
+Often, it is observed that LLMs provide responses that are factually incorrect. Despite being factually incorrect, the LLM responses sound extremely confident and legitimate. This characteristic of "lying with confidence", called hallucinations, has proved to be one of the biggest criticisms of LLMs. Asking the same question, "Who won the 2024 Stanley Cup Finals?" can sometimes lead to hallucinations.
+
+![Source: Screenshot by author of his account on https://chat.openai.com](https://towardsdatascience.com/wp-content/uploads/2024/10/11gbeUS5CfClAA0nLABa6Xw.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+This is problematic. The 2024 Stanley Cup was, in fact, won by the Florida Panthers by defeating the Edmonton Oilers. The LLM here, with confidence, responded with a completely inaccurate answer.
+
+### 3. Knowledge Limitation
+
+LLMs, as we already read, have been trained on large volumes of data sourced from a variety of sources including the open internet. They do not have any knowledge of information that is not public. The LLMs have not been trained on non-public information like internal company documents, customer information, product documents, etc. So, LLMs cannot be expected to respond to any query about them. If I directly ask GPT 4o via ChatGPT about the status of an order, it cannot answer because it doesn't have that information.
+
+![Source: Screenshot by author of his account on https://chat.openai.com](https://towardsdatascience.com/wp-content/uploads/2024/10/1-vPflWf6lzT5pUzeiTviKQ.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+This could have been worse if the system hallucinated and provided an incorrect response.
+
+Practitioners expect AI to be Comprehensive i.e., know everything, Current i.e., be up-to-date with the trends and Correct every single time. However, these limitations caused a lot of concern and the detractors were quick to dismiss the applicability of Large Language Models.
+
+![Expectations vs Reality of Generative AI (Source: Image by Author)](https://towardsdatascience.com/wp-content/uploads/2024/10/1hIAGB1CL06BpXyYLZm09UQ.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+## The Promise of Retrieval Augmented Generation
+
+It turns out that the aforementioned limitations are addressable using a relatively simple idea. If somehow you find a way to provide the LLM with the source of information, LLMs are able to process that information and generate accurate results. Continuing with our Stanley cup finals example, if you paste the introduction section of the Wikipedia article on Stanley Cup in the prompt, ChatGPT is able to give you the correct answer.
+
+![Context is all you need (Source: Image by Author)](https://towardsdatascience.com/wp-content/uploads/2024/10/1QotKGoTQZJvxoRCgnbZblw.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+This shouldn't be surprising because LLMs are known for their language processing capabilities. This example above might come across as juvenile, but this is the fundamental idea behind Retrieval Augmented Generation.
+
+> If you provide the LLM with the context, the LLM will generate factually accurate responses fulfilling the expectations of being Comprehensive, Current and Correct.
+
+The challenge is in executing this idea programatically, at a scale and efficiency that allows users to extract value out of this system.
+
+### 1. What is RAG?
+
+As the name implies, Retrieval Augmented Generation, in three steps…
+
+- Retrieves information, relevant to the user's prompt, from a data source external to the LLMs
+- Augments the user prompt with that external information as an input to the LLM
+- Then, the LLM Generates a more accurate result.
+
+![Retrieval Augmented Generation (Source: Image by Author)](https://towardsdatascience.com/wp-content/uploads/2024/10/1L5Rm9XtLhECrmLnOqI4qBQ.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+A simple definition of RAG, therefore, can be –
+
+> The technique of retrieving relevant information from an external source, augmenting that information as an input to the LLM, thereby enabling the LLM to generate an accurate response is called Retrieval Augmented Generation
+
+### 2. How does RAG work?
+
+To execute the idea of RAG, it is important that access to external information is provided programatically to the LLM. To enable this access a persistent knowledge base becomes an integral part of the RAG system. This knowledge base acts as the non-parametric memory of the system where information can be searched and fetched from to provide to the LLM. The figure below illustrates the steps of a realtime interaction of a RAG system.
+
+![The creation of the non-parametric memory is the critical pre-requisite for any RAG system (Source: Image by Author)](https://towardsdatascience.com/wp-content/uploads/2024/10/1eyJEelbSQZ80Ma7jWeIMFg.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+To create a RAG system, two pipelines feature are at the core –
+
+- Indexing Pipeline creates the knowledge base of the RAG system
+- Generation Pipeline facilitates the real-time interaction with the knowledge base.
+
+### 3. Indexing Pipeline – Creating a Knowledge Base for RAG systems
+
+A RAG enabled system will work best if the information from different sources–
+
+- Collected in a single location.
+- Stored in a single format.
+- Broken down into small pieces of information.
+
+The need for a consolidated knowledge base arises from the disparate nature of external data sources. To address this, we need to undertake a series of steps to create and maintain a well-structured knowledge base. This again is a five step process as shown below.
+
+1. Connect to previously identified external sources
+2. Extract documents and parse text from these documents
+3. Break down long pieces of text into smaller manageable pieces
+4. Convert these small pieces into a suitable format
+5. Store this information
+
+These steps that facilitate the creation of this knowledge base form the Indexing Pipeline.
+
+![Indexing Pipeline covering the steps to create the Knowledge Base for RAG](https://towardsdatascience.com/wp-content/uploads/2024/10/18Oed6N8nUEX5yWWLMFabtg.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+The indexing pipeline, to accomplish these five steps is composed of four components –
+
+- Data Loading component : connects to external sources, extracts and parses data. The code below illustrates the loading of an external url using document loaders from LangChain.
+
+```python
+#Installing bs4 package
+%pip install bs4==0.0.2 --quiet
+
+#Importing the AsyncHtmlLoader
+from langchain_community.document_loaders import AsyncHtmlLoader
+
+#This is the url of the wikipedia page on the 2023 Cricket World Cup
+url="https://en.wikipedia.org/wiki/2023_Cricket_World_Cup"
+
+#Invoking the AsyncHtmlLoader
+loader = AsyncHtmlLoader (url)
+
+#Loading the extracted information
+data = loader.load()
+
+#Install html2text
+%pip install html2text==2024.2.26 –quiet
+
+#Import Html2TextTransformer
+from langchain_community.document_transformers import Html2TextTransformer
+
+#Assign the Html2TextTransformer function
+html2text = Html2TextTransformer()
+
+#Call transform_documents
+data_transformed = html2text.transform_documents(data)
+
+print(data_transformed[0].page_content)
+```
+
+- Data Splitting component : breaks down large pieces of text into smaller manageable parts. The code below illustrates the splitting of text or "chunking"
+
+```python
+#Installing lxml
+%pip install lxml==5.2.2 --quiet
+
+# Import the HTMLHeaderTextSplitter library
+from langchain_text_splitters import HTMLHeaderTextSplitter
+
+# Set url as the Wikipedia page link
+url="https://en.wikipedia.org/wiki/2023_Cricket_World_Cup"
+
+# Specify the header tags on which splits should be made
+headers_to_split_on=[
+    ("h1", "Header 1"),
+    ("h2", "Header 2"),
+    ("h3", "Header 3"),
+    ("h4", "Header 4")
+]
+
+# Create the HTMLHeaderTextSplitter function
+html_splitter = HTMLHeaderTextSplitter(headers_to_split_on=headers_to_split_on)
+
+# Create splits in text obtained from the url
+html_header_splits = html_splitter.split_text_from_url(url)
+
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000, chunk_overlap=200
+)
+
+chunks = text_splitter.split_documents(html_header_splits)
+```
+
+Read more about the need and the techniques for chunking here –
+
+> Breaking It Down : Chunking Techniques for Better RAG
+
+- Data Conversion component : converts text data into a more suitable format. The code below uses a pre-trained embeddings model to convert the text data into vector form.
+
+```python
+# Install the Sentence Transformers library
+
+%pip install sentence_transformers ==2.7.0 --quiet
+
+# Import HuggingFaceEmbeddings from embeddings library
+from langchain_community.embeddings import HuggingFaceEmbeddings
+
+# Instantiate the embeddings model. The embeddings model_name can be changed as desired
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-l6-v2")
+
+# Create embeddings for all chunk
+chunk_embedding = embeddings.embed_documents([chunk.page_content for chunk in chunks])
+```
+
+You can read more about embeddings here –
+
+> Embeddings – The Blueprint of Contextual AI
+
+- Storage component : stores the data to create a knowledge base for the system. FAISS, or Facebook AI Similarity Search, is an index that is used for storage and retrieval of vector embeddings.
+
+```python
+# Install FAISS-CPU
+%pip install faiss-cpu==1.8.0 --quiet
+
+# Import FAISS class from vectorstore library
+from langchain_community.vectorstores import FAISS
+
+# Import OpenAIEmbeddings from the library
+from langchain_openai import OpenAIEmbeddings
+
+# Set the OPENAI_API_KEY as the environment variable
+import os
+os.environ["OPENAI_API_KEY"] = <YOUR_API_KEY>
+
+# Chunks from Section 3.3
+chunks=chunks
+
+# Instantiate the embeddings object
+embeddings=OpenAIEmbeddings(model="text-embedding-3-large")
+
+# Create the database
+db=FAISS.from_documents(chunks,embeddings)
+```
+
+For practical purposes, the indexing pipeline is an offline or asynchronous pipeline. What this means is that the indexing pipeline is not activated in real-time when the user is asking a question – rather, it is created in advance and is updated at regular intervals.
+
+You can read more about the generation pipeline in these articles –
+
+> Getting the Most from LLMs: Building a Knowledge Brain for Retrieval Augmented Generation
+
+### 4. Generation Pipeline – Generating Contextual LLM Responses
+
+To leverage this knowledge base for accurate and contextual responses a Generation Pipeline including the steps of retrieval, augmentation and generation is created. When a user provides an input, the generation pipeline is responsible for providing the contextual response. The retriever searches for the most appropriate information from the knowledge base. The user question is augmented with this information and passed as input to the LLM for generating the final response.
+
+![Generation Pipeline Overview with the three components i.e. retrieval, augmentation and generation](https://towardsdatascience.com/wp-content/uploads/2024/10/1GksJrSeuutW0PwyNBU9wsQ.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+The generation pipeline is comprised of three components –
+
+- Retrievers : are responsible for searching and fetching information from the Storage. The code snippet of a simple retriever after loading the FAISS index created in the indexing pipeline is shown below.
+
+```python
+# Install the langchain openai library
+%pip install langchain-openai==0.1.6
+
+# Install the FAISS CPU library
+%pip install faiss-cpu==1.8.0.post1
+
+# Import FAISS class from vectorstore library
+from langchain_community.vectorstores import FAISS
+
+# Import OpenAIEmbeddings from the library
+from langchain_openai import OpenAIEmbeddings
+
+# Set the OPENAI_API_KEY as the environment variable
+import os
+os.environ["OPENAI_API_KEY"] = <YOUR_API_KEY>
+
+# Instantiate the embeddings object
+embeddings=OpenAIEmbeddings(model="text-embedding-3-large")
+
+# Load the database stored in the local directory
+db=FAISS.load_local("../../Assets/Data", embeddings, allow_dangerous_deserialization=True)
+
+# Original Question
+query = "Who won the 2023 Cricket World Cup?"
+
+# Ranking the chunks in descending order of similarity
+docs = db.similarity_search(query)
+```
+
+You can read more about retrievers here –
+
+> RAG Value Chain: Retrieval Strategies in Information Augmentation for Large Language Models
+
+- Prompt Management : enables the augmentation of the original prompt with the retrieved information. The example of an augmented prompt given a query and the retrieved context is shown below.
+
+```python
+# Creating the prompt
+augmented_prompt=f"""
+
+Given the context below answer the question.
+
+Question: {query} 
+
+Context : {retrieved_context}
+
+Remember to answer only based on the context provided and not from any other source. 
+
+If the question cannot be answered based on the provided context, say I don't know.
+
+"""
+```
+
+- LLM Setup : is responsible for generating the response to the input. The generation by passing the augmented prompt to the OpenAI gpt-4o model is shown below.
+
+```python
+# Importing the OpenAI library
+from openai import OpenAI
+
+# Instantiate the OpenAI client
+client = OpenAI()
+
+# Make the API call passing the augmented prompt to the LLM
+response = client.chat.completions.create(
+  model="gpt-4o",
+  messages= [
+    {"role": "user", "content": augmented_prompt}
+    ]
+)
+
+# Extract the answer from the response object
+answer=response.choices[0].message.content
+
+print(answer)
+```
+
+The above code snippets along with the rest in this blog are available in the GitHub repository below.
+
+![https://github.com/abhinav-kimothi/A-Simple-Guide-to-RAG](https://towardsdatascience.com/wp-content/uploads/2024/10/1okuATMfTpHoper0q1XukRA.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+> GitHub – abhinav-kimothi/A-Simple-Guide-to-RAG: This repository is the source code for examples and…
+
+And there it is! By providing the LLM with information that the LLM has not been trained on, we have created a system that can answer any question, cite sources (if need be) and be less prone to hallucinations.
+
+![RAG increases the user confidence in LLM responses by creating a virtually unlimited memory (Source: Image by Author)](https://towardsdatascience.com/wp-content/uploads/2024/10/1gl9E75jITNtszyUxaEPQvA.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+## Is the system good enough now?
+
+What we have discussed so far can be termed a naïve implementation of RAG. Naïve RAG can be marred by inaccuracies. It can be inefficient in retrieving and ranking information correctly. The LLM can ignore the retrieved information and still hallucinate. Building a PoC RAG pipeline is not overtly complex. It is achievable through brief training and verification on a limited set of examples. However, to enhance its robustness, thorough testing on a dataset that accurately mirrors the production use case is imperative. RAG pipelines can suffer from hallucinations of their own. This can be because –
+
+- The retriever fails to retrieve the entire context or retrieves irrelevant context
+- The LLM, despite being provided the context, does not consider it
+- The LLM instead of answering the query picks irrelevant information from the context
+
+![RAG systems can suffer hallucinations of their own (Source: Image by Author)](https://towardsdatascience.com/wp-content/uploads/2024/10/1W-BWecPenmE5b4BzuwUtDQ.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+Retrieval and Generation are two processes that need special focus from an evaluation perspective. This is because these two steps produce outputs that can be evaluated. (While indexing and augmentation will have a bearing on the outputs, they themselves do not produce measurable outcomes) We can ask a few questions of these two processes like –
+
+Retrieval –
+
+- How good is the retrieval of the context from the knowledge base?
+- Is it relevant to the query?
+- How much noise (irrelevant information) is present?
+
+Generation –
+
+- How good is the generated response?
+- Is the response grounded in the provided context?
+- Is the response relevant to the query?
+
+There are three critical enablers of RAG evaluation – Frameworks, Benchmarks & Metrics.
+
+Frameworks are tools designed to facilitate evaluation offering automation of the evaluation process and data generation. They are used to streamline the evaluation process by providing a structured environment for testing different aspects of a RAG systems. They are flexible and can be adapted to different datasets and metrics.
+
+Benchmarks are standardised datasets and their evaluation metrics used to measure the performance of RAG systems. Benchmarks provide a common ground for comparing different RAG approaches. Benchmarks ensure consistency across the evaluations by considering a fixed set of tasks and their evaluation criteria. For example, HotpotQA focusses on multi-hop reasoning and retrieval capabilities using metrics like Exact Match and F1 scores. Benchmarks are used to establish a baseline for performance and identify strengths/weaknesses is specific tasks or domains
+
+Developers can use frameworks to integrate evaluation in their development process and use benchmarks to compare their development with established standards. The frameworks and benchmarks both calculate metrics that focus on retrieval and the RAG quality scores. We will begin our discussion with the metrics in the next section before moving on to benchmarks and frameworks.
+
+## The Triple Crown of RAG Evaluation
+
+There are three quality score dimensions prevalent in the discourse on RAG evaluation. These quality scores measure the quality of retrieval and the quality of generation.
+
+1. Context Relevance: This dimension evaluates how relevant the retrieved information or context is to the user query. It calculates metrics like the precision and recall with which context is retrieved from the knowledge base.
+
+2. Answer Faithfulness (also called groundedness): This dimension evaluates if the answer generated by the system is using the retrieved information or not.
+
+3. Answer Relevance: This dimension evaluates how relevant the answer generated by the system is to the original user query.
+
+![The triad of RAG evaluation (Source: Inspired from https://truera.com/ai-quality-education/generative-ai-rags/what-is-the-rag-triad/)](https://towardsdatascience.com/wp-content/uploads/2024/10/1PNqAkLC6_pA-zwU8UAZR9A.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+Let's take a closer look at each of these.
+
+### 1. Context Relevance – Between the retrieved information (context) and the user query (prompt)
+
+Is the information that is being searched and retrieved by the retriever the most relevant to the question that the user has asked? The consequence of irrelevant information being retrieved is that no matter how good the LLM is, if the information being augmented is not good, the response will be sub-optimal.
+
+The retrieved context should contain information only relevant to the query or the prompt. For context relevance, a metric 'S' is estimated. 'S' is the number of sentences in the retrieved context that are relevant for responding to the query or the prompt.
+
+![Context relevance evaluates the degree to which the retrieved information is relevant to the query (Source: Image by Author)](https://towardsdatascience.com/wp-content/uploads/2024/10/1n8n4RugI9Z8zQL0fP9ghXA.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+### 2. Answer Faithfulness: Between the final response (answer) and the retrieved information (context)
+
+Does the LLM take into account all the retrieved information while generating responses or not? Even though RAG is aimed at reducing hallucinations, the system might still ignore the retrieved information.
+
+Faithfulness first identifies the number of "claims" made in the response and calculates the proportion of those "claims" present in the context.
+
+![Answer Faithfulness evaluates the closeness of the generated response to the retrieved context (Source: Image by Author)](https://towardsdatascience.com/wp-content/uploads/2024/10/1Zt_tJbIbHYMVm_zQOjdVyg.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+Faithfulness is not a complete measure of factual accuracy but only evaluates the groundedness to the context.
+
+An inverse metric for faithfulness is also Hallucination Rate which can calculate the proportion of generated claims in the response that are not present in the retrieved context.
+
+Another related metrics to faithfulness is Coverage. Coverage measures the number of relevant claims in the context and calculates the proportion of relevant claims present in the generated response. This measures how much of the relevant information from the retrieved passages is included in the generated answer.
+
+### 3. Answer Relevance: Between the final response (answer) and the user query (prompt)
+
+Is the final response in line with the question that the user had originally asked? To assess the overall effectiveness of the system, the relevance of the final response to the original question is necessary.
+
+For this metric, a response can be generated for the initial query or prompt. To compute the score, the LLM is then prompted to generate questions for the generated response several times. The mean cosine similarity between these questions and the original one is then calculated. The concept is that if the answer correctly addresses the initial question, the LLM should generate questions from it that match the original question.
+
+![Answer relevance is calculated as mean of cosine similarity between original and synthetic questions. (Source: Image by Author)](https://towardsdatascience.com/wp-content/uploads/2024/10/1Vj3WN8AtSxOLdIYPs8HpPQ.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+These three metrics and their derivatives form the core of RAG quality evaluation. These three metrics are interconnected and sometimes involve trade-offs. High context relevance usually leads to better faithfulness, as the system has access to more pertinent information. However, high faithfulness doesn't always guarantee high answer relevance. A system might faithfully reproduce information from the retrieved passages but fail to directly address the query. Optimising for answer relevance without considering faithfulness might lead to responses that seem appropriate but contain hallucinated or incorrect information.
+
+## Making Sense of Retrieval Metrics
+
+While the triad of RAG evaluation holistically looks at the entire RAG system, it is worthwhile pursuing evaluation of the retrieval component individually. Retrieval metrics are not only used in RAG but find applicability in a variety of other application areas like web and enterprise search engines, e-commerce product search and personalised recommendations, social media ad retrieval, archival systems, databases, virtual assistants and more.
+
+![The quality of retrieval is the first point of failure in the RAG pipeline (Source: Image by Author)](https://towardsdatascience.com/wp-content/uploads/2024/10/02Ij4tSYlcvDFLMQb.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+The primary retrieval evaluation metrics include accuracy, precision, recall, F1-score, mean reciprocal rank (MRR), mean average precision (MAP), and normalised discounted cumulative gain (nDCG). The table below summarises each of these metrics.
+
+![A summary of information retrieval metrics and their applicability](https://towardsdatascience.com/wp-content/uploads/2024/10/1sGrRlfj-tw1PxJ4KnzVv4g.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+I have written about each of these metrics in detail. Please read the blog below in case you're interested in finding out more.
+
+> 7 Retrieval Metrics for Better RAG Systems
+
+Most of the metrics we discussed talk about a concept of relevant documents. For example, precision is calculated as the number of relevant documents retrieved divided by the total number of retrieved documents. The question that arises is – How does one establish that a document is relevant?
+
+The simple answer is a human evaluation approach. A subject matter expert looks at the documents and determines the relevance. Human evaluation brings in subjectivity and, therefore, human evaluations are done by a panel of experts rather than an individual. But human evaluations are restrictive from a scale and a cost perspective.
+
+Any data that can reliably establish relevance, consequently, becomes extremely useful. Ground truth is information that is known to be real or true. In RAG, and Generative AI domain in general, Ground Truth is a prepared set of Prompt-Context-Response or Question-Context-Response example, akin to labelled data in Supervised Machine Learning parlance. Ground truth data that is created for your knowledge base can be used for evaluation of your RAG system.
+
+How does one go about creating the ground truth data? It can be viewed at as a one-time exercise where a group of experts creates this data. However, generating hundreds of QCA (Question-Context-Answer) samples from documents manually can be a time-consuming and labor-intensive task. Additionally, if the knowledge base is dynamic, the ground truth data will also need updates. Questions created by humans may face challenges in achieving the necessary level of complexity for a comprehensive evaluation, potentially affecting the overall quality of the assessment.
+
+Large Language Models can be used to address these challenges. Synthetic Data Generation uses LLMs to generate diverse questions and answers from the documents in the knowledge base. LLMs can be prompted to create questions like simple questions, multi-context questions, conditional questions, reasoning questions etc. using the documents from the knowledge base as context.
+
+## Tools of the Trade – Frameworks for RAG Evaluation
+
+Frameworks provide a structured approach to RAG evaluations. They can be used to automate the evaluation process. Some go beyond and assist in the synthetic ground truth data generation. While new evaluation frameworks will continue to be introduced, we will look at Ragas as an example framework.
+
+## Spotlight on RAGAs (Retrieval Augmented Generation Assessment)
+
+Retrieval Augmented Generation Assessment or RAGAs is a framework developed by Exploding Gradients that assesses the retrieval and generation components of RAG systems without relying on extensive human annotations. RAGAs helps in –
+
+- Synthetically generate a test dataset that can be used to evaluate a RAG pipeline
+- Use metrics to measure the performance of the pipeline
+- Monitor the quality of the application in production
+
+### 1. Synthetic Test Dataset Generation (Ground Truths)
+
+We've discussed the need for creating a ground truth dataset to carry out evaluations. While this can be manually created, RAGAs provides the functionality of generating this dataset from the documents in the knowledge base.
+
+RAGAs does this using an LLM. It analyses the documents in the knowledge base and uses an LLM to generate seed questions from chunks in the knowledge base. These questions are based on the document chunks from the knowledge base. These chunks act as the context for the questions. Another LLM is used to generate answer to these questions. This is how it generates a Question-Context-Answer data based on the documents in the knowledge base. RAGAs also has an evolver module that creates more difficult questions like multi-context, reasoning, conditional, etc. for a more comprehensive evaluation
+
+![Synthetic ground truths data generation using RAGAs](https://towardsdatascience.com/wp-content/uploads/2024/10/1hYKC0Touzs5B1wk-BGde4Q.png)
+<sub>Source: *Towards Data Science*, Abhinav Kimothi (2024).</sub>
+
+The example below creates a synthetic dataset from the Wikipedia page of 2023 cricket world cup.
+
+```makefile
+#Importing the AsyncHtmlLoader
+from langchain_community.document_loaders import AsyncHtmlLoader
+
+#This is the url of the wikipedia page on the 2023 Cricket World Cup
+url="https://en.wikipedia.org/wiki/2023_Cricket_World_Cup"
+
+#Instantiating the AsyncHtmlLoader
+loader = AsyncHtmlLoader (url)
+
+#Loading the extracted information
+data = loader.load()
+
+from langchain_community.document_transformers import Html2TextTransformer
+
+#Instantiate the Html2TextTransformer function
+html2text = Html2TextTransformer()
+
+#Call transform_documents
+data_transformed = html2text.transform_documents(data)
+
+# Import necessary libraries
+from ragas.testset.generator import TestsetGenerator
+from ragas.testset.evolutions import simple, reasoning, multi_context
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+
+# Instantiate the models
+generator_llm = ChatOpenAI(model="gpt-4o-mini")
+critic_llm = ChatOpenAI(model="gpt-4o-mini")
+embeddings = OpenAIEmbeddings()
+
+# Create the TestsetGenerator
+generator = TestsetGenerator.from_langchain(
+    generator_llm,
+    critic_llm,
+    embeddings
+)
+
+# Call the generator
+testset = generator.generate_with_langchain_docs(
+data_transformed, 
+test_size=20, 
+distributions={ 
+simple: 0.5, 
+reasoning: 0.25, 
+multi_context: 0.25}
+)
+```
+
+### 2. Recreating the RAG Pipeline
+
+From the test dataset created above, we will use the question and the groundtruth information. We will pass the questions to our RAG pipeline and generate answers. We will compare these answers with the groundtruth to calculate the evaluation metrics. First, let us recreate our RAG pipeline
+
+```python
+## Retrieval Function
+
+# Import FAISS class from vectorstore library
+from langchain_community.vectorstores import FAISS
+
+# Import OpenAIEmbeddings from the library
+from langchain_openai import OpenAIEmbeddings
+
+def retrieve_context(query, db_path):
+    embeddings=OpenAIEmbeddings(model="text-embedding-3-large")
+
+ # Load the database stored in the local directory
+    db=FAISS.load_local(db_path, embeddings, allow_dangerous_deserialization=True)
+
+    # Ranking the chunks in descending order of similarity
+    docs = db.similarity_search(query)
+    # Selecting first chunk as the retrieved information
+    retrieved_context=docs[0].page_content
+
+    return str(retrieved_context)
+
+## Augmentation Function
+
+def create_augmeted(query, db_path):
+
+    retrieved_context=retrieve_context(query,db_path)
+
+    # Creating the prompt
+    augmented_prompt=f"""
+
+    Given the context below answer the question.
+
+    Question: {query} 
+
+    Context : {retrieved_context}
+
+    Remember to answer only based on the context provided and not from any other source. 
+
+    If the question cannot be answered based on the provided context, say I don't know.
+
+    """
+
+    return retrieved_context, str(augmented_prompt)
+
+## RAG function
+
+# Importing the OpenAI library
+from openai import OpenAI
+
+def create_rag(query, db_path):
+
+    augmented_prompt=create_augmeted(query,db_path)
+
+    # Instantiate the OpenAI client
+    client = OpenAI()
+
+    # Make the API call passing the augmented prompt to the LLM
+    response = client.chat.completions.create(
+    model="gpt-4o",
+    messages= [
+        {"role": "user", "content": augmented_prompt}
+    ]
+    )
+
+    # Extract the answer from the response object
+    answer=response.choices[0].message.content
+
+    return retrieved_context, answer
+```
+
+### 3. Evaluations
+
+We will first generate answers to the questions in the synthetic test data using our RAG pipeline. We will then compare the answers to the ground truth answers. We will first generate the answers
+
+```python
+# Create Lists for Questions and Ground Truths from testset
+
+questions_list=testset.to_pandas().question.to_list()
+gt_list=testset.to_pandas().ground_truth.to_list()
+
+answer_list=[]
+context_list=[]
+
+# Iterate through the testset to generate response for questions
+for record in testset.test_data:
+
+# Call the RAG function
+rag_context, rag_answer=create_rag(record.question,db_path)
+ground_truth=record.ground_truth
+answer_list.append(rag_answer)
+context_list.append([rag_context])
+
+# Create dictionary of question, answer, context and ground truth
+data_samples={
+    'question':questions_list,
+    'answer':answer_list,
+    'contexts': context_list,
+    'ground_truth':gt_list
+}
+```
+
+For RAGAs, the evaluation set needs to be in the Dataset format. Datasets is a lightweight library from HuggingFace.
+
+```python
+# Import the Datasets library
+from datasets import Dataset
+
+# Create Dataset from the dictionary
+dataset = Dataset.from_dict(data_samples)
+
+#Import all the libraries
+from ragas import evaluate
+
+from ragas.metrics import (
+    answer_relevancy,
+    faithfulness,
+    context_recall,
+    context_precision,
+    context_entity_recall,
+    answer_similarity,
+    answer_correctness
+)
+
+from ragas.metrics.critique import (
+    harmfulness, 
+    maliciousness, 
+    coherence, 
+    correctness, 
+    conciseness
+)
+
+# Calculate the metrics for the dataset 
+
+result = evaluate(
+    dataset,
+    metrics=[
+        context_precision,
+        faithfulness,
+        answer_relevancy,
+        context_recall,
+        context_entity_recall,
+        answer_similarity,
+        answer_correctness,
+        harmfulness, 
+        maliciousness, 
+        coherence, 
+        correctness, 
+        conciseness
+
+    ],
+)
+```
+
+The result looks like
+
+```json
+{
+    "context_precision": 0.749999999925,
+    "faithfulness": 0.39583333333333337,
+    "answer_relevancy": 0.5376135644777853,
+    "context_recall": 0.6,
+    "context_entity_recall": 0.4677380943262032,
+    "answer_similarity": 0.8603128301847682,
+    "answer_correctness": 0.5283911977374367,
+    "harmfulness": 0.0,
+    "maliciousness": 0.1,
+    "coherence": 0.5,
+    "correctness": 0.55,
+    "conciseness": 0.55
+}
+```
+
+You can also visit the official documentation of RAGAs for more information. RAGAs calculates a bunch of metrics that are useful for assessing the quality of the RAG pipeline. RAGAs uses an LLM to do this, somewhat subjective, task. For example, to calculate faithfulness for a given question-context-answer record, RAGAs first breaks down the answer into simple statements. Then, for each statement, it asks the LLM whether the statement can be inferred from the context. The LLM provides a 0 or 1 response along with a reason. This process is repeated a couple of times. Finally, faithfulness is calculated as the proportion of statements judged by the LLM as faithful (i.e. 1). Several other metrics are calculated using this LLM based approach. This approach where an LLM is used in evaluating a task is also popularly called LLM as a judge approach. An important point to note here is that the accuracy of this evaluation is also dependent on the quality of the LLM that is being used as the judge.
+
+While RAGAs has gained popularity, there are other frameworks, like ARES, TruLens, DeepEval, RAGChecker, etc., that have also gotten acceptance amongst RAG developers. Frameworks provide a standardized method of automating evaluation of your RAG pipelines. Your choice of the evaluation framework should depend on the requirements of your use-case. For quick and easy evaluations that are widely understood, RAGAs may be your choice. For robustness across diverse domains and question types, ARES might suit better. Most of the proprietary service providers (Vector DBs, LLMs, etc.) have their own evaluation features that you may use. You can also develop your own metrics.
+
+## Benchmarks – How Does Your RAG System Stack Up?
+
+Benchmarks are standardised datasets and their evaluation metrics used to measure the performance of RAG systems. Benchmarks provide a common ground for comparing different RAG approaches. Benchmarks ensure consistency across the evaluations by considering a fixed set of tasks and their evaluation criteria. RAG benchmarks are a set of standardized tasks, and a dataset used to compare the efficiency of different RAG system in retrieving relevant information and generating accurate responses. There has been a surge in creating benchmarks since 2023 when RAG started gaining popularity but there have been benchmarks on question answering tasks that were introduced before that. The table below summarizes the popular RAG benchmarks.
+
+## Limitations and Best Practices in RAG Evaluation
+
+There has been a lot of progress made in the frameworks and benchmarks used for evaluating RAG. The complexity in evaluation arises due to the interplay between the retrieval and generation components. In practice, there's a significant reliance on human judgements which are subjective and difficult to scale. Below are a few common challenges and some guidelines to navigate them.
+
+### Lack of Standardised Metrics
+
+There's no consensus on what the best metrics are to evaluate RAG systems. Precision, recall and F1-score are commonly measured for retrieval but do not fully capture the nuances of generative response. Similarly, commonly used generation metrics like BLEU, ROUGE, etc. do not fully capture the context awareness required for RAG. Using RAG specific metrics like answer relevance, context relevance and faithfulness for evaluation brings in the necessary nuance required for RAG evaluation. However, even for these metrics, there's no standard way of calculation and each framework brings in its own methodology.
+
+Best Practice: Compare the results on RAG specific metrics from different frameworks. Sometimes, it may be warranted to change the calculation method with respect to the use case.
+
+### Over-reliance on LLM as a Judge
+
+The evaluation of RAG specific metrics (in RAGAs, ARES, etc.) relies on using an LLM as a judge. An LLM is prompted or fine-tuned to classify a response as relevant or not. This adds the complexity of the LLMs ability to do this task. It may be possible that for your specific documents and knowledge bases, the LLM is not very accurate in judging. Another problem that arises is that of self-reference. It is possible that if the judge LLM is same as the generation LLM in your system, you will get a more favorable evaluation.
+
+Best Practice: Sample a few results from the judge LLM and evaluate if the results are in-line with commonly understood business practice. To avoid the self-reference problem, make sure to use a judge LLM different from the generation LLM. It may also help if you use multiple judge LLMs and aggregate their results.
+
+### Lack of use-case subjectivity
+
+Most frameworks have a generalized approach toward evaluation. They may not capture the subjective nature of the task relevant to your use-case (content generation vs chatbot vs question-answering, etc.)
+
+Best Practice: Focus on use case specific metrics to assess quality, coherence, usefulness etc. Incorporate human judgements in your workflow with techniques like user feedback, crowd-sourcing or expert ratings.
+
+### Benchmarks are static
+
+Most benchmarks are static and do not account for the evolving nature of information. RAG systems need to adapt to real-time information changes, which is not currently tested effectively. There is a lack of evaluation for how well RAG models learn and adapt from new data over time. Most benchmarks are domain-agnostic, which may not reflect the performance of RAG systems in your specific domain.
+
+Best Practice: Use a benchmark that is tailored to your domain. The static nature of benchmarks is limiting. Do not overly rely on benchmarks and augment the use of benchmarks with regularly updating data.
+
+### Scalability and Cost
+
+Evaluating large-scale RAG systems is more complex than evaluating basic RAG pipelines. It requires significant computational resources. Benchmarks and frameworks also do not, generally, account for metrics like latency and efficiency which are critical for real world applications.
+
 ## Next Steps
 
 Now that you understand RAG fundamentals and advanced techniques, explore:
