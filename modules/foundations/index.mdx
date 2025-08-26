@@ -723,6 +723,182 @@ print("Fine tune job initiated:", response)
 
 We've explored how to get started with OpenAI models, from setting up and making API calls to choosing and fine-tuning models. This knowledge enables the integration of advanced AI into your projects, driving productivity and innovation. By mastering the use and customization of these models, we can tailor them to meet specific needs, ensuring your applications are as effective and efficient as possible.
 
+> **Note:** The following article is reproduced verbatim from  
+> Codecademy Team, *Codecademy* (2025):  
+> [What is Reinforcement Learning? With Examples](https://www.codecademy.com/article/what-is-reinforcement-learning-with-examples)  
+> for internal educational use only (non-profit).
+
+## What is Reinforcement Learning? With Examples
+
+### What is reinforcement learning (RL)?
+
+Reinforcement learning (RL) is a machine learning approach where an AI agent learns to make optimal decisions through trial and error, receiving rewards for good actions and penalties for bad ones. Imagine teaching a dog to sit. You reward it with a treat when it obeys and penalize it when it doesn't. Over time, the dog learns to repeat actions that earn rewards and avoid those that lead to penalties. This same principle guides how RL trains AI agents.
+
+A typical reinforcement learning setup looks as follows:
+
+![Diagram showing reinforcement learning process with agent, environment, actions, states and rewards in a continuous feedback loop](https://static-assets.codecademy.com/reinforcement-learning/reinforcement_learning.jpg)
+<sub>Source: *Codecademy*, Codecademy Team (2025).</sub>
+
+Here, we have an agent being trained using reinforcement learning.
+
+- The agent takes an action in the given environment.
+- The state of the environment changes due to the action, and the agent receives a reward or penalty.
+- Based on the current action, the current state of the environment, the new state of the environment after the action, and the reward received, the agent chooses the next action carefully to maximize its rewards.
+
+The reinforcement learning process happens iteratively in three steps. Before discussing how RL works, let's discuss different components in an RL setup.
+
+### Components of a reinforcement learning system
+
+A reinforcement learning setup includes an agent, environment, states, actions, policy, reward, and value function.
+
+- **Agent**: An agent is the learner or decision maker. It interacts with the environment, learns from its experience, and performs actions based on what it has learned so far during training.
+- **Environment**: It is the world the agent lives in. The environment consists of everything the agent interacts with and responds to the agent's actions by giving new states and rewards.
+- **States**: States represent all the possible scenarios for a given environment. A state provides a snapshot of the current situation and helps the agent decide what to do next.
+- **Actions**: Actions include the number of choices an agent can make. Every action performed by an agent changes the environment in some way.
+- **Reward**: Reward is a feedback signal that tells the agent how good or bad its action was.
+- **Policy**: Policy is the strategy the agent follows to choose an action in a given state. The policy maps states to actions and helps the agent decide what action to take in a given state. It can be deterministic or non-deterministic.
+- **Value function**: The value function measures how good a state or action is regarding future rewards. It measures how good it is to be in a state or how good an action is in a particular state.
+
+Now that we know the different components of a reinforcement learning setup, let's discuss how reinforcement learning works.
+
+### How does reinforcement learning work?
+
+Reinforcement learning involves three steps: exploration, feedback, and adjustment. Let's discuss each process separately.
+
+#### Exploration
+
+When an agent is put into a given state in the environment, it won't know the action that offers the best rewards. Hence, it explores different actions using trial and error to see what happens. Exploration is useful as it helps the agent try different actions in a given state, which results in the agent finding the best action for the current state.
+
+For example, if a robot learning to move from source to destination in a maze takes the right at every cell it reaches, it might never find the fastest path to the goal. However, the robot can explore going left, right, and forward, which can result in finding the shortest path.
+
+#### Feedback
+
+Every action taken by the agent changes the state of the environment. The reward model gives the agent feedback based on how good the action was. The feedback helps the agent decide whether an action was good or bad in the long run.
+
+For example, if a step in the maze gets the robot closer to the goal, it might get +10 points. If the robot rams into a wall, it might get -5 points. Hence, the robot will always try to move in a direction that gets it closer to the goal.
+
+#### Adjustment
+
+The agent updates its policy in response to feedback. This helps the agent make better decisions by choosing actions that led to higher rewards in the past.
+
+- If the agent is rewarded after an action in a given state, it adjusts its policy to repeat the same action in the future if it encounters the same state.
+- If the agent is penalized after an action, it adjusts its policy to avoid the action in the future.
+
+By iteratively exploring different actions and making adjustments, the agent updates its policy to achieve the highest rewards in a given state. Eventually, the agent learns to complete the task optimally.
+
+Let's discuss some reinforcement learning examples to understand how the exploration, feedback, and adjustment steps work.
+
+### Reinforcement learning examples
+
+We will discuss three examples to understand how reinforcement learning works.
+
+#### Example 1: Game playing
+
+AI agents are trained to play board games like Chess or Atari. In such games, reinforcement learning works as follows:
+
+- **Exploration**: During exploration, the agent tries random moves to see how they affect the game.
+- **Feedback**: The agent receives feedback in terms of points. Losing points or pieces means a negative reward, while getting points means a positive reward. The rewards are also decided based on whether the agent moves closer to a win or a loss after an action.
+- **Adjustment**: The agent updates its policy to prefer moves that lead to wins or higher scores.
+
+Over time, the agent learns strategies that win more games.
+
+#### Example 2: Online advertisement placement
+
+An agent trying to learn how to give the best advertisements to the audience is trained using reinforcement learning as follows:
+
+- **Exploration**: The agent shows different types of ads to the audience.
+- **Feedback**: If the user clicks on an ad, it means a positive reward. For conversions, the agent receives higher rewards. The agent gets a neutral or negative reward if the user doesn't interact with the ad.
+- **Adjustment**: The agent learns to select ad types, content, and platforms that lead to more clicks and conversions.
+
+After being trained for a long time using the feedback data from ads, the agent learns user preferences and targets ads more effectively, resulting in an increase in return on ad spend.
+
+#### Example 3: Algorithmic trading
+
+Algorithmic trading uses AI agents to buy and sell stocks in a fraction of a second. An agent for algorithmic trading is trained as follows:
+
+- **Exploration**: The trading agent experiments with various buying/selling strategies based on a stock's given state.
+- **Feedback**: Profits and losses from trades are rewards and penalties. If an action results in a loss, the agent tries to avoid it in the future. If an action leads to profits, the agent is more likely to repeat the action.
+- **Adjustment**: The agent refines its policy to maximize the overall profit and avoid risky trades.
+
+Over time, agents become sophisticated and execute automated trades that generate significant profits for companies like Tower Research Capital, Jane Street, and Hudson River Trading.
+
+Having discussed how reinforcement learning works, let's discuss the different types of reinforcement learning, which will help you understand how the feedback and adjustments work in an RL setup.
+
+### Types of reinforcement learning
+
+We can categorize reinforcement learning based on learning approach and policy-optimization methods.
+
+#### Reinforcement learning types based on learning approach
+
+We can categorize reinforcement learning into two types based on the learning approach, i.e., model-free RL and model-based RL.
+
+- **Model-free RL**: In model-free reinforcement learning, the agent learns without building a model of the environment. Instead, it focuses on learning a policy or value function directly through trial and error. Examples of model-free RL include Q-learning and the State-action-reward-state-action (SARSA) algorithm.
+- **Model-based RL**: In model-based reinforcement learning, the agent models the environment to predict future states and rewards. This helps the agent plan actions by simulating future steps without interacting with the environment. Examples of model-based RL include the Dyna-Q and Monte Carlo tree search algorithms.
+
+#### Reinforcement learning types based on policy optimization
+
+Model-free reinforcement learning can be categorized into three types, i.e., policy-based RL, value-based RL, and actor-critic methods.
+
+- **Policy-based reinforcement learning**: In policy-based RL, the agent directly estimates the optimal policy. For this, the agent represents the policy as a combination of learnable parameters and converts the training process into an optimization problem. Then, the agent samples the different trajectories and rewards and uses the information to improve the policy by optimizing the average value function across all the states in the environment. Policy-based RL is useful for high-dimensional or continuous spaces. Examples of policy-based RL include Proximal Policy Optimization (PPO), Monte Carlo Policy Gradient (REINFORCE), and Deterministic Policy Gradient (DPG).
+- **Value-based reinforcement learning**: In value-based RL, the agent assumes that the optimal policy can be derived by accurately estimating the value function of every state. Using Bellman equation, the agent tries to find all the paths in the environment and the associated rewards. In this process, the agent finds the optimal value function that provides the value of states or state-action pairs. Then, the agent acts greedily at every step to find the optimal path. SARSA and Q-learning are value-based reinforcement learning methods. Note that value-based RL doesn't directly optimize the policy.
+- **Actor-critic methods**: Actor-critic methods combine policy-based and value-based RL. In this approach, the agent has two components, i.e., the actor and the critic. The actor updates the policy function, whereas the critic evaluates the action using the value function. In other words, the actor is responsible for what action will lead to long-term rewards, and the critic evaluates how good an action is. Examples of actor-critic methods include Asynchronous Advantage Actor-Critic (A3C), Advantage Actor-Critic (A2C), and Deep Deterministic Policy Gradient (DDPG).
+
+We have discussed the working and types of reinforcement learning. Now, let's discuss its advantages and disadvantages.
+
+### Advantages and disadvantages of reinforcement learning
+
+Due to its training approach, reinforcement learning has many advantages:
+
+- **Solving complex problems**: In many situations, we cannot model every state of the environment. In such cases, reinforcement learning (RL) helps us explore different paths to reach the optimal solution. RL works even if the states and rewards are non-deterministic and may change over time, which makes it useful for many industry applications.
+- **Continuous improvement**: The RL agent updates its strategy according to each action and the reward it receives. Hence, the model continuously learns from its past and uses its learnings to take actions that maximize the rewards in the future.
+- **RL Works with delayed feedback**: For use cases like online advertisement placement or product recommendation systems, feedback might get delayed for several reasons. For such cases, RL works well by optimizing for long-term rewards. Traditional supervised learning algorithms like linear regression or convolutional neural networks don't work with delayed feedback.
+- **Avoids explicit modeling**: Traditional supervised learning methods require labeled data and a defined algorithm for model training. On the contrary, model-free RL methods do not require us to prepare datasets or build complex models of the environment. We can skip modeling the environment if it is infeasible or too complex. Even then, reinforcement learning works well.
+
+Despite all the advantages of the non-deterministic and adaptive learning approach in reinforcement learning, we also encounter some challenges.
+
+- **Sample insufficiency**: Reinforcement learning requires a huge number of interactions with the environment for the agent to learn how to behave. This can be infeasible for real-world applications where collecting feedback is slow. Even simulating the environment in a controlled system can incur huge costs, which makes RL infeasible in many cases.
+- **Training instability**: The training process can become unstable if the state transitions in a reinforcement learning system are very complex and there is a high variance in updates. Hence, we need to design reward models and parameter updates to avoid divergence.
+- **Reward design**: Designing an appropriate reward function that leads to desired behavior is challenging. Poorly designed reward models can cause unintended or suboptimal agent behavior. Hence, the reward model should be designed to ensure that the agent behaves harmlessly and safely. In real-world applications like robots or self-driving cars, we also need to ensure extensive safeguards to prevent the agent from becoming unsafe.
+- **Resource requirement**: Reinforcement learning needs significant computational resources. Hence, training RL models can be expensive and time-consuming.
+
+The advantages of reinforcement learning often outweigh its challenges, and many companies use RL to build AI systems. Let's discuss some applications of RL across various industries.
+
+### Use cases and applications for reinforcement learning
+
+Reinforcement learning is used in various domains, including finance, automobile, robotics, retail, and e-commerce. Let's discuss some use cases of reinforcement learning in each sector.
+
+#### Finance
+
+In finance, reinforcement learning is used in portfolio management, algorithmic trading, and risk management. The RL agents are trained for different use cases, such as dynamic asset allocation based on market conditions, implementing optimal trading strategies by interacting with market data, and adaptive hedging strategies for minimizing risks while maintaining good returns.
+
+#### Automobile
+
+The automobile sector uses reinforcement learning for self-driving cars, fleet management, and traffic control. Self-driving vehicles use reinforcement learning to learn driving policies for navigation, lane changing, and obstacle avoidance. Similarly, fleet management applications use RL for dynamic route planning for ride-sharing or delivery vehicles. In traffic control, RL optimizes traffic light timings to reduce congestion.
+
+#### Robotics
+
+Robots are used across industries to perform repetitive tasks efficiently and accurately. Companies use reinforcement learning to teach robots to walk, balance, and navigate uneven terrain. They are also trained to handle objects and plan paths in dynamic environments.
+
+#### Retail and e-commerce
+
+In retail and e-commerce, reinforcement learning is used to train models for creating dynamic pricing, recommendations, and retargeting applications. Using the customer journey data, RL applications are trained to show dynamic prices to users to maximize revenue. Similarly, product recommendation and retargeting systems use the user's click and conversion data as feedback to derive sales.
+
+Reinforcement learning also plays a huge role in training generative AI applications like ChatGPT and Gemini to produce correct outputs without any discrimination or bias. For this, we use reinforcement learning with human feedback (RLHF). Let's discuss what RLHF is.
+
+### Reinforcement learning with human feedback (RLHF)
+
+Reinforcement learning with human feedback (RLHF) combines traditional reinforcement learning with human guidance to fine-tune LLMs. It allows an agent to learn desirable behavior from human-provided feedback such as preferences, corrections, or demonstrations.
+
+For example, ChatGPT sometimes provides two outputs for a query and asks users to select the better response. Using your preference, it shapes its future output. During training, the LLM generates multiple outputs for a given query. Then, the outputs are ranked by humans and provided as feedback to the LLM. Based on the rankings, the LLM learns to generate answers that fetch better rankings. In this way, RLHF combines RL with human guidance.
+
+RLHF helps us generate polite, accurate, and safe responses from LLMs by aligning AI responses with human values. It also finds its applications in robotics, where we use it to train robot behaviors by observing and ranking their actions.
+
+### Conclusion
+
+Reinforcement learning is an evolving area of machine learning. From game-playing AI agents to robotics and personalized recommendations, RL is already significantly impacting industries. While it offers promising advantages, it also comes with challenges like high computational cost and complexity. With advancements like RLHF, the field continues to grow in capability and accessibility.
+
+This article discussed the basics of reinforcement learning with its components and working. We also discussed the examples, advantages, disadvantages, and applications of RL along with RLHF.
+
 ## Sources
 
 <Card title="Reference Materials">
