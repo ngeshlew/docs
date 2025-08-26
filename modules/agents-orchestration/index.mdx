@@ -990,6 +990,267 @@ Agents organize themselves without central control:
 - Analyze performance patterns
 - Identify improvement opportunities
 
+> **Note:** The following article is reproduced verbatim from  
+> Codecademy Team, *Codecademy* (2025):  
+> [Building LangChain Agents for LLM Applications in Python](https://www.codecademy.com/article/building-langchain-agents-for-llm-applications-in-python)  
+> for internal educational use only (non-profit).
+
+## Building LangChain Agents for LLM Applications in Python
+
+Large language models (LLMs) have transformed the way we work. LLMs are trained on large datasets, and they have access to an amount of information beyond the capabilities of human beings. LLMs also have reasoning, question-answering, and conversational capabilities that enable them to write code, analyze data, make reports, and perform various other tasks. However, they lack access to real-time information, struggle with complex mathematical computations, and their knowledge is constrained by the cutoff date of their training data. To overcome these limitations, we can use LangChain agents.
+
+With langchain agents, we can enable LLMs to fetch up-to-date information, perform precise mathematical calculations, and interact with external environments dynamically. In this article, we'll discuss what LangChain agents are and their components. We will also build langchain agents that perform tasks by fetching real-time data and using specific tools for mathematical operations.
+
+### What are langchain agents?
+
+Langchain agents are intelligent AI applications that enable LLM applications to interact with external tools, APIs, and inputs dynamically. Unlike basic LLM applications that generate responses based on static training data, agents can reason, plan, and execute tasks using different tools. A langchain agent uses decision-making logic and reasoning steps to determine the requirements to generate the desired output and the actions needed.
+
+#### Why do we need langchain agents?
+
+Large language models lack access to real-time information, struggle with complex mathematical computations, and their knowledge is constrained by the cutoff date of their training data. To understand this, let's create an LLM application using langchain and ask it the question, "Which government department is Elon Musk heading currently?". To run the application, you must have a gemini API key.
+
+```python
+from langchain_google_genai import ChatGoogleGenerativeAI
+import os
+os.environ['GOOGLE_API_KEY'] = "your_API_key"
+llm = ChatGoogleGenerativeAI(model="gemini-pro")
+prompt="Which government department is Elon Musk heading currently?"
+print("The prompt is:",prompt)
+llm_output=llm.invoke(prompt)
+print("The output for the prompt is:")
+print(llm_output.content)
+```
+
+Output:
+
+```
+The prompt is: Which government department is Elon Musk heading currently?
+The output for the prompt is:
+Elon Musk is not currently heading any government department.
+```
+
+When writing this article in 2025, Elon Musk heads the "Department of Government Efficiency (DOGE)" in the United States government. However, the output says otherwise. The LLM application doesn't have this updated information because the cutoff date for the training data for the latest gemini-pro model is March 29, 2023. The model doesn't know the events after this date, which affects the model output. How do we overcome this limitation?
+
+The answer is langchain agents. We can use a langchain agent that produces the output using a search engine with the LLM model. In such a case, the agent can always fetch the results from the search engine if it doesn't have any information about a topic. Similarly, we need langchain agents to use databases, perform mathematical calculations, and execute any other task that cannot be done using just the large language model.
+
+### How does a langchain agent work?
+
+Instead of generating the output using the training data in the LLM application, a langchain agent dynamically chooses the tools, databases, APIs, etc., to use based on the input and current context. For this, it uses the following steps:
+
+1. **Receive and preprocess input**: The langchain agent takes a question or a command from the user and creates a prompt using prompt templates if necessary.
+2. **Generate requirements**: After preprocessing the input, the agent analyzes the requirements based on the current context to generate the output.
+3. **Decide on an action**: After analyzing the requirements, the agent decides on the tool and action to get the output.
+4. **Execute the action and generate output**: Next, the langchain agent executes the decided action to get the output.
+5. **Analyze the output**: After executing the action, the agent checks if it has obtained the desired final output. If yes, it returns the output. Otherwise, it analyzes the information collected from the previous steps and decides on the following action. For this, the agent returns to step 2 and iterates until it reaches the desired output.
+6. **Return a final response**: After obtaining the desired result, the agent formats and returns the final output.
+
+To execute the above steps, a langchain agent uses multiple components. Let's look at the different components a langchain agent can use to generate outputs.
+
+### Different components of a langchain agent
+
+A langchain agent processes the input, analyzes the context, gathers information, and executes actions based on reasoning and requirements to generate an output. To complete these steps, the agent needs different components.
+
+- **Large language model**: Each langchain agent uses an LLM model to generate responses to the inputs and decide on the next step. The LLM model helps the agent to understand the inputs, reason about the problems, and generate meaningful outputs.
+- **Prompt template**: The prompt template in a langchain agent contains a set of instructions that helps the LLM in reasoning and problem-solving. It enables the agent to understand the user input and the expected output.
+- **Tools**: Tools are external resources that a langchain agents use to perform a specific task. A tool is designed to be called by an agent, its input is designed to be generated by an LLM, and its output is intended to be passed back to the LLM. We can use a database, an API, a search engine, a web browser, or even a custom Python function as a tool. You can get a list of all the available tools at langchain toolkit.
+- **Memory**: LangChain agents can have the memory to store information. The memory helps the langchain agent store previous interactions and use the information for decision-making, making them more intelligent over time.
+- **Environment**: The environment is the contextual space, including the LLM, input prompts, intermediate outputs, tools, and memory using which the langchain agent works.
+- **Agent executor**: The agent executor runs the langchain agent. It manages the interaction between the agent and the tools or resources that the langchain agent uses. The agent executor also manages the execution of tasks based on the agent's decisions and ensures that all the actions are executed based on the agent's reasoning.
+
+Using these components, we can create langchain agents that extend an LLM's capabilities. Let's now explore how to build a langchain agent in Python.
+
+### How to build a langchain agent in Python
+
+Let's build a langchain agent that uses a search engine to get information from the web if it doesn't have specific information. For this task, we will use the DuckDuckGo search engine, which comes as a tool in Langchain. First, install the duckduckgo-search module by executing the following command in the command-line terminal.
+
+```bash
+pip3 install duckduckgo-search
+```
+
+Now, we will first create an LLM object and a search tool for the agent. To create an LLM object, you can use the OpenAI models or Gemini AI. We will be using the gemini-pro for the demonstration.
+
+```python
+from langchain_google_genai import ChatGoogleGenerativeAI
+import os
+os.environ['GOOGLE_API_KEY'] = "your_API_key"
+llm = ChatGoogleGenerativeAI(model="gemini-pro")
+```
+
+After creating the LLM object, we will create the search tool using the DuckDuckGoSearchResults() function defined in the langchain_community.tools module. If the langchain_community module is not already installed on your system, you can install it with the command: `pip install langchain-community`.
+
+```python
+from langchain_community.tools import DuckDuckGoSearchResults
+ddg_search = DuckDuckGoSearchResults()
+```
+
+We now have an LLM object that can answer questions using the information available in the training data. We also have a search engine tool that the langchain agent can use if it needs any new information. Hence, let's now create a langchain agent using these components.
+
+To create an agent, we will use the initialize_agents() function defined in the langchain.agents module. The initialize_agents() function takes the LLM object as input to its llm parameter and a list of tools as input to the tools parameter. We also need to define the agent type to initialize the langchain agent. We will use an agent with the ZERO_SHOT_REACT_DESCRIPTION type that does a reasoning step before acting. You can create an agent for other agent types too.
+
+```python
+from langchain.agents import AgentType, initialize_agent
+agent = initialize_agent(
+    tools=[ddg_search],
+    llm=llm,
+    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION
+)
+```
+
+Our langchain agent with a built-in search engine tool is ready now. Let's now ask the langchain agent "Which government department is Elon Musk heading currently?" using the invoke() method.
+
+```python
+prompt="Which government department is Elon Musk heading currently?"
+print("The prompt is:",prompt)
+# Get output
+agent_output= agent.invoke(prompt)
+print("The output for the prompt is:")
+print(agent_output.get('output'))
+```
+
+Output:
+
+```
+The prompt is: Which government department is Elon Musk heading currently?
+The output for the prompt is:
+Elon Musk is heading the Department of Government Efficiency (DOGE) in the Trump administration.
+```
+
+In this output, you can observe that the agent correctly answers our question about Elon Musk heading the Department of Government Efficiency. Thus, we have successfully built a langchain agent that uses a search engine tool to answer the input prompts.
+
+Now, let's see the steps the langchain agent uses to generate this output. To do this, we will set the verbose parameter to True in the initialize_agent() method. This makes the langchain agent print all the steps it uses while working on an input prompt, as shown in this example:
+
+```python
+verbose_agent = initialize_agent(
+    tools=[ddg_search],
+    llm=llm,
+    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+    verbose=True
+)
+
+prompt="Which government department is Elon Musk heading currently?"
+print("The prompt is:",prompt)
+# Get output
+agent_output= verbose_agent.invoke(prompt)
+print("The output for the prompt is:")
+print(agent_output.get('output'))
+```
+
+Output:
+
+```
+The prompt is: Which government department is Elon Musk heading currently?
+
+> Entering new AgentExecutor chain...
+Action: duckduckgo_results_json
+Action Input: What government department is Elon Musk heading?
+Observation: snippet: People protest against President Trump and Elon Musk's Department of Government Efficiency (DOGE) near the U.S. Capitol in Washington, D.C., on Feb. 5, 2025., title: Who is part of Elon Musk's DOGE, and what are they doing?, link: https://www.npr.org/2025/02/07/nx-s1-5288988/doge-elon-musk-staff-trump, snippet: With Elon Musk's new department comes a number of questions about his position, the program itself and whether Musk is allowed to work in federal government at all. Recently, Musk was made a ..., title: What's Elon Musk's position in government? The DOGE leader's role, link: https://www.usatoday.com/story/news/2025/02/07/elon-musk-position-us-government/78328968007/, snippet: President-elect Donald Trump announced Tuesday that Elon Musk and Vivek Ramaswamy will lead a new "Department of Government Efficiency" in his second administration. "Together, these two ..., title: Elon Musk and Vivek Ramaswamy will lead new 'Department of Government ..., link: https://www.cnn.com/2024/11/12/politics/elon-musk-vivek-ramaswamy-department-of-government-efficiency-trump/index.html, snippet: President Trump said the entity would focus on cutting government waste and slashing federal regulations, and he put tech billionaire and adviser Elon Musk in charge. Politics DOGE is making major ..., title: What is the Department of Government Efficiency, or DOGE? : NPR, link: https://www.npr.org/2025/02/04/nx-s1-5286314/department-of-government-efficiency-doge-explainer-elon-musk
+Final Answer: Elon Musk is heading the Department of Government Efficiency (DOGE) in the Trump administration.
+
+> Finished chain.
+The output for the prompt is:
+Elon Musk is heading the Department of Government Efficiency (DOGE) in the Trump administration.
+```
+
+In this output, you can observe that the langchain agent executes the duckduckgo_results_json action with the input What government department is Elon Musk heading?. You can see that the input to the duckduckgo_results_json action differs from the input prompt. This is because the agent first analyzes the input prompt and finds that it cannot retrieve the output from the llm. Hence, it searches for the question What government department is Elon Musk heading? in the DuckDuckGo search engine. The duckduckgo_results_json action returns text snippets from multiple new links. The agent analyzes these snippets and finds out the answer to the input prompt.
+
+### Creating a langchain agent with multiple tools in Python
+
+To make the langchain agent more capable, we can add multiple tools to it. For this, we need to pass all the tools to the tools parameter in the initialize_agent() method. To see how it works, let's create a tool for mathematical calculations. For this, we will use LLMMathChain, which is defined in the langchain.chains module. LLMMathChain is a specialized chain designed to handle mathematical operations within the context of a large language model.
+
+To define the math tool using LLMMathChain, we use the from_function() method defined in the langchain.agents.Tools module. The from_function() method creates a tool that executes a specific function when the langchain agent calls it. We use the following steps to create the math tool.
+
+- First, we will create a LLMMathChain object using the from_llm() method. The from_llm() method takes an LLM object as input and returns an LLMMathChain object. Let's name the chain math_chain.
+- Next, we will use the from_function() method to create the math tool. It takes the name for the tool, the function to call when the tool is executed, and a description of the tool as inputs to the name, func, and description parameters respectively. We will pass the name Calculator, the function math_chain.run, and the description Use this tool for math questions and nothing else. Only input math expressions. as the input.
+
+```python
+from langchain.chains import LLMMathChain
+from langchain.agents import Tools
+math_chain = LLMMathChain.from_llm(llm=llm)
+math_tool = Tool.from_function(name="Calculator",
+                                func=math_chain.run,
+                                description="Use this tool for mathematical operations and nothing else. Only input math expressions.")
+```
+
+After executing the from_function() method, we will get a Calculator tool that the langchain agent can use for mathematical operations. Now, let's create a langchain agent using the search engine and the calculator tool. This time, we will ask the question, "Which government department is Elon Musk heading currently? How much cost does he aim to save for the USA government as an absolute number and as a percentage of the total GDP of the USA?" so that the agent uses the Calculator tool.
+
+```python
+agent_with_two_tools = initialize_agent(
+    tools=[ddg_search,math_tool],
+    llm=llm,
+    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+    verbose=True
+)
+
+prompt="""Which government department is Elon Musk heading currently? How much cost does he aim to save for the USA government as an absolute number and as a percentage of the total GDP of the USA?"""
+print("The prompt is:",prompt)
+agent_output= agent_with_two_tools.invoke(prompt)
+print("The output for the prompt is:")
+print(agent_output.get('output'))
+```
+
+Output:
+
+```
+The prompt is: Which government department is Elon Musk heading currently? How much cost does he aim to save for the USA government as an absolute number and as a percentage of the total GDP of the USA?
+
+> Entering new AgentExecutor chain...
+Action: duckduckgo_results_json
+Action Input: How much cost does Elon Musk aim to save for the USA government as absolute number and as a percentage of total GDP of USA.
+Observation: snippet: President Trump, Elon Musk and the Department of Government Efficiency have touted billions in terminated contracts deemed wasteful, but there's little transparency about how savings are tracked., title: Musk claims DOGE saves taxpayers billions, but data is unclear - NPR, link: https://www.npr.org/2025/02/11/nx-s1-5290288/doge-savings-billions-contracts-musk-trump, snippet: Mr. Trump and Musk have also taken aim at the U.S. Agency for International Development, or USAID, upending an organization that provides humanitarian aid to more than 100 countries., title: What is DOGE? Here's what to know about Elon Musk's latest cost-cutting ..., link: https://www.cbsnews.com/news/what-is-doge-elon-musk-findings-trump/
+Action: duckduckgo_results_json
+Action Input: Which government department is Elon Musk heading currently?
+Observation: snippet: Elon Musk has finally received his official White House email address. This means that general citizens will now be able to reach out to the Tesla CEO and newly appointed head of the Department of Government Efficiency through this email address., title: Elon Musk White House email: Elon Musk gets the coveted White House ..., link: https://economictimes.indiatimes.com/news/international/us/elon-musk-gets-the-coveted-white-house-email-address-heres-how-people-can-reach-out-to-him/articleshow/117429421.cms, snippet: With Elon Musk's new department comes a number of questions about his position, the program itself and whether Musk is allowed to work in federal government at all. Recently, Musk was made a ..., title: What's Elon Musk's position in government? The DOGE leader's role, link: https://www.usatoday.com/story/news/2025/02/07/elon-musk-position-us-government/78328968007/
+Final Answer: Elon Musk is heading the Department of Government Efficiency (DOGE) and aims to save $3 billion for the USA government, which is 0.001% of the total GDP of the USA.
+
+> Finished chain.
+The output for the prompt is:
+Elon Musk is heading the Department of Government Efficiency (DOGE) and aims to save $3 billion for the USA government, which is 0.001% of the total GDP of the USA.
+```
+
+In this output, you can observe that the langchain agent uses the DuckDuckGo search tool two times to get the output. Here, the agent got the percentage value from the news snippets and didn't use the Calculator tool. Let's now ask the agent a question that will force it to do a mathematical calculation.
+
+```python
+prompt="""Which government department is Elon Musk heading currently? Add 11117 to how much cost he aims to save for the USA government and give the number."""
+print("The prompt is:",prompt)
+agent_output= agent_with_two_tools.invoke(prompt)
+print("The output for the prompt is:")
+print(agent_output.get('output'))
+```
+
+Output:
+
+```
+The prompt is: Which government department is Elon Musk heading currently? Add 11117 to how much cost he aims to save for the USA government and give the number.
+
+> Entering new AgentExecutor chain...
+Assistant
+Action: duckduckgo_results_json
+Action Input: Which government department is Elon Musk heading currently?
+Observation: snippet: Elon Musk has finally received his official White House email address. This means that general citizens will now be able to reach out to the Tesla CEO and newly appointed head of the Department of Government Efficiency through this email address., title: Elon Musk White House email: Elon Musk gets the coveted White House ..., link: https://economictimes.indiatimes.com/news/international/us/elon-musk-gets-the-coveted-white-house-email-address-heres-how-people-can-reach-out-to-him/articleshow/117429421.cms, snippet: With Elon Musk's new department comes a number of questions about his position, the program itself and whether Musk is allowed to work in federal government at all. Recently, Musk was made a ..., title: What's Elon Musk's position in government? The DOGE leader's role, link: https://www.usatoday.com/story/news/2025/02/07/elon-musk-position-us-government/78328968007/, snippet: In an unorthodox move, Elon Musk, now head of the newly established Department of Government Efficiency (DOGE), stood alongside President Donald J. Trump to address the public regarding his role ..., title: Elon Musk's New Role: Head of Department of Government Efficiency ..., link: https://dallasweekly.com/2025/02/elon-musk-doge-reform-government/, snippet: President-elect Donald Trump tapped Elon Musk and Vivek Ramaswamy to lead the Department of Government Efficiency, or DOGE, in November. Brandon Bell via Getty Images So, why all the changes?, title: DOGE Is Official, but It's a Very Different Department - Business Insider, link: https://www.businessinsider.com/doge-different-musk-official-white-house-trump-2025-1?op=1
+Thought: I know Elon Musk is the head of the Department of Government Efficiency.
+Action: Calculator
+Action Input: 11117 + 11325000000
+Observation: Answer: 11325011117
+The total cost is 11325011117.
+Final Answer: 11325011117
+
+> Finished chain.
+The output for the prompt is:
+11325011117
+```
+
+In this example, we asked the langchain agent to add 11117 to the expected savings. Due to this, the agent uses the Calculator tool to generate the final output. Hence, langchain agents use their tools only when needed. At every stage, they analyze the context, available information, and the goal to decide on the following action. Once the agent achieves the goal, it returns the output.
+
+### Chains vs agents: what should you use?
+
+In langchain, chains are used to perform a task with predefined steps. They lack decision-making capabilities and aren't designed to adapt to changing circumstances. Hence, you can use chains if you want to perform a task with predefined steps. For example, you can use chains to extract data from a JSON file or perform a series of calculations on a dataset.
+
+On the flip side, langchain agents are capable of reasoning and can perform an action based on the context and the goal. They are more autonomous and can identify what to do next. This makes agents an ideal choice for complex, non-linear workflows where we need flexibility. For example, you can use langchain agents to create LLM applications that answer open-ended questions with context-aware answers or manage a workflow that requires real-time decision-making.
+
+### Conclusion
+
+With external tools and access to real-time information, langchain agents are one of the best ways to use large language models. They help us automate complex tasks by dynamically making decisions based on context and available information. We just need to give the input prompt to the agent, and it will decide on what tools to use and what actions to take to produce the output. Whether you want to fetch and analyze stock prices, solve complex mathematical equations, or automate tasks in applications like Slack, Jira, GitHub, or Microsoft 365, langchain agents can perform all these tasks by combining the reasoning capabilities of large-language models and task-specific tools.
+
 ## Next Steps
 
 Now that you understand agent architectures and orchestration, explore:
