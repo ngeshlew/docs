@@ -1357,6 +1357,84 @@ We must build for scalability from the very beginning—enabling AIs to grow in 
 - **Design for AI dabblers and beyond**: To build widespread adoption of agentic AI, future experiences must appeal to a wide range of consumers, not just power users. Create low-friction, exploratory user interfaces that welcome people with limited experience and teach them how best to derive value from agentic AI.
 - **Work overtime to earn users' trust—from utility to emotions**: Even GenAI power users said that using AI does not yet feel natural to them. Agentic AI experiences require trust, and an AI must earn trust over time through genuine connection and reliable relationship building. Don't just optimize for utility. Explore AI that reflects and adapts to complex tones with a broad range of emotional expression, from casual to caring to commanding.
 
+> **Note:** The following article is reproduced verbatim from  
+> Paweł Huryn, *The Product Compass* (2025):  
+> [AI Agent Architectures: The Ultimate Guide With n8n Examples](https://www.productcompass.pm/p/ai-agent-architectures)  
+> for internal educational use only (non-profit).
+
+# AI Agent Architectures: The Ultimate Guide With n8n Examples
+
+### 8 AI Agent Configurations. 9 Best Practices. 11 Agent Prompting Principles. 3 Agentic RAG Architectures. No Coding.
+
+2025 is the year of AI agents.
+
+I see many abstract agent architectures on social media. But no one explains how to build them in practice. So, here's a complete guide with examples prepared in n8n. It will help you learn by doing.
+
+We discuss:
+
+1. Five Single AI Agent Architectures
+2. Three Multiple AI Agents Architectures
+3. Nine Best Practices When Building AI Agents
+4. Eleven AI Agent Prompting Principles
+5. Three Essential Agentic RAG Architectures
+
+We don't discuss:
+
+- Fancy terms to memorize
+- Things irrelevant when working on AI products
+
+## 1. Five Single AI Agent Architectures
+
+A picture is worth a thousand words. I prepared 5 configurations you can analyze:
+
+1. **AI Agent using tools** (based on a chat message, it can plan its actions: access my contacts, send emails, or send invitations)
+2. **Mixing tools with MCP servers** (initialized by another app through a webhook with an MCP server for Atlassian and ready-to-use tools for other interactions)
+3. **Agentic workflow with a router** (a fancy name for a condition)
+4. **AI Agent with a human in the loop** (asking for a Slack approval)
+5. **Dynamically calling other agents** (an agent autonomously decides whether it needs to call another AI)
+
+## 2. Three Multiple AI Agents Architectures
+
+Multiple AI agents working together can achieve more complex tasks than single agents.
+
+## 3. Nine Best Practices When Building AI Agents
+
+When building AI agents, consider these best practices:
+
+- **Clear objectives**: Define what the agent should accomplish
+- **Proper tool selection**: Choose tools that match the agent's capabilities
+- **Error handling**: Plan for failures and edge cases
+- **Human oversight**: Include human-in-the-loop mechanisms
+- **Security**: Implement proper authentication and authorization
+- **Monitoring**: Track agent performance and behavior
+- **Testing**: Thoroughly test agent workflows
+- **Documentation**: Document agent capabilities and limitations
+- **Iteration**: Continuously improve based on feedback
+
+## 4. Eleven AI Agent Prompting Principles
+
+Effective prompting is crucial for AI agent performance:
+
+- **Clear instructions**: Be specific about what you want the agent to do
+- **Context provision**: Give the agent relevant background information
+- **Tool descriptions**: Clearly explain what each tool does
+- **Error recovery**: Provide guidance for handling failures
+- **Output formatting**: Specify how you want results presented
+- **Safety constraints**: Set boundaries for agent behavior
+- **Performance metrics**: Define how success will be measured
+- **Iterative refinement**: Allow for step-by-step improvement
+- **Human feedback**: Incorporate human guidance when needed
+- **Adaptive behavior**: Enable agents to learn from experience
+- **Transparency**: Make agent decisions explainable
+
+## 5. Three Essential Agentic RAG Architectures
+
+Agentic RAG (Retrieval-Augmented Generation) combines the power of agents with external knowledge:
+
+1. **Single Agent RAG**: One agent handles both retrieval and generation
+2. **Multi-Agent RAG**: Separate agents for retrieval and generation
+3. **Hierarchical RAG**: Agents at different levels handle different aspects
+
 ## Next Steps
 
 Now that you understand agent architectures and orchestration, explore:
