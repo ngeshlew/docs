@@ -954,6 +954,53 @@ Let's look at some real-world examples of how LLMs are used for different use ca
 
 While we're on the topic, it's worth mentioning that not all language models are "large." There are plenty of models with smaller sets of data that may not go as deep as ChatGPT 4 or 5 but are well-suited for personal or niche applications.
 
+> **Note:** The following article is reproduced verbatim from  
+> Smashing Magazine Team, *Smashing Magazine* (2025):  
+> [How To Use Artificial Intelligence And Machine Learning To Summarize Chat Conversations](https://www.smashingmagazine.com/2023/07/artificial-intelligence-machine-learning-summarize-chat-conversations/)  
+> for internal educational use only (non-profit).
+
+# How To Use Artificial Intelligence And Machine Learning To Summarize Chat Conversations
+
+As developers, we often deal with large volumes of text, and making sense of it can be a challenge. In many cases, we might only be interested in a summary of the text or a quick overview of its main points. This is where text summarization comes in.
+
+Text summarization is the process of automatically creating a shorter version of a text that preserves its key information. It has many applications in natural language processing (NLP), from summarizing news articles to generating abstracts for scientific papers. Even products, including Notion, are integrating AI features that will summarize a block of text on command.
+
+![A screenshot of the Notion interface showing the option of using AI intelligence to write text, pages, and so on.](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/artificial-intelligence-machine-learning-summarize-chat-conversations/notion-ai-technology.png)
+<sub>Source: *Smashing Magazine*, Smashing Magazine Team (2025).</sub>
+
+One interesting use case is summarizing chat conversations, where the goal is to distill the main topics and ideas discussed during the conversation. That's what we are going to explore in this article. Whether you're an experienced developer or just getting started with natural language processing, this article will provide a practical guide to building a chat summarizer from scratch. By the end, you'll have a working chat summarizer that you can use to extract the main ideas from your own chat conversations — or any other text data that you might encounter in your projects.
+
+The best part about all of this is that accessing and integrating these sorts of AI and NLP capabilities is easier than ever. Where something like this may have required workarounds and lots of dependencies in the not-so-distant past, there are APIs and existing models readily available that we can leverage. I think you may even be surprised by how few steps there are to pull off this demo of a tool that summarizes chat conversations.
+
+## Cohere: Chat Summarization Made Easy
+
+Cohere is a cloud-based natural language processing platform that enables developers to build sophisticated language models without requiring deep expertise in machine learning. It offers a range of powerful tools for text classification, entity extraction, sentiment analysis, and more. One of its most popular features is chat summarization, which can automatically generate a summary of a conversation.
+
+Using Cohere API for chat summarization is a simple and effective way to summarize chat conversations. It requires only a few lines of code to be implemented and can be used to summarize any chat conversation in real-time.
+
+The chat summarization function of Cohere works by using natural language processing algorithms to analyze the text of the conversation. These algorithms identify important sentences and phrases, along with contextual information like speaker identity, timestamps, and sentiment. The output is a brief summary of the conversation that includes essential information and main points.
+
+## Using The Cohere API For Chat Summarization
+
+Now that we have a basic understanding of Cohere API and its capabilities, let's dive into how we can use it to generate chat summaries. In this section, we will discuss the step-by-step process of generating chat summaries using Cohere API.
+
+To get started with the Cohere API, first, you'll need to sign up for an API key on the Cohere website. Once you have an API key, you can install the Cohere Python package using pip:
+
+```
+pip install cohere
+```
+
+Next, you'll need to initialize the cohere client by providing the API key:
+
+```
+import cohere
+
+# initialize Cohere client
+co = cohere.Client("YOUR_API_KEY")
+```
+
+Once the client is initialized, we can provide input for the summary. In the case of chat summarization, we need to provide the conversation as input. Here's how you can provide input for the summary:
+
 ## Sources
 
 <Card title="Reference Materials">
