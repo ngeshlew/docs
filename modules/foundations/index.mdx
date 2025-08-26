@@ -607,6 +607,122 @@ AI foundations provide the theoretical and practical understanding needed to bui
   </Card>
 </CardGroup>
 
+> **Note:** The following article is reproduced verbatim from  
+> Codecademy Team, *Codecademy* (2025):  
+> [Getting Started with OpenAI Models](https://www.codecademy.com/article/getting-started-with-open-ai-models)  
+> for internal educational use only (non-profit).
+
+## Getting Started with OpenAI Models
+
+Learn how to set up, use, and fine-tune OpenAI models for various applications. Get step-by-step guidance and tips on utilizing these powerful AI tools.
+
+### Introduction
+
+Artificial intelligence offers unprecedented opportunities, and OpenAI models are at the forefront of this revolution. This guide will discuss how to set up our environment, use an OpenAI model, and in the end how to finetune it to better fit tasks or topics.
+
+### What are OpenAI Models used for?
+
+OpenAI models lead the way in artificial intelligence development, particularly generative AI. These models, trained on vast amounts of data, can understand, and generate human-like text. OpenAI models like GPT-3.5 turbo are designed to perform a wide range of natural language processing tasks, including translation, question answering, and text generation. OpenAI models are used in various applications such as customer service automation, content creation, data analysis, etc.
+
+### Examples of Popular OpenAI Models
+
+OpenAI has released many generative AI models. One prominent example is GPT-3 (Generative Pre-trained Transformer 3). It can generate text, write code, create stories, and provide educational content. GPT-3.5-turbo, another popular model, excels in conversational AI applications. These models are widely used across industries to automate tasks, enhance customer interactions, and support data analysis, among other applications. Understanding how to utilize and customize these models can significantly enhance your projects. Let us explore the steps to get started with OpenAI models.
+
+### Setting up OpenAI Models
+
+Setting up OpenAI models involves creating an OpenAI account and configuring your development environment.
+
+#### Signing Up with OpenAI
+
+Begin by  registering for an account on the OpenAI website. After signing up, you'll gain access to API keys and comprehensive documentation essential for developing applications with OpenAI models.
+
+#### Setting Up Your Development Environment
+
+The development environment setup varies based on your preferred programming language or platform. Python is commonly used due to its simplicity and extensive library support. Install the necessary packages, such as openai, using pip:
+
+```
+pip install openai
+```
+
+Now navigate to your OpenAI account settings to obtain your API key. Keep this key secure, as it provides access to OpenAI models and safeguards your usage.
+
+#### Sending API Requests to OpenAI Models
+
+With the API key, you can send requests to OpenAI's API. Below is a simple example using Python:
+
+```python
+import openai
+# Replace 'your_api_key' with your actual OpenAI API key
+openai.api_key = 'your_api_key'
+response = openai.completions.create(
+    model="gpt-3.5-turbo-0125",
+    prompt="Translate the following English text to French: 'Hello, how are you?'",
+    max_tokens=60
+)
+print(response.choices[0].text.strip())
+```
+
+The above code sends a prompt to the gpt-3.5-turbo-0125 model for translation.
+
+The parameter response function uses:
+
+- **model**: Specifies the model to be used for generating the completion.
+- **prompt**: The text you provide as input for the model to generate a response.
+- **max_tokens**: Limits the length of the generated response.
+
+### How to Use OpenAI Models for Various Tasks
+
+OpenAI offers a range of models tailored to different tasks. For instance, gpt-3.5-turbo-0125 excels at text generation and analysis, GPT-3.5-turbo is ideal for conversational tasks, DALL·E is used for creating and editing images based on prompts, and Whisper is designed to convert audio into text. Select a model that fits your specific use case. Refer to OpenAI's model documentation for more details.
+
+#### Using OpenAI Models for Text Generation and More
+
+Once you have selected a model, you can send structured prompts and handle responses. Here's another example using the gpt-3.5-turbo-0125 model for summarization:
+
+```python
+import openai
+# Replace 'your_api_key' with your actual OpenAI API key
+openai.api_key = 'your_api_key'
+response = openai.Completion.create(
+    engine="gpt-3.5-turbo-0125",
+    prompt="Summarize the following article: 'OpenAI has announced ...'",
+    max_tokens=150
+)
+print(response.choices[0].text.strip())
+```
+
+By using different prompts, we can perform tasks like text summarization, translation, and question answering.
+
+### How to Fine-Tune an OpenAI Model
+
+Fine-tuning OpenAI models involve training a pre-existing model further using specific data, tailoring it to better fit tasks or topics. This process enhances the model's performance, making it more accurate for your needs.
+
+#### Fine Tuning OpenAI Model
+
+To fine-tune an OpenAI model, follow these steps:
+
+1. **Prepare Your Dataset**: Gather and clean a text dataset relevant to your application.
+2. **Upload the Dataset**: Use OpenAI's data management tools to upload your dataset.
+3. **Initiate Fine-Tuning**: Start the fine-tuning process using the OpenAI API.
+
+Here's an example:
+
+```python
+import openai
+# Replace 'your_api_key' with your OpenAI API key
+openai.api_key = 'your_api_key'
+response = openai.FineTune.create(
+    training_file='path/to/your/training_dataset.json',
+    model="gpt-3.5-turbo-0125"
+)
+print("Fine tune job initiated:", response)
+```
+
+4. **Monitor and Evaluate**: Track the fine-tuning progress and evaluate the results using validation datasets to ensure effectiveness.
+
+#### Conclusion
+
+We've explored how to get started with OpenAI models, from setting up and making API calls to choosing and fine-tuning models. This knowledge enables the integration of advanced AI into your projects, driving productivity and innovation. By mastering the use and customization of these models, we can tailor them to meet specific needs, ensuring your applications are as effective and efficient as possible.
+
 ## Sources
 
 <Card title="Reference Materials">
