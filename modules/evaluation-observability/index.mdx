@@ -1248,6 +1248,44 @@ In an era of black-box models, transparency is non-negotiable. Monitoring platfo
 
 The future of AI is not just about bigger models or faster inference. It is about building systems that are reliable, responsible, and worthy of trust. Monitoring is not a checkbox, it is the foundation on which ethical AI is built.
 
+> **Note:** The following article is reproduced verbatim from  
+> GetMaxim.ai Team, *GetMaxim.ai* (2025):  
+> [Agent Evaluation: Understanding Agentic Systems and their Quality](https://www.getmaxim.ai/blog/ai-agent-quality-evaluation/)  
+> for internal educational use only (non-profit).
+
+# Agent Evaluation: Understanding Agentic Systems and their Quality
+
+This is Part 1 of our Agent Evaluations series. Here are Part 2 and Part 3 in this series
+
+In today's rapidly advancing world of artificial intelligence (AI), agentic systems are becoming an integral part of numerous industries, powering everything from customer support to robotics. But what exactly are these systems, and why is measuring their quality so critical for businesses and users alike? In this blog post, we will explore the nature of AI agents, their various types, real-world applications, and the importance of evaluating their quality for widespread adoption.
+
+## What are Agents?
+
+To define agents, we can turn to Anthropic's definition of building effective agents:
+
+> Systems that can autonomously perform tasks by perceiving their environment, processing the information, and acting upon it to achieve specific objectives.
+
+This definition underscores the ability of agents to adapt and make decisions based on the context, setting them apart from simpler systems that only follow pre-determined instructions.
+
+To understand the architecture of effective agents, it's essential to consider key components such as tool use, planning, memory, and reasoning:
+
+🛠️ **Tool use**: Agents can interact with external tools or systems to extend their capabilities. For instance, an AI agent might use a web browser to retrieve information or access a database to fetch relevant data. This interaction allows agents to perform tasks beyond their inherent capabilities.
+
+📝 **Planning**: Effective agents can formulate plans to achieve specific objectives. This involves setting goals, determining the necessary steps, and executing actions in a sequence that leads to the desired outcome. Planning enables agents to handle complex tasks that require multiple steps and decision points.
+
+🧠 **Memory**: Agents with memory can retain information from past interactions (long-term memory) or across multiple steps of the interaction (short-term memory). This capability allows them to provide contextually relevant responses, learn from previous encounters, and improve over time.
+
+💭 **Reflection**: Reflection enables agents to evaluate past actions and outcomes, allowing them to draw inferences and make informed decisions based on available data. This cognitive ability helps agents handle ambiguity, solve problems, and adapt to new situations by learning from previous experiences and adjusting their strategies accordingly.
+
+Some important architectural differences between simple workflows and agentic systems are:
+
+| Aspect | Workflow | Agents |
+|--------|----------|--------|
+| **Definition** | Workflows are systems where LLMs and tools are orchestrated through predefined code paths. | Agents, on the other hand, are systems where LLMs dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks. |
+| **Example** | **Airline Ticket Booking Workflow**:<br>- User selects flight<br>- Enters passenger details<br>- Makes payment<br>- Receives confirmation email | **Virtual Assistant for Flight Booking**:<br>- Suggests alternative routes if a flight is unavailable.<br>- Processes and understands natural language queries (e.g., "Find me the cheapest flight to New Delhi for next weekend.")<br>- Learn from past bookings to refine recommendations. |
+| **Nature** | Predictable, operates based on predefined logic without real-time decision-making beyond set rules. | Adaptable, responds to unexpected inputs, and improves over time. |
+| **Decision making** | Follows a rigid structure, executing tasks exactly as defined. | Makes dynamic decisions based on context and available information. |
+
 ## Next Steps
 
 Now that you understand evaluation and observability fundamentals, explore:
