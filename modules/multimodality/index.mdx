@@ -1116,6 +1116,51 @@ Whisper utilizes a Seq2seq (i.e., transformer encoder-decoder) architecture comm
 ![Diagram of Whisper's ASR architecture](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/generating-real-time-audio-sentiment-analysis-ai/1-ai-real-time-audio-analysis-whisper-architecure.png)
 <sub>Source: *Smashing Magazine*, Smashing Magazine Team (2025).</sub>
 
+> **Note:** The following article is reproduced verbatim from  
+> Smashing Magazine Team, *Smashing Magazine* (2025):  
+> [Using AI To Detect Sentiment In Audio Files](https://www.smashingmagazine.com/2023/06/ai-detect-sentiment-audio-files/)  
+> for internal educational use only (non-profit).
+
+# Using AI To Detect Sentiment In Audio Files
+
+I don't know if you've ever used Grammarly's service for writing and editing content. But if you have, then you no doubt have seen the feature that detects the tone of your writing.
+
+It's an extremely helpful tool! It can be hard to know how something you write might be perceived by others, and this can help affirm or correct you. Sure, it's some algorithm doing the work, and we know that not all AI-driven stuff is perfectly accurate. But as a gut check, it's really useful.
+
+![Grammarly tone detector](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/ai-detect-sentiment-audio-files/ai-audio-grammarly.png)
+<sub>Source: *Smashing Magazine*, Smashing Magazine Team (2025).</sub>
+
+Now imagine being able to do the same thing with audio files. How neat would it be to understand the underlying sentiments captured in audio recordings? Podcasters especially could stand to benefit from a tool like that, not to mention customer service teams and many other fields.
+
+> An audio sentiment analysis has the potential to transform the way we interact with data.
+
+That's what we are going to accomplish in this article.
+
+![A screenshot of the audio sentiment analyzer built in this tutorial](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/ai-detect-sentiment-audio-files/ai-audio-ui.png)
+<sub>Source: *Smashing Magazine*, Smashing Magazine Team (2025).</sub>
+
+The idea is fairly straightforward:
+
+- Upload an audio file.
+- Convert the content from speech to text.
+- Generate a score that indicates the type of sentiment it communicates.
+
+But how do we actually build an interface that does all that? I'm going to introduce you to three tools and show how they work together to create an audio sentiment analyzer.
+
+## But First: Why Audio Sentiment Analysis?
+
+By harnessing the capabilities of an audio sentiment analysis tool, developers and data professionals can uncover valuable insights from audio recordings, revolutionizing the way we interpret emotions and sentiments in the digital age. Customer service, for example, is crucial for businesses aiming to deliver personable experiences. We can surpass the limitations of text-based analysis to get a better idea of the feelings communicated by verbal exchanges in a variety of settings, including:
+
+- **Call centers**: Call center agents can gain real-time insights into customer sentiment, enabling them to provide personalized and empathetic support.
+- **Voice assistants**: Companies can improve their natural language processing algorithms to deliver more accurate responses to customer questions.
+- **Surveys**: Organizations can gain valuable insights and understand customer satisfaction levels, identify areas of improvement, and make data-driven decisions to enhance overall customer experience.
+
+And that is just the tip of the iceberg for one industry. Audio sentiment analysis offers valuable insights across various industries. Consider healthcare as another example. Audio analysis could enhance patient care and improve doctor-patient interactions. Healthcare providers can gain a deeper understanding of patient feedback, identify areas for improvement, and optimize the overall patient experience.
+
+Market research is another area that could benefit from audio analysis. Researchers can leverage sentiments to gain valuable insights into a target audience's reactions that could be used in everything from competitor analyses to brand refreshes with the use of audio speech data from interviews, focus groups, or even social media interactions where audio is used.
+
+I can also see audio analysis being used in the design process. Like, instead of asking stakeholders to write responses, how about asking them to record their verbal reactions and running those through an audio analysis tool? The possibilities are endless!
+
 ## Sources
 
 <Card title="Reference Materials">
