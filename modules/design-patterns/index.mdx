@@ -3272,6 +3272,102 @@ AI is rapidly maturing. Alongside that rapid growth there's a growing demand for
 
 As AI continues to be incorporated into digital products it will continue to create a compelling need for designers who understand the nuances of designing for those experiences. For experience designers, already accustomed to adapting design processes and approaches as advances in technology require, crafting natural, intuitive, personalized, human-centered experiences for AI will simply require leaning into and sharpening a set of skills they already have.
 
+> **Note:** The following article is reproduced verbatim from  
+> Adobe Design Team, *Adobe Design* (2025):  
+> [From idea to interface: A designer's guide to AI-powered prototyping](https://adobe.design/stories/leading-design/from-idea-to-interface-a-designer-s-guide-to-ai-powered-prototyping)  
+> for internal educational use only (non-profit).
+
+# From idea to interface: A designer's guide to AI-powered prototyping
+
+## Tips for using AI tools to explore design ideas in high fidelity
+
+![A digital illustration of a light bulb with visible filament and screw base, rendered in a pointillism style using small dot of white, yellow, blue, green, and red, set against a dark purple background.](https://adobe.design/stories/leading-design/media_175f36ed1d4fc43c39a14a9b29e5613e335065246.jpg?width=750&format=jpg&optimize=medium)
+<sub>Source: *Adobe Design*, Adobe Design Team (2025).</sub>
+
+Illustration by Karan Singh
+
+This line-drawing tendency is often visible between design and engineering. Software development tools and workflows, which can take a long time to master, have helped harden divisions between the work of designers and developers. But in the age of AI, those divisions are starting to blur and even shift.
+
+While it's not uncommon for designers to feel intimidated by developer tools, as a design engineering manager on Adobe's Design Prototyping team, I've seen firsthand how AI-powered code generation tools are empowering designers, even those without programming experience. These tools don't just make prototyping possible; they give designers who don't code the ability to explore the key differentiator of their work—the user experience—in high fidelity.
+
+As Adobe's designers have started creating rich, functional prototypes using these new AI workflows, I've thought a lot about why they matter and what they enable. I've come up with some practical tips for designers wanting to get the most out of them.
+
+## The line between engineering and design
+
+Software design and software engineering have long been separated by skill and medium. Designers are experts in user experience and fluent in design tools like Figma. They deliver their work as static designs or user flows to communicate design intent to stakeholders and engineers. Engineers understand code, the languages and systems used to bring design visions to life.
+
+Going from design to code can be a telephone game of unspoken assumptions. It can also introduce friction due to the challenges of translating visual details into code. It's why Adobe has long emphasized prototyping as a key part of the design process. Rapid prototyping, quickly putting an idea to code, has many advantages over static frames:
+
+- It connects designs to real data to provide a more realistic representation of how an application will feel
+- It tightens the iterative loop, which makes it easier to identify issues earlier in the process
+- It clarifies what's being built and provides a better surface for feedback and conversation
+
+## AI prototyping for designers
+
+Designers and the work of design are changing. The tech industry often refers to unicorns, people equally skilled in design and engineering. These "T-shaped" workers can cover a wide variety of skills but go deep in one domain. AI tools are allowing more designers to fit into this category. And, while it doesn't replace the need for engineers who have deep expertise and ownership, when designers can design with code, it gives them better control over the user experience.
+
+With the pace of technological change and the increasing use of AI in software, designers can use APIs and AI models during the design process to better understand the full product experience. But static designs can fall short of inspiring confidence in the final product. App creation tools like Cursor, v0, Replit, Bolt, and Figma Make can bridge this gap. Designers can simply describe an application, and AI will generate the code for it: It's as simple as typing a prompt, like "a portfolio web layout" or "a circular slider component."
+
+At Adobe, many designers are now leveraging these tools, which range from developer focused code editors to more design friendly Figma plugins and integrations. Emboldened by new superpowers, they can bring their designs to life by working with real data, exploring interactions more directly, playing with complex animations, and using AI models within the design. It gives designers independence and confidence and allows engineers to focus on more technical tasks.
+
+## Practical tips for prototyping with AI
+
+The way designers use AI to generate code differs significantly from how engineers use it: A designer's goal is to build quick, functional prototypes so they can rapidly explore ideas and user experiences. With that in mind, I've compiled a set of practical tips to help designers confidently get started with AI-powered prototyping.
+
+### Plan before building
+
+With AI-powered prototyping there's a tendency to dive in headfirst, but it's essential to think about what you want to make before you start making it. Many AI tools have a chat mode or planning phase; use them to refine your idea and clarify how your design should be implemented. For example, "Create a plan for building an app that turns horoscopes into images. Break it into concrete steps and components." Once it has a plan you like, you can even ask the model to "summarize this plan into a prompt to build the app."
+
+### Consider the size and scope of your project
+
+It's important to consider the complexity of the task you're asking the model to handle. For simpler projects, you can often get by with one-shot prompting, providing a single, detailed instruction like "make a video player component." But because these tools have limited context windows—the amount of information they can "remember" at once—as tasks grow in complexity, it's more effective to break them into smaller, focused steps. Instead of asking for an entire image editing canvas in a single go, try something like, "Create a panel that lists the properties of the active item, such as X, Y, and scale." You can also improve results and stay within context limits by asking an AI agent to split large files into smaller components. And, if you start working on a new feature, consider starting a fresh chat to reset the model's memory.
+
+### Only build what you need
+
+It can be easy with these new capabilities to be too ambitious, like attempting to prototype a full video editing application. But as the code gets larger, it gets harder for an AI agent to manage, and you'll more quickly run into problems. Always remember what you're trying to learn and limit your prompts to what you need. For example, in the context of a video editor, maybe you're just trying to test a timeline, and the rest of the app can be fake or placeholder.
+
+### Be specific about what you're trying to create
+
+The more information you can provide about what and how you want things to work, the better. Generative models don't know what you don't tell them. They will eagerly make assumptions, and it can be hard to make large changes once those assumptions have been made. I once watched a designer use AI to create a prototype of a canvas minimap (a smaller representation of a canvas that a user can navigate quickly). During the process, the AI agent made incorrect assumptions about the size and bounds of the canvas; providing that information up front would have helped it generate more accurate code.
+
+### Provide the model with visuals
+
+Many AI prototyping tools now support image input. You can include screenshots of designs, inspirational images, and links to design files in the chat interface, and the model will try to match those visuals as closely as possible. Some tools can even make things like functional sliders and image drop areas from a design document (this functionality is rapidly improving across the board).
+
+### Don't be afraid to start over
+
+Pay close attention to what the model is doing. Even if you don't follow every detail, you can pause and redirect it if it starts going off track, building unnecessary components. Also, let it know if examples already exist in the codebase and ask it not to duplicate work. And, if the agent gets stuck or falls into a loop, don't hesitate to start over (ideally, you shouldn't be using AI to prototype something so complex that you're afraid to throw it away). If you do hit a wall, ask the AI to summarize what you've already built so you can reboot the session while still carrying forward parts that are useful.
+
+### Remember, perfect is the enemy of good
+
+Prototyping is very different from designing. When you're prototyping, don't get hung up on details, don't over-optimize performance, and don't work on things you won't need until later. When reviewing an engineer's work, you'd of course want to flag performance issues and timing, but when prototyping with AI, those details shouldn't be your focus. If you get too in the weeds, you can waste time on things that aren't important. A good rule to follow: If you find yourself at a point where you want to optimize your prototype, it might be a good sign to start talking to an engineer.
+
+### Accept imperfect code
+
+If you're a designer just starting to prototype with AI tools, you might feel a wave of imposter syndrome. You might worry: "What if an engineer sees this and thinks I have no idea what I'm doing?" That fear is real, and it's one of the biggest momentum-killers in this space. But the truth is, you're not building production code. You're simply expressing an idea. Think of what you're building as a conversation starter, not a perfect solution.
+
+### Lean into the defaults of the model
+
+Every AI model has preferences that reflect their training data. For example, some like to use specific libraries (like React and Tailwind), while others use Shadcn/UI (pre-built React components that use Tailwind for styling). Unless you know what you're doing, it's better to work with those preferences rather than fight them. Getting a model to bend to your will can create more challenges and be difficult to maintain.
+
+### Define your preferences
+
+Many AI prototyping tools allow you to specify exactly how you want them to work and what rules they should follow (like using a certain component library or how to structure your code). These can help ensure that the output matches your vision, but they aren't perfect—these systems can still go off the rails, so don't steer too far from the defaults.
+
+### Use the right model for your job
+
+This is a fast-moving space. Although the latest models usually offer the best results, each one has strengths and weaknesses. Learn as much as you can about each of the different models you're considering, and if you're still not sure, find one that optimizes cost and quality for your specific needs. Then, pay close attention to the recommendations for using it, so you'll have the best experience.
+
+### Have a plan for handling errors
+
+You will run into issues. Simple things (like typos that cause compile errors), and more complicated ones (authentication problems), will come up. When they do, know how to access the error logs in the developer tools of the browser you're using. Once you find the errors, simply copy and paste them back into the chat and the AI agent will often resolve the problem for you.
+
+### Don't forget to "save"
+
+Because coding with AI is "destructive," and changes can replace or break what you previously had, it's easy to lose your work. Make sure to save your progress and familiarize yourself with some kind of version control, like Git, that allows you to store changes to your code at each step so you can bring it back to a working state if things go wrong.
+
+As AI capabilities continue to evolve, and designers increasingly use it to collaborate more effectively across disciplines, it will enable faster, deeper exploration and more intentional design. Ultimately, that will lead to better products for users. While the tools may be changing—AI simply offers new ways to bring design ideas to life—the mission remains the same: Solve real problems with empathy and craft.
+
 ## Sources
 
 - [Design Patterns: Elements of Reusable Object-Oriented Software](https://en.wikipedia.org/wiki/Design_Patterns)
