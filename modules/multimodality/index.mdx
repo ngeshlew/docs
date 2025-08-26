@@ -1015,6 +1015,54 @@ Vision-CAIR provides a high-quality, well-aligned image-text dataset created usi
 
 LLaVA Visual Instruct 150K is a set of GPT-generated multimodal instruction-following data. It is built for visual instruction tuning and aims to achieve GPT-4 level vision and language capabilities.
 
+> **Note:** The following article is reproduced verbatim from  
+> Smashing Magazine Team, *Smashing Magazine* (2025):  
+> [Integrating Image-To-Text And Text-To-Speech Models (Part 1)](https://www.smashingmagazine.com/2024/07/integrating-image-to-text-and-text-to-speech-models-part1/)  
+> for internal educational use only (non-profit).
+
+# Integrating Image-To-Text And Text-To-Speech Models (Part 1)
+
+Audio descriptions involve narrating contextual visual information in images or videos, improving user experiences, especially for those who rely on audio cues.
+
+At the core of audio description technology are two crucial components: the description and the audio. The description involves understanding and interpreting the visual content of an image or video, which includes details such as actions, settings, expressions, and any other relevant visual information. Meanwhile, the audio component converts these descriptions into spoken words that are clear, coherent, and natural-sounding.
+
+So, here's something we can do: build an app that generates and announces audio descriptions. The app can integrate a pre-trained vision-language model to analyze image inputs, extract relevant information, and generate accurate descriptions. These descriptions are then converted into speech using text-to-speech technology, providing a seamless and engaging audio experience.
+
+![Image audio captioning app. The application provides audio descriptions for images. A file upload field is displayed on the left, and a space for generated audio is displayed on the right.](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/integrating-image-to-text-and-text-to-speech-models-part1/1-image-audio-captioning-app.png)
+<sub>Source: *Smashing Magazine*, Smashing Magazine Team (2025).</sub>
+
+By the end of this tutorial, you will gain a solid grasp of the components that are used to build audio description tools. We'll spend time discussing what VLM and TTS models are, as well as many examples of them and tooling for integrating them into your work.
+
+When we finish, you will be ready to follow along with a second tutorial in which we level up and build a chatbot assistant that you can interact with to get more insights about your images or videos.
+
+## Vision-Language Models: An Introduction
+
+VLMs are a form of artificial intelligence that can understand and learn from visuals and linguistic modalities.
+
+![Image illustrating four different tasks a vision-language model can handle, such as Visual QA, object localization in an image.](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/integrating-image-to-text-and-text-to-speech-models-part1/2-four-tasks-vision-language-model-can-handle.jpg)
+<sub>Source: *Smashing Magazine*, Smashing Magazine Team (2025).</sub>
+
+They are trained on vast amounts of data that include images, videos, and text, allowing them to learn patterns and relationships between these modalities. In simple terms, a VLM can look at an image or video and generate a corresponding text description that accurately matches the visual content.
+
+VLMs typically consist of three main components:
+
+1. An image model that extracts meaningful visual information,
+2. A text model that processes and understands natural language,
+3. A fusion mechanism that combines the representations learned by the image and text models, enabling cross-modal interactions.
+
+Generally speaking, the image model — also known as the vision encoder — extracts visual features from input images and maps them to the language model's input space, creating visual tokens. The text model then processes and understands natural language by generating text embeddings. Lastly, these visual and textual representations are combined through the fusion mechanism, allowing the model to integrate visual and textual information.
+
+VLMs bring a new level of intelligence to applications by bridging visual and linguistic understanding. Here are some of the applications where VLMs shine:
+
+- **Image captions**: VLMs can provide automatic descriptions that enrich user experiences, improve searchability, and even enhance visuals for vision impairments.
+- **Visual answers to questions**: VLMs could be integrated into educational tools to help students learn more deeply by allowing them to ask questions about visuals they encounter in learning materials, such as complex diagrams and illustrations.
+- **Document analysis**: VLMs can streamline document review processes, identifying critical information in contracts, reports, or patents much faster than reviewing them manually.
+- **Image search**: VLMs could open up the ability to perform reverse image searches. For example, an e-commerce site might allow users to upload image files that are processed to identify similar products that are available for purchase.
+- **Content moderation**: Social media platforms could benefit from VLMs by identifying and removing harmful or sensitive content automatically before publishing it.
+- **Robotics**: In industrial settings, robots equipped with VLMs can perform quality control tasks by understanding visual cues and describing defects accurately.
+
+This is merely an overview of what VLMs are and the pieces that come together to generate audio descriptions. To get a clearer idea of how VLMs work, let's look at a few real-world examples that leverage VLM processes.
+
 ## Sources
 
 <Card title="Reference Materials">
