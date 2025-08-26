@@ -2684,6 +2684,117 @@ It's whether the industry will create space for them to shape it.
 
 In the final part of this series, I'll explore specific strategies for recent graduates navigating this current job market—from building AI-integrated portfolios to creating alternative pathways into the profession.
 
+> **Note:** The following article is reproduced verbatim from  
+> Roger Wong, *Roger Wong* (2025):  
+> [Prompt. Generate. Deploy. The New Product Design Workflow](https://rogerwong.me/2025/04/prompt-generate-deploy)  
+> for internal educational use only (non-profit).
+
+# Prompt. Generate. Deploy. The New Product Design Workflow
+
+Product design is going to change profoundly within the next 24 months. If the AI 2027 report is any indication, the capabilities of the foundational models will grow exponentially, and with them—I believe—will the abilities of design tools.
+
+The TL;DR of the report is this: companies like OpenAI have more advanced AI agent models that are building the next-generation models. Once those are built, the previous generation is tested for safety and released to the public. And the cycle continues. Currently, and for the next year or two, these companies are focusing their advanced models on creating superhuman coders. This compounds and will result in artificial general intelligence, or AGI, within the next five years.
+
+Non-AI companies will benefit from new model releases. We already see how much the performance of coding assistants like Cursor has improved with recent releases of Claude 3.7 Sonnet, Gemini 2.5 Pro, and this week, GPT-4.1, OpenAI's latest.
+
+Tools like v0, Lovable, Replit, and Bolt are leading the charge in AI-assisted design. Creating new landing pages and simple apps is literally as easy as typing English into a chat box. You can whip up a very nice-looking dashboard in single-digit minutes.
+
+However, I will argue they are only serving a small portion of the market. These tools are great for zero-to-one digital products or websites. While new sites and software need to be designed and built, the vast majority of the market is in extending and editing current products. There are hordes more designers who work at corporations such as Adobe, Microsoft, Salesforce, Shopify, and Uber than there are designers at agencies. They all need to adhere to their company's design system and can't use what Lovable produces from scratch. The generated components can't be used even if they were styled to look correct. They must be components from their design system code repositories.
+
+## The Design-to-Code Gap
+
+But first, a quick detour…
+
+For any designer who has ever handed off a Figma file to a developer, they have felt the stinging disappointment days or weeks later when it's finally coded. The spacing is never quite right. The type sizes are off. And the back and forth seems endless. The developer handoff experience has been a well-trodden path full of now-defunct or dying companies like InVision, Abstract, and Zeplin. Figma tries to solve this issue with Dev Mode, but even then, there's a translation that has to happen from pixels and vectors in a proprietary program to code.
+
+Yes, no- and low-code platforms like Webflow, Framer, and Builder.io exist. But the former two are proprietary platforms—you can't take the code with you—and the latter is primarily a CMS (no-code editing for content editors).
+
+The dream is for a design app similar to Figma that uses components from your team's GitHub design system repository. I'm not talking about a Figma-only component library. No. Real components with controllable props in an inspector. You can't break them apart and any modifications have to be made at the repo level. But you can visually put pages together. For new components, well, if they're made of atomic parts, then yes, that should be possible too.
+
+UXPin Merge comes close. Everything I mentioned above is theoretically possible. But if I'm being honest, I did a trial and the product is buggy and wasn't great to use.
+
+## A Glimpse of What's Coming
+
+Enter Tempo, Polymet, and Subframe. These are very new entrants to the design tool space. Tempo and Polymet are backed by Y Combinator and Subframe is pre-seed.
+
+For Subframe, they are working on a beta feature that will allow you to connect your GitHub repository, append a little snippet of code to each component, and then the library of components will appear in their app. Great! This is the dream. The app seems fairly easy to use and wasn't sluggish and buggy like UXPin.
+
+But the kicker—the Holy Grail—is their AI.
+
+I quickly put together a hideous form screen based on one of the oldest pages in BuildOps that is long overdue for a redesign. Then, I went into Subframe's Ask AI tab and prompted, "Make this design more user friendly." Similar to Midjourney, four blurry tiles appeared and slowly came into focus. This diffuser model effect was a moment of delight for me. I don't know if they're actually using a diffuser model—think Stable Diffusion and Midjourney—or if they spent the time building a kick-ass loading state. Anyway, four completely built alternate layouts were generated. I clicked into each one to see it larger and noticed they each used components from our styled design library. (I'm on a trial, so it's not exactly components from our repo, but it demonstrates the promise.) And I felt like I just witnessed the future.
+
+## What Product Design in 2027 Might Look Like
+
+From the AI 2027 scenario report, in the chapter, "March 2027: Algorithmic Breakthroughs":
+
+> Three huge datacenters full of Agent-2 copies work day and night, churning out synthetic training data. Another two are used to update the weights. Agent-2 is getting smarter every day.With the help of thousands of Agent-2 automated researchers, OpenBrain is making major algorithmic advances. …Aided by the new capabilities breakthroughs, Agent-3 is a fast and cheap superhuman coder. OpenBrain runs 200,000 Agent-3 copies in parallel, creating a workforce equivalent to 50,000 copies of the best human coder sped up by 30x. OpenBrain still keeps its human engineers on staff, because they have complementary skills needed to manage the teams of Agent-3 copies.
+
+As I said at the top of this essay, AI is making AI and the innovations are compounding. With UX design, there will be a day when design is completely automated.
+
+Imagine this. A product manager at a large-scale e-commerce site wants to decrease shopping cart abandonment by 10%. They task an AI agent to optimize a shopping cart flow with that metric as the goal. A week later, the agent returns the results:
+
+- It ran 25 experiments, with each experiment being a design variation of multiple pages.
+- Each experiment was with 1,000 visitors, totaling about 10% of their average weekly traffic.
+- Experiment #18 was the winner, resulting in an 11.3% decrease in cart abandonment.
+
+The above will be possible. A few things have to fall in place first, though, and the building blocks are being made right now.
+
+## The Foundation Layer: Integrate Design Systems
+
+The design industry has been promoting the benefits of design systems for many years now. What was once a Sisyphean uphill battle is now mostly easier. Development teams understand the benefits of using a shared and standardized component library.
+
+To capture the larger piece of the design market that is not producing greenfield work, AI design tools like Subframe will have to depend on well-built component libraries. Their AI must be able to ingest and internalize design system documentation that govern how components should be used.
+
+Then we'll be able to prompt new screens with working code into existence.
+
+**Forecast:** Within six months.
+
+## Professionals Still Need Control
+
+Cursor—the AI-assisted development tool that's captured the market—is VS Code enhanced with AI features. In other words, it is a professional-grade programming tool that allows developers to write and edit code, and generate it via AI chat. It gives the pros control. Contrast that with something like Lovable, which is aimed at designers and the code is accessible, but you have to look for it. The canvas and chat are prioritized.
+
+For AI-assisted design tools to work, they need to give us designers control. That control comes in the form of curation and visual editing. Give us choices when generating alternates and let us tweak elements to our heart's content—within the confines of the design system, of course.
+
+The product design workflow in the future will look something like this: prompt the AI, view choices and select one, then use fine-grained controls to tweak.
+
+## Automating Design with Design Agents
+
+Agent mode in Cursor is pretty astounding. You'll see it plan its actions based on the prompt, then execute them one by one. If it encounters an error, it'll diagnose and fix it. If it needs to install a package or launch the development server to test the app, it will do that. Sometimes, it can go for many minutes without needing intervention. It's literally like watching a robot assemble a thingamajig.
+
+We will need this same level of agentic AI automation in design tools. If I could write in a chat box "Create a checkout flow for my site" and the AI design tool can generate a working cart page, payment page, and thank-you page from that one prompt using components from the design system, that would be incredible.
+
+Yes, zero-to-one tools are starting to add this feature. Here's a shopping cart flow from v0…
+
+Building a shopping cart checkout flow in v0 was incredibly fast. Two minutes flat. This video is sped up 400%.
+
+Polymet and Lovable were both able to create decent flows. There is also promise with Tempo, although the service was bugging out when I tested it earlier today. Tempo will first plan by writing a PRD, then it draws a flow diagram, then wireframes the flow, and then generates code for each screen. If I were to create a professional tool, this is how I would do it. I truly hope they can resolve their tech issues.
+
+**Forecast:** Within one year.
+
+Tempo's workflow seems ideal. It generates a PRD, draws a flow diagram, creates wireframes, and finally codes the UI.
+
+## The Final Pieces: Integration and Deployment Agents
+
+The final pieces to realizing our imaginary scenario are coding agents that integrate the frontend from AI design tools to the backend application, and then deploy the code to a server for public consumption. I'm not an expert here, so I'll just hand-wave past this part. The AI-assisted design tooling mentioned above is frontend-only. For the data to flow and the business logic to work, the UI must be integrated with the backend.
+
+CI/CD (Continuous Integration and Continuous Deployment) platforms like GitHub Actions and Vercel already exist today, so it's not difficult to imagine deploys being initiated by AI agents.
+
+**Forecast:** Within 18–24 months.
+
+## Where Is Figma?
+
+The elephant in the room is Figma's position in all this. Since their rocky debut of AI features last year, Figma has been trickling out small AI features like more powerful search, layer renaming, mock data generation, and image generation. The biggest AI feature they have is called First Draft, which is a relaunch of design generation. They seem to be stuck placating to designers and developers (Dev Mode), instead of considering how they can bring value to the entire organization. Maybe they will make a big announcement at Config, their upcoming user conference in May. But if they don't compete with one of these aforementioned tools, they will be left behind.
+
+To be clear, Figma is still going to be a necessary part of the design process. A canvas free from the confines of code allows for easy manual exploration. But the dream of closing the gap between design and code needs to come true sooner than later if we're to take advantage of AI's promise.
+
+## The Two-Year Horizon
+
+As I said at the top of this essay, product design is going to change profoundly within the next two years. The trajectory is clear: AI is making AI, and the innovations are compounding rapidly. Design systems provide the structured foundation that AI needs, while tools like Subframe are developing the crucial integration with these systems.
+
+For designers, this isn't the end—if anything, it's a transformation. We'll shift from pixel-pushers to directors, from creators to curators. Our value will lie in knowing what to ask for and making the subtle refinements that require human taste and judgment.
+
+The holy grail of seamless design-to-code is finally within reach. In 24 months, we won't be debating if AI will transform product design—we'll be reflecting on how quickly it happened.
+
 ## Sources
 
 - [Design Patterns: Elements of Reusable Object-Oriented Software](https://en.wikipedia.org/wiki/Design_Patterns)
