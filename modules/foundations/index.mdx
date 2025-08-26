@@ -1172,6 +1172,281 @@ Some of the first adopters of genAI were product-and-marketing-analytics softwar
 ![A chart showing conversion rate over time by browser.](https://media.nngroup.com/media/editor/2025/03/03/mixpanelaisuperpowers.png)
 <sub>Source: *Nielsen Norman Group*, NN/g Team (2025).</sub>
 
+> **Note:** The following article is reproduced verbatim from  
+> Vercel Team, *Vercel* (2025):  
+> [State of AI](https://vercel.com/state-of-ai)  
+> for internal educational use only (non-profit).
+
+# State of AI
+
+## 00.01 A survey for AI application builders
+
+The best way to understand a tool's current state, future direction, and user impact is to ask those who build with it daily. That's why this survey targeted app builders. They're tackling today's challenges, spotting tomorrow's opportunities, and working to maximize AI's value for users.
+
+## 00.02 Table of Contents
+
+- Model adoption and strategy
+- Applications and value creation
+- Development practices and efficiency
+- Priorities and organization
+- Beliefs and opinions
+- Conclusion
+
+## Model adoption and strategy
+
+### Intro
+
+OpenAI is leading model adoption, but competition is catching up
+
+While OpenAI remains the primary choice with 88% adoption, developers maintain relationships with multiple providers — two on average. As providers race to compete, developer loyalty is tested with 65% switching providers within six months.
+
+### Key Insights
+
+- Leverage abstractions that prevent provider lock-in and facilitate switching
+- Review provider performance quarterly against your specific use cases
+- Stay connected to rapid market changes through direct developer communities
+
+### Builder's Takeaway
+
+Start small, stay flexible
+
+Architect your systems for provider mobility and model portability. Small teams are leading AI implementation, proving you don't need massive resources to succeed. The winning strategy is to build a multi-provider foundation that allows you to quickly pivot to the best solutions for your use cases as new features and capabilities emerge.
+
+### Which LLM providers do you currently use?
+
+- **OpenAI**: 87%
+- **Anthropic**: 68%
+- **Google**: 63%
+- **DeepSeek**: 29%
+- **xAI**: 23%
+- **Groq**: 22%
+- **Meta**: 12%
+- **Microsoft**: 10%
+
+**Average number of providers used**: 2
+
+**Software as primary industry focus**: 40%
+
+### What provider did you switch to in the last six months?
+
+- **Google**: 31%
+- **Anthropic**: 29%
+- **Groq**: 11%
+
+**Switched LLM provider in the last six months**: 60%
+
+### Most used inference providers
+
+- **OpenAI**: 83%
+- **Anthropic**: 45%
+- **Google Cloud**: 28%
+
+## Applications and value creation
+
+### Intro
+
+We are past the phase of adding AI for hype
+
+As AI adoption matures, there's a shift from basic AI integrations to real value creation. A majority of teams are using vector databases, building strong foundations for more sophisticated applications. They're prioritizing core features over chatbots, and making AI an essential part of their product's DNA.
+
+### Key Insights
+
+- The gap between chatbots (44%) and product features (79%) reveals a shift toward deeper AI integration
+- Vector database adoption (70%) signals maturing AI infrastructure
+- Website personalization (24%) remains underexplored, hinting at future opportunities
+
+### Builder's Takeaway
+
+Focus on how to solve fundamental product challenges with AI
+
+While the market is young with plenty of untapped opportunities, the era of quick wins is over. Users expect more from AI now. Ask deeper questions about how AI can enhance every aspect of user experience, and make it central to your product development, not just an add-on.
+
+> "AI is dissolving the boundaries between roles. We're seeing new product designers blend UX, UI, and code in one creative flow—thanks to tools like Vercel, v0, Uizard, and Cursor. Whether junior or senior leader, anyone can now build, test, and ship ideas independently—and that's not just efficient, it's liberating."
+
+— Nicolas Le Pallec, CTO, EMEA — AKQA
+
+### Development stage of AI applications
+
+- **Basic implementation**: 42%
+- **Multiple prod cases**: 25%
+- **Ad hoc prod usage**: 23%
+
+**Using a vector database**: 71%
+
+**Running 1-2 applications in production**: 70%
+
+### Primary application types
+
+- **Customer facing**: 43%
+- **Both equally**: 33%
+- **Internal tools**: 24%
+
+### Most common customer-facing features
+
+- **Product AI**: 75%
+- **Knowledge base / Q&A**: 60%
+- **Support chatbot**: 39%
+- **Website personalization**: 27%
+
+## Development practices and efficiency
+
+### Intro
+
+Today's teams build high-demand AI systems through smart technical choices, not big budgets
+
+AI teams build powerful systems on lean budgets, spending under $1,000/month. They skip costly training by using RAG, smart data sourcing, and cloud platforms to ship fast, reliable models without heavy infrastructure.
+
+### Key Insights
+
+- Teams optimize costs through smart architecture and augmented generation rather than custom model training
+- Weekly model updates are becoming standard, pointing to rapid iteration practices supported by providers like Vercel
+- Most teams pair manual testing with experience-based releases, but metric-driven evaluation is emerging
+
+### Builder's Takeaway
+
+Leverage existing resources to ship quickly and efficiently
+
+The winning pattern combines cloud platforms for deployment speed, existing models for reliability, and modern frameworks for rapid development—letting teams ship AI without infrastructure overhead.
+
+### Release process nature
+
+- **Experience-based**: 54%
+- **Hybrid approach**: 27%
+- **Metrics-driven**: 19%
+
+### Accuracy and Customization
+
+Teams solve accuracy challenges through data strategy, not spending
+
+Teams combine public datasets, web scraping, and customer data with RAG customization to deliver precise outputs without the overhead of custom model training.
+
+**Don't train their own models**: 86%
+
+### Top technical challenges in building AI features
+
+- **Accuracy / hallucinations**: 60%
+- **Latency / Performance**: 23%
+- **Cost management**: 23%
+
+### Model customization strategy
+
+- **RAG / Vector databases**: 60%
+- **No customization**: 20%
+- **Fine-tuning**: 12%
+
+**Use manual testing to evaluate model outputs**: 70%
+
+### Most used data sources to train/enhance AI models
+
+- **Proprietary data**: 48%
+- **Customer data**: 44%
+- **Public datasets**: 40%
+- **Web scraping**: 40%
+- **Synthetic data**: 23%
+
+### Types of documents processed for RAG
+
+- **Markdown and Text**: 60%
+- **PDFs**: 60%
+- **Web pages**: 42%
+- **Database records**: 41%
+- **Code repositories**: 22%
+- **Other**: 10%
+
+## Priorities and organization
+
+### Intro
+
+Tools over hiring
+
+Many dedicate meaningful tech budget (over 15%) to AI, but aren't planning to grow dedicated AI teams. They're finding ways to build sophisticated AI features by empowering existing teams with better tools and clear objectives.
+
+### Key Insights
+
+- Teams choose lean integration over specialized departments
+- Existing product teams drive AI innovation
+- Priorities are being balanced between building new features and scaling existing ones
+
+### Builder's Takeaway
+
+AI development is entering a pragmatic phase
+
+Building successful AI features doesn't necessarily require a specialized department. Focus on high-impact use cases while keeping team structure lean. The opportunity lies in finding where AI adds real value and executing efficiently with available resources.
+
+> "At BCG X, we are excited about the transformative potential of AI and the ecosystem of AI-powered tools reshaping creativity, digital solutions, and customer experiences. By embracing cutting-edge AI technologies we're empowering our teams to work smarter and faster."
+
+— Dr. Jan Ittner, Global Engineering Chapter Lead — BCG X
+
+### Top AI priorities for the next 6 months
+
+- **Launching new use cases**: 54%
+- **Scaling existing solutions**: 42%
+
+### Budget allocation for AI (% of tech budget)
+
+- **5-15% budget**: 37%
+- **<5% budget**: 27%
+- **16-30% budget**: 24%
+
+### AI team structure
+
+- **No dedicated AI team**: 45%
+- **Other**: 29%
+- **Embedded in product teams**: 27%
+
+### AI leadership structure
+
+- **No specific AI leadership**: 57%
+- **Part of tech leadership**: 31%
+- **Dedicated AI executives**: 12%
+
+### Which AI-related roles are you planning to hire?
+
+- **Software Engineers**: 48%
+- **No planned hiring**: 41%
+- **ML engineers**: 25%
+
+## Beliefs and opinions
+
+### Intro
+
+The AI market has found its sweet spot between hype and real impact
+
+Teams think current AI tools are overhyped, but they expect AI to significantly impact their industry within 12 months. They're excited about the future but grounded in the present.
+
+### Key Insights
+
+- Teams believe in AI's future while staying realistic about current tools
+- Open source and fine-tuning are proving useful, but aren't game-changers yet
+- Everyone's preparing for major advancements in the next year
+
+### Builder's Takeaway
+
+Build with what works now, but design for what's coming
+
+Big changes are ahead, even if we're not there yet. Be aware of the current limitations and challenges, while remaining optimistic about the transformative potential of AI.
+
+### Survey Ratings (out of 10)
+
+- **Open source models are production-ready**: 6.5/10
+- **Fine tuning provides meaningful improvements**: 5.3/10
+- **Current AI tools are overhyped**: 6.4/10
+- **AI will impact my industry within 12 months**: 7.7/10
+
+## Conclusion
+
+### Conclusion
+
+The AI landscape is evolving fast
+
+There is strong belief in AI's potential. While OpenAI is the leading provider, developers are actively testing alternatives and focusing on real-world value. Priorities are shifting toward customer-facing features, but challenges like model accuracy and cost remain key concerns. Success requires careful evaluation, strategic planning, and a flexible implementation to adapt to changes. We look forward to continued innovations this year and beyond.
+
+### Survey methodology
+
+- **Objective**: Understanding what people are building with AI and how they're building it
+- **We shared two surveys**, one in Q4 of 2024 and one in Q1 of 2025 to map how responses change over time
+- **656 applications builders were surveyed**, sourced from the Vercel community, X.com, and AI community newsletters
+
 ## Sources
 
 <Card title="Reference Materials">
