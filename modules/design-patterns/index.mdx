@@ -937,6 +937,67 @@ Important note: The prompts you'll see are not copy-paste recipes. Some are stru
 
 ### 1. Task Decomposition By JTBD
 
+> **Note:** The following article is reproduced verbatim from  
+> Smashing Magazine Team, *Smashing Magazine* (2025):  
+> [Design Patterns For AI Interfaces](https://www.smashingmagazine.com/2025/07/design-patterns-ai-interfaces/)  
+> for internal educational use only (non-profit).
+
+# Design Patterns For AI Interfaces
+
+So you need to design a new AI feature for your product. How would you start? How do you design flows and interactions? And how do you ensure that that new feature doesn't get abandoned by users after a few runs?
+
+In this article, I'd love to share a very simple but systematic approach to how I think about designing AI experiences. Hopefully, it will help you get a bit more clarity about how to get started.
+
+This article is part of our ongoing series on UX. You can find more details on design patterns and UX strategy in Smart Interface Design Patterns 🍣 — with live UX training coming up soon. Jump to table of contents.
+
+## The Receding Role of AI Chat
+
+One of the key recent shifts is a slow move away from traditional "chat-alike" AI interfaces. As Luke Wroblewski wrote, when agents can use multiple tools, call other agents and run in the background, users orchestrate AI work more — there's a lot less chatting back and forth.
+
+![AI Experience Paradigm by Luke Wroblewski](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/design-patterns-ai-interfaces/1-ai-experience-paradigm.jpg)
+<sub>Messaging UI slowly starts feeling dated, and chat UI fades into background. By Luke Wroblewski. (Large preview)</sub>
+
+In fact, chatbots are rarely a great experience paradigm — mostly because the burden of articulating intent efficiently lies on the user. But in practice, it's remarkably difficult to do well and very time-consuming.
+
+Chat doesn't go away, of course, but it's being complemented with task-oriented UIs — temperature controls, knobs, sliders, buttons, semantic spreadsheets, infinite canvases — with AI providing predefined options, presets, and templates.
+
+![AI Experience Paradigm by Luke Wroblewski](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/design-patterns-ai-interfaces/2-agentic-ai-design-patterns.jpg)
+<sub>Agentic AI design patterns, with more task-oriented UIs, rather than chat. By Luke Wroblewski. (Large preview)</sub>
+
+There, AI emphasizes the work, the plan, the tasks — the outcome, instead of the chat input. The results are experiences that truly amplify value for users by sprinkling a bit of AI in places where it delivers real value to real users.
+
+To design better AI experiences, we need to study 5 key areas that we need to shape.
+
+## Input UX: Expressing Intent
+
+Conversational AI is a very slow way of helping users express and articulate their intent. Usability tests show that users often get lost in editing, reviewing, typing, and re-typing. It's painfully slow, often taking 30-60 seconds for input.
+
+As it turns out, people have a hard time expressing their intent well. In fact, instead of writing prompts manually, it's a good idea to ask AI to write a prompt to feed itself.
+
+![Illustration: How users can express their intent in AI interfaces.](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/design-patterns-ai-interfaces/3-flora-ai.jpg)
+<sub>Flora AI allows you to modify images and videos via nodes. (Large preview)</sub>
+
+With Flora AI, users can still write prompts, but they visualize their intent with nodes by connecting various sources visually. Instead of elaborately explaining to AI how we need the pipeline to work, we attach nodes and commands on a canvas.
+
+![Illustration of Output UX](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/design-patterns-ai-interfaces/4-illustration-output-ux.jpg)
+<sub>With Krea.ai, users can move abstract shapes (on the left) to explain their goal to AI and study the outcome (on the right). (Large preview)</sub>
+
+With input for AI, being precise is slow and challenging. Instead, we can abstract away the object we want to manipulate, and give AI precise input by moving that abstracted object on a canvas. That's what Krea.ai does.
+
+In summary, we can minimize the burden of typing prompts manually — with AI-generated pre-prompts, prompt extensions, query builders, and also voice input.
+
+## Output UX: Displaying Outcomes
+
+AI output doesn't have to be merely plain text or a list of bullet points. It must be helpful to drive people to insights, faster. For example, we could visualize output by creating additional explanations based on the user's goal and motivations.
+
+![Illustration of Output UX](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/design-patterns-ai-interfaces/5-illustration-output-ux.jpg)
+<sub>Visualizing outcome through style lenses. By Amelia Wattenberger. (Large preview)</sub>
+
+For example, Amelia Wattenberger visualized AI output for her text editor PenPal by adding style lenses to explore the content from. The output could be visualized in sentence lengths and scales Sad — Happy, Concrete — Abstract, and so on.
+
+![Illustration of Output UX](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/design-patterns-ai-interfaces/6-aino-ai.jpg)
+<sub>Aino.ai, an AI GIS Analyst for urban planning. (Large preview)</sub>
+
 ## Next Steps
 
 - **Study**: Learn more about design patterns and their applications
