@@ -834,6 +834,56 @@ As you become more comfortable with Figma Make, you'll find that it can signific
 
 Whether you're a designer looking to bring your ideas to life or a developer wanting to prototype quickly, Figma Make provides a powerful platform for building interactive applications with AI assistance.
 
+> **Note:** The following article is reproduced verbatim from  
+> Smashing Magazine Team, *Smashing Magazine* (2025):  
+> [Beyond The Hype: What AI Can Really Do For Product Design](https://www.smashingmagazine.com/2025/08/beyond-hype-what-ai-can-do-product-design/)  
+> for internal educational use only (non-profit).
+
+# Beyond The Hype: What AI Can Really Do For Product Design
+
+These days, it's easy to find curated lists of AI tools for designers, galleries of generated illustrations, and countless prompt libraries. What's much harder to find is a clear view of how AI is actually integrated into the everyday workflow of a product designer — not for experimentation, but for real, meaningful outcomes.
+
+I've gone through that journey myself: testing AI across every major stage of the design process, from ideation and prototyping to visual design and user research. Along the way, I've built a simple, repeatable workflow that significantly boosts my productivity.
+
+In this article, I'll share what's already working and break down some of the most common objections I've encountered — many of which I've faced personally.
+
+## Stage 1: Idea Generation Without The Clichés
+
+Pushback: "Whenever I ask AI to suggest ideas, I just get a list of clichés. It can't produce the kind of creative thinking expected from a product designer."
+
+That's a fair point. AI doesn't know the specifics of your product, the full context of your task, or many other critical nuances. The most obvious fix is to "feed it" all the documentation you have. But that's a common mistake as it often leads to even worse results: the context gets flooded with irrelevant information, and the AI's answers become vague and unfocused.
+
+Current-gen models can technically process thousands of words, but the longer the input, the higher the risk of missing something important, especially content buried in the middle. This is known as the "lost in the middle" problem.
+
+To get meaningful results, AI doesn't just need more information — it needs the right information, delivered in the right way. That's where the RAG approach comes in.
+
+### How RAG Works
+
+Think of RAG as a smart assistant working with your personal library of documents. You upload your files, and the assistant reads each one, creating a short summary — a set of bookmarks (semantic tags) that capture the key topics, terms, scenarios, and concepts. These summaries are stored in a kind of "card catalog," called a vector database.
+
+When you ask a question, the assistant doesn't reread every document from cover to cover. Instead, it compares your query to the bookmarks, retrieves only the most relevant excerpts (chunks), and sends those to the language model to generate a final answer.
+
+### How Is This Different from Just Dumping a Doc into the Chat?
+
+Let's break it down:
+
+**Typical chat interaction**
+
+It's like asking your assistant to read a 100-page book from start to finish every time you have a question. Technically, all the information is "in front of them," but it's easy to miss something, especially if it's in the middle. This is exactly what the "lost in the middle" issue refers to.
+
+**RAG approach**
+
+You ask your smart assistant a question, and it retrieves only the relevant pages (chunks) from different documents. It's faster and more accurate, but it introduces a few new risks:
+
+- **Ambiguous question**: You ask, "How can we make the project safer?" and the assistant brings you documents about cybersecurity, not finance.
+- **Mixed chunks**: A single chunk might contain a mix of marketing, design, and engineering notes. That blurs the meaning so the assistant can't tell what the core topic is.
+- **Semantic gap**: You ask, "How can we speed up the app?" but the document says, "Optimize API response time." For a human, that's obviously related. For a machine, not always.
+
+![Diagram showing how RAG works: a user prompt triggers semantic search through a knowledge base. Relevant chunks are sent to a language model, which generates an answer based on retrieved content.](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/beyond-hype-what-ai-can-do-product-design/1-rag-approach.png)
+<sub>Instead of using the model's memory, it searches your documents and builds a response based on what it finds. (Large preview)</sub>
+
+These aren't reasons to avoid RAG or AI altogether. Most of them can be avoided with better preparation of your knowledge base and more precise prompts. So, where do you start?
+
 ## Next Steps
 
 - **Study**: Learn more about design patterns and their applications
