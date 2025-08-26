@@ -1063,6 +1063,59 @@ VLMs bring a new level of intelligence to applications by bridging visual and li
 
 This is merely an overview of what VLMs are and the pieces that come together to generate audio descriptions. To get a clearer idea of how VLMs work, let's look at a few real-world examples that leverage VLM processes.
 
+> **Note:** The following article is reproduced verbatim from  
+> Smashing Magazine Team, *Smashing Magazine* (2025):  
+> [Generating Real-Time Audio Sentiment Analysis With AI](https://www.smashingmagazine.com/2023/09/generating-real-time-audio-sentiment-analysis-ai/)  
+> for internal educational use only (non-profit).
+
+# Generating Real-Time Audio Sentiment Analysis With AI
+
+In the previous article, we developed a sentiment analysis tool that could detect and score emotions hidden within audio files. We're taking it to the next level in this article by integrating real-time analysis and multilingual support. Imagine analyzing the sentiment of your audio content in real-time as the audio file is transcribed. In other words, the tool we are building offers immediate insights as an audio file plays.
+
+So, how does it all come together? Meet Whisper and Gradio — the two resources that sit under the hood. Whisper is an advanced automatic speech recognition and language detection library. It swiftly converts audio files to text and identifies the language. Gradio is a UI framework that happens to be designed for interfaces that utilize machine learning, which is ultimately what we are doing in this article. With Gradio, you can create user-friendly interfaces without complex installations, configurations, or any machine learning experience — the perfect tool for a tutorial like this.
+
+By the end of this article, we will have created a fully-functional app that:
+
+- Records audio from the user's microphone,
+- Transcribes the audio to plain text,
+- Detects the language,
+- Analyzes the emotional qualities of the text, and
+- Assigns a score to the result.
+
+Note: You can peek at the final product in the live demo.
+
+## Automatic Speech Recognition And Whisper
+
+Let's delve into the fascinating world of automatic speech recognition and its ability to analyze audio. In the process, we'll also introduce Whisper, an automated speech recognition tool developed by the OpenAI team behind ChatGPT and other emerging artificial intelligence technologies. Whisper has redefined the field of speech recognition with its innovative capabilities, and we'll closely examine its available features.
+
+## Automatic Speech Recognition (ASR)
+
+ASR technology is a key component for converting speech to text, making it a valuable tool in today's digital world. Its applications are vast and diverse, spanning various industries. ASR can efficiently and accurately transcribe audio files into plain text. It also powers voice assistants, enabling seamless interaction between humans and machines through spoken language. It's used in myriad ways, such as in call centers that automatically route calls and provide callers with self-service options.
+
+By automating audio conversion to text, ASR significantly saves time and boosts productivity across multiple domains. Moreover, it opens up new avenues for data analysis and decision-making.
+
+That said, ASR does have its fair share of challenges. For example, its accuracy is diminished when dealing with different accents, background noises, and speech variations — all of which require innovative solutions to ensure accurate and reliable transcription. The development of ASR systems capable of handling diverse audio sources, adapting to multiple languages, and maintaining exceptional accuracy is crucial for overcoming these obstacles.
+
+## Whisper: A Speech Recognition Model
+
+Whisper is a speech recognition model also developed by OpenAI. This powerful model excels at speech recognition and offers language identification and translation across multiple languages. It's an open-source model available in five different sizes, four of which have an English-only variant that performs exceptionally well for single-language tasks.
+
+What sets Whisper apart is its robust ability to overcome ASR challenges. Whisper achieves near state-of-the-art performance and even supports zero-shot translation from various languages to English. Whisper has been trained on a large corpus of data that characterizes ASR's challenges. The training data consists of approximately 680,000 hours of multilingual and multitask supervised data collected from the web.
+
+The model is available in multiple sizes. The following table outlines these model characteristics:
+
+- `tiny.en`
+- `base.en`
+- `small.en`
+- `medium.en`
+
+For developers working with English-only applications, it's essential to consider the performance differences among the .en models — specifically, tiny.en and base.en, both of which offer better performance than the other models.
+
+Whisper utilizes a Seq2seq (i.e., transformer encoder-decoder) architecture commonly employed in language-based models. This architecture's input consists of audio frames, typically 30-second segment pairs. The output is a sequence of the corresponding text. Its primary strength lies in transcribing audio into text, making it ideal for "audio-to-text" use cases.
+
+![Diagram of Whisper's ASR architecture](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/generating-real-time-audio-sentiment-analysis-ai/1-ai-real-time-audio-analysis-whisper-architecure.png)
+<sub>Source: *Smashing Magazine*, Smashing Magazine Team (2025).</sub>
+
 ## Sources
 
 <Card title="Reference Materials">
