@@ -899,6 +899,61 @@ Reinforcement learning is an evolving area of machine learning. From game-playin
 
 This article discussed the basics of reinforcement learning with its components and working. We also discussed the examples, advantages, disadvantages, and applications of RL along with RLHF.
 
+> **Note:** The following article is reproduced verbatim from  
+> Smashing Magazine Team, *Smashing Magazine* (2025):  
+> [A High-Level Overview Of Large Language Model Concepts, Use Cases, And Tools](https://www.smashingmagazine.com/2023/10/overview-large-language-model-concepts-use-cases-tools/)  
+> for internal educational use only (non-profit).
+
+# A High-Level Overview Of Large Language Model Concepts, Use Cases, And Tools
+
+Even though a simple online search turns up countless tutorials on using Artificial Intelligence (AI) for everything from generative art to making technical documentation easier to use, there's still plenty of mystery around it. What goes inside an AI-powered tool like ChatGPT? How does Notion's AI feature know how to summarize an article for me on the fly? Or how are a bunch of sites suddenly popping up that can aggregate news and auto-publish a slew of "new" articles from it?
+
+It all can seem like a black box of mysterious, arcane technology that requires an advanced computer science degree to understand. What I want to show you, though, is how we can peek inside that box and see how everything is wired up.
+
+Specifically, this article is about large language models (LLMs) and how they "imbue" AI-powered tools with intelligence for answering queries in diverse contexts. I have previously written tutorials on how to use an LLM to transcribe and evaluate the expressed sentiment of audio files. But I want to take a step back and look at another way around it that better demonstrates — and visualizes — how data flows through an AI-powered tool.
+
+We will discuss LLM use cases, look at several new tools that abstract the process of modeling AI with LLM with visual workflows, and get our hands on one of them to see how it all works.
+
+## Large Language Models Overview
+
+Forgoing technical terms, LLMs are vast sets of text data. When we integrate an LLM into an AI system, we enable the system to leverage the language knowledge and capabilities developed by the LLM through its own training. You might think of it as dumping a lifetime of knowledge into an empty brain, assigning that brain to a job, and putting it to work.
+
+"Knowledge" is a convoluted term as it can be subjective and qualitative. We sometimes describe people as "book smart" or "street smart," and they are both types of knowledge that are useful in different contexts. This is what artificial "intelligence" is created upon. AI is fed with data, and that is what it uses to frame its understanding of the world, whether it is text data for "speaking" back to us or visual data for generating "art" on demand.
+
+### Use Cases
+
+As you may imagine (or have already experienced), the use cases of LLMs in AI are many and along a wide spectrum. And we're only in the early days of figuring out what to make with LLMs and how to use them in our work. A few of the most common use cases include the following.
+
+- **Chatbot**: LLMs play a crucial role in building chatbots for customer support, troubleshooting, and interactions, thereby ensuring smooth communications with users and delivering valuable assistance. Salesforce is a good example of a company offering this sort of service.
+- **Sentiment Analysis**: LLMs can analyze text for emotions. Organizations use this to collect data, summarize feedback, and quickly identify areas for improvement. Grammarly's "tone detector" is one such example, where AI is used to evaluate sentiment conveyed in content.
+- **Content Moderation**: Content moderation is an important aspect of social media platforms, and LLMs come in handy. They can spot and remove offensive content, including hate speech, harassment, or inappropriate photos and videos, which is exactly what Hubspot's AI-powered content moderation feature does.
+- **Translation**: Thanks to impressive advancements in language models, translation has become highly accurate. One noteworthy example is Meta AI's latest model, SeamlessM4T, which represents a big step forward in speech-to-speech and speech-to-text technology.
+- **Email Filters**: LLMs can be used to automatically detect and block unwanted spam messages, keeping your inbox clean. When trained on large datasets of known spam emails, the models learn to identify suspicious links, phrases, and sender details. This allows them to distinguish legitimate messages from those trying to scam users or market illegal or fraudulent goods and services. Google has offered AI-based spam protection since 2019.
+- **Writing Assistance**: Grammarly is the ultimate example of an AI-powered service that uses LLM to "learn" how you write in order to make writing suggestions. But this extends to other services as well, including Gmail's "Smart Reply" feature. The same thing is true of Notion's AI feature, which is capable of summarizing a page of content or meeting notes. Hemmingway's app recently shipped a beta AI integration that corrects writing on the spot.
+- **Code and Development**: This is the one that has many developers worried about AI coming after their jobs. It hit the commercial mainstream with GitHub Copilot, a service that performs automatic code completion. Same with Amazon's CodeWhisperer. Then again, AI can be used to help sharpen development skills, which is the case of MDN's AI Help feature.
+
+Again, these are still the early days of LLM. We're already beginning to see language models integrated into our lives, whether it's in our writing, email, or customer service, among many other services that seem to pop up every week. This is an evolving space.
+
+## Types Of Models
+
+There are all kinds of AI models tailored for different applications. You can scroll through Sapling's large list of the most prominent commercial and open-source LLMs to get an idea of all the diverse models that are available and what they are used for. Each model is the context in which AI views the world.
+
+Let's look at some real-world examples of how LLMs are used for different use cases.
+
+**Natural Conversation**: Chatbots need to master the art of conversation. Models like Anthropic's Claude are trained on massive collections of conversational data to chat naturally on any topic. As a developer, you can tap into Claude's conversational skills through an API to create interactive assistants.
+
+**Emotions**: Developers can leverage powerful pre-trained models like Falcon for sentiment analysis. By fine-tuning Falcon on datasets with emotional labels, it can learn to accurately detect the sentiment in any text provided.
+
+**Translation**: Meta AI released SeamlessM4T, an LLM trained on huge translated speech and text datasets. This multilingual model is groundbreaking because it translates speech from one language into another without an intermediary step between input and output. In other words, SeamlessM4T enables real-time voice conversations across languages.
+
+**Content Moderation**: As a developer, you can integrate powerful moderation capabilities using OpenAI's API, which includes a LLM trained thoroughly on flagging toxic content for the purpose of community moderation.
+
+**Spam Filtering**: Some LLMs are used to develop AI programs capable of text classification tasks, such as spotting spam emails. As an email user, the simple act of flagging certain messages as spam further informs AI about what constitutes an unwanted email. After seeing plenty of examples, AI is capable of establishing patterns that allow it to block spam before it hits the inbox.
+
+## Not All Language Models Are Large
+
+While we're on the topic, it's worth mentioning that not all language models are "large." There are plenty of models with smaller sets of data that may not go as deep as ChatGPT 4 or 5 but are well-suited for personal or niche applications.
+
 ## Sources
 
 <Card title="Reference Materials">
