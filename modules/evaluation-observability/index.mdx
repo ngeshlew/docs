@@ -1530,6 +1530,85 @@ Most AI summaries were (unfortunately) presented as blocky, unformatted chunks o
 
 The summaries then tended to list out the positive aspects mentioned by reviewers first, followed by any negative aspects or mixed opinions.
 
+> **Note:** The following article is reproduced verbatim from  
+> NN/g Team, *Nielsen Norman Group* (2025):  
+> [AI Hallucinations: What Designers Need to Know](https://www.nngroup.com/articles/ai-hallucinations/)  
+> for internal educational use only (non-profit).
+
+# AI Hallucinations: What Designers Need to Know
+
+## In This Article:
+
+- What Are AI Hallucinations?
+- Why Do Hallucinations Happen?
+- Hallucinations Are Tough to Eliminate
+- Managing Hallucinations with Your Product-Design Choices
+- Solutions for Communicating Uncertainty to Users
+- Summary
+- References
+
+## What Are AI Hallucinations?
+
+Generative AIs are well-known for their tendency to produce hallucinations — untruthful answers (or nonsense images).
+
+> A hallucination occurs when a generative AI system generates output data that seems plausible but is incorrect or nonsensical.
+
+Hallucinations include statements that are factually false or images that have unintentional distortions (such as extra limbs added to a person). Hallucinations are often presented confidently by the AI, so humans may struggle to identify them.
+
+Examples of AI hallucinations are everywhere. For instance, in a recent study from Columbia Journalism Review, ChatGPT falsely attributed 76% of the 200 quotes from popular journalism sites that it was asked to identify. On top of that, only in 7 out of the 153 cases where it erred did it indicate any uncertainty to the end user.
+
+Even specialized tools aren't immune: Stanford University's RegLab found that custom legal AI tools from LexisNexis and Thomson Reuters produced incorrect information in at least 1 out of 6 benchmarking queries.
+
+![ChatGPT conversation with a hallucinated but confident reponse](https://media.nngroup.com/media/editor/2025/01/24/moonsafariwrong.png)
+<sub>Source: *Nielsen Norman Group*, NN/g Team (2025).</sub>
+
+![AI Generated video of a person picking up a banana with physical halluciantions](https://media.nngroup.com/media/editor/2025/01/24/bannana-hallucination.gif)
+<sub>Source: *Nielsen Norman Group*, NN/g Team (2025).</sub>
+
+![ChatGPT conversation that includes hallucinated research paper references](https://media.nngroup.com/media/editor/2025/01/24/paperhallucinations.png)
+<sub>Source: *Nielsen Norman Group*, NN/g Team (2025).</sub>
+
+AI systems cannot (yet) know whether their outputs are true, so technically, hallucinations are not lies. AI is simply not concerned with truthfulness in the way that humans are. An AI's goal is to output strings (of words, pixels, etc.) that are statistically likely for a given input (such as your prompt).
+
+Hallucinations are a very difficult engineering problem. It is currently unknown whether eliminating them is indeed feasible with contemporary AI technologies such as transformers and LLMs.
+
+## Why Do Hallucinations Happen?
+
+Have you ever learned the words to a song in a language you cannot understand? You might have memorized the sounds by repeating them over and over, without knowing what they mean.
+
+Generative AI is like that to some degree. Imagine that it has learned every possible song phonetically without ever learning the language. After memorizing enough songs, it will recognize which syllables tend to go together, even though it will not understand their meaning. (This is commonly known as the "stochastic parrot" theory — which says that AI is essentially like a parrot, repeating phrases without understanding them. However, key thinkers in the AI-engineering field disagree with this theory.)
+
+LLMs are fill-in-the-blank machines. Your prompt is the sentence before the blank space — and the generative AI is trying to figure out what the most likely next word is in the sequence. It's based on statistics, not a deep understanding of the world. If your prompt doesn't include a common sequence of words (or pixels or whatever you're asking it to generate), it could be that the most likely continuation is nonsense.
+
+Thus, generative AI is not a magical encyclopedia that can talk to you about the facts stored inside it. Its "knowledge" comes from having processed large parts of the internet (which, as you are probably aware, contains a lot of falsehoods) and learning patterns in that corpus. So, an LLM has no way to distinguish between a "hallucination" and the correct answer — in both cases, it "makes up" the answer by relying on statistics to guess the next word. Fundamentally, the problem is that LLMs don't know when they've gotten something correct —- they are not structured fact databases. Given that LLMs are making everything up all the time, it's remarkable that they are so often correct!
+
+### Bad Training Data: Garbage In, Garbage Out
+
+Not all AI hallucinations are weird quirks of statistical models; as noted by Stephanie Lin and colleagues, they also sometimes repeat falsehoods from their training data.
+
+Remember that these systems need really, really large amounts of training data (the older-generation GPT-3, for example, had a training data size of at least 400 billion tokens). This data will include incorrect information, opinions, sarcasm, jokes, lies, mistakes, and trolling, mixed with good information. It isn't feasible for humans to carefully read and verify all that information, so some of it will simply be untrue.
+
+For example, when Google's AI Overviews feature was telling people that geologists suggest eating rocks, it didn't make that information up from scratch; its training data included sources from all over the web. In this case, this answer came from the Onion, a well-known satirical site. What makes this example even more fascinating is that a geoscience-company website had reposted the Onion article because it thought it was funny; however, the joke was lost to the AI, which, instead, interpreted the reposting as an authority signal.
+
+![A satirical article written by the Onion that Google's AI presented as fact.](https://media.nngroup.com/media/editor/2025/01/24/theonion.png)
+<sub>Source: *Nielsen Norman Group*, NN/g Team (2025).</sub>
+
+Even worse, the AI model doesn't save all the training data it was fed – it sort of remembers the "gist" of its training data.
+
+This is important, so I'll repeat it: AI models don't remember all the information they were trained on. They contain statistics about what words appear near other words.
+
+## Hallucinations Are Tough to Eliminate
+
+LLM hallucinations aren't bugs; they are an artifact of how modern AI works. As a result, they're a tricky problem for AI engineers. That said, there has been real progress in reducing hallucinations over time.
+
+Engineers implementing popular AI tools can now change built-in settings that affect hallucination, without having to build and train whole new models, but these settings are limited.
+
+For example, when integrating ChatGPT into a product via an API, developers can change the model temperature, which controls how much randomness to allow when choosing a continuation for a given input. Low-temperature levels dictate that the AI outputs will be very similar to materials included as part of its training data (and, thus, may result in "plagiarism"), whereas high-temperature settings allow the model to occasionally bypass the most likely next token and choose from the less probable continuations. A high-temperature setting may feel like a more creative model, in that it may produce unexpected results.
+
+However, these settings aren't a magic bullet. Turning down the temperature settings on an AI doesn't magically fix hallucinations; rather, it tends to make the AI more conservative with its answers and, thus, less useful. A Microsoft AI engineer outlined how clamping down the hallucinations increases the frequency of "I don't know answers" or answers that simply reproduce training data verbatim.
+
+Another area of research is retrieval-augmented generation (RAG). With this technique, the user's prompt is used as a query for searching in a knowledge base. Then the results of that search are passed to the generative AI along with the original prompt. (The whole process happens behind the scenes and is invisible to the user.) This technique has had some success in reducing hallucinations, but it, too, doesn't entirely fix the problem.
+
 ## Next Steps
 
 Now that you understand evaluation and observability fundamentals, explore:
