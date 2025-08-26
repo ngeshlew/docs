@@ -1680,6 +1680,62 @@ Ready-to-use templates for implementing AI evaluation systems across different u
 
 AI evaluations are not just a technical requirement but a strategic imperative for successful AI product development. They provide the foundation for building reliable, trustworthy, and continuously improving AI systems.
 
+> **Note:** The following article is reproduced verbatim from  
+> Paweł Huryn, *The Product Compass* (2025):  
+> [AI Evals: How to Find The Right AI Product Metrics](https://www.productcompass.pm/p/evaluating-ai-products-error-analysis)  
+> for internal educational use only (non-profit).
+
+# AI Evals: How to Find The Right AI Product Metrics
+
+### Generic metrics, such as "hallucination" or "toxicity," often miss domain-specific issues. Here's what the best AI teams track instead and how they leverage error analysis.
+
+85% of AI initiatives fail (Gartner, 2024). I've been researching the topic for 3+ months, trying to understand how we can prevent that.
+
+Experts like Hamel Husain, Shreya Shankar, Andrew Ng, and teams from Google's PAIR emphasize that the teams that succeed obsess over analyzing, measuring, improving in quick cycles.
+
+While the experimentation mindset is core to product management, when working with Gen AI, it becomes even more critical than in traditional software.
+
+But there is a problem.
+
+Metrics promoted by eval vendors, like "hallucination," "helpfulness," or "toxicity," are ineffective and too often miss domain-specific issues.
+
+It turns out that the AI teams that succeed take a completely different approach. Rather than starting from the top ("let's think about the metrics"), they:
+
+- Look at actual data (LLM traces)
+- Identify failure modes
+- Let app-specific metrics emerge bottom-up
+
+And as we discussed in WTF is an AI Product Manager, evaluating AI is one of the AI PM's core responsibilities.
+
+So, in this issue, we discuss:
+
+1. How to Perform Error Analysis
+2. How to Turn Failure Modes Into App-Specific AI Metrics
+3. How to Evaluate the Evaluators: TPR/Recall, TNR, Precision, F1-Score
+4. LLM Prompts That Support Error Analysis
+
+## 1. How to Perform Error Analysis
+
+Error analysis is the highest ROI AI product development activity.
+
+The process is straightforward. You look at the data, label LLM logs, and classify the errors into failure modes. We repeat it until no new significant failure modes emerge.
+
+In case you wonder, LLM traces are just full records of the LLM pipeline execution: user query, reasoning, tool calls, and the output.
+
+## 2. How to Turn Failure Modes Into App-Specific AI Metrics
+
+Once you've identified failure modes through error analysis, you can turn them into specific metrics that matter for your application.
+
+## 3. How to Evaluate the Evaluators: TPR/Recall, TNR, Precision, F1-Score
+
+Understanding evaluation metrics is crucial for assessing the quality of your evaluation systems themselves.
+
+## 4. LLM Prompts That Support Error Analysis
+
+Effective prompts can help automate and improve the error analysis process.
+
+This approach emphasizes the importance of data-driven evaluation over generic metrics, focusing on domain-specific issues that actually matter for your AI product.
+
 ## Next Steps
 
 Now that you understand evaluation and observability fundamentals, explore:
