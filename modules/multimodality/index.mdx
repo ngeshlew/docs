@@ -911,6 +911,57 @@ code_review = review_code_claude(
   </Card>
 </CardGroup>
 
+> **Note:** The following article is reproduced verbatim from  
+> Smashing Magazine Team, *Smashing Magazine* (2025):  
+> [Using Multimodal AI Models For Your Applications (Part 3)](https://www.smashingmagazine.com/2024/10/using-multimodal-ai-models-applications-part3/)  
+> for internal educational use only (non-profit).
+
+# Using Multimodal AI Models For Your Applications (Part 3)
+
+In this third and final part of a three-part series, we're taking a more streamlined approach to an application that supports vision-language (VLM) and text-to-speech (TTS). This time, we'll use different models that are designed for all three modalities — images or videos, text, and audio (including speech-to-text) — in one model. These "any-to-any" models make things easier by allowing us to avoid switching between models.
+
+Specifically, we'll focus on two powerful models: Reka and Gemini 1.5 Pro.
+
+Both models take things to the next level compared to the tools we used earlier. They eliminate the need for separate speech recognition models, providing a unified solution for multimodal tasks. With this in mind, our goal in this article is to explore how Reka and Gemini simplify building advanced applications that handle images, text, and audio all at once.
+
+## Overview Of Multimodal AI Models
+
+The architecture of multimodal models has evolved to enable seamless handling of various inputs, including text, images, and audio, among others. Traditional models often require separate components for each modality, but recent advancements in "any-to-any" models like Next-GPT or 4M allow developers to build systems that process multiple modalities within a unified architecture.
+
+Gato, for instance, utilizes a 1.2 billion parameter decoder-only transformer architecture with 24 layers, embedding sizes of 2048 and a hidden size of 8196 in its feed-forward layers. This structure is optimized for general tasks across various inputs, but it still relies on extensive task-specific fine-tuning.
+
+GPT-4o, on the other hand, takes a different approach with training on multiple media types within a single architecture. This means it's a single model trained to handle a variety of inputs (e.g., text, images, code) without the need for separate systems for each. This training method allows for smoother task-switching and better generalization across tasks.
+
+Similarly, CoDi employs a multistage training scheme to handle a linear number of tasks while supporting input-output combinations across different modalities. CoDi's architecture builds a shared multimodal space, enabling synchronized generation for intertwined modalities like video and audio, making it ideal for more dynamic multimedia tasks.
+
+Most "any-to-any" models, including the ones we've discussed, rely on a few key concepts to handle different tasks and inputs smoothly:
+
+- **Shared representation space**: These models convert different types of inputs — text, images, audio — into a common feature space. Text is encoded into vectors, images into feature maps, and audio into spectrograms or embeddings. This shared space allows the model to process various inputs in a unified way.
+- **Attention mechanisms**: Attention layers help the model focus on the most relevant parts of each input, whether it's understanding the text, generating captions from images, or interpreting audio.
+- **Cross-modal interaction**: In many models, inputs from one modality (e.g., text) can guide the generation or interpretation of another modality (e.g., images), allowing for more integrated and cohesive outputs.
+- **Pre-training and fine-tuning**: Models are typically pre-trained on large datasets across different types of data and then fine-tuned for specific tasks, enhancing their performance in real-world applications.
+
+## Reka Models
+
+Reka is an AI research company that helps developers build powerful applications by offering models for a range of tasks. These tasks include generating text from videos and images, translating speech, and answering complex questions from long multimodal documents. Reka's models can even write and execute code, providing flexible, real-world solutions for developers.
+
+These are the three main models Reka offers:
+
+1. **Reka Core**: A 67-billion-parameter multimodal language model designed for complex tasks. It supports inputs like images, videos, and texts while excelling in advanced reasoning and coding.
+2. **Reka Flash**: A faster model with a 21-billion-parameter, designed for flexibility and rapid performance in multimodal settings.
+3. **Reka Edge (PDF)**: A smaller 7-billion-parameter model was built for on-device and low-latency applications, making it efficient for local use and local or latency-sensitive applications.
+
+Reka's models can be fine-tuned and deployed securely, whether on the cloud, on-premises, or even on-device. Let's start by testing Reka's capabilities directly through its playground. This allows us to experiment with its multimodal features without writing any code, providing a hands-on way to see how the models handle various tasks, such as image and video comprehension.
+
+Alright, we'll kick things off by uploading an image of a diagram outline of the PaliGemma architecture and ask Reka for a detailed explanation.
+
+> Can you provide a more detailed explanation of this image?
+
+![A detailed explanation by Reka of a diagram outline of the PaliGemma architecture](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/using-multimodal-ai-models-applications-part3/1-diagram-outline-reka-explanation.png)
+<sub>Source: *Smashing Magazine*, Smashing Magazine Team (2025).</sub>
+
+Here's what we get from Reka Core:
+
 ## Sources
 
 <Card title="Reference Materials">
