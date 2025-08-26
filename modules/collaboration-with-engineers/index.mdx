@@ -398,6 +398,560 @@ Effective collaboration between product teams and engineering teams is crucial f
   </Card>
 </CardGroup>
 
+> **Note:** The following article is reproduced verbatim from  
+> Codecademy Team, *Codecademy* (2025):  
+> [Claude Code Tutorial: How to Generate, Debug and Document Code with AI](https://www.codecademy.com/article/claude-code-tutorial-how-to-generate-debug-and-document-code-with-ai)  
+> for internal educational use only (non-profit).
+
+# Claude Code Tutorial: How to Generate, Debug and Document Code with AI
+
+## What is Claude Code?
+
+Claude Code is an AI-powered coding assistant developed by Anthropic. It helps developers write, understand, and improve code using natural language prompts.
+
+Unlike traditional tools that focus solely on generating output, Claude is designed for collaboration. It can explain code, suggest improvements, and even help debug code while maintaining clarity and context.
+
+It's designed using Anthropic's Constitutional AI framework, which guides the model to produce helpful, harmless, and honest responses, making it particularly well-suited for real-world development tasks.
+
+Let us look at the key benefits of using Claude Code in the development workflow.
+
+## Benefits of Claude Code
+
+Claude Code enhances development workflows by combining AI-powered natural language interaction with coding tasks. It simplifies repetitive processes, improves team collaboration, and boosts productivity. Here are five key benefits:
+
+- **Effortless Code Navigation**: Navigate the codebase easily using plain language commands. Claude simplifies tasks like file management and variable renaming, streamlining everyday coding.
+- **Instant Code Explanations**: Claude provides clear explanations and summaries of complex code, helping teams quickly grasp project architecture, especially when dealing with legacy code or unfamiliar modules.
+- **Task Automation**: Automate repetitive tasks such as running tests, committing changes, or fixing linting issues, freeing up time for more critical development work.
+- **Efficient Bug Fixing and Optimization**: Claude can help identify bugs and suggest improvements, like optimizing slow functions or refactoring messy code.
+
+Now that the benefits of Claude Code are highlighted, let's set it up on our local device and start using it.
+
+## Setting up Claude Code on a local device
+
+Before diving into the installation of Claude Code, it's important to understand the system requirements. Claude Code can run on macOS, Ubuntu, Debian, and Windows devices via Windows Subsystem for Linux (WSL). Let's go through the installation process step by step for the operating systems.
+
+### System requirements for Claude Code
+
+Claude Code supports the following operating systems:
+
+- **macOS**: Version 10.15 and above.
+- **Ubuntu**: Version 20.04 and above.
+- **Debian**: Version 10 and above.
+- **Windows**: Available via Windows Subsystem for Linux (WSL).
+
+For Windows users, WSL must be installed first. WSL allows us to run a Linux environment directly on Windows, making it easier to manage and work with tools like Claude Code.
+
+### Install Windows Subsystem for Linux (WSL) on Windows
+
+To install WSL, follow the instructions:
+
+1. Open the command prompt
+2. Run the following command to install WSL:
+
+```bash
+wsl --install
+```
+
+To complete the installation process, follow the on-screen prompts.
+
+### Install Claude Code
+
+Once WSL is set up (for Windows users) or the terminal is ready (for macOS/Ubuntu users), you can proceed with installing Claude Code.
+
+1. Open WSL by searching for "Ubuntu" or your chosen Linux distribution in the Start menu. For macOS and Ubuntu users, open the terminal.
+2. In the terminal (or WSL), run the following command to install Claude Code globally via npm:
+
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+
+3. After installation, you'll need to authenticate with your Anthropic API key. Run:
+
+```bash
+claude-code auth
+```
+
+4. Enter your Anthropic API key when prompted. You can get your API key from the [Anthropic Console](https://console.anthropic.com/).
+
+## Getting Started with Claude Code
+
+### Basic Commands
+
+Once Claude Code is installed and authenticated, you can start using it with these basic commands:
+
+```bash
+# Start Claude Code in the current directory
+claude-code
+
+# Start Claude Code in a specific directory
+claude-code /path/to/your/project
+
+# Get help with available commands
+claude-code --help
+```
+
+### Understanding the Interface
+
+When you start Claude Code, you'll see a chat interface where you can interact with Claude using natural language. The interface includes:
+
+- **File Explorer**: Shows your project structure
+- **Chat Panel**: Where you interact with Claude
+- **Code Editor**: For viewing and editing files
+- **Terminal**: For running commands
+
+## Code Generation with Claude
+
+### Generating New Code
+
+Claude can help you generate code from scratch. Here are some examples:
+
+**Example 1: Create a Python function**
+
+```
+Prompt: "Create a Python function that calculates the factorial of a number"
+```
+
+Claude will generate:
+
+```python
+def factorial(n):
+    """
+    Calculate the factorial of a number.
+    
+    Args:
+        n (int): The number to calculate factorial for
+        
+    Returns:
+        int: The factorial of n
+    """
+    if n < 0:
+        raise ValueError("Factorial is not defined for negative numbers")
+    if n == 0 or n == 1:
+        return 1
+    return n * factorial(n - 1)
+
+# Example usage
+print(factorial(5))  # Output: 120
+```
+
+**Example 2: Create a React component**
+
+```
+Prompt: "Create a React component for a todo list item"
+```
+
+Claude will generate:
+
+```jsx
+import React from 'react';
+
+const TodoItem = ({ todo, onToggle, onDelete }) => {
+  return (
+    <div className="todo-item">
+      <input
+        type="checkbox"
+        checked={todo.completed}
+        onChange={() => onToggle(todo.id)}
+      />
+      <span className={todo.completed ? 'completed' : ''}>
+        {todo.text}
+      </span>
+      <button onClick={() => onDelete(todo.id)}>Delete</button>
+    </div>
+  );
+};
+
+export default TodoItem;
+```
+
+### Code Completion and Enhancement
+
+Claude can also help complete existing code or enhance it:
+
+**Example: Complete a function**
+
+```python
+def calculate_average(numbers):
+    # TODO: Implement the average calculation
+```
+
+Prompt: "Complete this function to calculate the average of a list of numbers"
+
+Claude will complete it:
+
+```python
+def calculate_average(numbers):
+    if not numbers:
+        return 0
+    return sum(numbers) / len(numbers)
+```
+
+## Debugging with Claude
+
+### Identifying and Fixing Bugs
+
+Claude excels at helping you debug code. Here's how to use it effectively:
+
+**Example: Debug a Python script**
+
+```python
+def divide_numbers(a, b):
+    return a / b
+
+result = divide_numbers(10, 0)
+print(result)
+```
+
+Prompt: "This code is causing an error. Can you help me fix it?"
+
+Claude will identify the issue and provide a solution:
+
+```python
+def divide_numbers(a, b):
+    if b == 0:
+        raise ValueError("Cannot divide by zero")
+    return a / b
+
+try:
+    result = divide_numbers(10, 0)
+    print(result)
+except ValueError as e:
+    print(f"Error: {e}")
+```
+
+### Code Review and Optimization
+
+Claude can review your code and suggest improvements:
+
+**Example: Optimize a function**
+
+```python
+def find_duplicates(lst):
+    duplicates = []
+    for i in range(len(lst)):
+        for j in range(i + 1, len(lst)):
+            if lst[i] == lst[j] and lst[i] not in duplicates:
+                duplicates.append(lst[i])
+    return duplicates
+```
+
+Prompt: "Can you optimize this function to be more efficient?"
+
+Claude will suggest improvements:
+
+```python
+def find_duplicates(lst):
+    seen = set()
+    duplicates = set()
+    for item in lst:
+        if item in seen:
+            duplicates.add(item)
+        else:
+            seen.add(item)
+    return list(duplicates)
+```
+
+## Code Documentation with Claude
+
+### Generating Documentation
+
+Claude can help you create comprehensive documentation for your code:
+
+**Example: Document a class**
+
+```python
+class UserManager:
+    def __init__(self, database):
+        self.db = database
+    
+    def create_user(self, username, email, password):
+        # Implementation here
+        pass
+    
+    def get_user(self, user_id):
+        # Implementation here
+        pass
+```
+
+Prompt: "Generate comprehensive documentation for this class"
+
+Claude will create:
+
+```python
+class UserManager:
+    """
+    A class to manage user operations in the application.
+    
+    This class provides methods for creating, retrieving, updating, and deleting
+    user records in the database. It handles user authentication and profile
+    management operations.
+    
+    Attributes:
+        db: Database connection object for user data persistence
+    """
+    
+    def __init__(self, database):
+        """
+        Initialize the UserManager with a database connection.
+        
+        Args:
+            database: Database connection object (e.g., SQLite, PostgreSQL)
+        """
+        self.db = database
+    
+    def create_user(self, username, email, password):
+        """
+        Create a new user in the system.
+        
+        Args:
+            username (str): Unique username for the new user
+            email (str): User's email address
+            password (str): User's password (will be hashed)
+            
+        Returns:
+            dict: User object with id, username, email, and created_at
+            
+        Raises:
+            ValueError: If username or email already exists
+            ValidationError: If input data is invalid
+        """
+        # Implementation here
+        pass
+    
+    def get_user(self, user_id):
+        """
+        Retrieve a user by their ID.
+        
+        Args:
+            user_id (int): Unique identifier for the user
+            
+        Returns:
+            dict: User object if found
+            
+        Raises:
+            UserNotFoundError: If user with given ID doesn't exist
+        """
+        # Implementation here
+        pass
+```
+
+### README Generation
+
+Claude can also help you create README files for your projects:
+
+Prompt: "Create a README.md file for a Python web scraping project"
+
+Claude will generate:
+
+```markdown
+# Web Scraper
+
+A Python-based web scraping tool that extracts data from websites efficiently and responsibly.
+
+## Features
+
+- Multi-threaded scraping for improved performance
+- Respectful crawling with configurable delays
+- Data export in multiple formats (CSV, JSON, XML)
+- Built-in proxy support
+- Automatic retry mechanism for failed requests
+
+## Installation
+
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+
+```python
+from scraper import WebScraper
+
+scraper = WebScraper()
+data = scraper.scrape('https://example.com')
+```
+
+## Configuration
+
+Edit `config.yaml` to customize scraping behavior:
+
+```yaml
+delay: 1.0  # Delay between requests in seconds
+max_threads: 5  # Maximum number of concurrent threads
+user_agent: "MyBot/1.0"  # Custom user agent string
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests
+5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details
+```
+
+## Advanced Features
+
+### Working with Large Codebases
+
+Claude can help you understand and navigate large codebases:
+
+**Example: Analyze project structure**
+
+Prompt: "Analyze this project structure and explain the architecture"
+
+Claude will provide insights about:
+- Project organization
+- Dependencies between modules
+- Design patterns used
+- Potential improvements
+
+### Code Refactoring
+
+Claude can suggest refactoring opportunities:
+
+**Example: Refactor a complex function**
+
+```python
+def process_data(data_list):
+    result = []
+    for item in data_list:
+        if item['type'] == 'user':
+            if item['age'] > 18:
+                if item['status'] == 'active':
+                    result.append({
+                        'name': item['name'],
+                        'email': item['email'],
+                        'category': 'adult_active'
+                    })
+    return result
+```
+
+Prompt: "This function is too complex. Can you refactor it?"
+
+Claude will suggest a cleaner version:
+
+```python
+def is_adult_active_user(user):
+    return (user['type'] == 'user' and 
+            user['age'] > 18 and 
+            user['status'] == 'active')
+
+def extract_user_info(user):
+    return {
+        'name': user['name'],
+        'email': user['email'],
+        'category': 'adult_active'
+    }
+
+def process_data(data_list):
+    return [
+        extract_user_info(item) 
+        for item in data_list 
+        if is_adult_active_user(item)
+    ]
+```
+
+## Best Practices for Using Claude Code
+
+### 1. Be Specific in Your Prompts
+
+Instead of vague requests, be specific about what you want:
+
+```
+❌ "Fix this code"
+✅ "Fix the division by zero error in the calculate_average function"
+```
+
+### 2. Provide Context
+
+Give Claude enough context to understand your problem:
+
+```
+❌ "Why isn't this working?"
+✅ "This React component isn't rendering the user data. Here's the component code and the API response structure..."
+```
+
+### 3. Iterate and Refine
+
+Don't expect perfect results on the first try. Iterate with Claude:
+
+```
+1. Ask for initial solution
+2. Review the output
+3. Ask for improvements or clarifications
+4. Test the solution
+5. Ask for optimizations if needed
+```
+
+### 4. Use Claude for Learning
+
+Ask Claude to explain concepts, not just generate code:
+
+```
+"Can you explain how this sorting algorithm works?"
+"What's the difference between async/await and Promises in JavaScript?"
+```
+
+### 5. Validate Generated Code
+
+Always review and test code generated by Claude:
+
+- Check for security vulnerabilities
+- Verify the logic is correct
+- Test with edge cases
+- Ensure it follows your project's coding standards
+
+## Troubleshooting Common Issues
+
+### Authentication Problems
+
+If you're having trouble authenticating:
+
+```bash
+# Clear existing authentication
+claude-code logout
+
+# Re-authenticate
+claude-code auth
+```
+
+### Performance Issues
+
+If Claude Code is running slowly:
+
+1. Check your internet connection
+2. Verify your API key has sufficient credits
+3. Try restarting the application
+4. Check if there are any system resource constraints
+
+### Code Generation Issues
+
+If Claude isn't generating the code you expect:
+
+1. Be more specific in your prompt
+2. Provide more context about your requirements
+3. Break down complex requests into smaller parts
+4. Ask Claude to explain its reasoning
+
+## Conclusion
+
+Claude Code is a powerful tool that can significantly enhance your development workflow. By leveraging its capabilities for code generation, debugging, and documentation, you can:
+
+- Write code faster and more efficiently
+- Debug issues more effectively
+- Create better documentation
+- Learn new programming concepts
+- Collaborate more effectively with team members
+
+Remember that Claude is a tool to assist you, not replace your programming skills. Always review and understand the code it generates, and use it as a learning opportunity to improve your own coding abilities.
+
+As you become more familiar with Claude Code, you'll discover new ways to integrate it into your development process, making you a more productive and effective developer.
+
 ## Sources
 
 <Card title="Reference Materials">
