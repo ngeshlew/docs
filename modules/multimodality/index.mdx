@@ -962,6 +962,59 @@ Alright, we'll kick things off by uploading an image of a diagram outline of the
 
 Here's what we get from Reka Core:
 
+> **Note:** The following article is reproduced verbatim from  
+> Smashing Magazine Team, *Smashing Magazine* (2025):  
+> [Integrating Image-To-Text And Text-To-Speech Models (Part 2)](https://www.smashingmagazine.com/2024/08/integrating-image-to-text-and-text-to-speech-models-part2/)  
+> for internal educational use only (non-profit).
+
+# Integrating Image-To-Text And Text-To-Speech Models (Part 2)
+
+In Part 1 of this brief two-part series, we developed an application that turns images into audio descriptions using vision-language and text-to-speech models. We combined an image-to-text that analyses and understands images, generating description, with a text-to-speech model to create an audio description, helping people with sight challenges. We also discussed how to choose the right model to fit your needs.
+
+Now, we are taking things a step further. Instead of just providing audio descriptions, we are building that can have interactive conversations about images or videos. This is known as Conversational AI — a technology that lets users talk to systems much like chatbots, virtual assistants, or agents.
+
+While the first iteration of the app was great, the output still lacked some details. For example, if you upload an image of a dog, the description might be something like "a dog sitting on a rock in front of a pool," and the app might produce something close but miss additional details such as the dog's breed, the time of the day, or location.
+
+![The interface for an app with an uploaded photo of a golden retriever puppy on the left and an audio extraction on the right represented by sound waves.](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/integrating-image-to-text-and-text-to-speech-models-part2/1-app-interface.png)
+<sub>Source: *Smashing Magazine*, Smashing Magazine Team (2025).</sub>
+
+The aim here is simply to build a more advanced version of the previously built app so that it not only describes images but also provides more in-depth information and engages users in meaningful conversations about them.
+
+We'll use LLaVA, a model that combines understanding images and conversational capabilities. After building our tool, we'll explore multimodal models that can handle images, videos, text, audio, and more, all at once to give you even more options and easiness for your applications.
+
+## Visual Instruction Tuning and LLaVA
+
+We are going to look at visual instruction tuning and the multimodal capabilities of LLaVA. We'll first explore how visual instruction tuning can enhance the large language models to understand and follow instructions that include visual information. After that, we'll dive into LLaVA, which brings its own set of tools for image and video processing.
+
+### Visual Instruction Tuning
+
+Visual instruction tuning is a technique that helps large language models (LLMs) understand and follow instructions based on visual inputs. This approach connects language and vision, enabling AI systems to understand and respond to human instructions that involve both text and images. For example, Visual IT enables a model to describe an image or answer questions about a scene in a photograph. This fine-tuning method makes the model more capable of handling these complex interactions effectively.
+
+There's a new training approach called LLaVAR that has been developed, and you can think of it as a tool for handling tasks related to PDFs, invoices, and text-heavy images. It's pretty exciting, but we won't dive into that since it is outside the scope of the app we're making.
+
+### Examples of Visual Instruction Tuning Datasets
+
+To build good models, you need good data — rubbish in, rubbish out. So, here are two datasets that you might want to use to train or evaluate your multimodal models. Of course, you can always add your own datasets to the two I'm going to mention.
+
+**Vision-CAIR**
+
+- Instruction datasets: English;
+- Multi-task: Datasets containing multiple tasks;
+- Mixed dataset: Contains both human and machine-generated data.
+
+![Vision-CAIR](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/integrating-image-to-text-and-text-to-speech-models-part2/2-vision-cair.png)
+<sub>Source: *Smashing Magazine*, Smashing Magazine Team (2025).</sub>
+
+Vision-CAIR provides a high-quality, well-aligned image-text dataset created using conversations between two bots. This dataset was initially introduced in a paper titled "MiniGPT-4: Enhancing Vision-Language Understanding with Advanced Large Language Models," and it provides more detailed image descriptions and can be used with predefined instruction templates for image-instruction-answer fine-tuning.
+
+**LLaVA Visual Instruct 150K**
+
+- Instruction datasets: English;
+- Multi-task: Datasets containing multiple tasks;
+- Mixed dataset: Contains both human and machine-generated data.
+
+LLaVA Visual Instruct 150K is a set of GPT-generated multimodal instruction-following data. It is built for visual instruction tuning and aims to achieve GPT-4 level vision and language capabilities.
+
 ## Sources
 
 <Card title="Reference Materials">
