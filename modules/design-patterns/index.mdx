@@ -2912,6 +2912,164 @@ Despite her struggles to land a full-time job in design, Erika Kim remains optim
 
 In the next part of this series, I'll focus on the opportunities ahead: how we as a design industry can do better and what we should be teaching our design students. In the final part, I'll touch on what recent grads can do to find a job in this current market.
 
+> **Note:** The following article is reproduced verbatim from  
+> Roger Wong, *Roger Wong* (2025):  
+> [Beyond the Prompt: Finding the AI Design Tool That Actually Works for Designers](https://rogerwong.me/2025/04/beyond-the-prompt)  
+> for internal educational use only (non-profit).
+
+# Beyond the Prompt: Finding the AI Design Tool That Actually Works for Designers
+
+There has been an explosion of AI-powered prompt-to-code tools within the last year. The space began with full-on integrated development environments (IDEs) like Cursor and Windsurf. These enabled developers to use leverage AI assistants right inside their coding apps. Then came a tools like v0, Lovable, and Replit, where users could prompt screens into existence at first, and before long, entire applications.
+
+A couple weeks ago, I decided to test out as many of these tools as I could. My aim was to find the app that would combine AI assistance, design capabilities, and the ability to use an organization's coded design system.
+
+While my previous essay was about the future of product design, this article will dive deep into a head-to-head between all eight apps that I tried. I recorded the screen as I did my testing, so I've put together a video as well, in case you didn't want to read this.
+
+It is a long video, but there's a lot to go through. It's also my first video on YouTube, so this is an experiment.
+
+## The Bottom Line: What the Testing Revealed
+
+I won't bury the lede here. AI tools can be frustrating because they are probabilistic. One hour they can solve an issue quickly and efficiently, while the next they can spin on a problem and make you want to pull your hair out. Part of this is the LLM—and they all use some combo of the major LLMs. The other part is the tool itself for not handling what happens when their LLMs fail.
+
+For example, this morning I re-evaluated Lovable and Bolt because they've released new features within the last week, and I thought it would only be fair to assess the latest version. But both performed worse than in my initial testing two weeks ago. In fact, I tried Bolt twice this morning with the same prompt because the first attempt netted a blank preview. Unfortunately, the second attempt also resulted in a blank screen and then I ran out of credits. 🤷‍♂️
+
+For designers who want actual design tools to work on UI, Subframe is the clear winner. The other tools go directly from prompt to code, skipping giving designers any control via a visual editor. We're not developers, so manipulating the design in code is not for us. We need to be able to directly manipulate the components by clicking and modifying shapes on the canvas or changing values in an inspector.
+
+For me, the runner-up is v0, if you want to use it only for prototyping and for getting ideas. It's quick—the UI is mostly unstyled, so it doesn't get in the way of communicating the UX.
+
+## The Players: Code-Only vs. Design-Forward Tools
+
+There are two main categories of contenders: code-only tools, and code plus design tools.
+
+### Code-Only
+
+- Bolt
+- Lovable
+- Polymet
+- Replit
+- v0
+
+### Code + Design
+
+- Onlook
+- Subframe
+- Tempo
+
+## My Testing Approach: Same Prompt, Different Results
+
+As mentioned at the top, I tested these tools between April 16–27, 2025. As with most SaaS products, I'm sure things change daily, so this report captures a moment in time.
+
+For my evaluation, since all these tools allow for generating a design from a prompt, that's where I started. Here's my prompt:
+
+> Create a complete shopping cart checkout experience for an online clothing retailer
+
+I would expect the following pages to be generated:
+
+- Shopping cart
+- Checkout page (or pages) to capture payment and shipping information
+- Confirmation
+
+I scored each app based on the following rubric:
+
+- **User experience (25)**
+- **Visual design (15)**
+- **Prototype (10)**
+- **Ease of use (15)**
+- **Control (15)**
+- **Design system integration (10)**
+- **Speed (10)**
+- **Editor's discretion (±10)**
+
+## The Scoreboard: How Each Tool Stacked Up
+
+Final summary scores for AI design tools for designers. Evaluations conducted between 4/16–4/27/25.
+
+Here are the summary scores for all eight tools. For the detailed breakdown of scores, view the scorecards here in this Google Sheet.
+
+## The Blow-by-Blow: The Good, the Bad, and the Ugly
+
+### Bolt
+
+First up, Bolt. Classic prompt-to-code pattern here—text box, type your prompt, watch it work.
+
+Bolt shows you the code generation in real-time, which is fascinating if you're a developer but mostly noise if you're not. The resulting design was decent but plain, with typical UX patterns. It missed delivering the confirmation page I would expect. And when I tried to re-evaluate it this morning with their new features? Complete failure—blank preview screens until I ran out of credits. No rhyme or reason. And there it is—a perfect example of the maddening inconsistency these tools deliver. Working beautifully in one session, completely broken in another. Same inputs, wildly different outputs.
+
+**Score: 43**
+
+### Lovable
+
+Moving on to Lovable, which I captured this morning right after they launched their 2.0 version. The experience was a mixed bag. While it generated clean (if plain) UI with some nice touches like toast notifications and a sidebar shopping cart, it got stuck at a critical juncture—the actual checkout. I had to coax it along, asking specifically for the shopping cart that was missing from the initial generation.
+
+The tool encountered an error but at least provided a handy "Try to fix" button. Unlike Bolt, Lovable tries to hide the code, focusing instead on the browser preview—which as a designer, I appreciate. When it finally worked, I got a very vanilla but clean checkout flow and even the confirmation page I was looking for. Not groundbreaking, but functional. The approach of hiding code complexity might appeal to designers who don't want to wade through development details.
+
+**Score: 49**
+
+### Polymet
+
+Next up is Polymet. This one has a very interesting interface and I kind of like it. You have your chat on the left and a canvas on the right. But instead of just showing the screen it's working on, it's actually creating individual components that later get combined into pages. It's almost like building Figma components and then combining them at the end, except these are all coded components.
+
+The design is pretty good—plain but very clean. I feel like it's got a little more character than some of the others. What's nice is you can go into focus mode and actually play with the prototype. I was able to navigate from the shopping cart through checkout (including Apple Pay) to confirmation. To export the code, you need to be on a paid plan, but the free trial gives you at least a taste of what it can do.
+
+**Score: 58**
+
+### Replit
+
+Replit was a test of patience—no exaggeration, it was the slowest tool of the bunch at 20 minutes to generate anything substantial. Why so slow? It kept encountering errors and falling into those weird loops that LLMs often do when they get stuck. At one point, I had to explicitly ask it to "make it work" just to progress beyond showing product pages, which wasn't even what I'd asked for in the first place.
+
+When it finally did generate a checkout experience, the design was nothing to write home about. Lines in the stepper weren't aligning properly, there were random broken elements, and ultimately—it just didn't work. I couldn't even complete the checkout flow, which was the whole point of the exercise. I stopped recording at that point because, frankly, I just didn't want to keep fighting with a tool that's both slow and ineffective.
+
+**Score: 31**
+
+### v0
+
+Taking v0 for a spin next, which comes from Vercel. I think it was one of the earlier prompt-to-code generators I heard about—originally just for components, not full pages (though I could be wrong). The interface is similar to Bolt with a chat panel on the left and code on the right. As it works, it shows you the generated code in real-time, which I appreciate. It's pretty mature and works really well.
+
+The result almost looks like a wireframe, but the visual design has a bit more personality than Bolt's version, even though it's using the unstyled shadcn components. It includes form validation (which I checked), and handles the payment flow smoothly before showing a decent confirmation page. Speed-wise, v0 is impressively quick compared to some others I tested—definitely a plus when you're iterating on designs and trying to quickly get ideas.
+
+**Score: 61**
+
+### Onlook
+
+Onlook stands out as a self-contained desktop app rather than a web tool like the others. The experience starts the same way—prompt in, wait, then boom—but instead of showing you immediate results, it drops you into a canvas view with multiple windows displaying localhost:3000, which is your computer running a web server locally. The design it generated was fairly typical and straightforward, properly capturing the shopping cart, shipping, payment, and confirmation screens I would expect. You can zoom out to see a canvas-style overview and manipulate layers, with a styles tab that lets you inspect and edit elements.
+
+The dealbreaker? Everything gets generated as a single page application, making it frustratingly difficult to locate and edit specific states like shipping or payment. I couldn't find these states visually or directly in the pages panel—they might've been buried somewhere in the layers, but I couldn't make heads or tails of it. When I tried using it again today to capture the styles functionality for the video, I hit the same wall that plagued several other tools I tested—blank previews and errors. Despite going back and forth with the AI, I couldn't get it running again.
+
+**Score: 71**
+
+### Subframe
+
+My time with Subframe revealed a tool that takes a different approach to the same checkout prompt. Unlike most competitors, Subframe can't create an entire flow at once (though I hear they're working on multi-page capabilities). But honestly, I kind of like this limitation—it forces you as a designer to actually think through the process.
+
+What sets Subframe apart is its MidJourney-like approach, offering four different design options that gradually come into focus. These aren't just static mockups but fully coded, interactive pages you can preview in miniature. After selecting a shopping cart design, I simply asked it to create the next page, and it intelligently moved to shipping/billing info.
+
+The real magic is having actual design tools—layers panel, property inspector, direct manipulation—alongside the ability to see the working React code. For designers who want control beyond just accepting whatever the AI spits out, Subframe delivers the best combination of AI generation and familiar design tooling.
+
+**Score: 79**
+
+### Tempo
+
+Lastly, Tempo. This one takes a different approach than most other tools. It starts by generating a PRD from your prompt, then creates a user flow diagram before coding the actual screens—mimicking the steps real product teams would take. Within minutes, it had generated all the different pages for my shopping cart checkout experience. That's impressive speed, but from a design standpoint, it's just fine. The visual design ends up being fairly plain, and the prototype had some UX issues—the payment card change was hard to notice, and the "Place order" action didn't properly lead to a confirmation screen even though it existed in the flow.
+
+The biggest disappointment was with Tempo's supposed differentiator. Their DOM inspector theoretically allows you to manipulate components directly on canvas like you would in Figma—exactly what designers need. But I couldn't get it to work no matter how hard I tried. I even came back days later to try again with a different project and reached out to their support team, but after a brief exchange—crickets. Without this feature functioning, Tempo becomes just another prompt-to-code tool rather than something truly designed for visual designers who want to manipulate components directly. Not great.
+
+**Score: 59**
+
+## The Verdict: Control Beats Code Every Time
+
+Subframe offers actual design tools—layers panel, property inspector, direct manipulation—along with AI chat.
+
+I've spent the last couple weeks testing these prompt-to-code tools, and if there's one thing that's crystal clear, it's this: for designers who want actual design control rather than just code manipulation, Subframe is the standout winner.
+
+I will caveat that I didn't do a deep dive into every single tool. I played with them at a cursory level, giving each a fair shot with the same prompt. What I found was a mix of promising starts and frustrating dead ends.
+
+The reality of AI tools is their probabilistic nature. Sometimes they'll solve problems easily, and then at other times they'll spectacularly fail. I experienced this firsthand when retesting both Lovable and Bolt with their latest features—both performed worse than in my initial testing just two weeks ago. Blank screens. Error messages. No rhyme or reason.
+
+For designers like me, the dealbreaker with most of these tools is being forced to manipulate designs through code rather than through familiar design interfaces. We need to be able to directly manipulate components by clicking and modifying shapes on the canvas or changing values in an inspector. That's where Subframe delivers while others fall short—if their audience includes designers, which might not be the case.
+
+For us designers, I believe Subframe could be the answer. But I'm also looking forward to if Figma will have an answer. Will the company get in the AI > design > code game? Or will it be left behind?
+
+The future belongs to applications that balance AI assistance with familiar design tooling—not just code generators with pretty previews.
+
 ## Sources
 
 - [Design Patterns: Elements of Reusable Object-Oriented Software](https://en.wikipedia.org/wiki/Design_Patterns)
