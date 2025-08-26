@@ -1446,6 +1446,56 @@ Best Practice: Use a benchmark that is tailored to your domain. The static natur
 
 Evaluating large-scale RAG systems is more complex than evaluating basic RAG pipelines. It requires significant computational resources. Benchmarks and frameworks also do not, generally, account for metrics like latency and efficiency which are critical for real world applications.
 
+> **Note:** The following article is reproduced verbatim from  
+> Smashing Magazine Team, *Smashing Magazine* (2025):  
+> [A Simple Guide To Retrieval Augmented Generation Language Models](https://www.smashingmagazine.com/2024/01/guide-retrieval-augmented-generation-language-models/)  
+> for internal educational use only (non-profit).
+
+# A Simple Guide To Retrieval Augmented Generation Language Models
+
+Suppose you ask some AI-based chat app a reasonably simple, straightforward question. Let's say that app is ChatGPT, and the question you ask is right in its wheelhouse, like, "What is Langchain?" That's really a softball question, isn't it? ChatGPT is powered by the same sort of underlying technology, so it ought to ace this answer.
+
+So, you type and eagerly watch the app spit out conversational strings of characters in real-time. But the answer is less than satisfying.
+
+![ChatGPT's response when it's not sure of the answer](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/guide-retrieval-augmented-generation-language-models/1-chatgpt-response.png)
+<sub>Source: *Smashing Magazine*, Smashing Magazine Team (2025).</sub>
+
+In fact, ask ChatGPT — or any other app powered by language models — any question about anything recent, and you're bound to get some sort of response along the lines of, "As of my last knowledge update…" It's like ChatGPT fell asleep Rumplestiltskin-style back in January 2022 and still hasn't woken up. You know how people say, "You'd have to be living under a rock not to know that"? Well, ChatGPT took up residence beneath a giant chunk of granite two years ago.
+
+While many language models are trained on massive datasets, data is still data, and data becomes stale. You might think of it like Googling "CSS animation," and the top result is a Smashing Magazine article from 2011. It might still be relevant, but it also might not. The only difference is that we can skim right past those instances in search results while ChatGPT gives us some meandering, unconfident answers we're stuck with.
+
+There's also the fact that language models are only as "smart" as the data used to train them. There are many techniques to improve language model's performance, but what if language models could access real-world facts and data outside their training sets without extensive retraining? In other words, what if we could supplement the model's existing training with accurate, timely data?
+
+This is exactly what Retrieval Augmented Generation (RAG) does, and the concept is straightforward: let language models fetch relevant knowledge. This could include recent news, research, new statistics, or any new data, really. With RAG, a large language model (LLM) is able to retrieve "fresh" information for more high-quality responses and fewer hallucinations.
+
+But what exactly does RAG make available, and where does it fit in a language chain? We're going to learn about that and more in this article.
+
+## Understanding Semantic Search
+
+Unlike keyword search, which relies on exact word-for-word matching, semantic search interprets a query's "true meaning" and intent — it goes beyond merely matching keywords to produce more results that bear a relationship to the original query.
+
+For example, a semantic search querying "best budget laptops" would understand that the user is looking for "affordable" laptops without querying for that exact term. The search recognizes the contextual relationships between words.
+
+This works because of text embeddings or mathematical representations of meaning that capture nuances. It's an interesting process of feeding a query through an embedded model that, in turn, converts the query into a set of numeric vectors that can be used for matching and making associations.
+
+![Text embedding is a technique for representing text data in a numerical format](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/guide-retrieval-augmented-generation-language-models/2-text-embedding.png)
+<sub>Source: *Smashing Magazine*, Smashing Magazine Team (2025).</sub>
+
+The vectors represent meanings, and there are benefits that come with it, allowing semantic search to perform a number of useful functions, like scrubbing irrelevant words from a query, indexing information for efficiency, and ranking results based on a variety of factors such as relevance.
+
+Special databases optimized for speed and scale are a strict necessity when working with language models because you could be searching through billions of documents. With a semantic search implementation that includes test embedding, storing and querying high-dimensional embedding data is much more efficient, producing quick and efficient evaluations on queries against document vectors across large datasets.
+
+That's the context we need to start discussing and digging into RAG.
+
+## Retrieval Augmented Generation
+
+Retrieval Augmented Generation (RAG) is based on research produced by the Meta team to advance the natural language processing capabilities of large language models. Meta's research proposed combining retriever and generator components to make language models more intelligent and accurate for generating text in a human voice and tone, which is also commonly referred to as natural language processing (NLP).
+
+At its core, RAG seamlessly integrates retrieval-based models that fetch external information and generative model skills in producing natural language. RAG models outperform standard language models on knowledge-intensive tasks like answering questions by augmenting them with retrieved information; this also enables more well-informed responses.
+
+![Diagramming the integration of retriever and generator components](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/guide-retrieval-augmented-generation-language-models/3-diagramming-integration-retriever-generator-components.png)
+<sub>Source: *Smashing Magazine*, Smashing Magazine Team (2025).</sub>
+
 ## Next Steps
 
 Now that you understand RAG fundamentals and advanced techniques, explore:
