@@ -1473,6 +1473,84 @@ But someone will still need to guide it.
 - **Refactor**: Apply patterns to existing code to improve structure
 - **Share**: Document and share pattern implementations with your team
 
+> **Note:** The following article is reproduced verbatim from  
+> NN/g Team, *Nielsen Norman Group* (2025):  
+> [Scope in Generative AI Features](https://www.nngroup.com/articles/scope-ai-features/)  
+> for internal educational use only (non-profit).
+
+# Scope in Generative AI Features
+
+When designing an AI feature, its scope (how broad or narrow its capabilities are) influences its usability. Our research shows that narrower AI features are (typically) easier for new users to understand and adopt. This article compares broad AI systems like ChatGPT with narrow AI tools like Spotify's playlist generator, exploring how scope impacts design.
+
+## In This Article:
+
+- Defining AI Scope
+- Broad vs. Narrow: A Comparison Table
+- Narrow Scope Allows for Guided AI and Better UX
+- Narrow Scope Is Less Likely to Be "AI for AI's Sake"
+
+## Defining AI Scope
+
+Before beginning to design a UI for any user-facing AI-powered feature, teams should answer these 4 strategic questions:
+
+- What specific user problem are we trying to solve?
+- How would fixing this problem contribute to business goals?
+- Is AI truly the best solution for this problem?
+- How complete, clean, and structured is the data we'll feed into the AI?
+
+If, after these considerations, an AI solution still seems the best course of action, the next aspect to consider is the feature's scope. Scope is a useful way to categorize interactive, user-facing AI features or products — in other words, how broad or narrow the AI system's capabilities are.
+
+> The scope of an AI feature describes the breadth of its data inputs and functionality. The broader the scope, the more variety of inputs the system can accept and the wider the range of possible outputs the system can produce.
+
+![Think of scope as a spectrum, stretching from very broad to very narrow. Any given AI product can sit anywhere on this spectrum.](https://media.nngroup.com/media/editor/2025/02/18/scope-spectrum-1.jpg)
+<sub>Source: *Nielsen Norman Group*, NN/g Team (2025).</sub>
+
+Scope can be defined for any type of system, AI or not, user-facing or running in the back end. However, this article focuses on interactive, user-facing AI features.
+
+For an AI feature, its scope is determined by the:
+
+- Kinds and size of input it accepts
+- Types of outputs it produces
+- Tasks it can handle
+- Subject areas it covers
+
+The scope of any given AI feature or product has significant implications for its design and usability.
+
+### Broad-Scope AI Systems
+
+Some systems, like ChatGPT or Claude, are very broad in scope. They can handle a wide variety of tasks and respond to open-ended user inputs. Some can accept many types of input data, including images, videos, or other file types. Some have access to the live internet, while others operate with static datasets. These broad-scope systems can also produce a variety of outputs.
+
+AI-powered smart assistants and agentic AI tools have even broader scopes, by accessing data and interacting with multiple apps and websites. (Although, at the time of writing, agentic AI's unreliable performance holds it back from widespread use.)
+
+These systems do have some constraints — for example, they all impose limitations on the size of the input (tokens) they accept. Most also have "safety" constraints around what they can provide information on. (For example, ChatGPT isn't supposed to tell you how to build a bomb.)
+
+#### Examples: ChatGPT and Perplexity
+
+ChatGPT and Perplexity are both very broad-scope AI systems. However, Perplexity is slightly narrower in scope, because (unlike ChatGPT) it is specifically designed for information seeking (it brands itself as an "answer engine").
+
+![The Scope Spectrum of AI Features is represented by a horizontal axis, stretching from Broad (left) to Narrow (right). ChatGPT is very broad, placed on the spectrum farthest to the left. Perplexity, which is a bit more narrow, is placed to its right.](https://media.nngroup.com/media/editor/2025/02/18/scope-spectrum-2.jpg)
+<sub>Source: *Nielsen Norman Group*, NN/g Team (2025).</sub>
+
+Even this slight narrowing in scope has massive design implications. A more specific use case (even if it's still very broad) allows for a more tailored interface design. Perplexity's VP of design, Henry Modisett, said as much in our podcast conversation last year:
+
+> "Open AI is building a platform that's going to have to work for all kinds of use cases that we're not thinking about."
+> Henry Modisett, VP of Design at Perplexity AI
+
+Comparing the interfaces of ChatGPT and Perplexity, these differences are clearly visible.
+
+- ChatGPT operates within a simple chat interface with a few icons (parameters). This generic interface reflects the huge variety of possible use cases.
+- Perplexity's interface has more UI elements and is more aligned with traditional search design. It offers the ability to ask followup questions but is not as conversational. Additionally, sources are a major focus in the design in a way they are not in ChatGPT (reflecting Perplexity's narrower focus on information seeking.)
+
+![When new users encounter ChatGPT, it offers dozens of suggested prompts to help people understand what it can be used for. These are extremely diverse, including "Create a charter to start a film club" and "Make a sandwich using ingredients from my kitchen."](https://media.nngroup.com/media/editor/2025/02/18/chatgpt-prompt-suggestions.png)
+<sub>Source: *Nielsen Norman Group*, NN/g Team (2025).</sub>
+
+![Perplexity's mobile app, showing its response to the question, "How is hail formed during thunderstorms?" The UI is specifically designed to focus on question-answer interactions, unlike ChatGPT.](https://media.nngroup.com/media/editor/2025/02/18/perplexity-sources.jpeg)
+<sub>Source: *Nielsen Norman Group*, NN/g Team (2025).</sub>
+
+### Narrow-Scope AI Features
+
+On the opposite side of the spectrum, narrow-scope AI features serve a very specific purpose and generally support a single task or goal. They are not as versatile or powerful as broad-scope AI features, but their purpose is more immediately clear to users.
+
 ## Sources
 
 - [Design Patterns: Elements of Reusable Object-Oriented Software](https://en.wikipedia.org/wiki/Design_Patterns)
