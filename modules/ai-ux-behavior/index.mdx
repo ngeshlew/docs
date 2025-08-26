@@ -832,6 +832,58 @@ This might seem like a schism at first, but it's more so a symptom of a simplist
 
 So, what is the right interface for artificially intelligent applications? This article aims to inform that design decision by contrasting the capabilities & constraints of conversation as an interface.
 
+> **Note:** The following article is reproduced verbatim from  
+> Smashing Magazine Team, *Smashing Magazine* (2025):  
+> [Developing A Chatbot Using Microsoft's Bot Framework, LUIS And Node.js (Part 1)](https://www.smashingmagazine.com/2017/05/chatbot-microsoft-bot-framework-luis-nodejs-part1/)  
+> for internal educational use only (non-profit).
+
+# Developing A Chatbot Using Microsoft's Bot Framework, LUIS And Node.js (Part 1)
+
+This tutorial gives you hands-on access to my journey of creating a digital assistant capable of connecting with any system via a RESTful API to perform various tasks.
+Here, I'll be demonstrating how to save a user's basic information and create a new project on their behalf via natural language processing (NLP).
+
+Note: I am not associated with Microsoft in any way (either directly or indirectly).
+
+## Choosing A Bot Framework
+
+The rising wave of artificial intelligence (AI) in the last couple of years has given a massive push to the idea of conversational interfaces, commonly known as chatbots. Creating a high-performing chatbot that can understand natural language was a tedious and complex task a few years back, but like all other user interfaces, we saw some promising advancements in chatbot-building platforms as well.
+
+The tech community has joined forces to boost the growth of various aspects of AI, including natural language processing and machine learning. Big players such as Facebook, Microsoft, IBM and Google have tirelessly been creating platforms and tools to help developers and entrepreneurs ease the process of integrating such technology into their own products and businesses.
+
+Platforms such as Slack, Facebook Messenger, Pandorabots, Telegram, Wit.ai and Microsoft's Bot Framework have given thousands of technopreneurs like me a strong foundation on which to create useful chatbots that can be integrated with existing platforms and apps in minutes. Some of these frameworks are confined to their own platforms, like Slack and Facebook Messenger, while others integrate with multiple platforms, which saves a lot of effort if you're aiming for a cross-platform launch. Matching user intent and finding entities from their utterances are the foundation on which these frameworks are built. The most extensive suites of cognitive services that can add true intelligence to your bot are offered by both IBM and Microsoft. Both companies have been investing heavily in this domain, and their services can be used as an extension of the "mind" of your bot.
+
+A few months back, I wrote an article on TechCrunch discussing the role of AI and chatbots in the web development industry. This was the same time when I saw that Bot Framework was picking up speed. Microsoft made its Bot Builder available as an open-source SDK, not just on .NET, but also on Node.js and a REST API.
+
+At this time, I was in discussions with Iflexion and Hema Maps about creating chatbots with extensive natural language and AI capabilities for their future projects. During these meetings, I identified the need to eventually add machine learning as well. So, I thought, why not give Microsoft's products a try?
+
+## The Chatbot Journey
+
+### Signing Up And Creating The App
+
+The first part is pretty convenient if you already have a Microsoft account (a work, school or personal account). Just use that to sign in on https://dev.botframework.com/. After you log in, there's a button to "Register a Bot," which takes you to a page asking you to fill in some information about the bot:
+
+- **name**: A friendly name for your bot.
+- **bot handle**: Used in the URL for your bot. Cannot be changed once registered.
+- **description**: Displayed on your card in the bot directory, if you choose to list it there.
+- **messaging end point**: The URL at which your bot will live. You'll get this URL when setting up the server environment.
+- **app ID**: Obtained by clicking the "Create Microsoft App ID and password" button above. While creating your app ID, you'll be asked to create a password. Copy and save this password safely: You'll need it in the bot configuration file.
+- **owners**: A comma-separated list of email IDs for people who will have editing rights to this bot.
+- **instrumentation key**: The Azure App Insights key, if you want to receive analytics about your bot.
+
+Once you have filled in all the information, you can click on "Register."
+
+### Setting Up The Local Environment
+
+We will first set up our local machine to test the bot via the Bot Framework Emulator on Ubuntu (also available for Mac and Windows). When I first downloaded the Bot Framework Emulator for Linux, it was just a version for the command-line interface. Luckily, it soon got replaced with a GUI-based AppImage version, which runs directly without installation.
+
+Because JavaScript is one of my primary coding languages, I chose the Node.js version of the Bot Builder SDK. To run it, you'll obviously need to install Node.js on your system. I used the Linux package manager to do so, but you can select the method that is convenient for you.
+
+```
+$ sudo apt install nodejs
+```
+
+Once Node.js is installed, create a new folder and a blank JavaScript file in a location of your choice. I'll use /var/www/aplostestbot as my root folder and create a file, aplostestbot.js, inside it. Open a new command-line editor and change the current working directory to the bot's folder. Now, run the following commands to fetch the two dependencies that we need to build our bot:
+
 ## Sources
 
 - **NN Group Research**: [AI Chatbots Discourage Error Checking](https://www.nngroup.com/articles/ai-chatbots-discourage-error-checking/)
