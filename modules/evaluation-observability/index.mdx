@@ -1736,6 +1736,99 @@ Effective prompts can help automate and improve the error analysis process.
 
 This approach emphasizes the importance of data-driven evaluation over generic metrics, focusing on domain-specific issues that actually matter for your AI product.
 
+> **Note:** The following article is reproduced verbatim from  
+> Hamel Husain & Shreya Shankar, *Hamel.dev* (2025):  
+> [Frequently Asked Questions (And Answers) About AI Evals](https://hamel.dev/blog/posts/evals-faq/)  
+> for internal educational use only (non-profit).
+
+# Frequently Asked Questions (And Answers) About AI Evals
+
+## Contents
+
+- Getting Started & Fundamentals
+- Error Analysis & Data Collection
+- Evaluation Design & Methodology
+- Human Annotation & Process
+- Tools & Infrastructure
+- Production & Deployment
+- Domain-Specific Applications
+
+## Getting Started & Fundamentals
+
+**Q: What are LLM Evals?**
+LLM evaluations are systematic methods for assessing the performance, quality, and reliability of Large Language Model outputs.
+
+**Q: What is a trace?**
+A trace is a complete record of an LLM interaction, including the input, processing steps, and output.
+
+**Q: What's a minimum viable evaluation setup?**
+A basic evaluation setup that allows you to start measuring and improving your AI system's performance.
+
+**Q: How much of my development budget should I allocate to evals?**
+A significant portion should be allocated to evaluations as they are crucial for AI system success.
+
+**Q: Will today's evaluation methods still be relevant in 5-10 years given how fast AI is changing?**
+Core evaluation principles will remain relevant, though specific methods may evolve.
+
+**Q: How do I make the case for investing in evaluations to my team?**
+Focus on the ROI of preventing failures and improving system reliability.
+
+## Error Analysis & Data Collection
+
+**Q: Why is "error analysis" so important in LLM evals, and how is it performed?**
+Error analysis helps identify specific failure modes and patterns in AI system performance.
+
+**Q: How do I surface problematic traces for review beyond user feedback?**
+Use systematic sampling and automated detection methods to identify issues.
+
+**Q: How often should I re-run error analysis on my production system?**
+Regular intervals based on system usage and update frequency.
+
+## Evaluation Design & Methodology
+
+**Q: Why do you recommend binary (pass/fail) evaluations instead of 1-5 ratings (Likert scales)?**
+Binary evaluations are more reliable and actionable for most use cases.
+
+**Q: Should I practice eval-driven development?**
+Yes, evaluation should drive development decisions and priorities.
+
+**Q: Should I build automated evaluators for every failure mode I find?**
+Focus on the most critical failure modes first.
+
+## Human Annotation & Process
+
+**Q: How many people should annotate my LLM outputs?**
+Multiple annotators for reliability, with clear guidelines for consistency.
+
+**Q: Should product managers and engineers collaborate on error analysis? How?**
+Yes, collaboration between PMs and engineers is crucial for effective evaluation.
+
+## Tools & Infrastructure
+
+**Q: Should I build a custom annotation tool or use something off-the-shelf?**
+Start with off-the-shelf tools, build custom solutions as needed.
+
+**Q: What makes a good custom interface for reviewing LLM outputs?**
+Clear presentation of inputs, outputs, and evaluation criteria.
+
+## Production & Deployment
+
+**Q: How are evaluations used differently in CI/CD vs. monitoring production?**
+CI/CD focuses on pre-deployment validation, production monitoring tracks ongoing performance.
+
+**Q: What's the difference between guardrails & evaluators?**
+Guardrails prevent issues, evaluators measure performance.
+
+## Domain-Specific Applications
+
+**Q: Is RAG dead?**
+No, RAG remains a valuable technique for many applications.
+
+**Q: How should I approach evaluating my RAG system?**
+Focus on retrieval accuracy, generation quality, and end-to-end performance.
+
+This comprehensive FAQ provides practical guidance for implementing effective AI evaluation systems across different stages of development and deployment.
+
 ## Next Steps
 
 Now that you understand evaluation and observability fundamentals, explore:
