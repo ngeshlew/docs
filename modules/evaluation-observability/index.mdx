@@ -1104,6 +1104,55 @@ Remember that AI tools are just that—tools. They should enhance your work, not
 
 The most important thing is to maintain academic integrity and ensure that your work is original, properly attributed, and meets the standards of your institution or organization.
 
+> **Note:** The following article is reproduced verbatim from  
+> Smashing Magazine Team, *Smashing Magazine* (2025):  
+> [Human-Centered Design Through AI-Assisted Usability Testing: Reality Or Fiction?](https://www.smashingmagazine.com/2025/02/human-centered-design-ai-assisted-usability-testing/)  
+> for internal educational use only (non-profit).
+
+# Human-Centered Design Through AI-Assisted Usability Testing: Reality Or Fiction?
+
+Unmoderated usability testing has been steadily growing more popular with the assistance of online UX research tools. Allowing participants to complete usability testing without a moderator, at their own pace and convenience, can have a number of advantages.
+
+The first is the liberation from a strict schedule and the availability of moderators, meaning that a lot more participants can be recruited on a more cost-effective and quick basis. It also lets your team see how users interact with your solution in their natural environment, with the setup of their own devices. Overcoming the challenges of distance and differences in time zones in order to obtain data from all around the globe also becomes much easier.
+
+However, forgoing the use of moderators also has its drawbacks. The moderator brings flexibility, as well as a human touch into usability testing. Since they are in the same (virtual) space as the participants, the moderator usually has a good idea of what's going on. They can react in real-time depending on what they witness the participant do and say. A moderator can carefully remind the participants to vocalize their thoughts. To the participant, thinking aloud in front of a moderator can also feel more natural than just talking to themselves. When the participant does something interesting, the moderator can prompt them for further comment.
+
+Meanwhile, a traditional unmoderated study lacks such flexibility. In order to complete tasks, participants receive a fixed set of instructions. Once they are done, they can be asked to complete a static questionnaire, and that's it.
+
+The feedback that the research & design team receives will be completely dependent on what information the participants provide on their own. Because of this, the phrasing of instructions and questions in unmoderated testing is extremely crucial. Although, even if everything is planned out perfectly, the lack of adaptive questioning means that a lot of the information will still remain unsaid, especially with regular people who are not trained in providing user feedback.
+
+> If the usability test participant misunderstands a question or doesn't answer completely, the moderator can always ask for a follow-up to get more information. A question then arises: Could something like that be handled by AI to upgrade unmoderated testing?
+
+Generative AI could present a new, potentially powerful tool for addressing this dilemma once we consider their current capabilities. Large language models (LLMs), in particular, can lead conversations that can appear almost humanlike. If LLMs could be incorporated into usability testing to interactively enhance the collection of data by conversing with the participant, they might significantly augment the ability of researchers to obtain detailed personal feedback from great numbers of people. With human participants as the source of the actual feedback, this is an excellent example of human-centered AI as it keeps humans in the loop.
+
+![Illustration of unmoderated testing where a participant has some questions](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/human-centered-design-ai-assisted-usability-testing/1-unmoderated-testing.png)
+<sub>Illustration by Michal Opalek. (Large preview)</sub>
+
+There are quite a number of gaps in the research of AI in UX. To help with fixing this, we at UXtweak research have conducted a case study aimed at investigating whether AI could generate follow-up questions that are meaningful and result in valuable answers from the participants.
+
+Asking participants follow-up questions to extract more in-depth information is just one portion of the moderator's responsibilities. However, it is a reasonably-scoped subproblem for our evaluation since it encapsulates the ability of the moderator to react to the context of the conversation in real time and to encourage participants to share salient information.
+
+## Experiment Spotlight: Testing GPT-4 In Real-Time Feedback
+
+The focus of our study was on the underlying principles rather than any specific commercial AI solution for unmoderated usability testing. After all, AI models and prompts are being tuned constantly, so findings that are too narrow may become irrelevant in a week or two after a new version gets updated. However, since AI models are also a black box based on artificial neural networks, the method by which they generate their specific output is not transparent.
+
+Our results can show what you should be wary of to verify that an AI solution that you use can actually deliver value rather than harm. For our study, we used GPT-4, which at the time of the experiment was the most up-to-date model by OpenAI, also capable of fulfilling complex prompts (and, in our experience, dealing with some prompts better than the more recent GPT-4o).
+
+In our experiment, we conducted a usability test with a prototype of an e-commerce website. The tasks involved the common user flow of purchasing a product.
+
+Note: See our article published in the International Journal of Human-Computer Interaction for more detailed information about the prototype, tasks, questions, and so on).
+
+In this setting, we compared the results with three conditions:
+
+1. A regular static questionnaire made up of three pre-defined questions (Q1, Q2, Q3), serving as an AI-free baseline. Q1 was open-ended, asking the participants to narrate their experiences during the task. Q2 and Q3 can be considered non-adaptive follow-ups to Q1 since they asked participants more directly about usability issues and to identify things that they did not like.
+2. The question Q1, serving as a seed for up to three GPT-4-generated follow-up questions as the alternative to Q2 and Q3.
+3. All three pre-defined questions, Q1, Q2, and Q3, each used as a seed for its own GPT-4 follow-up.
+
+The following prompt was used to generate the follow-up questions:
+
+![The prompt to create AI-generated follow-up questions in an unmoderated usability test.](https://res.cloudinary.com/indysigner/image/fetch/f_auto,q_80/w_400/https://files.smashing.media/articles/human-centered-design-ai-assisted-usability-testing/2-prompt-unmoderated-usability-testing.png)
+<sub>The prompt employed in our experiment to create AI-generated follow-up questions in an unmoderated usability test. (Large preview)</sub>
+
 ## Next Steps
 
 Now that you understand evaluation and observability fundamentals, explore:
