@@ -554,6 +554,59 @@ AI Productization and MLOps (Machine Learning Operations) bridge the gap between
   </ul>
 </Card>
 
+> **Note:** The following article is reproduced verbatim from  
+> Smashing Magazine Team, *Smashing Magazine* (2025):  
+> [On-Device AI: Building Smarter, Faster, And Private Applications](https://www.smashingmagazine.com/2025/01/on-device-ai-building-smarter-faster-private-applications/)  
+> for internal educational use only (non-profit).
+
+# On-Device AI: Building Smarter, Faster, And Private Applications
+
+It's not too far-fetched to say AI is a pretty handy tool that we all rely on for everyday tasks. It handles tasks like recognizing faces, understanding or cloning speech, analyzing large data, and creating personalized app experiences, such as music playlists based on your listening habits or workout plans matched to your progress.
+
+But here's the catch:
+
+> Where AI tool actually lives and does its work matters a lot.
+
+Take self-driving cars, for example. These types of cars need AI to process data from cameras, sensors, and other inputs to make split-second decisions, such as detecting obstacles or adjusting speed for sharp turns. Now, if all that processing depends on the cloud, network latency connection issues could lead to delayed responses or system failures. That's why the AI should operate directly within the car. This ensures the car responds instantly without needing direct access to the internet.
+
+This is what we call On-Device AI (ODAI). Simply put, ODAI means AI does its job right where you are — on your phone, your car, or your wearable device, and so on — without a real need to connect to the cloud or internet in some cases. More precisely, this kind of setup is categorized as Embedded AI (EMAI), where the intelligence is embedded into the device itself.
+
+Okay, I mentioned ODAI and then EMAI as a subset that falls under the umbrella of ODAI. However, EMAI is slightly different from other terms you might come across, such as Edge AI, Web AI, and Cloud AI. So, what's the difference? Here's a quick breakdown:
+
+- **Edge AI**: It refers to running AI models directly on devices instead of relying on remote servers or the cloud. A simple example of this is a security camera that can analyze footage right where it is. It processes everything locally and is close to where the data is collected.
+- **Embedded AI**: In this case, AI algorithms are built inside the device or hardware itself, so it functions as if the device has its own mini AI brain. I mentioned self-driving cars earlier — another example is AI-powered drones, which can monitor areas or map terrains. One of the main differences between the two is that EMAI uses dedicated chips integrated with AI models and algorithms to perform intelligent tasks locally.
+- **Cloud AI**: This is when the AI lives and relies on the cloud or remote servers. When you use a language translation app, the app sends the text you want to be translated to a cloud-based server, where the AI processes it and the translation back. The entire operation happens in the cloud, so it requires an internet connection to work.
+- **Web AI**: These are tools or apps that run in your browser or are part of websites or online platforms. You might see product suggestions that match your preferences based on what you've looked at or purchased before. However, these tools often rely on AI models hosted in the cloud to analyze data and generate recommendations.
+
+The main difference? It's about where the AI does the work: on your device, nearby, or somewhere far off in the cloud or web.
+
+## What Makes On-Device AI Useful
+
+On-device AI is, first and foremost, about privacy — keeping your data secure and under your control. It processes everything directly on your device, avoiding the need to send personal data to external servers (cloud). So, what exactly makes this technology worth using?
+
+### Real-Time Processing
+
+On-device AI processes data instantly because it doesn't need to send anything to the cloud. For example, think of a smart doorbell — it recognizes a visitor's face right away and notifies you. If it had to wait for cloud servers to analyze the image, there'd be a delay, which wouldn't be practical for quick notifications.
+
+### Enhanced Privacy and Security
+
+Picture this: You are opening an app using voice commands or calling a friend and receiving a summary of the conversation afterward. Your phone processes the audio data locally, and the AI system handles everything directly on your device without the help of external servers. This way, your data stays private, secure, and under your control.
+
+### Offline Functionality
+
+A big win of ODAI is that it doesn't need the internet to work, which means it can function even in areas with poor or no connectivity. You can take modern GPS navigation systems in a car as an example; they give you turn-by-turn directions with no signal, making sure you still get where you need to go.
+
+### Reduced Latency
+
+ODAI AI skips out the round trip of sending data to the cloud and waiting for a response. This means that when you make a change, like adjusting a setting, the device processes the input immediately, making your experience smoother and more responsive.
+
+## The Technical Pieces Of The On-Device AI Puzzle
+
+At its core, ODAI uses special hardware and efficient model designs to carry out tasks directly on devices like smartphones, smartwatches, and Internet of Things (IoT) gadgets. Thanks to the advances in hardware technology, AI can now work locally, especially for tasks requiring AI-specific computer processing, such as the following:
+
+- **Neural Processing Units (NPUs)**: These chips are specifically designed for AI and optimized for neural nets, deep learning, and machine learning applications. They can handle large-scale AI training efficiently while consuming minimal power.
+- **Graphics Processing Units (GPUs)**: Known for processing multiple tasks simultaneously, GPUs excel in speeding up AI operations, particularly with massive datasets.
+
 ## Sources
 
 <Card title="Reference Materials">
