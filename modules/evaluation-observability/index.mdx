@@ -1286,6 +1286,91 @@ Some important architectural differences between simple workflows and agentic sy
 | **Nature** | Predictable, operates based on predefined logic without real-time decision-making beyond set rules. | Adaptable, responds to unexpected inputs, and improves over time. |
 | **Decision making** | Follows a rigid structure, executing tasks exactly as defined. | Makes dynamic decisions based on context and available information. |
 
+> **Note:** The following article is reproduced verbatim from  
+> NN/g Team, *Nielsen Norman Group* (2025):  
+> [Evaluating AI-Simulated Behavior: Insights from Three Studies on Digital Twins and Synthetic Users](https://www.nngroup.com/articles/ai-simulations-studies/)  
+> for internal educational use only (non-profit).
+
+# Evaluating AI-Simulated Behavior: Insights from Three Studies on Digital Twins and Synthetic Users
+
+Can AI-powered models replace real people in user research? A growing body of research is exploring whether digital twins (generative AI models designed to simulate individual users) and synthetic users (models that mimic broader user groups) can replicate real human responses. In UX, these technologies raise exciting possibilities for scaling research, filling in gaps, and running studies that might otherwise be too slow or expensive.
+
+In this article, I examine three recent studies that put digital twins and synthetic users to the test. I review at how they were built, what kinds of tasks they performed, and how closely their results matched real human data.
+
+## In This Article:
+
+- TL;DR
+- Study 1: Survey-Based, Finetuned Digital Twins
+- Study 2: Interview-Based Digital Twins
+- Study 3: Synthetic Users
+- Summary of Findings
+- Limitations and Ethical Problems
+
+## TL;DR
+
+Don't care about the full details of each study? Here are the key findings.
+
+- **Digital twins work fairly well** to replicate both individual-level and group-level human responses. They can fill in missing answers from incomplete surveys and even backfill data from previous versions of surveys with relatively high accuracy, and, thus, prove promising for reducing survey attrition. When based on extensive interview data, they can also correctly predict human responses and behaviors in a variety of classic-survey questions and economic-behavior games.
+- **Interview-based simulated users** seem to produce more accurate models of humans than synthetic users based only on demographic information or on a persona-like description of the user, perhaps because they provide richer, more nuanced data.
+- **Digital twins have bias**. Depending on a person's socioeconomic class, race, or political views, digital twins may perform less accurately. For example, one study found that digital twins were better at predicting white people's responses compared to other racial groups. However, bias may be reduced when the twins are built on extensive interview data.
+- **Synthetic users are less impressive**: they may capture trends in human behavior but not the magnitude of the effects or the variability in the human data.
+- **The method used for building the AI-based model** may highly impact its performance. Promisingly, the simplest method (augmenting the LLM prompt with rich interview data) seems to yield the best results.
+
+## Study 1: Survey-Based, Finetuned Digital Twins
+
+A 2024 study by Junsol Kim and Byungkyu Lee explored how digital twins can be used to address some common issues in survey-based research. The researchers drew on the General Social Survey (GSS), a long‑running U.S. survey program that has collected responses from about 69,000 adults to more than 3,100 questions since 1972. They finetuned a large language model (LLM) with this rich corpus. Through this process, they retrained the model to consider not just general-purpose, linguistic similarity between words but also domain-specific similarities between questions, individuals, and time periods.
+
+To evaluate the model, Kim and Lee split their survey data into a training and a testing set. They removed 10% of the survey data and directly compared the individual human data with the data predicted by the corresponding digital twin. They tested their twins on two types of tasks: predicting missing data and predicting answers to new questions.
+
+### Missing Data
+
+Survey responses are often incomplete: respondents skip questions or abandon the survey before completing it, especially when it's long. This missing data makes it harder to run accurate statistical analyses.
+
+A related challenge in longitudinal surveys (run multiple times over years) is backfilling — inferring how someone would have answered a question that wasn't asked in a past version of the survey. For example, a researcher may be interested in knowing when a user started completing a task on their phone, but that question may have been asked only in recent versions of a survey.
+
+### New Questions
+
+Sometimes, after running a survey, researchers may realize that they failed to include a relevant question and wonder how survey respondents would have answered those questions.
+
+### Predicting Individual-Level Responses
+
+Kim and Lee found that digital twins were able to achieve a fairly high 78% accuracy for missing data and backfilling, meaning the model could successfully infer how a specific person would have answered a question they skipped or were never asked in past surveys. This level of accuracy suggests that digital twins could be particularly valuable for mitigating survey attrition or for completing longitudinal datasets.
+
+However, the twins were less accurate (67%) when asked to predict how someone would answer a completely new question — that is, a question not included in the training data. This drop in performance reveals a key limitation, at least for digital twins built with the finetuning method used by Kim and Lee: while they can interpolate within known question sets based on a respondents' other answers, they might struggle to extrapolate beyond their learned context.
+
+### Predicting Population-Level Trends
+
+To obtain general-population trends, Kim and Lee aggregated the individual data obtained from digital twins (while taking into account the overall sampling frames in the demographics of their survey respondents). They looked at how well the resulting population-level measure (such as the proportion of respondents selecting a particular response) obtained from twin data correlated with the corresponding measure from human data. They found high correlations when digital twins were used for both replacing missing data and backfilling (r=0.98), but lower correlations when digital twins were used to predict responses to new questions (r=0.68).
+
+### Subgroup Variations
+
+The digital twins were better at predicting the responses of individuals with higher socio-economic status (both in terms of income and education) and of white individuals (when compared with other racial groups). This disparity raises questions about fairness and representation: If digital twins perform less accurately for marginalized groups, their use could unintentionally reinforce existing biases.
+
+### Effect of Context Size
+
+Kim and Lee also looked at how much contextual data needs to be included in the model during the finetuning phase to get reasonable accuracy. They found that, especially for the task of predicting missing data, even eliminating 40% of the available training corpus kept the performance of the digital twins quite high. This finding has a significant impact on survey attrition: participants could be asked to respond to a subset of questions out of a larger survey, and digital twins could be used for inferring the responses to the rest.
+
+## Study 2: Interview-Based Digital Twins
+
+A Stanford‑Google team tried a different recipe: they conducted two‑hour AI‑led interviews with 1,052 U.S. adults and used the resulted transcripts to build digital twins for these individuals. Both the human participants and the twins had to take an extensive battery of tests, that were then used to evaluate the twins' performance:
+
+- a subset of the GSS survey questions
+- Big-Five Personality Inventory (a 50-question survey which measures 5 broad personality dimensions)
+- 5 well-known economic behavior games (such as the dictator game and the prisoner's dilemma)
+- 5 social-science experiments
+
+(To account for human gaps in self-consistency, participants had to retake the same surveys and experiments two weeks later.)
+
+The responses from the AI-based digital twins were compared to real human data, while controlling for each participant's self-consistency across the two instances of the experiment.
+
+Unlike the elaborate finetuning method used by Kim and Lee, the Stanford researchers used prompt augmentation to essentially create a single "model" for each individual participant. To mimic an individual's response, their interview was added to the prompt; if the task that the participant was supposed to complete was multistep, then the previous responses provided by the agent were also included in the prompt. (This would be akin to the concept of having a conversation with a model like ChatGPT).
+
+Additionally, to understand how much of the prediction quality was due to the interviews, the research team also created two simpler types of models for comparison:
+
+- **a demographic model**, based on participants' responses to questions about age, gender, race, and political ideology (This model is the equivalent of a typical synthetic user.)
+
+- **a persona-based model**, based on a brief paragraph that participants wrote about themselves after the interview (This model is somewhere in between a synthetic user and a digital twin.)
+
 ## Next Steps
 
 Now that you understand evaluation and observability fundamentals, explore:
