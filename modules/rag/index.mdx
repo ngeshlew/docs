@@ -1666,6 +1666,237 @@ The first step in the MM-RAG pipeline is encoding input data into vector embeddi
 
 **Text encoders**: Models like BERT, T5, or GPT encode text into semantic embeddings that capture linguistic meaning. These embeddings are dense vectors representing the relationships between words or phrases.
 
+> **Note:** The following article is reproduced verbatim from  
+> Neptune.ai Team, *Neptune.ai* (2025):  
+> [Evaluating RAG Pipelines](https://neptune.ai/blog/rag-pipeline)  
+> for internal educational use only (non-profit).
+
+# Evaluating RAG Pipelines
+
+Evaluation of a RAG pipeline is challenging because it has many components. Each stage, from retrieval to generation and post-processing, requires targeted metrics. Traditional evaluation methods fall short in capturing human judgment, and many teams underestimate the effort required, leading to incomplete or misleading performance assessments.
+
+RAG evaluation should be approached across three dimensions: performance, cost, and latency. Metrics like Recall@k, Precision@k, MRR, F1 score, and qualitative indicators help assess how well each part of the system contributes to the final output.
+
+The optimization of a RAG pipeline can be divided into pre-processing (pre-retrieval), processing (retrieval and generation), and post-processing (post-generation) stages. Each stage is optimized locally, as global optimization is not possible due to the exponentially many choices for hyperparameters.
+
+The pre-processing stage improves how knowledge is chunked, embedded, and stored, ensuring that user queries are clear and contextual. The processing stage tunes the retriever and generator for better relevance, ranking, and response quality. The post-processing stage adds final checks for hallucinations, safety, and formatting before displaying the output to the end user.
+
+Retrieval-augmented generation (RAG) is a technique for augmenting the generative capabilities of a large language model (LLM) by integrating it with information retrieval techniques. Instead of relying solely on the model's pre-trained knowledge, RAG allows the system to pull in relevant external information at the time of the query, making responses more accurate and up-to-date.
+
+Since its introduction by Lewis et al. in 2020, RAG has become the go-to technique for incorporating external knowledge into the LLM pipeline. According to research published by Microsoft in early 2024, RAG consistently outperforms unsupervised fine-tuning for tasks that require domain-specific or recent information.
+
+At a high level, here's how RAG works:
+
+1. The user poses a question to the system, known as the query, which is transformed into a vector using an embedding model.
+
+2. The retriever pulls the documents most relevant to the query from a collection of embedded documents stored in a vector database. These documents come from a larger collection, often referred to as a knowledge base.
+
+3. The retrieved documents are passed to the generator (typically an LLM) along with the original query.
+
+4. The generator produces a response based on the query and the retrieved context.
+
+## Dimensions of RAG Evaluation
+
+RAG evaluation should be approached across three dimensions:
+
+### Performance
+- **Retrieval metrics**: Recall@k, Precision@k, Mean Reciprocal Rank (MRR)
+- **Generation metrics**: F1 score, BLEU, ROUGE, semantic similarity
+- **End-to-end metrics**: Human evaluation, relevance scores
+
+### Cost
+- **Computational cost**: Token usage, API calls, processing time
+- **Storage cost**: Vector database size, embedding storage
+- **Maintenance cost**: Model updates, data refresh cycles
+
+### Latency
+- **Retrieval latency**: Time to fetch relevant documents
+- **Generation latency**: Time for LLM to produce response
+- **Total latency**: End-to-end response time
+
+## Why is RAG Pipeline Evaluation Challenging?
+
+RAG evaluation is challenging for several reasons:
+
+1. **Multiple components**: Each stage (retrieval, generation, post-processing) requires different evaluation approaches
+2. **Human judgment**: Traditional metrics often fail to capture nuanced human assessment of quality
+3. **Context dependency**: Performance varies significantly based on the specific use case and domain
+4. **Evolving benchmarks**: The field is rapidly evolving with new evaluation methodologies
+5. **Resource constraints**: Comprehensive evaluation requires significant computational and human resources
+
+## How to Evaluate a RAG Pipeline
+
+### Curating an Evaluation Dataset
+
+The foundation of any evaluation is a high-quality dataset that represents your use case. This should include:
+
+- **Diverse queries**: Cover different types of questions and user intents
+- **Ground truth**: Correct answers or expected responses for each query
+- **Context documents**: The knowledge base that should be retrieved
+- **Edge cases**: Queries that test the system's limits and robustness
+
+### Evaluation of the Retriever
+
+#### Non-rank based metrics
+- **Recall@k**: Percentage of relevant documents retrieved in top-k results
+- **Precision@k**: Percentage of retrieved documents that are relevant
+- **Hit rate**: Whether at least one relevant document is in top-k results
+
+#### Rank-based metrics
+- **Mean Reciprocal Rank (MRR)**: Average of reciprocal ranks of first relevant document
+- **Normalized Discounted Cumulative Gain (NDCG)**: Considers both relevance and ranking order
+- **Mean Average Precision (MAP)**: Average precision across all queries
+
+### Evaluation of the Generator
+
+#### Citation-based metrics
+- **Citation accuracy**: Whether the generated response correctly cites retrieved documents
+- **Citation relevance**: Whether cited documents are actually relevant to the query
+- **Citation completeness**: Whether all relevant information is properly cited
+
+#### Response-based metrics
+- **F1 score at token level**: Measures overlap between generated and reference text
+- **Semantic similarity**: Cosine similarity between generated and reference embeddings
+- **Faithfulness**: Whether the response accurately reflects the retrieved context
+- **Answerability**: Whether the response actually answers the query
+
+#### Qualitative indicators
+- **Relevance**: Does the response address the user's question?
+- **Completeness**: Does it provide a comprehensive answer?
+- **Accuracy**: Is the information factually correct?
+- **Clarity**: Is the response well-structured and easy to understand?
+
+### End-to-end evaluation
+
+End-to-end evaluation assesses the complete RAG pipeline:
+
+- **Human evaluation**: Expert assessment of response quality
+- **User satisfaction**: Feedback from actual users
+- **Task completion**: Whether the user's goal was achieved
+- **Business metrics**: Impact on key performance indicators
+
+## Optimizing RAG Pipeline Performance
+
+The optimization of a RAG pipeline can be divided into three stages:
+
+### Stage 1: Pre-processing
+
+#### Optimizing the knowledge base (KB)
+
+##### 1. Chunking Strategy
+- **Semantic chunking**: Split documents based on meaning rather than fixed size
+- **Overlap**: Include some overlap between chunks to maintain context
+- **Hierarchical chunking**: Create chunks at multiple levels of granularity
+
+##### 2. Chunk Size
+- **Small chunks**: Better for precise retrieval but may lose context
+- **Large chunks**: Maintain context but may include irrelevant information
+- **Optimal size**: Typically 256-512 tokens, depending on use case
+
+##### 3. Metadata
+- **Rich metadata**: Include source, date, author, category, etc.
+- **Structured information**: Use JSON or similar format for easy filtering
+- **Embedding metadata**: Include metadata in embedding generation
+
+#### Optimizing the user query
+
+##### Query rewriting
+- **Query expansion**: Add synonyms and related terms
+- **Query reformulation**: Restructure complex queries
+- **Query clarification**: Ask for clarification when queries are ambiguous
+
+##### Adding context to the query
+- **Conversation history**: Include previous exchanges
+- **User profile**: Consider user preferences and history
+- **Domain context**: Add relevant domain-specific information
+
+##### Simplifying overly long queries
+- **Query summarization**: Extract key points from long queries
+- **Query decomposition**: Break complex queries into simpler parts
+- **Focus extraction**: Identify the main intent of the query
+
+##### Query routing
+- **Intent classification**: Route queries to appropriate subsystems
+- **Domain routing**: Direct queries to relevant knowledge bases
+- **Complexity routing**: Route simple vs. complex queries differently
+
+#### Optimizing the vector database
+
+##### Choosing the right vector database
+- **Pinecone**: Good for production deployments
+- **Weaviate**: Excellent for complex queries and metadata filtering
+- **Chroma**: Great for development and prototyping
+- **Qdrant**: Good balance of features and performance
+
+##### Embedding model selection
+- **Domain-specific models**: Use models trained on your domain
+- **Multilingual models**: Consider if you need multiple languages
+- **Model size**: Balance between performance and cost
+- **Update frequency**: Consider how often you need to update embeddings
+
+### Stage 2: Processing
+
+#### Optimizing the retriever
+
+##### Ensuring data quality in the knowledge base
+- **Data cleaning**: Remove duplicates, fix formatting issues
+- **Data validation**: Ensure accuracy and completeness
+- **Regular updates**: Keep knowledge base current and relevant
+
+##### Choose the optimal retrieval algorithm
+- **Dense retrieval**: Use embedding similarity (most common)
+- **Sparse retrieval**: Use keyword matching (BM25, TF-IDF)
+- **Hybrid retrieval**: Combine dense and sparse methods
+- **Multi-vector retrieval**: Use multiple embeddings per document
+
+##### Apply re-ranking
+- **Cross-encoder models**: Re-rank retrieved documents using more sophisticated models
+- **Multi-criteria ranking**: Consider relevance, freshness, authority
+- **Personalized ranking**: Adapt ranking to user preferences
+
+#### Optimizing the generator
+
+##### Large language model (LLM)
+- **Model selection**: Choose appropriate model for your use case
+- **Temperature tuning**: Balance creativity vs. consistency
+- **Context window**: Ensure sufficient context for complex queries
+- **Model fine-tuning**: Fine-tune on your specific domain
+
+##### Design better prompts
+- **Clear instructions**: Provide explicit guidance to the model
+- **Few-shot examples**: Include examples of good responses
+- **Context formatting**: Structure retrieved context clearly
+- **Output formatting**: Specify desired output format
+
+### Stage 3: Post-processing
+
+#### Response validation
+- **Fact checking**: Verify claims against knowledge base
+- **Citation verification**: Ensure citations are accurate and relevant
+- **Hallucination detection**: Identify and flag potentially false information
+
+#### Response enhancement
+- **Formatting**: Ensure consistent and readable output
+- **Summarization**: Provide concise summaries when appropriate
+- **Personalization**: Adapt response to user preferences
+
+#### Safety and compliance
+- **Content filtering**: Remove inappropriate or harmful content
+- **Bias detection**: Identify and mitigate potential biases
+- **Compliance checking**: Ensure adherence to relevant regulations
+
+## Final Thoughts
+
+Evaluating and optimizing RAG pipelines is a complex but essential task. The key is to:
+
+1. **Start with clear objectives**: Define what success looks like for your use case
+2. **Use multiple metrics**: Don't rely on a single evaluation approach
+3. **Iterate continuously**: RAG systems require ongoing optimization
+4. **Consider the full pipeline**: Optimize each component while maintaining end-to-end performance
+5. **Monitor in production**: Track real-world performance and user feedback
+
+Remember that RAG evaluation is not a one-time task but an ongoing process. As your knowledge base grows, user needs evolve, and new techniques emerge, you'll need to continuously evaluate and improve your RAG pipeline.
+
 ## Next Steps
 
 Now that you understand RAG fundamentals and advanced techniques, explore:
