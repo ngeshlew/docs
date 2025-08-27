@@ -1733,6 +1733,87 @@ At the same time, smarter prompt engineering is reducing the need for costly fin
 
 With organizations like OpenAI, Microsoft and the open source community leading the charge, the future of multimodal AI is incredibly exciting. Innovations like retrieval-augmented generation (RAG), in context learning (ICL) and multimodal reasoning are setting new benchmarks for advancements in robotics, image recognition and language understanding. By effectively processing and integrating diverse multimodal inputs, these models are moving beyond unimodal systems to deliver richer, more context-aware experiences. Through advanced machine learning techniques and streamlined training processes, multimodal AI models are enabling smarter interactions, whether it's through conversational chatbots, intuitive image analysis or decision-making systems powered by autoregressive architectures. These systems are becoming more intuitive, context-aware and human-like, with the potential to make a real difference in industries ranging from healthcare to automation and beyond.
 
+> **Note:** The following article is reproduced verbatim from  
+> Determined.ai Team, *Determined.ai* (2025):  
+> [How Multimodal LLMs Work](https://determined.ai/blog/multimodal-llms)  
+> for internal educational use only (non-profit).
+
+# How Multimodal LLMs Work
+
+Large Language Models (LLMs) have shown an impressive ability to understand text. But there are many cases where we'd like LLMs to understand more than just text. We might want them to receive or generate multiple modalities of data, like text, images, and audio. LLMs with this capability are called multimodal LLMs, and in this post, we'll give a high-level overview of three multimodal LLMs in the vision-language domain. As we'll see, all three LLMs have the following components in common:
+
+- A vision-only model.
+- A text-only model (the LLM).
+- One or more components that convert the output of the vision model into a format that can be fed into the LLM.
+
+Let's dive in.
+
+## Flamingo
+
+Flamingo is a multimodal LLM that was presented in 2022. Here's how the vision and language components work:
+
+- The vision encoder converts images or videos into embeddings (lists of numbers). These embeddings vary in size depending on the dimensions of the input images, or the lengths of the input videos, so another component called the Perceiver Resampler converts these embeddings to a common fixed length.
+- The language model takes in text, and the fixed-length vision embeddings from the Percever Resampler. The vision embeddings are used in multiple "cross-attention" blocks, which learn to weigh the importance of different parts of the vision embedding, given the current text.
+
+Training occurs in three steps:
+
+1. The vision encoder is pretrained using CLIP (see the next section for an explanation). CLIP actually trains both a vision encoder and a text encoder, so the text encoder from this step is discarded.
+2. The language model is a Chinchilla model pretrained on next-token prediction, i.e. predicting the next group of characters given a series of previous characters. This is how most LLMs like GPT-4 are trained. You might hear this type of model referred to as "autoregressive", which means the model predicts future values based on past values.
+3. In the third stage, untrained cross-attention blocks are inserted into the language model, and an untrained Perceiver Resampler is inserted between the vision encoder and the language model. This is the complete Flamingo model, but the cross-attention blocks and the Perceiver Resampler still need to be trained. To do this, the entire Flamingo model is used to compute tokens in the next-token prediction task, but the inputs now contain images interleaved with text. Furthermore, the weights of the vision encoder and the language model are frozen. In other words, only the Perceiver Resampler and cross-attention blocks are actually updated and trained.
+
+After training, Flamingo is able to perform a variety of vision-language tasks, including answering questions about images in a conversational format.
+
+## What is CLIP?
+
+As mentioned in the previous section, Flamingo uses CLIP in its pretraining stage. CLIP is not a multimodal LLM. Instead, it is a training methodology that produces separate vision and text models with powerful downstream capabilities. CLIP stands for Contrastive Language-Image Pre-training, and it is conceptually very simple:
+
+- The model architecture consists of an image encoder and text encoder. The image encoder converts images to embeddings (lists of numbers), and the text encoder converts text to embeddings.
+- The two encoders are trained on batches of image-text pairs, in which the text describes the image. The encoders are trained such that:
+  - For each image-text pair, the image and text embeddings are "close" to each other.
+  - For all non-matching image-text pairs, the image and text embeddings are far from each other.
+
+Note that there are many ways to measure the distance between two embeddings. Some common ways are Euclidean distance and cosine similarity. CLIP uses the latter.
+
+At a high level, CLIP learns a joint image-text embedding space, which basically means that the similarity between images and text can be directly computed. It turns out that training models with this goal makes them generally very useful, including in the context of multimodal LLMs.
+
+## BLIP-2
+
+BLIP-2 is a multimodal LLM that was released in early 2023. Like Flamingo, it contains a pretrained image encoder and LLM. But unlike Flamingo, both the image encoder and LLM are left untouched (after pretraining).
+
+Instead, BLIP-2 introduces a new component called the Q-Former, which acts as a bridge between the vision encoder and the LLM. The Q-Former is a transformer that takes in the output of the vision encoder and produces a fixed-length sequence of embeddings that can be fed into the LLM.
+
+The Q-Former is trained using a combination of two objectives:
+
+1. **Image-Text Contrastive Learning**: Similar to CLIP, the Q-Former learns to align image and text representations.
+2. **Image-Grounded Text Generation**: The Q-Former learns to generate text that is grounded in the image content.
+
+The key innovation of BLIP-2 is that it keeps the vision encoder and LLM frozen, only training the Q-Former. This makes the training much more efficient and allows BLIP-2 to work with a variety of different vision encoders and LLMs.
+
+## LLaVA
+
+LLaVA is a multimodal LLM that was released in 2023. The architecture is quite simple:
+
+- It uses a pretrained vision encoder (typically CLIP ViT-L/14) to encode images into embeddings.
+- These embeddings are projected to the same dimension as the LLM's input embeddings using a simple linear layer.
+- The projected embeddings are then concatenated with the text embeddings and fed into the LLM.
+
+The key insight of LLaVA is that by using a simple linear projection, it can effectively bridge the gap between vision and language representations. This approach is much simpler than the more complex architectures used in Flamingo and BLIP-2, but it still achieves impressive performance on vision-language tasks.
+
+LLaVA is trained using a combination of:
+
+1. **Pretraining**: The model is trained on a large dataset of image-text pairs to learn basic vision-language understanding.
+2. **Instruction tuning**: The model is fine-tuned on instruction-following data to improve its ability to follow user instructions.
+
+## Summary
+
+In this post, we briefly covered three important multimodal LLMs, plus CLIP. Here's a quick summary of the key differences:
+
+- **Flamingo**: Uses cross-attention blocks and a Perceiver Resampler to integrate vision and language. Trains the integration components while keeping the vision encoder and LLM frozen.
+- **BLIP-2**: Uses a Q-Former as a bridge between vision and language. Only trains the Q-Former, keeping both the vision encoder and LLM frozen.
+- **LLaVA**: Uses a simple linear projection to align vision and language representations. Trains the entire model end-to-end.
+
+All three approaches have their strengths and have contributed to the rapid advancement of multimodal AI capabilities.
+
 ## Sources
 
 <Card title="Reference Materials">
