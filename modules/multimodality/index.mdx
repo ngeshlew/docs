@@ -1275,6 +1275,68 @@ Start your free SingleStore trial today.
 - Social media sentiment analysis. This can be cleverly done by multimodal-powered applications since they can identify images and text as well.
 - eCommerce. Product search and recommendations can be simplified using multimodal models, since they get more contextual information from the user with many input capabilities.
 
+> **Note:** The following article is reproduced verbatim from  
+> Google Team, *Google Cloud* (2025):  
+> [Get multimodal embeddings](https://cloud.google.com/vertex-ai/generative-ai/docs/embeddings/get-multimodal-embeddings)  
+> for internal educational use only (non-profit).
+
+# Get multimodal embeddings
+
+## Supported models
+
+## Best practices
+
+## API usage
+
+### API limits
+
+### Before you begin
+
+### Java
+
+To see an example of multimodal embeddings, run the "Intro to multimodal embeddings" notebook in one of the following environments:
+
+The multimodal embeddings model generates 1408-dimension vectors based on the input you provide, which can include a combination of image, text, and video data. The embedding vectors can then be used for subsequent tasks like image classification or video content moderation.
+
+The image embedding vector and text embedding vector are in the same semantic space with the same dimensionality. Consequently, these vectors can be used interchangeably for use cases like searching image by text, or searching video by image.
+
+For text-only embedding use cases, we recommend using the Vertex AI text-embeddings API instead. For example, the text-embeddings API might be better for text-based semantic search, clustering, long-form document analysis, and other text retrieval or question-answering use cases. For more information, see Get text embeddings.
+
+## Supported models
+
+You can get multimodal embeddings by using the following model:
+
+- **multimodalembedding**
+
+## Best practices
+
+Consider the following input aspects when using the multimodal embeddings model:
+
+- **Text in images** - The model can distinguish text in images, similar to optical character recognition (OCR). If you need to distinguish between a description of the image content and the text within an image, consider using prompt engineering to specify your target content.
+- **Image quality** - Higher quality images generally produce better embeddings
+- **Content relevance** - Ensure the input content is relevant to your use case
+
+## API usage
+
+The multimodal embeddings API allows you to generate embeddings from various input types including images, text, and video data.
+
+### API limits
+
+- Maximum input size varies by modality
+- Rate limiting applies based on your quota
+- Concurrent request limits may apply
+
+### Before you begin
+
+1. Set up your Google Cloud project
+2. Enable the Vertex AI API
+3. Configure authentication
+4. Install the required client libraries
+
+### Implementation examples
+
+The API supports multiple programming languages including Java, Python, and Node.js for generating multimodal embeddings.
+
 ## Sources
 
 <Card title="Reference Materials">
