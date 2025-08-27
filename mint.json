@@ -41,10 +41,22 @@
     {
       "group": "AI Foundations",
       "pages": [
-        "modules/foundations/index",
-        "modules/transformers/index",
-        "modules/token-context/index",
-        "modules/ai-fluency-framework/index"
+        {
+          "page": "modules/foundations/index",
+          "title": "AI Foundations"
+        },
+        {
+          "page": "modules/transformers/index",
+          "title": "Transformers"
+        },
+        {
+          "page": "modules/token-context/index",
+          "title": "Token & Context Management"
+        },
+        {
+          "page": "modules/ai-fluency-framework/index",
+          "title": "AI Fluency Framework"
+        }
       ]
     },
     {
@@ -76,37 +88,85 @@
     {
       "group": "AI Architecture & Systems",
       "pages": [
-        "modules/mcp/index",
-        "modules/memory-state/index",
-        "modules/rag/index",
-        "modules/agents-orchestration/index",
-        "modules/multimodality/index"
+        {
+          "page": "modules/mcp/index",
+          "title": "Model Context Protocol (MCP)"
+        },
+        {
+          "page": "modules/memory-state/index",
+          "title": "Memory & State Management"
+        },
+        {
+          "page": "modules/rag/index",
+          "title": "Retrieval-Augmented Generation (RAG)"
+        },
+        {
+          "page": "modules/agents-orchestration/index",
+          "title": "Agents & Orchestration"
+        },
+        {
+          "page": "modules/multimodality/index",
+          "title": "Multimodality in AI"
+        }
       ]
     },
     {
       "group": "User Experience Design",
       "pages": [
-        "modules/streaming-ux/index",
-        "modules/ai-ux-behavior/index",
-        "modules/design-patterns/index"
+        {
+          "page": "modules/streaming-ux/index",
+          "title": "Streaming UX"
+        },
+        {
+          "page": "modules/ai-ux-behavior/index",
+          "title": "AI UX & Behavior"
+        },
+        {
+          "page": "modules/design-patterns/index",
+          "title": "Design Patterns"
+        }
       ]
     },
     {
       "group": "Production & Operations",
       "pages": [
-        "modules/safety-security/index",
-        "modules/evaluation-observability/index",
-        "modules/cost-latency/index",
-        "modules/productization-mlops/index"
+        {
+          "page": "modules/safety-security/index",
+          "title": "Safety & Security"
+        },
+        {
+          "page": "modules/evaluation-observability/index",
+          "title": "Evaluation & Observability"
+        },
+        {
+          "page": "modules/cost-latency/index",
+          "title": "Cost & Latency Optimization"
+        },
+        {
+          "page": "modules/productization-mlops/index",
+          "title": "AI Productization & MLOps"
+        }
       ]
     },
     {
       "group": "Advanced Topics",
       "pages": [
-        "modules/collaboration-with-engineers/index",
-        "modules/ecosystem-deep-dives/index",
-        "competitors/fin-intercom",
-        "competitors/yellow-ai"
+        {
+          "page": "modules/collaboration-with-engineers/index",
+          "title": "Collaboration with Engineers"
+        },
+        {
+          "page": "modules/ecosystem-deep-dives/index",
+          "title": "Ecosystem Deep Dives"
+        },
+        {
+          "page": "competitors/fin-intercom",
+          "title": "Fin & Intercom Analysis"
+        },
+        {
+          "page": "competitors/yellow-ai",
+          "title": "Yellow AI Analysis"
+        }
       ]
     },
     {
