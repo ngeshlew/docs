@@ -1161,6 +1161,120 @@ Market research is another area that could benefit from audio analysis. Research
 
 I can also see audio analysis being used in the design process. Like, instead of asking stakeholders to write responses, how about asking them to record their verbal reactions and running those through an audio analysis tool? The possibilities are endless!
 
+> **Note:** The following article is reproduced verbatim from  
+> SingleStore Team, *SingleStore* (2025):  
+> [Claude 3 Multimodal With LlamaIndex and SingleStore](https://www.singlestore.com/blog/claude-3-multimodal-with-llamaindex-and-singlestore/)  
+> for internal educational use only (non-profit).
+
+# Claude 3 Multimodal With LlamaIndex and SingleStore
+
+### Claude 3
+
+### Claude 3 multimodal tutorial
+
+### Multimodal scenario using an image
+
+### Index into a vector store
+
+### Multimodal LLMs: Industry specific use cases
+
+Large Language Models (LLMs) have been the talk of the town due to their various capabilities that can almost replace humans. While models from OpenAI and Google have made a significant impact, there is another contender for the throne: Anthropic.
+
+Anthropic is an AI company that is building some amazing models to compete with popular models from major providers. Anthropic recently released Claude 3, a multimodal LLM that is getting attention in the AI market. We'll take a closer look at how the Claude 3 model works, and its multimodal capabilities.
+
+What is a multimodal model?
+
+We all agree that the LLMs have limitations in terms of creating/providing accurate information, which can be tracked through different techniques. But, what if we have models that take not just natural language as input, but also images and videos to provide accurate information for users? Isn't this a fantastic idea? Models that take more than one form of input and understand different modalities (text, image, audio, video, etc.) are known as multimodal models. Google, OpenAI and Anthropic each have their multimodal models with better capabilities already in the market.
+
+OpenAI's GPT-4 Vision, Google's Gemini and Anthropic's Claude 3 series are some notable examples of multimodal models that are revolutionizing the AI industry.
+
+Anthropic's Claude 3 is a family of three AI models: Claude 3 Opus, Sonnet and Haiku. These models have the multimodal capabilities that closely compete with GPT-4 and Gemini-ultra. These Claude 3 models have the right balance of cost, safety and performance.
+
+The image displays a comparison chart of various LLMs' performance across different tasks, including math problem-solving, coding and knowledge-based question answering. The models include Claude variants, GPT-4, GPT-3.5 and Gemini, with their respective scores in percentages. As you can see, the Claude 3 models perform robustly across a range of tasks, often outperforming other AI models presented in the comparison.
+
+Claude's Haiku is the most affordable — yet effective — model that can be used for real-time response generation in customer service use cases, content moderation, etc. with higher efficiency.
+
+You can easily access Claude models from Anthropic's official website to see how it works for your queries. You can transcribe handwritten notes, understanding how objects are used and complex equations.
+
+I tried an example by sharing an image I found online to see if the Claude model can respond accurately.
+
+Amazing, that is an impressive response with all the minute details about the image shared.
+
+We will be using the SingleStore database as our vector store, and SingleStore Notebooks (just like Jupyter notebooks) to run all our code.
+
+Also we will be using LlamaIndex, an AI framework to build LLM-powered applications. It provides a complete toolkit for developers building AI applications by providing them with different APIs and the ability to integrate data sources, various file formats, databases to store vector data, applications, etc.
+
+We will be importing the libraries required, running the multimodal model from Anthropic [claude-3-haiku-20240307], storing the data in the SingleStore and retrieving it to see the power of multimodality through text and image.
+
+Let's explore the capabilities of the model on text and vision tasks. Get started by signing up for SingleStore. We are going to use SingleStore's Notebook feature to run our commands, and SingleStore as the database to store our data.
+
+Once you sign up for the first time, you need to create a workspace and a database to store your data. Later in this tutorial, you will also see how you can store data as embeddings.
+
+Creating a database is easy. Just go to your workspace and click Create Database as shown here.
+
+Go back to the main SingleStore dashboard. Click on Develop to create a Notebook.
+
+Next, click on New Notebook > New Notebook.
+
+Create a new Notebook and name it whatever you'd like.
+
+Now, get started with the notebook code shared here. Make sure to select your workspace and database you created.
+
+Start adding all the code shown below step-by-step in the notebook you just created.
+
+Install LlamaIndex and other libraries if required.
+
+Python
+
+Set API keys. Add both OpenAI and Anthropic API keys.
+
+Python
+
+Let's use the Claude 3's Haiku model for chat completion
+
+Python
+
+Let's download the image first
+
+Python
+
+Load the image
+
+Python
+
+Test the query on the image
+
+Python
+
+You can test many image examples
+
+Python
+
+Ask the model to describe the mentioned image
+
+Python
+
+In this section, we'll show you how to use Claude 3 to build a RAG pipeline over image data. We first use Claude to extract text from a set of images, then index the text with an embedding model. Finally, we build a query pipeline over the data.
+
+Python
+
+Testing the query
+
+Python
+
+The complete notebook code is here for your reference.
+
+There are many use cases where multimodal plays an important role and enhances LLM applications — here are the most top of mind:
+
+Multimodal models are revolutionizing the AI industry, and we will only see more powerful models in the future. While unimodal models have the limitations of processing only one type of input (mostly text), multimodal models gain an added advantage here by processing various input types (text, image, audio, video, etc). Multimodal models are paving the future for building LLM-powered applications for more context and high performance.
+
+Start your free SingleStore trial today.
+
+- Healthcare. Since multimodal models can process various input types, these can be highly effective in the healthcare industry. The models can take prescriptions, procedures,  X-rays and other imagery as input, combining both the text and image to come up with high quality responses and remedies.
+- Customer support chatbots. Multimodal models can be highly effective as sometimes  text might not be sufficient in resolving an issue, so companies can ask for screenshots and images. This way, using a multimodal-powered application can enhance answering capabilities.
+- Social media sentiment analysis. This can be cleverly done by multimodal-powered applications since they can identify images and text as well.
+- eCommerce. Product search and recommendations can be simplified using multimodal models, since they get more contextual information from the user with many input capabilities.
+
 ## Sources
 
 <Card title="Reference Materials">
