@@ -239,10 +239,10 @@ class RAGSystem:
         response = f"""
         Based on the retrieved information, here's what I found:
         
-        \{context_text\}
+        {context_text}
         
         Sources:
-        \{chr(10).join(["- " + doc['metadata']['source'] for doc in context])\}
+        {chr(10).join(["- " + doc['metadata']['source'] for doc in context])}
         """
         
         return response.strip()
@@ -314,10 +314,10 @@ print(response)
     }
   ],
   "edges": [
-    \{"from": "user_input", "to": "safety_check"\},
-\{"from": "safety_check", "to": "rag_search"\},
-\{"from": "rag_search", "to": "response_generation"\},
-\{"from": "response_generation", "to": "stream_output"\}
+    {"from": "user_input", "to": "safety_check"},
+{"from": "safety_check", "to": "rag_search"},
+{"from": "rag_search", "to": "response_generation"},
+{"from": "response_generation", "to": "stream_output"}
   ]
 }
 ```
@@ -576,7 +576,7 @@ class ObservabilitySystem:
         """Get summary of collected metrics"""
         
         if not self.metrics:
-            return \{\}
+            return {}
         
         response_times = [m['metrics']['response_time'] for m in self.metrics]
         safety_scores = [m['metrics']['safety_score'] for m in self.metrics]
