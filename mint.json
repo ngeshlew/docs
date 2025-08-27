@@ -30,7 +30,7 @@
   ],
   "navigation": [
     {
-      "group": "Overview",
+      "group": "Getting Started",
       "pages": [
         "index",
         "getting-started",
@@ -39,26 +39,20 @@
       ]
     },
     {
-      "group": "Core Concepts",
+      "group": "AI Foundations",
       "pages": [
         "modules/foundations/index",
         "modules/transformers/index",
         "modules/token-context/index",
-        "modules/ai-fluency-framework/index",
-        "modules/mcp/index"
+        "modules/ai-fluency-framework/index"
       ]
     },
     {
-      "group": "Prompting & Interaction",
+      "group": "Prompting Mastery",
       "pages": [
         "modules/prompting-structured-outputs/index",
         "modules/prompting-advanced/index",
-        "modules/structured-outputs/index"
-      ]
-    },
-    {
-      "group": "Prompting Techniques",
-      "pages": [
+        "modules/structured-outputs/index",
         "modules/prompting-techniques/zero-shot",
         "modules/prompting-techniques/few-shot",
         "modules/prompting-techniques/chain-of-thought",
@@ -80,19 +74,21 @@
       ]
     },
     {
-      "group": "AI Architecture",
+      "group": "AI Architecture & Systems",
       "pages": [
+        "modules/mcp/index",
         "modules/memory-state/index",
         "modules/rag/index",
-        "modules/agents-orchestration/index"
+        "modules/agents-orchestration/index",
+        "modules/multimodality/index"
       ]
     },
     {
-      "group": "User Experience",
+      "group": "User Experience Design",
       "pages": [
         "modules/streaming-ux/index",
         "modules/ai-ux-behavior/index",
-        "modules/multimodality/index"
+        "modules/design-patterns/index"
       ]
     },
     {
@@ -105,15 +101,9 @@
       ]
     },
     {
-      "group": "Collaboration",
+      "group": "Advanced Topics",
       "pages": [
         "modules/collaboration-with-engineers/index",
-        "modules/design-patterns/index"
-      ]
-    },
-    {
-      "group": "Research & Insights",
-      "pages": [
         "modules/ecosystem-deep-dives/index",
         "competitors/fin-intercom",
         "competitors/yellow-ai"
@@ -131,7 +121,7 @@
       ]
     },
     {
-      "group": "Resources",
+      "group": "Resources & References",
       "pages": [
         "sources/index",
         "perspectives/index",
