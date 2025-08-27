@@ -1814,6 +1814,128 @@ In this post, we briefly covered three important multimodal LLMs, plus CLIP. Her
 
 All three approaches have their strengths and have contributed to the rapid advancement of multimodal AI capabilities.
 
+> **Note:** The following article is reproduced verbatim from  
+> BentoML Team, *BentoML* (2025):  
+> [Multimodal AI: A Guide to Open-Source Vision Language Models](https://www.bentoml.com/blog/open-source-vision-language-models)  
+> for internal educational use only (non-profit).
+
+# Multimodal AI: A Guide to Open-Source Vision Language Models
+
+You wake up in the morning, and there is another new AI model making headlines. It's not surprising anymore, right? These days, it feels like a new model drops every other day, each promising more powerful than the last.
+
+Take Llama 3.2 Vision as an example, the first multimodal models in Meta's open-source Llama series. They push the boundaries beyond text understanding to now include images. But don't get it twisted. Multimodal AI is about more than just images and text. These models are capable of processing multiple types of information, from images and audio to video and text. And not just open-source AI, proprietary models like GPT-4 already expanded their capabilities by integrating these modalities.
+
+Compared with proprietary models, open-source models remain a favorite for those looking for more secure, affordable, and customizable solutions. In this blog post, we're introducing some of the most popular open-source multimodal models available today.
+
+Since the world of multimodal AI is broad, we will be focused on vision language models (VLMs). These models are designed to understand and process both visual and text information. At the same time, we will explore some FAQs about VLMs.
+
+## Gemma 3
+
+Gemma 3 is a family of lightweight, state-of-the-art open models developed by Google, built on the same research behind Gemini 2.0. It supports advanced text, image, and short video understanding, with strong reasoning capabilities across tasks and languages.
+
+Available in 1B, 4B, 12B, and 27B sizes, Gemma 3 offers flexibility for a range of hardware, from laptops to cloud clusters. With a 128K-token context window (32K for 1B), it can handle long-form input for more complex tasks.
+
+**Key features:**
+
+- **Multilingual support**: Pretrained on data spanning over 140 languages, Gemma 3 offers out-of-the-box support for 35+ widely used languages.
+- **Portable and efficient**: The small sizes make Gemma 3 ideal for deployment in constrained environments such as laptops, desktops, and edge devices. It also comes with official quantized versions that reduce resource demands while maintaining strong performance.
+- **Agentic workflows**: Gemma 3 supports function calling and structured output, enabling automation and integration into complex application pipelines.
+
+**Points to be cautious about:**
+
+- **Limited video comprehension**: While some visual reasoning is supported (especially short videos/images), Gemma 3 does not appear to support long-form or audio-visual video analysis.
+- **Image input only normalized**: Images are resized to 896×896 and encoded into 256 tokens. This may limit fine-grained image understanding or work with non-standard resolutions/aspect ratios.
+
+## GLM-4.1V-Thinking
+
+GLM-4.1V-Thinking is an open-source VLM developed by Z.ai, the team behind the GLM family of LLMs. With just 9 billion parameters and a 64K-token context window, it delivers exceptional multimodal reasoning performance in a compact, efficient architecture.
+
+Trained using a "thinking paradigm" and reinforcement learning, GLM-4.1V-9B-Thinking is specifically designed for tasks that require deep reasoning, complex visual understanding, and long-context comprehension.
+
+**Key features:**
+
+- **Advanced visual reasoning**: Achieves state-of-the-art performance among 10B-class models, surpassing even 72B models like Qwen2.5-VL on 18 benchmark tasks.
+- **Flexible image handling**: Supports images up to 4K resolution with arbitrary aspect ratios, ideal for detailed visual inputs.
+- **Fully open-source**: Both the base model and thinking variant are released under the permissive MIT license, supporting research, experimentation, and commercial use.
+
+**Points to be cautious about:**
+
+- **Limited language support**: Currently, the model provides bilingual support for English and Chinese only.
+
+## Llama 3.2 Vision
+
+Llama 3.2 Vision, developed by Meta, is a collection of multimodal LLM designed to process both text and images. Available in 11B and 90B parameter sizes, Llama 3.2 Vision outperforms many open-source and proprietary models in image-text tasks.
+
+To support image input, Meta integrates a pre-trained image encoder into the language model using adapters, which connect image data to the text-processing layers. This allows the models to handle both image and text inputs simultaneously.
+
+**Key features:**
+
+- **Multimodal capabilities**: Llama 3.2 Vision can perform image-text tasks, including generating captions, answering image-based questions, and complex visual reasoning.
+- **Strong performance**: Both the 11B and 90B versions outperform proprietary models like Claude 3 Haiku in tasks involving chart and diagram understanding.
+- **Customizability**: You can fine-tune Llama 3.2 Vision models for custom applications using Torchtune.
+
+**Points to be cautious about:**
+
+- **Math reasoning**: According to Meta's benchmark, Llama 3.2 Vision still shows room for improvement in math-heavy tasks, especially the 11B version.
+- **Language support**: Although it supports multiple languages like German, French and Italian for text-only tasks, for image+text applications, only English is supported.
+
+## NVLM 1.0
+
+NVLM is a family of multimodal LLMs developed by NVIDIA, representing a frontier-class approach to VLMs. It achieves state-of-the-art results in tasks that require a deep understanding of both text and images. The first public iteration, NVLM 1.0, rivals top proprietary models like GPT-4o, as well as open-access models like Llama 3-V 405B.
+
+**Key features:**
+
+- **Distinct architectures**: The NVLM 1.0 family consists of three unique architectures for different use cases:
+  - **NVLM-D**: A decoder-only architecture that provides unified multimodal reasoning and performs better at OCR-related tasks.
+  - **NVLM-X**: A cross-attention-based architecture that is computationally efficient, particularly when handling high-resolution images.
+  - **NVLM-H**: A hybrid architecture that combines the strengths of both the decoder-only and cross-attention approaches. It delivers superior performance in multimodal reasoning and image processing.
+
+- **Powerful image reasoning**: NVLM 1.0 surpasses many proprietary and open-source models in tasks such as OCR, multimodal reasoning, and high-resolution image handling. It demonstrates exceptional scene understanding capability.
+
+- **Improved text-only performance**: NVIDIA researchers observed that while open multimodal LLMs often achieve strong results in vision language tasks, their performance tends to degrade in text-only tasks. Therefore, they developed "production-grade multimodality" for the NVLM models. This enables NVLM models to excel in both vision language tasks and text-only tasks.
+
+**Points to be cautious about:**
+
+- **Non-commercial use**: NVLM 1.0 is shared by NVIDIA strictly for research purposes and hobbyist experimentation. It is not licensed for commercial deployment.
+- **Limited variant release**: NVIDIA has only made the NVLM-1.0-D-72B (decoder-only) weights and code publicly available so far. Additional architectures or model sizes may be released in the future.
+
+## Molmo
+
+Molmo is a family of open-source VLMs developed by the Allen Institute for AI. Available in 1B, 7B, and 72B parameters, Molmo models deliver state-of-the-art performance for their class. According to the benchmarks, they can perform on a par with proprietary models like GPT-4V, Gemini 1.5 Pro, and Claude 3.5 Sonnet.
+
+The key to Molmo's performance lies in its unique training data, **PixMo**. This highly curated dataset consists of 1 million image-text pairs and includes two main types of data:
+
+- Dense captioning data for multimodal pre-training
+- Supervised fine-tuning data to enable various user interactions, such as question answering, document reading, and even pointing to objects in images.
+
+Interestingly, Molmo researchers used an innovative approach to data collection: **Asked annotators to provide spoken descriptions of images within 60 to 90 seconds**. Specifically, these detailed descriptions included everything visible, even the spatial positioning and relationships among objects. The results show that annotators provided detailed captions far more efficiently than traditional methods (writing them down). Overall, they collected high-quality audio descriptions for 712k images that were sampled from 50 high-level topics.
+
+**Key features:**
+
+- **State-of-the-art performance**: Molmo's 72B model outperforms proprietary models like Gemini 1.5 Pro and Claude 3.5 Sonnet on academic benchmarks. Even the smaller 7B and 1B models rival GPT-4V in several tasks.
+- **Pointing capabilities**: Molmo can "point" to one or more visual elements in the image. Pointing provides a natural explanation grounded in image pixels. Molmo researchers believe that in the future pointing will be an important communication channel between VLMs and agents. For example, a web agent could query the VLM for the location of specific objects.
+- **Open architecture**: The original developers promise to release all artifacts used in creating Molmo, including the PixMo dataset, training code, evaluations, and intermediate checkpoints. This offers a new standard for building high-performing multimodal systems from scratch and promotes reproducibility.
+
+**Points to be cautious about:**
+
+- **Transparent images**: Molmo may struggle with transparent images. It's recommended to add a white or dark background to images before processing them with the model.
+- **Broadcast errors**: If you encounter a broadcast error while processing images, ensure your image is in RGB format.
+
+## Qwen2.5-VL
+
+Qwen2.5-VL is a powerful vision-language model developed by Alibaba Cloud. It represents a significant advancement in multimodal AI capabilities, offering strong performance across a wide range of vision-language tasks.
+
+**Key features:**
+
+- **Comprehensive multimodal understanding**: Qwen2.5-VL excels at understanding and reasoning about images, text, and their relationships.
+- **High-resolution image support**: The model can handle high-resolution images effectively, making it suitable for detailed visual analysis tasks.
+- **Strong reasoning capabilities**: Qwen2.5-VL demonstrates excellent performance in complex reasoning tasks that require both visual and textual understanding.
+
+**Differences between Qwen2.5-VL and Qwen2.5-Omni:**
+
+- **Qwen2.5-VL**: Focused specifically on vision-language tasks, optimized for image understanding and text generation based on visual input.
+- **Qwen2.5-Omni**: A more general-purpose multimodal model that can handle multiple modalities including text, images, audio, and video.
+
 ## Sources
 
 <Card title="Reference Materials">
