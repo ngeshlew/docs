@@ -1,5 +1,5 @@
 ---
-title: "<Title>"
+title: "Page Title"
 slug: "<slug>"
 tags: [concept]
 difficulty: "beginner"
@@ -24,7 +24,7 @@ updatedAt: "2025-08-16"
 completed: false
 ---
 
-# <Title>
+# Page Title
 
 > Synthesis: <short synthesis>
 

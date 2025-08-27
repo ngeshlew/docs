@@ -55,27 +55,14 @@ stop=["END"],
 seed=42
 )
 | Model | Context Window | Best For |
-|GPT-4
-|8,192 tokens
-|High-accuracy tasks, complex reasoning
-|GPT-4 Turbo
-|128,000 tokens
-|Long-form content, document analysis
-|GPT-4o & GPT-4o-mini
-|128,000 tokens
-|Cost-effective large context processing
-|o3-mini
-|200,000 tokens
-|Fast reasoning, complex reasoning
-|o1-mini
-|128,000 tokens
-|Fast reasoning, complex reasoning
-|o1-preview
-|128,000 tokens
-|Fast reasoning, complex reasoning
-|o1
-|200,000 tokens
-|Fast reasoning, complex reasoning
+|-------|----------------|----------|
+| GPT-4 | 8,192 tokens | High-accuracy tasks, complex reasoning |
+| GPT-4 Turbo | 128,000 tokens | Long-form content, document analysis |
+| GPT-4o & GPT-4o-mini | 128,000 tokens | Cost-effective large context processing |
+| o3-mini | 200,000 tokens | Fast reasoning, complex reasoning |
+| o1-mini | 128,000 tokens | Fast reasoning, complex reasoning |
+| o1-preview | 128,000 tokens | Fast reasoning, complex reasoning |
+| o1 | 200,000 tokens | Fast reasoning, complex reasoning |
 Meta-Llama
 .env file:
 # Meta Llama API Key Configuration
@@ -89,15 +76,9 @@ stop=["END"],
 seed=42
 )
 | Model ID | Input context length | Output context length | Input Modalities | Output Modalities |
-meta_llama/Llama-4-Scout-17B-16E-Instruct-FP8
-|128k
-|4028
-|Text, Image
-|Text
-meta_llama/Llama-4-Maverick-17B-128E-Instruct-FP8
-|128k
-|4028
-|Text, Image
+|----------|---------------------|----------------------|------------------|-------------------|
+| meta_llama/Llama-4-Scout-17B-16E-Instruct-FP8 | 128k | 4028 | Text, Image | Text |
+| meta_llama/Llama-4-Maverick-17B-128E-Instruct-FP8 | 128k | 4028 | Text, Image | Text |
 |Text
 meta_llama/Llama-3.3-70B-Instruct
 |128k

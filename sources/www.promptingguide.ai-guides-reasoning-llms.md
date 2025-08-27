@@ -187,7 +187,7 @@ Learn how to build advanced agents with reasoning LLMs in our new course: Advanc
 Use code PROMPTING20 to get an extra 20% off.
 **References**
 - Claude 4 prompt engineering best practices (opens in a new tab)
-- LLM Reasoning | Prompt Engineering Guide<!-- --> (opens in a new tab)
+- LLM Reasoning | Prompt Engineering Guide (opens in a new tab)
 - Reasoning Models Don’t Always Say What They Think (opens in a new tab)
 - Gemini thinking | Gemini API | Google AI for Developers (opens in a new tab)
 - Introducing OpenAI o3 and o4-mini (opens in a new tab)
