@@ -1349,6 +1349,234 @@ Learn how multimodal LLMs combine text, images, and other diverse data sources t
 ![What Is a Multimodal LLM?](https://cohere.com/_next/image?url=https%3A%2F%2Fcohere-ai.ghost.io%2Fcontent%2Fimages%2F2025%2F06%2FMultimodal-LLM_v2.png&w=1920&q=75)
 <sub>Source: *Cohere*, Cohere Team (2025).</sub>
 
+> **Note:** The following article is reproduced verbatim from  
+> Neptune.ai Team, *Neptune.ai* (2025):  
+> [Multimodal Large Language Models](https://neptune.ai/blog/multimodal-large-language-models)  
+> for internal educational use only (non-profit).
+
+# Multimodal Large Language Models
+
+### TL;DR
+
+## What is a multimodal large language model?
+
+### Why do we need multimodal LLMs?
+
+### How do multimodal LLMs work?
+
+## Examples of multimodal LLMs
+
+### Microsoft: Kosmos-1
+
+#### Architecture and training
+
+#### Performance
+
+### DeepMind: Flamingo
+
+### LLM Guardrails: Secure and Controllable Deployment
+
+### LLaVA
+
+### Google: PaLM-E
+
+#### Architecture and training
+
+#### Performance
+
+## Challenges, limitations, and future directions of MLLMs
+
+Multimodal Large Language Models (MLLMs) process data from different modalities like text, audio, image, and video.
+
+Compared to text-only models, MLLMs achieve richer contextual understanding and can integrate information across modalities, unlocking new areas of application. Prime use cases of MLLMs include content creation, personalized recommendations, and human-machine interaction.
+
+Examples of MLLMs that process image and text data include Microsoft's Kosmos-1, DeepMind's Flamingo, and the open-source LLaVA. Google's PaLM-E additionally handles information about a robot's state and surroundings.
+
+Combining different modalities and dealing with different types of data comes with some challenges and limitations, such as alignment of heterogeneous data, inherited biases from pre-trained models, and lack of robustness.
+
+How would you translate this sentence: "The glasses are broken." into French: "Les verres sont cases." or  "Les lunettes sont cases."? What if you have an image? Will you be able to choose the correct translation? As humans, we use different modalities daily to enhance communication. Machines can do the same.
+
+While Large Language Models (LLMs) have shown impressive capabilities in understanding complex text, they are limited to a single data modality. However, many tasks span several modalities.
+
+This article explores Multimodal Large Language Models, exploring their core functionalities, challenges, and potential for various machine-learning domains.
+
+Let's break down the concept of Multimodal Large Language Models (MLLMs) by first understanding the terms "modal" and "multimodal:"
+
+"Modal" refers to a particular way of communicating or perceiving information. It's like a channel through which we receive and express ourselves. Some of the common modalities are:
+
+"Multimodal" refers to incorporating various modalities to create a richer understanding of the task, e.g., as on a website or in a blog post that integrates text with visuals.
+
+MLLMs can process not just text but other modalities as well. They are trained on samples containing different modalities, which allows them to develop joint representations and utilize multimodal information to solve tasks.
+
+Many industries heavily rely on multimodality, particularly those that handle a blend of data modalities. For example, MLLMs can be used in a healthcare setting to process patient reports comprising doctor notes (text), treatment plans (structured data), and X-rays or MRI scans (images).
+
+MLLMs process and integrate information from different modalities (i.e., text, image, video, and audio), essential to solving many tasks. Some prominent applications are:
+
+A typical multimodal LLM has three primary modules:
+
+Kosmos-1 (GitHub) is a multimodal LLM created by Microsoft for natural language and perception-intensive tasks. It can perform visual dialogue, visual explanation, visual question answering, image captioning, math equations, OCR, and zero-shot image classification with and without descriptions.
+
+> **Note:** The following article is reproduced verbatim from  
+> Sebastian Raschka, *Sebastian Raschka* (2025):  
+> [Understanding Multimodal LLMs](https://magazine.sebastianraschka.com/p/understanding-multimodal-llms)  
+> for internal educational use only (non-profit).
+
+# Understanding Multimodal LLMs
+
+### An introduction to the main techniques and latest models
+
+## 1. Use cases of multimodal LLMs
+
+## 2. Common approaches to building multimodal LLMs
+
+### 2.1 Method A: Unified Embedding Decoder Architecture
+
+#### 2.1.1 Understanding Image encoders
+
+#### 2.1.2 The role of the linear projection module
+
+#### 2.1.3 Image vs text tokenization
+
+### 2.2 Method B: Cross-Modality Attention Architecture
+
+## 3. Unified decoder and cross-attention model training
+
+## 4. Recent multimodal models and methods
+
+### 4.1 The Llama 3 Herd of Models
+
+### 4.2 Molmo and PixMo: Open Weights and Open Data for State-of-the-Art Multimodal Models
+
+### 4.3 NVLM: Open Frontier-Class Multimodal LLMs
+
+### 4.4 Qwen2-VL: Enhancing Vision-Language Model's Perception of the World at Any Resolution
+
+### 4.5 Pixtral 12B
+
+### 4.6 MM1.5: Methods, Analysis & Insights from Multimodal LLM Fine-tuning
+
+### 4.7 Aria: An Open Multimodal Native Mixture-of-Experts Model
+
+### 4.8 Baichuan-Omni
+
+### 4.9 Emu3: Next-Token Prediction is All You Need
+
+### 4.10 Janus: Decoupling Visual Encoding for Unified Multimodal Understanding and Generation
+
+## Conclusion
+
+It was a wild two months. There have once again been many developments in AI research, with two Nobel Prizes awarded to AI and several interesting research papers published.
+
+Among others, Meta AI released their latest Llama 3.2 models, which include open-weight versions for the 1B and 3B large language models and two multimodal models.
+
+In this article, I aim to explain how multimodal LLMs function. Additionally, I will review and summarize roughly a dozen other recent multimodal papers and models published in recent weeks (including Llama 3.2) to compare their approaches.
+
+What are multimodal LLMs? As hinted at in the introduction, multimodal LLMs are large language models capable of processing multiple types of inputs, where each "modality" refers to a specific type of data—such as text (like in traditional LLMs), sound, images, videos, and more. For simplicity, we will primarily focus on the image modality alongside text inputs.
+
+A classic and intuitive application of multimodal LLMs is image captioning: you provide an input image, and the model generates a description of the image, as shown in the figure below.
+
+Of course, there are many other use cases. For example, one of my favorites is extracting information from a PDF table and converting it into LaTeX or Markdown.
+
+There are two main approaches to building multimodal LLMs:
+
+- **Method A: Unified Embedding Decoder Architecture approach**
+- **Method B: Cross-modality Attention Architecture approach**
+
+As shown in the figure above, the Unified Embedding-Decoder Architecture utilizes a single decoder model, much like an unmodified LLM architecture such as GPT-2 or Llama 3.2. In this approach, images are converted into tokens with the same embedding size as the original text tokens, allowing the LLM to process both text and image input tokens together after concatenation.
+
+The Cross-Modality Attention Architecture employs a cross-attention mechanism to integrate image and text embeddings directly within the attention layer.
+
+In the following sections, we will explore how these methods work on a conceptual level. Then, we will look at recent research papers on multimodal LLMs to see how they are applied in practice.
+
+Let's begin with the unified embedding decoder architecture, illustrated again in the figure below.
+
+In the unified embedding-decoder architecture, an image is converted into embedding vectors, similar to how input text is converted into embeddings in a standard text-only LLM.
+
+For a typical text-only LLM that processes text, the text input is usually tokenized (e.g., using Byte-Pair Encoding) and then passed through an embedding layer, as shown in the figure below.
+
+Analogous to the tokenization and embedding of text, image embeddings are generated using an image encoder module (instead of a tokenizer), as shown in the figure below.
+
+> **Note:** The following article is reproduced verbatim from  
+> Giancarlo Mori, *Giancarlo Mori* (2025):  
+> [The Future of AI is Multimodal](https://giancarlomori.substack.com/p/the-future-of-ai-is-multimodal)  
+> for internal educational use only (non-profit).
+
+# The Future of AI is Multimodal
+
+### Multimodal AI brings machines a step closer to mirroring the intricacies of human intelligence.
+
+## Decoding Multimodal AI: Concept and Components
+
+### Unimodal vs. Multimodal AI
+
+### Key Components of Multimodal AI
+
+## The Superior Edge of Multimodal AI
+
+## Case Studies: Multimodal AI in Action
+
+## Embracing a Multimodal Future
+
+From AI's early days of simple, rule-based algorithms, it has journeyed through remarkable advancements, each milestone bringing it a step closer to mirroring the intricacies of human intelligence. A significant leap in this journey is the emergence of multimodal AI - a paradigm shift from the traditional unimodal systems that once dominated the field.
+
+Taking a step back, let's start with a definition of "multimodal AI": Multi-modal AI refers to artificial intelligence systems that can process and interpret data from multiple different modes or types of input, such as text, images, audio, and video. These systems can analyze and understand the information from these diverse sources simultaneously, enabling more comprehensive and nuanced decision-making and interactions. For example, a multi-modal AI could analyze a video by understanding the spoken words (audio), recognizing objects and actions (visual), and interpreting the text in subtitles or captions (textual), all at the same time.
+
+Unlike its predecessors, which relied on single data input types like text or images, multimodal AI represents a more holistic approach to machine learning. By integrating multiple types of data inputs – text, images, and sounds – it offers a richer, more nuanced understanding of the world. This integration mirrors the human ability to process and interpret diverse sensory information simultaneously, marking a crucial step towards developing AI systems that can interact with and understand the world in a more human-like manner.
+
+The rise of multimodal AI is not just a technical improvement; it's a transformation that paves the way for more sophisticated, context-aware, and intuitive AI systems. These advancements hold the promise of revolutionizing various sectors, from healthcare and education to customer service and security, by providing solutions that are more aligned with the complexities of human communication and understanding.
+
+To fully grasp the essence of multimodal AI, it's essential to first understand what sets it apart from traditional unimodal AI systems and the key components that constitute its framework.
+
+Unimodal AI systems, the initial stepping stones in AI development, are designed to understand and process information from a single type of data input, be it textual, visual, or auditory. For instance, a text-based AI excels in processing and generating language, while an image recognition AI specializes in analyzing visual data. However, their scope is limited to their specific domain of data, restricting their understanding and application to scenarios that require integration of multiple forms of data.
+
+Multimodal AI, in contrast, breaks through these limitations by simultaneously processing and interpreting diverse types of data inputs. This approach mirrors the human cognitive process, where multiple senses are utilized to gain a comprehensive understanding of our surroundings. In essence, multimodal AI systems can integrate text, images, sounds, and potentially other sensory data, providing a more holistic and nuanced view of their input.
+
+The sophisticated functionality of multimodal AI systems is underpinned by three primary components:
+
+- **Input Module**: This is where the multimodal AI receives and processes different types of data. In this stage, each data type, whether it's text, image, or audio, is processed using specialized sub-models tailored for each modality.
+
+- **Fusion Module**: The crux of multimodal AI lies in its ability to fuse the processed data from various modalities. This fusion can happen early in the process (early fusion), integrating raw data, or at a later stage (late fusion), combining the outputs of each sub-model. The fusion process is crucial as it synthesizes the diverse information into a unified representation that the AI can analyze and interpret.
+
+- **Output Module**: Based on the fused data, the AI system generates outputs that are more context-aware and accurate. The output could be in various forms – a decision, a prediction, a synthesized image or text, or even a combination of these, depending on the application and the input data.
+
+One of the most profound advantages of multimodal AI is its enhanced capability to interpret context with a depth and complexity that unimodal systems cannot achieve. By processing and analyzing multiple data types simultaneously, these systems can discern subtleties and nuances in information, leading to a more comprehensive understanding of their environment. For example, in a social media setting, while a unimodal text-based AI might interpret a post's sentiment based on language alone, a multimodal system can enrich this understanding by analyzing the accompanying images and audio tones. This holistic approach enables the AI to capture the post's true intent, whether it's irony, sarcasm, or genuine sentiment, which might otherwise be missed by a text-only analysis.
+
+The integration of diverse data types in multimodal AI is not just about gathering more information; it's about creating a synergistic effect that leads to more informed, accurate, and nuanced decision-making. In critical sectors like healthcare, this ability can have life-altering implications. Consider a multimodal diagnostic system that evaluates a patient's condition by integrating data from various sources – medical imaging provides visual insights, lab results offer quantitative analysis, and patient history adds contextual depth. This comprehensive approach leads to diagnoses that are not only more accurate but also tailored to the individual patient, significantly improving treatment outcomes.
+
+Another key benefit of multimodal AI is its adaptability to complex, real-world environments. Traditional unimodal systems often struggle in situations where data is incomplete, ambiguous, or noisy. Multimodal AI, by contrast, can leverage its multi-sensory data processing to fill in the gaps, make sense of ambiguity, and filter out noise. For instance, in an autonomous vehicle, a unimodal vision-based system might be hindered by poor visibility conditions. However, a multimodal system that combines visual data with radar and audio signals can navigate more reliably, ensuring safety even in challenging conditions.
+
+Furthermore, multimodal AI is bridging the gap between human-AI interactions. By processing language, visual cues, and even emotional tones, these systems can engage with users in a way that feels more natural and human-like. This capability is transforming customer service bots, virtual assistants, and interactive educational tools into entities that understand and respond not just to what we say, but also to how we say it and what we show.
+
+To illustrate the power of multimodal AI, let's explore a few examples:
+
+- **Healthcare Diagnostics**: Multimodal AI systems are revolutionizing diagnostics by integrating patient history, imaging, and genomic data, leading to more accurate and personalized treatment plans.
+
+- **Retail Personalization**: In retail, multimodal AI analyzes customer behavior, preferences, and feedback across various channels – textual reviews, visual content, and browsing patterns – to tailor product recommendations and enhance the shopping experience.
+
+- **Customer Service Bots**: AI-powered customer service agents now respond to queries not just by analyzing textual data but also by interpreting the customer's tone and sentiment through voice or even facial expressions, offering a more empathetic and effective response.
+
+- **Advanced Educational Tools**: In the field of education, multimodal AI is bringing about a revolution in personalized learning experiences. By integrating textual, visual, and auditory data, these systems can adapt to different learning styles.
+
+- **Enhanced Security and Surveillance**: Security systems powered by multimodal AI are changing the landscape of public safety and private security. These systems can analyze video footage, audio recordings, and sensor data to detect potential threats with greater accuracy.
+
+- **Smart Home Integration**: In the realm of smart homes, multimodal AI is enabling more intuitive and responsive interactions between users and their home environments. By processing voice commands, recognizing facial expressions, and understanding physical gestures, these AI systems can control home appliances, adjust environmental settings, and even detect unusual behaviors or emergencies.
+
+- **Automotive Innovations**: The automotive industry is leveraging multimodal AI to enhance the driving experience and safety features in vehicles. Modern cars equipped with AI can process visual data from cameras, audio signals, and sensor information to provide advanced driver assistance, hazard warnings, and even fully autonomous driving capabilities.
+
+- **Agricultural Optimization**: Multimodal AI is also making significant strides in agriculture. By combining data from satellite images, soil sensors, and weather forecasts, these systems can offer farmers insights into crop health, soil quality, and optimal harvesting times.
+
+- **Financial Services and Fraud Detection**: In financial services, multimodal AI is being used for enhanced risk assessment and fraud detection. By analyzing transaction data, customer communication, and behavioral patterns, these AI systems can identify fraudulent activities and assess credit risks with higher precision.
+
+- **Creative Industries and Media**: In creative industries and media, multimodal AI is transforming content creation and curation. AI systems can analyze text, images, and user preferences to generate personalized content recommendations, assist in digital art creation, and even help in writing scripts and composing music.
+
+As we stand on the brink of a new era in artificial intelligence, the promise of multimodal AI is not just in its advanced technology, but in its potential to fundamentally transform our interaction with machines and, by extension, with the world around us. The journey ahead for multimodal AI is teeming with possibilities, challenges, and the promise of a more interconnected and intuitive future.
+
+The development and application of multimodal AI are set to usher in a new age of technological sophistication. We are likely to witness AI systems that not only understand and process complex data from multiple sources but also interact with us in ways that are profoundly human-like. This evolution will bring about a paradigm shift in numerous fields, from healthcare and education to entertainment and security, enhancing both the efficiency and quality of services.
+
+The broader impact of multimodal AI on society is immense. It holds the potential to solve some of the most pressing challenges we face today, be it in advancing healthcare, personalizing education, or contributing to environmental sustainability. However, this transformative power comes with a significant responsibility to ensure that the development of AI is guided by ethical principles and a commitment to the greater good. It is imperative to navigate the challenges of privacy, bias, and ethical use to maintain trust and acceptance of AI technologies.
+
+The future of multimodal AI is a canvas of limitless possibilities. It invites us to reimagine the role of AI in our lives, not as a mere tool, but as a partner in shaping a more intelligent, empathetic, and connected world. The journey ahead is as exciting as it is crucial, and it calls for a collective effort to harness the power of AI in a way that enriches our lives and uplifts our societies.
+
 ## Sources
 
 <Card title="Reference Materials">

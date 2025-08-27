@@ -1578,6 +1578,94 @@ Leverage Lovable's no-code platform to build the final chatbot interface.
 
 This approach allows PMs to build practical RAG applications without deep technical knowledge, focusing on product intuition and user experience.
 
+> **Note:** The following article is reproduced verbatim from  
+> Bhavishya Pandit, *Bhavishya Pandit* (2025):  
+> [Multimodal Retrieval-Augmented Generation (RAG)](https://bhavishyapandit9.substack.com/p/multimodal-retrieval-augmented-generation)  
+> for internal educational use only (non-profit).
+
+# Multimodal Retrieval-Augmented Generation (RAG)
+
+### Your go-to guide to understand MultiModal RAG in detail.
+
+## The Problem With Single-Modality AI Retrieval
+
+## What Is Multi-Modal RAG?
+
+### Why Is This Important?
+
+## Architecture Of MultiModal RAG
+
+### 1. Core Components of MM-RAG Architecture
+
+#### A. Multimodal Encoders: Translating inputs into Vector representations
+
+#### Why shared Embedding Space matters?
+
+#### B. Vector Database
+
+#### Key features of Vector databases:
+
+#### Workflow:
+
+#### C. Cross-Modal Retrieval: Finding relevant Data across Modalities
+
+#### How it works:
+
+#### Example:
+
+#### D. Fusion Mechanism: Combining Multimodal context
+
+#### Techniques used:
+
+#### E. Generative Models: Synthesizing responses
+
+#### Key features:
+
+#### Example:
+
+## How MultiModal RAG works: A Step-by-Step Guide
+
+## Beginners Hands on with MultiModal RAG
+
+## Real-World applications of MM-RAG
+
+## Challenges
+
+## The Takeaway
+
+Ever tried searching for something but couldn't put it into words? Maybe you saw an image of a product but had no clue what it was called. Or you heard a tune but couldn't remember the lyrics. Traditional AI retrieval systems struggle because they rely on a single modality just text or just images. But in the real world, information comes in multiple forms.
+
+In today's edition of Where's The Future in Tech newsletter we will dive deep into MultiModal RAGs architecture, functionality, and applications. I'll walk you through everything, from the basics to advanced architectural details so you can understand how this works and why it's a game-changer for AI. Let's get started! 🚀
+
+Single-modality retrieval falls short in real-world scenarios where context spans multiple forms. It's like trying to understand a book by only reading the chapter titles or watching a movie without sound. The information is incomplete, leading to inaccurate results, poor user experiences, and limited AI capabilities.
+
+Visual information-seeking queries: These queries are unanswerable with text-only retrieval and require retrieving and reasoning over images.
+
+This limitation creates a significant gap between how humans interact with information and how AI processes it. Imagine trying to describe a complex painting using only words or summarizing an audio clip without ever listening to it. The disconnect between modalities often results in incomplete or inaccurate AI-generated responses. This is where Multi-Modal RAG changes the game. Instead of limiting retrieval to a single data type, it allows AI to search and generate responses across multiple formats text, images, audio, and even video. Essentially, it enables AI to interpret and connect different forms of information, making it significantly more powerful and intuitive.
+
+At its core, Multi-Modal RAG enhances the standard Retrieval-Augmented Generation (RAG) framework by integrating multiple data types into the retrieval and generation pipeline. In traditional RAG systems, an AI model retrieves relevant text documents before generating responses. Multi-Modal RAG takes this a step further by including non-textual sources like images, audio, and videos.
+
+In simpler terms:
+
+- **RAG**: Combines external knowledge retrieval with text-based generation.
+- **Multimodal RAG**: Extends this to handle diverse data types like images, videos, and audio alongside text.
+
+For example, a user could upload an image of a plant, and instead of relying solely on textual search, the AI would process the visual input, identify key characteristics, and then fetch relevant botanical texts or similar images. Similarly, if someone uploads an audio recording, the AI can transcribe the speech, extract key insights, and cross-reference them with related textual documents or video content. This ability to merge different data streams dramatically enhances the model's contextual understanding, allowing for more precise and insightful responses.
+
+**Why Is This Important?**
+
+- **Human-like understanding**: Humans process information across multiple modalities (e.g., reading text while observing visuals). MM-RAG mimics this ability.
+- **Improved accuracy**: By grounding responses in multimodal data, MM-RAG reduces hallucinations (false outputs) and enhances context-awareness.
+- **Broader applications**: From healthcare to retail to education, MM-RAG enables AI to solve real-world problems that require multimodal reasoning.
+
+Multimodal Retrieval-Augmented Generation is an advanced AI framework that extends the capabilities of traditional Retrieval-Augmented Generation (RAG) by incorporating multiple data modalities text, images, audio, and video. Its architecture is designed to handle diverse data formats, retrieve relevant information from multimodal sources, and generate coherent responses grounded in retrieved context. Let's break this down into its core components and processes in detail.
+
+The MM-RAG pipeline consists of three primary components: retrieval, fusion, and generation. Each component plays a critical role in enabling the system to process multimodal inputs and outputs effectively.
+
+The first step in the MM-RAG pipeline is encoding input data into vector embeddings that reside in a shared high-dimensional space. This allows the system to compare and reason across different modalities.
+
+**Text encoders**: Models like BERT, T5, or GPT encode text into semantic embeddings that capture linguistic meaning. These embeddings are dense vectors representing the relationships between words or phrases.
+
 ## Next Steps
 
 Now that you understand RAG fundamentals and advanced techniques, explore:
