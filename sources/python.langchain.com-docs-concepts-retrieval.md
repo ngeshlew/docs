@@ -11,12 +11,17 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: []
-- path: "../assets/python.langchain.com/python.langchain.com-docs-concepts-retrieval/8eafde08f1aa.webp"
-caption: "Retrieval"
-credit_name: "python.langchain.com"
-credit_url: "https://python.langchain.com/assets/images/retrieval_concept-2bcff1b2518f194b34eaf472ac748ffa.png"
-license: "internal-copy"
+figures:
+  - path: "../assets/docs.crewai.com/docs.crewai.com-en-concepts-collaboration/71bc45159c09.webp"
+    caption: "light logo"
+    credit_name: "docs.crewai.com"
+    credit_url: "https://mintlify.s3.us-west-1.amazonaws.com/crewai/images/crew_only_logo.png"
+    license: "internal-copy"
+  - path: "../assets/docs.crewai.com/docs.crewai.com-en-concepts-collaboration/71bc45159c09.webp"
+    caption: "dark logo"
+    credit_name: "docs.crewai.com"
+    credit_url: "https://mintlify.s3.us-west-1.amazonaws.com/crewai/images/crew_only_logo.png"
+    license: "internal-copy"
 updatedAt: "'2025-08-18'"
 completed: false
 ---

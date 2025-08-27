@@ -11,12 +11,17 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-17'"
 policy: "copy"
-figures: []
-- path: "../assets/www.langchain.com/www.langchain.com-langgraph/886d194dcad1.webp"
-caption: "Figure"
-credit_name: "www.langchain.com"
-credit_url: "https://cdn.prod.website-files.com/65b8cd72835ceeacd4449a53/66db8c2317fe5b9ad2b84ea0_lcacademylogo.png"
-license: "internal-copy"
+figures:
+  - path: "../assets/docs.crewai.com/docs.crewai.com-en-concepts-collaboration/71bc45159c09.webp"
+    caption: "light logo"
+    credit_name: "docs.crewai.com"
+    credit_url: "https://mintlify.s3.us-west-1.amazonaws.com/crewai/images/crew_only_logo.png"
+    license: "internal-copy"
+  - path: "../assets/docs.crewai.com/docs.crewai.com-en-concepts-collaboration/71bc45159c09.webp"
+    caption: "dark logo"
+    credit_name: "docs.crewai.com"
+    credit_url: "https://mintlify.s3.us-west-1.amazonaws.com/crewai/images/crew_only_logo.png"
+    license: "internal-copy"
 updatedAt: "'2025-08-17'"
 completed: false
 ---

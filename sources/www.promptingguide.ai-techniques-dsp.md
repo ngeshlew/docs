@@ -11,12 +11,17 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: []
-- path: "../assets/www.promptingguide.ai/www.promptingguide.ai-techniques-dsp/15b43f4280b1.webp"
-caption: "DSP"
-credit_name: "www.promptingguide.ai"
-credit_url: "https://www.promptingguide.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdsp.27a0005f.jpeg&w=3840&q=75"
-license: "internal-copy"
+figures:
+  - path: "../assets/docs.crewai.com/docs.crewai.com-en-concepts-collaboration/71bc45159c09.webp"
+    caption: "light logo"
+    credit_name: "docs.crewai.com"
+    credit_url: "https://mintlify.s3.us-west-1.amazonaws.com/crewai/images/crew_only_logo.png"
+    license: "internal-copy"
+  - path: "../assets/docs.crewai.com/docs.crewai.com-en-concepts-collaboration/71bc45159c09.webp"
+    caption: "dark logo"
+    credit_name: "docs.crewai.com"
+    credit_url: "https://mintlify.s3.us-west-1.amazonaws.com/crewai/images/crew_only_logo.png"
+    license: "internal-copy"
 updatedAt: "'2025-08-18'"
 completed: false
 ---

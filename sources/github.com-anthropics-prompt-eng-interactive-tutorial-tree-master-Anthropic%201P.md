@@ -11,12 +11,17 @@ author: "''"
 license: "internal-copy"
 retrieved_at: "'2025-08-18'"
 policy: "copy"
-figures: []
-- path: "../assets/github.com/github.com-anthropics-prompt-eng-interactive-tutorial-tree-master-Anthropic%201P/dec4216a517b.webp"
-caption: "maggie-vo"
-credit_name: "github.com"
-credit_url: "https://avatars.githubusercontent.com/u/143411590?v=4&size=40"
-license: "internal-copy"
+figures:
+  - path: "../assets/docs.crewai.com/docs.crewai.com-en-concepts-collaboration/71bc45159c09.webp"
+    caption: "light logo"
+    credit_name: "docs.crewai.com"
+    credit_url: "https://mintlify.s3.us-west-1.amazonaws.com/crewai/images/crew_only_logo.png"
+    license: "internal-copy"
+  - path: "../assets/docs.crewai.com/docs.crewai.com-en-concepts-collaboration/71bc45159c09.webp"
+    caption: "dark logo"
+    credit_name: "docs.crewai.com"
+    credit_url: "https://mintlify.s3.us-west-1.amazonaws.com/crewai/images/crew_only_logo.png"
+    license: "internal-copy"
 updatedAt: "'2025-08-18'"
 completed: false
 ---
