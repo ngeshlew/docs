@@ -273,18 +273,18 @@ def calculate(expression):
                     temperature=0.1,
                     tools=tools,
                     messages=[
-                        {
+                        \{
                             "role": "user",
                             "content": prompt
-                        },
-                        {
+                        \},
+                        \{
                             "role": "assistant",
                             "content": response.content
-                        },
-                        {
+                        \},
+                        \{
                             "role": "user",
                             "content": f"Tool result: \{tool_result\}"
-                        }
+                        \}
                     ]
                 )
     
@@ -333,8 +333,8 @@ print(result)
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "data": {"type": "string"},
-                        "analysis_type": {"type": "string", "enum": ["summary", "trends", "correlation"]}
+                        "data": \{"type": "string"\},
+                        "analysis_type": \{"type": "string", "enum": ["summary", "trends", "correlation"]\}
                     },
                     "required": ["data", "analysis_type"]
                 }
@@ -349,7 +349,7 @@ print(result)
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "expression": {"type": "string"}
+                        "expression": \{"type": "string"\}
                     },
                     "required": ["expression"]
                 }
@@ -874,9 +874,9 @@ class CalculatorTool(BaseTool):
         """Evaluate a mathematical expression"""
         try:
             result = eval(expression)
-            return f"Result: {result}"
+            return f"Result: \{result\}"
         except Exception as e:
-            return f"Error: {str(e)}"
+            return f"Error: \{str(e)\}"
     
     def _arun(self, expression: str) -> str:
         """Async version of the tool"""
