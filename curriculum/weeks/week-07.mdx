@@ -119,3 +119,254 @@ Week 8 focuses on **Cost, Latency & Performance** - you'll learn how to design A
 ---
 
 *Remember: Safety and trust aren't just nice-to-haves - they're essential for AI products that users will actually want to use.*
+
+
+> **Note:** The following article is reproduced verbatim from
+> First Raters, *Google* (2025):
+> [First: Raters](https://design.google/library/first-raters)
+> for internal educational use only (non-profit).
+
+# First: Raters
+
+Last year, I joined a Google Brain [research team](https://ai.google/research/teams/brain/healthcare-biosciences) that applies machine learning (ML) to the world of healthcare. This team works on developing new tools and technologies that leverage ML to make medical services, like identifying symptoms, more accurate and accessible. It’s a new, rapidly evolving space, but I tried to approach my UX work just as I would on any other project. I mapped critical user journeys, made storyboards, and conducted interviews with clinicians, all in an attempt to solve core user needs.
+
+Turns out I was a bit short-sighted. Even if you’re following a good design process when working with ML products, if you’re only focusing on the end users of the final product, you’re skipping over another, equally important group. I learned this lesson when a program manager approached me for guidance a couple months back. “I know you do design,” she said. “So maybe you can help me work out how to explain some new guidelines to my raters?”
+
+Raters are the people who teach machines to learn. As opposed to the end users that designers often think about, raters are the equally important “starting” users.
+
+
+> **Note:** The following article is reproduced verbatim from
+> Towards Resilient Systems, *Google* (2025):
+> [Towards Resilient Systems](https://design.google/library/towards-resilient-systems)
+> for internal educational use only (non-profit).
+
+# Towards Resilient Systems
+
+Google AI’s Strategy & Research team thinks we have a lot to learn from ants, fungi, stony coral, and forest canopies because their success is measured not through the benefit of a few, but through the health of a collective system. As the dominant computing paradigm shifts from personal to ambient, the relationship between many actors, ecologies, and timescales becomes more important. The team believes that examining resilience across natural, human, and technical systems and applying these models to design theory and tool-making is critical for building AI systems that can adapt and thrive regardless of changing environments. Here, they walk us through six qualities at play in some of nature’s resilient systems.
+
+
+> **Note:** The following article is reproduced verbatim from
+> Measuring Fairness, *Google PAIR* (2025):
+> [Measuring Fairness](https://pair.withgoogle.com/explorables/measuring-fairness/)
+> for internal educational use only (non-profit).
+
+# Measuring Fairness
+
+# Measuring Fairness
+
+### Ground Truth
+
+### Model Predictions
+
+### Model Mistakes
+
+### Never Miss the Disease...
+
+### ...Or Avoid Overcalling?
+
+### Subgroup Analysis
+
+### Base Rates
+
+### Imbalanced Metrics
+
+How do you make sure a model works equally well for different groups of people? It turns out that in many situations, this is harder than you might think.
+
+The problem is that there are different ways to measure the accuracy of a model, and often it's mathematically impossible for them all to be equal across groups.
+
+We'll illustrate how this happens by creating a (fake) medical model to screen these people for a disease.
+
+The problem is that there are different ways to measure the accuracy of a model, and often it's mathematically impossible for them all to be equal across groups.
+
+We'll illustrate how this happens by creating a (fake) medical model to screen these people for a disease.
+
+We'll illustrate how this happens by creating a (fake) medical model to screen these people for a disease.
+
+About half of these people actually have the disease a; half of them don't b.
+
+In a perfect world, only sick people would test positive for the disease and only healthy people would test negative.
+
+But models and tests aren't perfect.
+
+The model might make a mistake and mark a sick person as healthy c. 
+
+Or the opposite: marking a healthy person as sick f.
+
+The model might make a mistake and mark a sick person as healthy c. 
+
+Or the opposite: marking a healthy person as sick f.
+
+Or the opposite: marking a healthy person as sick f.
+
+If there's a simple follow-up test, we could have the model aggressively call close cases so it rarely misses the disease.
+
+We can quantify this by measuring the percentage of sick people a who test positive g.
+
+We can quantify this by measuring the percentage of sick people a who test positive g.
+
+On the other hand, if there isn't a secondary test, or the treatment uses a drug with a limited supply, we might care more about the percentage of people with positive tests who are actually sick g . 
+
+These issues and trade-offs in model optimization aren't new, but they're brought into focus when we have the ability to fine-tune exactly how aggressively disease is diagnosed.
+
+ Try adjusting how aggressive the model is in diagnosing the disease
+
+These issues and trade-offs in model optimization aren't new, but they're brought into focus when we have the ability to fine-tune exactly how aggressively disease is diagnosed.
+
+ Try adjusting how aggressive the model is in diagnosing the disease
+
+Things get even more complicated when we check if the model treats different groups fairly.¹
+Whatever we decide on in terms of trade-offs between these metrics, we'd probably like them to be roughly even across different groups of people.
+
+If we're trying to evenly allocate resources, having the model miss more cases in children than adults would be bad! ²
+
+Whatever we decide on in terms of trade-offs between these metrics, we'd probably like them to be roughly even across different groups of people.
+
+If we're trying to evenly allocate resources, having the model miss more cases in children than adults would be bad! ²
+
+If we're trying to evenly allocate resources, having the model miss more cases in children than adults would be bad! ²
+
+If you look carefully, you'll see that the disease is more prevalent in children. That is, the "base rate" of the disease is different across groups.
+
+The fact that the base rates are different makes the situation surprisingly tricky. For one thing, even though the test catches the same percentage of sick adults and sick children, an adult who tests positive is less likely to have the disease than a child who tests positive.
+
+The fact that the base rates are different makes the situation surprisingly tricky. For one thing, even though the test catches the same percentage of sick adults and sick children, an adult who tests positive is less likely to have the disease than a child who tests positive.
+
+Why is there a disparity in diagnosing between children and adults? There is a higher proportion of well adults, so mistakes in the test will cause more well adults to be marked "positive" than well children (and similarly with mistaken negatives).
+
+To fix this, we could have the model take age into account. 
+
+Try adjusting the slider to make the model grade adults less aggressively than children.
+
+This allows us to align one metric. But now adults who have the disease are less likely to be diagnosed with it! 
+
+No matter how you move the sliders, you won't be able to make both metrics fair at once. It turns out this is inevitable any time the base rates are different, and the test isn't perfect.
+
+There are multiple ways to define fairness mathematically. It usually isn't possible to satisfy all of them.³
+
+To fix this, we could have the model take age into account. 
+
+Try adjusting the slider to make the model grade adults less aggressively than children.
+
+This allows us to align one metric. But now adults who have the disease are less likely to be diagnosed with it! 
+
+No matter how you move the sliders, you won't be able to make both metrics fair at once. It turns out this is inevitable any time the base rates are different, and the test isn't perfect.
+
+There are multiple ways to define fairness mathematically. It usually isn't possible to satisfy all of them.³
+
+This allows us to align one metric. But now adults who have the disease are less likely to be diagnosed with it! 
+
+No matter how you move the sliders, you won't be able to make both metrics fair at once. It turns out this is inevitable any time the base rates are different, and the test isn't perfect.
+
+There are multiple ways to define fairness mathematically. It usually isn't possible to satisfy all of them.³
+
+No matter how you move the sliders, you won't be able to make both metrics fair at once. It turns out this is inevitable any time the base rates are different, and the test isn't perfect.
+
+There are multiple ways to define fairness mathematically. It usually isn't possible to satisfy all of them.³
+
+There are multiple ways to define fairness mathematically. It usually isn't possible to satisfy all of them.³
+
+
+> **Note:** The following article is reproduced verbatim from
+> Hidden Bias, *Google PAIR* (2025):
+> [Hidden Bias](https://pair.withgoogle.com/explorables/hidden-bias/)
+> for internal educational use only (non-profit).
+
+# Hidden Bias
+
+### Modeling College GPA
+
+### Predicting with ML
+
+### Models can encode previous bias
+
+### Hiding protected classes from the model might not stop discrimination
+
+### Including a protected attribute may even decrease discrimination
+
+Let's pretend we're college admissions officers trying to predict the GPA students will have in college (in these examples we'll use simulated data).
+
+One simple approach: predict that students will have the same GPA in college as they did in high school.
+
+One simple approach: predict that students will have the same GPA in college as they did in high school.
+
+This is at best a very rough approximation, and it misses a key feature of this data set: students usually have better grades in high school than in college
+
+We're over-predicting college grades more often than we under-predict.
+
+We're over-predicting college grades more often than we under-predict.
+
+If we switched to using a machine learning model and entered these student grades, it would recognize this pattern and adjust the prediction.
+
+The model does this without knowing anything about the real-life context of grading in high school versus college.
+
+The model does this without knowing anything about the real-life context of grading in high school versus college.
+
+Giving the model more information about students increases accuracy more...
+
+...and more.
+
+All of this sensitive information about students is just a long list of numbers to model. 
+
+If a sexist college culture has historically led to lower grades for   female students, the model will pick up on that correlation and predict lower grades for women.  
+
+Training on historical data bakes in historical biases. Here the sexist culture has improved, but the model learned from the past correlation and still predicts higher grades for   men.
+
+If a sexist college culture has historically led to lower grades for   female students, the model will pick up on that correlation and predict lower grades for women.  
+
+Training on historical data bakes in historical biases. Here the sexist culture has improved, but the model learned from the past correlation and still predicts higher grades for   men.
+
+Training on historical data bakes in historical biases. Here the sexist culture has improved, but the model learned from the past correlation and still predicts higher grades for   men.
+
+Even if we don't tell the model students' genders, it might still score   female students poorly.
+
+With detailed enough information about every student, the model can still synthesize a proxy for gender out of other variables.
+
+With detailed enough information about every student, the model can still synthesize a proxy for gender out of other variables.
+
+Let's look at a simplified model, one only taking into account the recommendation of an alumni interviewer.
+
+The interviewer is quite accurate, except that they're biased against students with a   low household income. 
+
+In our toy model, students' grades don't depend on their income once they're in college. In other words, we have biased inputs and unbiased outcomes—the opposite of the previous example, where the inputs weren't biased, but the toxic culture biased the outcomes.
+
+In our toy model, students' grades don't depend on their income once they're in college. In other words, we have biased inputs and unbiased outcomes—the opposite of the previous example, where the inputs weren't biased, but the toxic culture biased the outcomes.
+
+If we also tell the model each student's household income, it will naturally correct for the interviewer's overrating of   high-income students just like it corrected for the difference between high school and college GPAs. 
+
+By carefully considering and accounting for bias, we've made the model fairer and more accurate. This isn't always easy to do, especially in circumstances like the historically toxic college culture where unbiased data is limited. 
+
+And there are fundamental fairness trade-offs that have to be made. Check out the [Measuring Fairness explorable](https://pair.withgoogle.com/measuring-fairness/) to see how those tradeoffs work.
+
+Adam Pearce // May 2020
+
+Thanks to Carey Radebaugh, Dan Nanas, David Weinberger, Emily Denton, Emily Reif, Fernanda Viégas, Hal Abelson, James Wexler, Kristen Olson, Lucas Dixon, Mahima Pushkarna, Martin Wattenberg, Michael Terry, Rebecca Salois, Timnit Gebru, Tulsee Doshi, Yannick Assogba, Yoni Halpern, Zan Armstrong, and my other colleagues at Google for their help with this piece.
+
+By carefully considering and accounting for bias, we've made the model fairer and more accurate. This isn't always easy to do, especially in circumstances like the historically toxic college culture where unbiased data is limited. 
+
+And there are fundamental fairness trade-offs that have to be made. Check out the [Measuring Fairness explorable](https://pair.withgoogle.com/measuring-fairness/) to see how those tradeoffs work.
+
+Adam Pearce // May 2020
+
+Thanks to Carey Radebaugh, Dan Nanas, David Weinberger, Emily Denton, Emily Reif, Fernanda Viégas, Hal Abelson, James Wexler, Kristen Olson, Lucas Dixon, Mahima Pushkarna, Martin Wattenberg, Michael Terry, Rebecca Salois, Timnit Gebru, Tulsee Doshi, Yannick Assogba, Yoni Halpern, Zan Armstrong, and my other colleagues at Google for their help with this piece.
+
+And there are fundamental fairness trade-offs that have to be made. Check out the [Measuring Fairness explorable](https://pair.withgoogle.com/measuring-fairness/) to see how those tradeoffs work.
+
+Adam Pearce // May 2020
+
+Thanks to Carey Radebaugh, Dan Nanas, David Weinberger, Emily Denton, Emily Reif, Fernanda Viégas, Hal Abelson, James Wexler, Kristen Olson, Lucas Dixon, Mahima Pushkarna, Martin Wattenberg, Michael Terry, Rebecca Salois, Timnit Gebru, Tulsee Doshi, Yannick Assogba, Yoni Halpern, Zan Armstrong, and my other colleagues at Google for their help with this piece.
+
+Adam Pearce // May 2020
+
+Thanks to Carey Radebaugh, Dan Nanas, David Weinberger, Emily Denton, Emily Reif, Fernanda Viégas, Hal Abelson, James Wexler, Kristen Olson, Lucas Dixon, Mahima Pushkarna, Martin Wattenberg, Michael Terry, Rebecca Salois, Timnit Gebru, Tulsee Doshi, Yannick Assogba, Yoni Halpern, Zan Armstrong, and my other colleagues at Google for their help with this piece.
+
+Thanks to Carey Radebaugh, Dan Nanas, David Weinberger, Emily Denton, Emily Reif, Fernanda Viégas, Hal Abelson, James Wexler, Kristen Olson, Lucas Dixon, Mahima Pushkarna, Martin Wattenberg, Michael Terry, Rebecca Salois, Timnit Gebru, Tulsee Doshi, Yannick Assogba, Yoni Halpern, Zan Armstrong, and my other colleagues at Google for their help with this piece.
+
+
+> **Note:** The following article is reproduced verbatim from
+> HAX Design Blog, *Microsoft* (2025):
+> [Guidelines for human-AI interaction design](https://www.microsoft.com/en-us/research/blog/guidelines-for-human-ai-interaction-design/)
+> for internal educational use only (non-profit).
+
+# Guidelines for human-AI interaction design
+
+### [Technical approach for classifying human-AI interactions at scale](https://www.microsoft.com/en-us/research/blog/technical-approach-for-classifying-human-ai-interactions-at-scale/)
