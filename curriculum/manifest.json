@@ -24,7 +24,13 @@
           "session": 1,
           "title": "AI Landscape & Product Patterns",
           "goals": ["Explain where AI fits into product design", "Map features to model affordances"],
-          "materials": ["modules/foundations/index.mdx"],
+          "materials": [
+            "modules/foundations/index.mdx",
+            "https://design.google/library/ux-ai",
+            "https://design.google/library/design-is-smart",
+            "https://design.google/library/six-ai-terms",
+            "https://medium.com/google-design/human-centered-machine-learning-a770d10562cd"
+          ],
           "activities": ["Write a one-pager mapping AI to UX value"],
           "deliverables": ["week01-session01-notes.md"]
         },
@@ -32,7 +38,12 @@
           "session": 2,
           "title": "Model Types & UX Implications",
           "goals": ["Understand different AI model types", "Connect model capabilities to UX patterns"],
-          "materials": ["modules/transformers/index.mdx"],
+          "materials": [
+            "modules/transformers/index.mdx",
+            "https://design.google/library/people-ai-research",
+            "https://www.microsoft.com/en-us/research/project/guidelines-for-human-ai-interaction/",
+            "https://www.microsoft.com/en-us/research/blog/guidelines-for-human-ai-interaction-design/"
+          ],
           "activities": ["Sketch UX feature ↔ model type mapping"],
           "deliverables": ["week01-session02-model-ux-mapping.md"]
         },
@@ -40,7 +51,12 @@
           "session": 3,
           "title": "AI Product Metrics & Success",
           "goals": ["Define success measures for AI features", "Balance technical and user metrics"],
-          "materials": ["modules/evaluation-observability/index.mdx"],
+          "materials": [
+            "modules/evaluation-observability/index.mdx",
+            "https://design.google/library/first-raters",
+            "https://sites.research.google/datacardsplaybook/",
+            "https://www.microsoft.com/en-us/research/blog/how-to-better-design-ai-from-ideation-to-user-perception-and-acceptance/"
+          ],
           "activities": ["Write 3 success measures for an AI feature"],
           "deliverables": ["week01-session03-ai-metrics.md"]
         },
@@ -48,7 +64,12 @@
           "session": 4,
           "title": "AI Fluency Framework",
           "goals": ["Develop AI communication skills", "Build confidence in technical discussions"],
-          "materials": ["modules/ai-fluency-framework/index.mdx"],
+          "materials": [
+            "modules/ai-fluency-framework/index.mdx",
+            "https://design.google/library/six-ways-to-develop-your-ux-design-career",
+            "https://blog.google/technology/ai/helping-people-understand-ai/",
+            "https://www.microsoft.com/en-us/research/blog/guidelines-for-human-ai-interaction-design/"
+          ],
           "activities": ["Journal: How I'd explain AI to a colleague"],
           "deliverables": ["week01-session04-ai-communication.md"]
         }
@@ -62,7 +83,12 @@
           "session": 5,
           "title": "Prompt Patterns & UX Design",
           "goals": ["Understand prompt engineering basics", "Design prompts for better UX"],
-          "materials": ["modules/prompting-techniques/index.mdx"],
+          "materials": [
+            "modules/prompting-techniques/index.mdx",
+            "https://design.google/library/control-and-simplicity",
+            "https://www.microsoft.com/en-us/research/publication/planning-for-natural-language-failures-with-the-ai-playbook/",
+            "https://pair.withgoogle.com/guidebook/"
+          ],
           "activities": ["Redesign one messy prompt → product-ready prompt"],
           "deliverables": ["week02-session05-prompt-redesign.md"]
         },
@@ -252,7 +278,14 @@
           "session": 25,
           "title": "AI Safety & User Protection",
           "goals": ["Design for AI safety", "Protect users from AI risks"],
-          "materials": ["modules/safety-security/index.mdx"],
+          "materials": [
+            "modules/safety-security/index.mdx",
+            "https://design.google/library/towards-resilient-systems",
+            "https://ai.google/principles/",
+            "https://ai.google/static/documents/ai-principles-2022-progress-update.pdf",
+            "https://pair.withgoogle.com/explorables/hidden-bias/",
+            "https://pair.withgoogle.com/explorables/measuring-fairness/"
+          ],
           "activities": ["Design safety features for AI product"],
           "deliverables": ["week07-session25-safety-features.md"]
         },
@@ -260,7 +293,13 @@
           "session": 26,
           "title": "Trust & Transparency",
           "goals": ["Build user trust in AI systems", "Design transparent AI experiences"],
-          "materials": ["modules/ai-ux-behavior/index.mdx"],
+          "materials": [
+            "modules/ai-ux-behavior/index.mdx",
+            "https://design.google/library/first-raters",
+            "https://blog.google/technology/ai/ways-ai-is-scaling-helpful/",
+            "https://www.microsoft.com/en-us/research/project/guidelines-for-human-ai-interaction/",
+            "https://microsoft.github.io/HAXPlaybook/"
+          ],
           "activities": ["Create trust-building UX elements"],
           "deliverables": ["week07-session26-trust-elements.md"]
         },
@@ -268,7 +307,14 @@
           "session": 27,
           "title": "Bias & Fairness in AI UX",
           "goals": ["Identify AI bias in user experiences", "Design for fairness and inclusion"],
-          "materials": ["modules/safety-security/index.mdx"],
+          "materials": [
+            "modules/safety-security/index.mdx",
+            "https://pair.withgoogle.com/explorables/measuring-diversity/",
+            "https://pair.withgoogle.com/explorables/measuring-fairness/",
+            "https://pair.withgoogle.com/explorables/hidden-bias/",
+            "https://www.nngroup.com/articles/ai-hallucinations/",
+            "https://medium.com/people-ai-research/participatory-machine-learning-69b77f1e5e23"
+          ],
           "activities": ["Audit AI feature for potential bias"],
           "deliverables": ["week07-session27-bias-audit.md"]
         },
@@ -366,7 +412,13 @@
           "session": 37,
           "title": "Working with Engineers on AI",
           "goals": ["Collaborate effectively with AI engineers", "Bridge design and technical perspectives"],
-          "materials": ["modules/collaboration-with-engineers/index.mdx"],
+          "materials": [
+            "modules/collaboration-with-engineers/index.mdx",
+            "https://design.google/library/why-google-needs-ux-engineers",
+            "https://design.google/library/adrian-secord-material-engineering-ai",
+            "https://codelabs.developers.google.com/codelabs/pair-guidebook#6",
+            "https://www.buildo.com/blog-posts/what-we-learned-from-googles-people-ai-guidebook"
+          ],
           "activities": ["Create AI project collaboration plan"],
           "deliverables": ["week10-session37-collaboration-plan.md"]
         },
@@ -374,7 +426,13 @@
           "session": 38,
           "title": "Stakeholder Communication",
           "goals": ["Communicate AI concepts to stakeholders", "Advocate for user needs in AI decisions"],
-          "materials": ["modules/ai-fluency-framework/index.mdx"],
+          "materials": [
+            "modules/ai-fluency-framework/index.mdx",
+            "https://design.google/library/ai-design-roundtable-discussion",
+            "https://blog.google/technology/ai/helping-people-understand-ai/",
+            "https://www.interaction-design.org/master-classes/how-to-design-with-and-for-artificial-intelligence",
+            "https://www.interaction-design.org/master-classes/ux-design-and-ai"
+          ],
           "activities": ["Create stakeholder presentation on AI feature"],
           "deliverables": ["week10-session38-stakeholder-presentation.md"]
         },

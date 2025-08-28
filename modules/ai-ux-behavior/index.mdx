@@ -1884,6 +1884,158 @@ In conclusion, the advent of GenAI in UX design is enabling UX designers to take
 
 As GenAI advances, AI-driven, user-centric design methods might be able to develop more engaging, user-friendly user interfaces that add value to the business. However, UX designers must be agile enough to develop and adapt their GenAI skills and seamlessly incorporate AI technology into their workflows if they want to remain competitive in a world that is increasingly automated.
 
+## Google Design: Human-Centered Machine Learning
+
+> **Note:** The following article is reproduced verbatim from
+> Google Design, *Google* (2025):
+> [The UX of AI](https://design.google/library/ux-ai)
+> for internal educational use only (non-profit).
+
+### The UX of AI
+
+As was the case with the mobile revolution, and the web before that, machine learning will cause us to rethink, restructure, and reconsider what's possible in virtually every experience we build. In the Google UX community, we've started an effort called "[human-centered machine learning](https://medium.com/google-design/human-centered-machine-learning-a770d10562cd)" to help focus and guide that conversation. Using this lens, we look across products to see how machine learning (ML) can stay grounded in human needs while solving for them—in ways that are uniquely possible through ML. Our team at Google works across the company to bring UXers up to speed on core ML concepts, understand how to best integrate ML into the UX utility belt, and [ensure we're building ML and AI in inclusive ways](https://research.googleblog.com/2017/05/neural-network-generated-illustrations.html?m=1).
+
+Google Clips is an intelligent camera designed to capture candid moments of familiar people and pets. It uses completely on-device machine intelligence to learn to only focus on the people you spend time with, as well as to understand what makes for a beautiful and memorable photograph. Using Google Clips as a case study, we'll walk through the core takeaways after three years of building the on-device models, industrial design, and user interface—including what it means in practice to take a human-centered approach to designing an AI-powered product.
+
+### Three ways human-centered design elevates AI
+
+**Addressing a real human need**
+
+This year, people will take about a trillion photos, and for many of us, that means a digital photo gallery filled with images that we won't actually look at. This is especially true with new parents, whose day-to-day experience is full of firsts. During moments that can feel precious and fleeting, users are drawn to their smartphone cameras in hopes of capturing and preserving memories for their future selves. As a result, they often end up viewing the world through a tiny screen instead of interacting using all their senses.
+
+What if we could build a product that helped us be more in-the-moment with the people we care about? What if we could actually be in the photos, instead of always behind the camera? What if we could go back in time and take the photographs we *would* have taken, without having had to stop, take out a phone, swipe open the camera, compose the shot, and disrupt the moment? And, what if we could have a photographer by our side to capture more of those authentic and genuine moments of life, such as my child's *real* smile? Those moments which often feel impossible to capture even if one is always behind the camera. That's what we set out to build.
+
+**Guiding the intelligence**
+
+When we started the process, the most pressing question was: if people take tons of photos but don't actually want to go back and curate them, how will we label ground truth? This is where the foundational "HCML exercise" was born: Describe the way a theoretical human "expert" might perform the task today. The theory was twofold: First, if a human can't perform the task, then neither can an AI; second, by diving deep into the methods of an expert, we can find signal-to-guide data collection, labeling, and component model architecture.
+
+The closest approximation I could think of was a wedding photographer, so I set out to interview and hire contractors using a sufficiently ambiguous job posting (secret project! photography!). We ended up discovering—through trial and error and a healthy dose of luck—a treasure trove of expertise in the form of a documentary filmmaker, a photojournalist, and a fine arts photographer. Together, we began gathering footage from people on the team and trying to answer the question, "What makes a memorable moment?"
+
+**Building trust**
+
+The starting point for our work was an assumption that we could 'show' the model the stuff we thought was beautiful and interesting, and it would, y'know, *learn* how to find more. We had romanticized conversations about depth of field, rule of thirds, dramatic lighting, match cuts, storytelling … but what I learned was that we should never underestimate the profound human capability to wield common sense.
+
+These early experiments exposed crucial technical and methodological gaps that helped us reassess our assumptions about what the product could realize, as well as take stock in the unprecedented nature of the work. We shifted our paradigm from putting ML on a pedestal to understanding that it can only learn effectively under quite reductionist framings. Basically, we were trying to teach English to a two-year-old by reading Shakespeare instead of *Go, Dog. Go!*. This was where the myth of the AI 'monolith' crashed hardest for me; the idea that there's some singular 'intelligence' that understands all things and can generalize and transfer knowledge from context to context. Nope. Not even close.
+
+### Back to basics
+
+Consistency is the name of the game when trying to teach anything. It's why we wait as long as possible to unleash the madness of O-U-G-H (e.g. tough, through, thorough) on children when teaching them how to read and speak English. Spelling and pronouncing words like *cat*, *bat*, and *sat*, with their predictable "at" sounds, is so much more consistent!
+
+With consistency comes confidence. Think about how quick—and eager—most students are to point out incongruity when a teacher provides two examples that don't seem to line up. Algorithms provide no such feedback. As far as an algorithm is concerned, everything they're shown is of equal value unless directed otherwise. For Clips, that meant we not only needed consistency *between* examples, but also *within* each example. Every individual *frame* needed to be representative of the specific prediction we're trying to teach it to make. And often that can come in the form of teaching it what to *ignore*.
+
+**Capture**
+
+We needed to train models on what bad looked like: hands in front of the camera, quick and shaky movements, blurriness.
+
+**Composition**
+
+We needed to train models about stability, sharpness, and framing. Without careful attention, a face detection model will appreciate a face at the edge of the frame just as much as one in the center.
+
+**Social norms**
+
+Familiarity is such a cornerstone of photography. You point a camera at someone and they offer implicit consent by smiling or posing. Moreover, you're the one looking through the viewfinder framing and composing the shot. With an autonomous camera, we had to be extremely clear on who is *actually* familiar to you based on social cues like the amount of time spent with them and how consistently they've been in the frame.
+
+**Editing**
+
+Diversity and redundancy is something we take for granted in the way we shoot photos; there's a little voice in the back of our head saying, "You haven't seen anything like this!" Or, "You've got enough shots of your kid for now, relax." But our models needed a lot of help.
+
+We approached diversity along three different vectors:
+
+- **Time**: The simple value of time passing is an important signal to appreciate. Don't go too long without capturing something.
+- **Visual**: Subtle or dramatic changes in color can tell a lot about changes in environment and activity. Try to capture moments that have distinct aesthetic qualities.
+- **People**: Are you in a big group or a small group or alone? Understanding how many different familiar faces you're encountering is a crucial part of feeling like you haven't missed important moments.
+
+### Trust and self-efficacy
+
+One of the reasons we invested in Clips was because of how deeply important it was to demonstrate the importance of on-device and privacy-preserving machine learning to the world—not to mention its remarkable capabilities (e.g. it uses less power, which means devices don't get as hot, and the processing can happen quickly and reliably without needing an internet connection). A camera is a very personal object, and we've worked hard to ensure it—the hardware, the intelligence, and the content—ultimately belongs to you and you alone. Which is why everything—and I mean everything—stays on the camera until the user says otherwise.
+
+**Concept budgeting**
+
+With an eye on trust and self-efficacy, we were also very intentional in the way we approached UI design. At the start of the project, that meant working through a few of our own funny assumptions about how "out-there" an AI-powered product needed to be.
+
+When we reach into our brains for future-tech reference points, many designers will jump to the types of immersive experiences seen in movies like *Minority Report* and *Blade Runner*. But just imagine of how crazy it'd be to actually explain something like the UI in *Minority Report* to users: *Here, just extend your arm out, wait two seconds, grasp at thin air, then fling wildly to the right while rotating your hand counter-clockwise. It's easy!* Almost every sci-fi faux UI is guilty of something similar; as if the complexity of an interaction model needs to keep pace with the complexity of the system it's driving. But that's sort of where we were for awhile during our early design phase, and we got away with it in large part for three reasons:
+
+- We were showing people fake content in an obviously simulated environment, where they had no real connection to the imagery. Note that this issue isn't unique to AI; it's often one of the confounding factors when you bring people into the usability lab.
+- We were surrounded by people every day who were all speaking the same language; thinking deep thoughts about AI-enabled futures. We were making the mistake of losing touch with the reference points that *everyone else* would bring to the table.
+- We thought our new designs were super cool, so we gave ourselves a healthy amount of forgiveness when people didn't immediately get it.
+
+Over time, we snapped out of it. We began fiercely reducing complexity in the UI, and made *control* and *familiarity* cornerstones of our experiential framework. We added a software viewfinder and a hardware capture button to the camera. We made sure that the user had the final say in curation; from the best still frame within a clip to its ideal duration. And we showed users *more* moments than what we necessarily thought was *just right*, because by allowing them to look a bit below the 'water line' and delete stuff they didn't want, they actually developed a better understanding of what the camera was looking for, as well as what they could confidently expect it to capture in the future.
+
+Through this process we discovered another critically important finding for testing an AI-powered product: fake it till you make it. If forced to choose, it's leaps-and-bounds more useful to prototype your UX with a user's *real content* than it is to test with real ML models. The latter takes an incredibly long time to build and instrument (and is far less agile or adaptive than traditional software development, so it's more costly to swing and miss), while the former affords you genuine insights into the way people will derive value and utility from your (theoretical) product.
+
+In the context of subjectivity and personalization, perfection simply isn't possible, and it really shouldn't even be a goal. Unlike traditional software development, ML systems will never be "bug-free" because prediction is an innately fuzzy science. But it's precisely this fuzziness that makes ML so useful! It's what helps us craft dramatically more robust and dynamic 'if' statements, where we can design something to the effect of "when something looks sort of like x, do y." And in that departure from rigid logic rules, we also needed to depart from traditional forms of measuring engagement. Success with Clips isn't just about keeps, deletes, clicks, and edits (though those are important), it's about authorship, co-learning, and adaptation over time. We really hope users go out and play with it.
+
+### Designing with purpose
+
+By re-orienting the conventional AI paradigm from finding ways to make the machine smarter, to exploring ways to augment human capability, we can unlock far greater potential in machine learning. It can become a tool for unprecedented exploration and innovation; a tool to help us seek out patterns in ourselves and the world around us. As human-centered practitioners, we have a tremendous opportunity to shape a more humanist and inclusive world in concert with AI, and it starts by remembering our roots: finding and addressing real human needs, upholding human values, and designing for augmentation, not automation.
+
+The role of AI shouldn't be to find the needle in the haystack *for* us, but to show us how much hay it can clear so we can better see the needle ourselves.
+
+## Human-Centered Machine Learning: 7 Steps to Stay Focused on the User
+
+> **Note:** The following article is reproduced verbatim from
+> Google Design, *Medium* (2025):
+> [Human-Centered Machine Learning](https://medium.com/google-design/human-centered-machine-learning-a770d10562cd)
+> for internal educational use only (non-profit).
+
+### 1. Don't expect Machine learning to figure out what problems to solve
+
+Machine learning and artificial intelligence have a lot of hype around them right now. Many companies and product teams are jumping right into product strategies that start with ML as a solution and skip over focusing on a meaningful problem to solve.
+
+That's fine for pure exploration or seeing what a technology can do, and often inspires new product thinking. However, if you aren't aligned with a human need, you're just going to build a very powerful system to address a very small — or perhaps nonexistent — problem.
+
+So our first point is that you still need to do all that hard work you've always done to find human needs. This is all the ethnography, contextual inquiries, interviews, deep hanging out, surveys, reading customer support tickets, logs analysis, and getting proximate to people to figure out if you're solving a problem or addressing an unstated need people have. Machine learning won't figure out what problems to solve. We still need to define that. As UXers, we already have the tools to guide our teams, regardless of the dominant technology paradigm.
+
+### 2. Ask yourself if ML will address the problem in a unique way
+
+Once you've identified the need or needs you want to address, you'll want to assess whether ML can solve these needs in unique ways. There are plenty of legitimate problems that don't require ML solutions.
+
+A challenge at this point in product development is determining which experiences require ML, which are meaningfully enhanced by ML, and which do not benefit from ML or are even degraded by it. Plenty of products can feel "smart" or "personal" without ML. Don't get pulled into thinking those are only possible with ML.
+
+We've created a set of exercises to help teams understand the value of ML to their use cases. These exercises do so by digging into the details of what mental models and expectations people might bring when interacting with an ML system as well as what data would be needed for that system.
+
+Here are three example exercises we have teams walk through and answer about the use cases they are trying to address with ML:
+
+1. **Describe the way a theoretical human "expert" might perform the task today.**
+2. **If your human expert were to perform this task, how would you respond to them so they improved for the next time?** Do this for all four phases of the confusion matrix.
+3. **If a human were to perform this task, what assumptions would the user want them to make?**
+
+Spending just a few minutes answering each of these questions reveals the automatic assumptions people will bring to an ML-powered product. They are equally good as prompts for a product team discussion or as stimuli in user research.
+
+### 3. Fake it with personal examples and wizards
+
+A big challenge with ML systems is prototyping. If the whole value of your product is that it uses unique user data to tailor an experience to her, you can't just prototype that up real quick and have it feel anywhere near authentic. Also, if you wait to have a fully built ML system in place to test the design, it will likely be too late to change it in any meaningful way after testing. However, there are two user research approaches that can help: using personal examples from participants and Wizard of Oz studies.
+
+When doing user research with early mockups, have participants bring in some of their own data — e.g. personal photos, their own contact lists, music or movie recommendations they've received — to the sessions. Remember, you'll need to make sure you fully inform participants about how this data will be used during testing and when it will be deleted. This can even be a kind of fun "homework" for participants before the session (people like to talk about their favorite movies after all).
+
+With these examples, you can then simulate right and wrong responses from the system. For example, you can simulate the system returning the wrong movie recommendation to the user to see how she reacts and what assumptions she makes about why the system returned that result. This helps you assess the cost and benefits of these possibilities with much more validity than using dummy examples or conceptual descriptions.
+
+The second approach that works quite well for testing not-yet-built ML products is conducting Wizard of Oz studies. All the rage at one time, Wizard of Oz studies fell from prominence as a user research method over the past 20 years or so. Well, they're back.
+
+Quick reminder: Wizard of Oz studies have participants interact with what they believe to be an autonomous system, but which is actually being controlled by a human (usually a teammate).
+
+Having a teammate imitate an ML system's actions like chat responses, suggesting people the participant should call, or movies suggestions can simulate interacting with an "intelligent" system. These interactions are essential to guiding the design because when participants can earnestly engage with what they perceive to be an AI, they will naturally tend to form a mental model of the system and adjust their behavior according to those models. Observing their adaptations and second-order interactions with the system are hugely valuable to informing its design.
+
+### 4. Weigh the costs of false positives and false negatives
+
+Your ML system will make mistakes. It's important to understand what these errors look like and how they might affect the user's experience of the product. In one of the questions in point 2 we mentioned something called the confusion matrix. This is a key concept in ML and describes what it looks like when an ML system gets it right and gets it wrong.
+
+While all errors are equal to an ML system, not all errors are equal to all people. For example, if we had a "is this a human or a troll?" classifier, then accidentally classifying a human as a troll is just an error to the system. It has no notion of insulting a user or the cultural context surrounding the classifications it is making. It doesn't understand that people using the system may be much more offended being accidentally labeled a troll compared to trolls accidentally being labeled as people.
+
+In ML terms, you'll need to make conscious trade-offs between the precision and recall of the system. That is, you need to decide if it is more important to include all of the right answers even if it means letting in more wrong ones (optimizing for recall), or minimizing the number of wrong answers at the cost of leaving out some of the right ones (optimizing for precision).
+
+### 5. Plan for co-learning and adaptation
+
+The most valuable ML systems evolve over time in tandem with users' mental models. When people interact with these systems, they're influencing and adjusting the kinds of outputs they'll see in the future. Those adjustments in turn will change how users interact with the system, which will change the models… and so on, in a feedback loop. This can result in "conspiracy theories" where people form incorrect or incomplete mental models of a system and run into problems trying to manipulate the outputs according to these imaginary rules. You want to guide users with clear mental models that encourage them to give feedback that is mutually beneficial to them and the model.
+
+While ML systems are trained on existing data sets, they will adapt with new inputs in ways we often can't predict before they happen. So we need to adapt our user research and feedback strategies accordingly. This means planning ahead in the product cycle for longitudinal, high-touch, as well as broad-reach research together. You'll need to plan enough time to evaluate the performance of ML systems through quantitative measures of accuracy and errors as users and use cases increase, as well as sit with people while they use these systems to understand how mental models evolve with every success and failure.
+
+Additionally, as UXers we need to think about how we can get in situ feedback from users over the entire product lifecycle to improve the ML systems. Designing interaction patterns that make giving feedback easy as well as showing the benefits of that feedback quickly, will start to differentiate good ML systems from great ones.
+
+### 6. Teach your algorithm using the right labels
+
+### 7. Extend your UX family, ML is a creative process
+
 ## Sources
 
 - **NN Group Research**: [AI Chatbots Discourage Error Checking](https://www.nngroup.com/articles/ai-chatbots-discourage-error-checking/)
