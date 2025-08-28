@@ -1636,6 +1636,256 @@ Open-source LLMs, particularly Mixtral-8x7B, have reached a performance level th
 
 The future of AI agents lies in the combination of open-source models, community-driven development, and specialized training for agentic workflows. As we continue to push the boundaries of what's possible with open-source AI, we're democratizing access to powerful agent technologies.
 
+## AI Agents Cheat Sheet
+
+> **Note:** The following cheat sheet is reproduced verbatim from
+> DataCamp, *DataCamp* (2025):
+> [AI Agents Cheat Sheet](https://www.datacamp.com/cheat-sheet/ai-agents-cheat-sheet?dc_referrer=https%3A%2F%2Flivebook.manning.com%2F)
+> for internal educational use only (non-profit).
+
+### What are AI Agents?
+
+AI agents are autonomous systems that can perceive their environment, make decisions, and take actions to achieve specific goals. They combine large language models (LLMs) with tools and reasoning capabilities to perform complex tasks.
+
+### Core Components
+
+#### 1. **LLM Engine**
+- **Purpose**: Provides reasoning and decision-making capabilities
+- **Examples**: GPT-4, Claude, Llama, Gemini
+- **Key Features**: Context understanding, task decomposition, natural language processing
+
+#### 2. **Tools & APIs**
+- **Purpose**: Enable agents to interact with external systems
+- **Categories**:
+  - **Search Tools**: Web search, database queries
+  - **Action Tools**: File operations, API calls, code execution
+  - **Analysis Tools**: Data processing, calculations, validation
+
+#### 3. **Memory System**
+- **Purpose**: Store and retrieve information across interactions
+- **Types**:
+  - **Short-term**: Current conversation context
+  - **Long-term**: Persistent knowledge and experiences
+  - **Episodic**: Task-specific memories
+
+#### 4. **Planning & Reasoning**
+- **Purpose**: Break down complex tasks into manageable steps
+- **Techniques**:
+  - Chain-of-Thought (CoT)
+  - Tree-of-Thoughts (ToT)
+  - ReAct (Reasoning + Acting)
+
+### Agent Architectures
+
+#### **ReAct Agents**
+```
+Thought: I need to analyze this data
+Action: search_database
+Action Input: {"query": "sales data Q4 2024"}
+Observation: Found 1,247 records
+Thought: Now I need to calculate the average
+Action: calculate_statistics
+Action Input: {"operation": "mean", "data": "sales_data"}
+```
+
+#### **Multi-Agent Systems**
+- **CrewAI**: Collaborative agent teams
+- **AutoGen**: Conversational agent groups
+- **LangGraph**: Stateful agent workflows
+
+#### **Tool-Using Agents**
+- **LangChain Agents**: Modular tool integration
+- **OpenAI Function Calling**: Structured tool usage
+- **Claude Tools**: Anthropic's tool framework
+
+### Common Agent Patterns
+
+#### **Research Agent**
+```python
+research_agent = Agent(
+    role="Research Analyst",
+    goal="Find accurate and relevant information",
+    backstory="Expert at analyzing data and finding insights",
+    tools=[web_search, database_query, document_reader],
+    verbose=True
+)
+```
+
+#### **Writing Agent**
+```python
+writing_agent = Agent(
+    role="Content Writer",
+    goal="Create compelling and accurate content",
+    backstory="Skilled at transforming information into narratives",
+    tools=[grammar_checker, plagiarism_detector, style_guide],
+    verbose=True
+)
+```
+
+#### **Code Agent**
+```python
+code_agent = Agent(
+    role="Software Developer",
+    goal="Write clean, functional code",
+    backstory="Expert programmer with best practices knowledge",
+    tools=[code_executor, linter, documentation_generator],
+    verbose=True
+)
+```
+
+### Best Practices
+
+#### **Agent Design**
+✅ **Good Practices**
+- Clear, specific roles and goals
+- Appropriate tool selection
+- Proper error handling
+- Memory management
+- Collaboration capabilities
+
+❌ **Avoid**
+- Vague or conflicting objectives
+- Tool overload
+- No error recovery
+- Memory leaks
+- Isolated agents
+
+#### **Prompt Engineering**
+```python
+# Good prompt structure
+prompt = f"""
+Role: {agent_role}
+Goal: {specific_goal}
+Context: {relevant_context}
+Available Tools: {tool_list}
+Instructions: {step_by_step_instructions}
+Constraints: {limitations_and_boundaries}
+"""
+```
+
+#### **Tool Integration**
+```python
+# Tool definition example
+@tool
+def search_database(query: str) -> str:
+    """Search the database for relevant information"""
+    # Implementation here
+    return results
+
+# Tool usage
+agent = Agent(
+    tools=[search_database],
+    verbose=True
+)
+```
+
+### Evaluation Metrics
+
+#### **Performance Metrics**
+- **Task Completion Rate**: % of tasks successfully completed
+- **Accuracy**: Quality of outputs and decisions
+- **Efficiency**: Time and resource usage
+- **Reliability**: Consistency across runs
+
+#### **Quality Metrics**
+- **Relevance**: Output matches requirements
+- **Completeness**: All necessary information included
+- **Correctness**: Factual accuracy
+- **Clarity**: Clear and understandable outputs
+
+### Common Challenges
+
+#### **1. Hallucination**
+- **Problem**: Agents generate false information
+- **Solutions**: 
+  - Fact-checking tools
+  - Source verification
+  - Confidence scoring
+
+#### **2. Tool Reliability**
+- **Problem**: External APIs fail or return errors
+- **Solutions**:
+  - Retry mechanisms
+  - Fallback options
+  - Error handling
+
+#### **3. Context Management**
+- **Problem**: Information overload or loss
+- **Solutions**:
+  - Memory systems
+  - Context summarization
+  - Priority-based filtering
+
+#### **4. Security**
+- **Problem**: Unauthorized access or data leaks
+- **Solutions**:
+  - Input validation
+  - Output sanitization
+  - Access controls
+
+### Popular Frameworks
+
+#### **LangChain**
+```python
+from langchain.agents import initialize_agent, Tool
+from langchain.llms import OpenAI
+
+llm = OpenAI(temperature=0)
+tools = [search_tool, calculator_tool]
+agent = initialize_agent(tools, llm, agent="zero-shot-react-description")
+```
+
+#### **CrewAI**
+```python
+from crewai import Agent, Task, Crew
+
+researcher = Agent(role="Researcher", goal="Find information")
+writer = Agent(role="Writer", goal="Create content")
+crew = Crew(agents=[researcher, writer], tasks=[task1, task2])
+```
+
+#### **AutoGen**
+```python
+from autogen import AssistantAgent, UserProxyAgent
+
+assistant = AssistantAgent(name="assistant")
+user_proxy = UserProxyAgent(name="user_proxy")
+user_proxy.initiate_chat(assistant, message="Help me with this task")
+```
+
+### Deployment Considerations
+
+#### **Scalability**
+- **Horizontal Scaling**: Multiple agent instances
+- **Load Balancing**: Distribute tasks efficiently
+- **Resource Management**: Monitor CPU, memory, API usage
+
+#### **Monitoring**
+- **Logging**: Track agent actions and decisions
+- **Metrics**: Performance and quality indicators
+- **Alerts**: Notify on failures or anomalies
+
+#### **Cost Optimization**
+- **Token Usage**: Minimize LLM API calls
+- **Tool Efficiency**: Optimize external service usage
+- **Caching**: Store and reuse results
+
+### Future Trends
+
+#### **Emerging Capabilities**
+- **Multimodal Agents**: Text, image, audio processing
+- **Autonomous Learning**: Self-improving agents
+- **Human-Agent Collaboration**: Seamless teamwork
+
+#### **Advanced Architectures**
+- **Hierarchical Agents**: Multi-level decision making
+- **Swarm Intelligence**: Collective agent behavior
+- **Meta-Agents**: Agents that create other agents
+
+---
+
+*This cheat sheet provides a comprehensive overview of AI agents, their components, best practices, and implementation strategies. Use it as a quick reference for building and deploying effective AI agent systems.*
+
 ## Next Steps
 
 Now that you understand agent architectures and orchestration, explore:
