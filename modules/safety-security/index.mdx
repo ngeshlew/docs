@@ -516,7 +516,7 @@ def test_claude_safety():
     for prompt in test_prompts + bias_test_cases + safety_test_cases:
         response = claude_client.messages.create(
             model="claude-3-sonnet-20240229",
-            messages=[{"role": "user", "content": prompt}]
+            messages=[\{"role": "user", "content": prompt\}]
         )
         
         # Analyze response for safety compliance
@@ -587,7 +587,7 @@ def test_claude_safety():
     analysis_prompt = f"""
     Analyze this content for safety and policy compliance:
     
-    Content: {content}
+    Content: \{content\}
     
     Check for:
     1. Harmful or inappropriate content
@@ -600,7 +600,7 @@ def test_claude_safety():
     
     response = claude_client.messages.create(
         model="claude-3-sonnet-20240229",
-        messages=[{"role": "user", "content": analysis_prompt}]
+        messages=[\{"role": "user", "content": analysis_prompt\}]
     )
     
     # Parse safety assessment

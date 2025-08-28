@@ -26,7 +26,7 @@ completed: false
 
 # Page Title
 
-> Synthesis: short synthesis
+> Synthesis: <short synthesis>
 
 ## Why it's important for designers to know
 

@@ -204,13 +204,13 @@ tools = [
 # Tool implementations
 def search_web(query):
     # Implement web search functionality
-    return f"Search results for: {query}"
+    return f"Search results for: \{query\}"
 
 def calculate(expression):
     # Implement calculation functionality
     try:
         result = eval(expression)
-        return f"Result: {result}"
+        return f"Result: \{result\}"
     except:
         return "Error: Invalid expression"
 </code></pre>
@@ -229,9 +229,9 @@ def calculate(expression):
     prompt = f"""
     Solve this problem using the ReAct framework (Reasoning + Acting):
     
-    Problem: {problem}
+    Problem: \{problem\}
     
-    Available tools: {[tool['function']['name'] for tool in tools]}
+    Available tools: \{[tool['function']['name'] for tool in tools]\}
     
     Follow this process:
     1. Think: Analyze the problem and plan your approach
@@ -249,10 +249,10 @@ def calculate(expression):
         temperature=0.1,
         tools=tools,
         messages=[
-            {
+            \{
                 "role": "user",
                 "content": prompt
-            }
+            \}
         ]
     )
     
@@ -273,18 +273,18 @@ def calculate(expression):
                     temperature=0.1,
                     tools=tools,
                     messages=[
-                        {
+                        \{
                             "role": "user",
                             "content": prompt
-                        },
-                        {
+                        \},
+                        \{
                             "role": "assistant",
                             "content": response.content
-                        },
-                        {
+                        \},
+                        \{
                             "role": "user",
-                            "content": f"Tool result: {tool_result}"
-                        }
+                            "content": f"Tool result: \{tool_result\}"
+                        \}
                     ]
                 )
     
@@ -292,7 +292,7 @@ def calculate(expression):
 
 # Example usage
 problem = "What's the current weather in Tokyo and how does it compare to the historical average?"
-result = react_with_claude(problem, tools, {"search_web": search_web, "calculate": calculate})
+result = react_with_claude(problem, tools, \{"search_web": search_web, "calculate": calculate\})
 print(result)
 </code></pre>
 </Card>
@@ -317,8 +317,8 @@ print(result)
                 "parameters": {
                     "type": "object",
                     "properties": {
-                                    "query": {"type": "string"},
-            "max_results": {"type": "integer", "default": 5}
+                                    "query": \{"type": "string"\},
+            "max_results": \{"type": "integer", "default": 5\}
                     },
                     "required": ["query"]
                 }
@@ -333,8 +333,8 @@ print(result)
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "data": {"type": "string"},
-                        "analysis_type": {"type": "string", "enum": ["summary", "trends", "correlation"]}
+                        "data": \{"type": "string"\},
+                        "analysis_type": \{"type": "string", "enum": ["summary", "trends", "correlation"]\}
                     },
                     "required": ["data", "analysis_type"]
                 }
@@ -349,7 +349,7 @@ print(result)
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "expression": {"type": "string"}
+                        "expression": \{"type": "string"\}
                     },
                     "required": ["expression"]
                 }
@@ -361,9 +361,9 @@ print(result)
     react_prompt = f"""
     Solve this complex problem using the ReAct framework:
     
-    Problem: {problem}
+    Problem: \{problem\}
     
-    Available tools: {[tool['function']['name'] for tool in tools]}
+    Available tools: \{[tool['function']['name'] for tool in tools]\}
     
     Process:
     1. REASON: Think about what information you need and how to approach this
@@ -874,9 +874,9 @@ class CalculatorTool(BaseTool):
         """Evaluate a mathematical expression"""
         try:
             result = eval(expression)
-            return f"Result: {result}"
+            return f"Result: \{result\}"
         except Exception as e:
-            return f"Error: {str(e)}"
+            return f"Error: \{str(e)\}"
     
     def _arun(self, expression: str) -> str:
         """Async version of the tool"""

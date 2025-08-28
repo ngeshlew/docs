@@ -30,7 +30,7 @@
   ],
   "navigation": [
     {
-      "group": "Getting Started",
+      "group": "Overview",
       "pages": [
         "index",
         "getting-started",
@@ -39,20 +39,37 @@
       ]
     },
     {
-      "group": "AI Foundations",
+      "group": "Designer Curriculum",
+      "pages": [
+        "curriculum/index",
+        "curriculum/weeks/week-01",
+        "curriculum/weeks/week-02",
+        "curriculum/weeks/week-03",
+        "curriculum/weeks/week-07",
+        "curriculum/weeks/week-12"
+      ]
+    },
+    {
+      "group": "Core Concepts",
       "pages": [
         "modules/foundations/index",
         "modules/transformers/index",
         "modules/token-context/index",
-        "modules/ai-fluency-framework/index"
+        "modules/ai-fluency-framework/index",
+        "modules/mcp/index"
       ]
     },
     {
-      "group": "Prompting Mastery",
+      "group": "Prompting & Interaction",
       "pages": [
         "modules/prompting-structured-outputs/index",
         "modules/prompting-advanced/index",
-        "modules/structured-outputs/index",
+        "modules/structured-outputs/index"
+      ]
+    },
+    {
+      "group": "Prompting Techniques",
+      "pages": [
         "modules/prompting-techniques/zero-shot",
         "modules/prompting-techniques/few-shot",
         "modules/prompting-techniques/chain-of-thought",
@@ -74,21 +91,19 @@
       ]
     },
     {
-      "group": "AI Architecture & Systems",
+      "group": "AI Architecture",
       "pages": [
-        "modules/mcp/index",
         "modules/memory-state/index",
         "modules/rag/index",
-        "modules/agents-orchestration/index",
-        "modules/multimodality/index"
+        "modules/agents-orchestration/index"
       ]
     },
     {
-      "group": "User Experience Design",
+      "group": "User Experience",
       "pages": [
         "modules/streaming-ux/index",
         "modules/ai-ux-behavior/index",
-        "modules/design-patterns/index"
+        "modules/multimodality/index"
       ]
     },
     {
@@ -101,9 +116,15 @@
       ]
     },
     {
-      "group": "Advanced Topics",
+      "group": "Collaboration",
       "pages": [
         "modules/collaboration-with-engineers/index",
+        "modules/design-patterns/index"
+      ]
+    },
+    {
+      "group": "Research & Insights",
+      "pages": [
         "modules/ecosystem-deep-dives/index",
         "competitors/fin-intercom",
         "competitors/yellow-ai"
@@ -121,7 +142,7 @@
       ]
     },
     {
-      "group": "Resources & References",
+      "group": "Resources",
       "pages": [
         "sources/index",
         "perspectives/index",

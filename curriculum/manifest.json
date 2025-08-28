@@ -1,0 +1,452 @@
+{
+  "version": "1.1",
+  "audience": "Senior Product Designer",
+  "cadence": { 
+    "frequency": "every 2 days", 
+    "duration_min": 30, 
+    "total_weeks": 12 
+  },
+  "sessions_total": 45,
+  "learning_objectives": [
+    "Speak confidently about AI/ML in product discussions",
+    "Identify UX implications of AI model choices",
+    "Design effective AI-powered user experiences",
+    "Evaluate AI features from a user-centered perspective",
+    "Collaborate effectively with engineering teams on AI projects",
+    "Advocate for user needs in AI product decisions"
+  ],
+  "weeks": [
+    {
+      "week": 1,
+      "theme": "AI Foundations & Product Context",
+      "sessions": [
+        {
+          "session": 1,
+          "title": "AI Landscape & Product Patterns",
+          "goals": ["Explain where AI fits into product design", "Map features to model affordances"],
+          "materials": ["modules/foundations/index.mdx"],
+          "activities": ["Write a one-pager mapping AI to UX value"],
+          "deliverables": ["week01-session01-notes.md"]
+        },
+        {
+          "session": 2,
+          "title": "Model Types & UX Implications",
+          "goals": ["Understand different AI model types", "Connect model capabilities to UX patterns"],
+          "materials": ["modules/transformers/index.mdx"],
+          "activities": ["Sketch UX feature ↔ model type mapping"],
+          "deliverables": ["week01-session02-model-ux-mapping.md"]
+        },
+        {
+          "session": 3,
+          "title": "AI Product Metrics & Success",
+          "goals": ["Define success measures for AI features", "Balance technical and user metrics"],
+          "materials": ["modules/evaluation-observability/index.mdx"],
+          "activities": ["Write 3 success measures for an AI feature"],
+          "deliverables": ["week01-session03-ai-metrics.md"]
+        },
+        {
+          "session": 4,
+          "title": "AI Fluency Framework",
+          "goals": ["Develop AI communication skills", "Build confidence in technical discussions"],
+          "materials": ["modules/ai-fluency-framework/index.mdx"],
+          "activities": ["Journal: How I'd explain AI to a colleague"],
+          "deliverables": ["week01-session04-ai-communication.md"]
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "theme": "Prompting & Structured Outputs",
+      "sessions": [
+        {
+          "session": 5,
+          "title": "Prompt Patterns & UX Design",
+          "goals": ["Understand prompt engineering basics", "Design prompts for better UX"],
+          "materials": ["modules/prompting-techniques/index.mdx"],
+          "activities": ["Redesign one messy prompt → product-ready prompt"],
+          "deliverables": ["week02-session05-prompt-redesign.md"]
+        },
+        {
+          "session": 6,
+          "title": "Structured Outputs & User Experience",
+          "goals": ["Design reliable AI responses", "Handle errors and edge cases"],
+          "materials": ["modules/structured-outputs/index.mdx"],
+          "activities": ["Create JSON schema for a user-facing AI feature"],
+          "deliverables": ["week02-session06-structured-schema.md"]
+        },
+        {
+          "session": 7,
+          "title": "Error Handling & Fallbacks",
+          "goals": ["Design graceful failure modes", "Maintain user trust during errors"],
+          "materials": ["modules/ai-ux-behavior/index.mdx"],
+          "activities": ["Sketch error states for AI feature"],
+          "deliverables": ["week02-session07-error-designs.md"]
+        },
+        {
+          "session": 8,
+          "title": "Prompting Best Practices",
+          "goals": ["Apply prompting techniques to UX", "Optimize for user outcomes"],
+          "materials": ["modules/prompting-advanced/index.mdx"],
+          "activities": ["Create prompt evaluation rubric"],
+          "deliverables": ["week02-session08-prompt-rubric.md"]
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "theme": "AI UX Behavior & Patterns",
+      "sessions": [
+        {
+          "session": 9,
+          "title": "AI User Behavior Patterns",
+          "goals": ["Understand how users interact with AI", "Design for AI-specific behaviors"],
+          "materials": ["modules/ai-ux-behavior/index.mdx"],
+          "activities": ["Observe and document AI user behavior"],
+          "deliverables": ["week03-session09-ai-behavior-notes.md"]
+        },
+        {
+          "session": 10,
+          "title": "Design Patterns for AI",
+          "goals": ["Apply proven AI UX patterns", "Avoid common AI UX pitfalls"],
+          "materials": ["modules/design-patterns/index.mdx"],
+          "activities": ["Audit existing AI feature for design patterns"],
+          "deliverables": ["week03-session10-pattern-audit.md"]
+        },
+        {
+          "session": 11,
+          "title": "Streaming UX & Real-time Feedback",
+          "goals": ["Design for streaming AI responses", "Create engaging real-time experiences"],
+          "materials": ["modules/streaming-ux/index.mdx"],
+          "activities": ["Sketch streaming UX for text generation"],
+          "deliverables": ["week03-session11-streaming-design.md"]
+        },
+        {
+          "session": 12,
+          "title": "Multimodal AI Experiences",
+          "goals": ["Design for text, image, and voice AI", "Create cohesive multimodal flows"],
+          "materials": ["modules/multimodality/index.mdx"],
+          "activities": ["Design multimodal AI feature concept"],
+          "deliverables": ["week03-session12-multimodal-concept.md"]
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "theme": "Advanced Prompting Techniques",
+      "sessions": [
+        {
+          "session": 13,
+          "title": "Chain of Thought & Reasoning",
+          "goals": ["Understand AI reasoning patterns", "Design for transparent AI thinking"],
+          "materials": ["modules/prompting-techniques/chain-of-thought.mdx"],
+          "activities": ["Design UX for showing AI reasoning"],
+          "deliverables": ["week04-session13-reasoning-ux.md"]
+        },
+        {
+          "session": 14,
+          "title": "Few-Shot Learning & Examples",
+          "goals": ["Use examples to improve AI performance", "Design example-driven interfaces"],
+          "materials": ["modules/prompting-techniques/few-shot.mdx"],
+          "activities": ["Create example set for AI feature"],
+          "deliverables": ["week04-session14-example-set.md"]
+        },
+        {
+          "session": 15,
+          "title": "Tree of Thoughts & Decision Making",
+          "goals": ["Design for AI decision exploration", "Help users understand AI choices"],
+          "materials": ["modules/prompting-techniques/tree-of-thoughts.mdx"],
+          "activities": ["Sketch decision tree visualization"],
+          "deliverables": ["week04-session15-decision-tree.md"]
+        },
+        {
+          "session": 16,
+          "title": "Meta-Prompting & Self-Improvement",
+          "goals": ["Design self-improving AI systems", "Create adaptive user experiences"],
+          "materials": ["modules/prompting-techniques/meta-prompting.mdx"],
+          "activities": ["Design meta-prompting UX flow"],
+          "deliverables": ["week04-session16-meta-prompting-flow.md"]
+        }
+      ]
+    },
+    {
+      "week": 5,
+      "theme": "RAG & Knowledge Systems",
+      "sessions": [
+        {
+          "session": 17,
+          "title": "RAG Fundamentals & UX",
+          "goals": ["Understand retrieval-augmented generation", "Design for knowledge-based AI"],
+          "materials": ["modules/rag/index.mdx"],
+          "activities": ["Design RAG-powered search interface"],
+          "deliverables": ["week05-session17-rag-search-design.md"]
+        },
+        {
+          "session": 18,
+          "title": "Memory & State Management",
+          "goals": ["Design for AI memory and context", "Create persistent user experiences"],
+          "materials": ["modules/memory-state/index.mdx"],
+          "activities": ["Design memory management UX"],
+          "deliverables": ["week05-session18-memory-ux.md"]
+        },
+        {
+          "session": 19,
+          "title": "Knowledge Generation & Creation",
+          "goals": ["Design AI content creation experiences", "Balance automation with user control"],
+          "materials": ["modules/prompting-techniques/generate-knowledge.mdx"],
+          "activities": ["Design AI content creation flow"],
+          "deliverables": ["week05-session19-content-creation.md"]
+        },
+        {
+          "session": 20,
+          "title": "Information Architecture for AI",
+          "goals": ["Structure information for AI consumption", "Design AI-friendly content systems"],
+          "materials": ["modules/prompting-techniques/retrieval-augmented-generation.mdx"],
+          "activities": ["Audit content structure for AI compatibility"],
+          "deliverables": ["week05-session20-content-audit.md"]
+        }
+      ]
+    },
+    {
+      "week": 6,
+      "theme": "Agents & Orchestration",
+      "sessions": [
+        {
+          "session": 21,
+          "title": "AI Agents & Multi-Step Tasks",
+          "goals": ["Design for AI agent workflows", "Create multi-step AI experiences"],
+          "materials": ["modules/agents-orchestration/index.mdx"],
+          "activities": ["Design AI agent workflow for complex task"],
+          "deliverables": ["week06-session21-agent-workflow.md"]
+        },
+        {
+          "session": 22,
+          "title": "Prompt Chaining & Workflows",
+          "goals": ["Design connected AI processes", "Create seamless multi-AI experiences"],
+          "materials": ["modules/prompting-techniques/prompt-chaining.mdx"],
+          "activities": ["Design prompt chain for user journey"],
+          "deliverables": ["week06-session22-prompt-chain.md"]
+        },
+        {
+          "session": 23,
+          "title": "ReAct & Reasoning Agents",
+          "goals": ["Design for AI reasoning and action", "Create transparent AI decision flows"],
+          "materials": ["modules/prompting-techniques/react.mdx"],
+          "activities": ["Design ReAct flow for user task"],
+          "deliverables": ["week06-session23-react-flow.md"]
+        },
+        {
+          "session": 24,
+          "title": "Agent Collaboration & Teams",
+          "goals": ["Design multi-agent systems", "Create collaborative AI experiences"],
+          "materials": ["modules/agents-orchestration/index.mdx"],
+          "activities": ["Design AI team collaboration interface"],
+          "deliverables": ["week06-session24-ai-team-design.md"]
+        }
+      ]
+    },
+    {
+      "week": 7,
+      "theme": "Safety, Security & Trust",
+      "sessions": [
+        {
+          "session": 25,
+          "title": "AI Safety & User Protection",
+          "goals": ["Design for AI safety", "Protect users from AI risks"],
+          "materials": ["modules/safety-security/index.mdx"],
+          "activities": ["Design safety features for AI product"],
+          "deliverables": ["week07-session25-safety-features.md"]
+        },
+        {
+          "session": 26,
+          "title": "Trust & Transparency",
+          "goals": ["Build user trust in AI systems", "Design transparent AI experiences"],
+          "materials": ["modules/ai-ux-behavior/index.mdx"],
+          "activities": ["Create trust-building UX elements"],
+          "deliverables": ["week07-session26-trust-elements.md"]
+        },
+        {
+          "session": 27,
+          "title": "Bias & Fairness in AI UX",
+          "goals": ["Identify AI bias in user experiences", "Design for fairness and inclusion"],
+          "materials": ["modules/safety-security/index.mdx"],
+          "activities": ["Audit AI feature for potential bias"],
+          "deliverables": ["week07-session27-bias-audit.md"]
+        },
+        {
+          "session": 28,
+          "title": "Privacy & Data Protection",
+          "goals": ["Design for user privacy", "Create transparent data practices"],
+          "materials": ["modules/safety-security/index.mdx"],
+          "activities": ["Design privacy controls for AI feature"],
+          "deliverables": ["week07-session28-privacy-controls.md"]
+        }
+      ]
+    },
+    {
+      "week": 8,
+      "theme": "Cost, Latency & Performance",
+      "sessions": [
+        {
+          "session": 29,
+          "title": "AI Cost Optimization & UX",
+          "goals": ["Balance cost with user experience", "Design cost-effective AI features"],
+          "materials": ["modules/cost-latency/index.mdx"],
+          "activities": ["Design cost-aware AI feature"],
+          "deliverables": ["week08-session29-cost-optimization.md"]
+        },
+        {
+          "session": 30,
+          "title": "Latency & User Perception",
+          "goals": ["Design for AI response times", "Manage user expectations"],
+          "materials": ["modules/cost-latency/index.mdx"],
+          "activities": ["Design loading states for AI features"],
+          "deliverables": ["week08-session30-loading-states.md"]
+        },
+        {
+          "session": 31,
+          "title": "Token Management & Context",
+          "goals": ["Understand token limitations", "Design for context constraints"],
+          "materials": ["modules/token-context/index.mdx"],
+          "activities": ["Design token-aware interface"],
+          "deliverables": ["week08-session31-token-interface.md"]
+        },
+        {
+          "session": 32,
+          "title": "Performance Monitoring & UX",
+          "goals": ["Monitor AI performance from UX perspective", "Design performance feedback"],
+          "materials": ["modules/evaluation-observability/index.mdx"],
+          "activities": ["Design performance dashboard for users"],
+          "deliverables": ["week08-session32-performance-dashboard.md"]
+        }
+      ]
+    },
+    {
+      "week": 9,
+      "theme": "Production & MLOps",
+      "sessions": [
+        {
+          "session": 33,
+          "title": "AI Productization & UX",
+          "goals": ["Design for production AI systems", "Create scalable AI experiences"],
+          "materials": ["modules/productization-mlops/index.mdx"],
+          "activities": ["Design production-ready AI feature"],
+          "deliverables": ["week09-session33-production-design.md"]
+        },
+        {
+          "session": 34,
+          "title": "Evaluation & User Testing",
+          "goals": ["Evaluate AI features with users", "Design AI-specific testing methods"],
+          "materials": ["modules/evaluation-observability/index.mdx"],
+          "activities": ["Create AI feature evaluation plan"],
+          "deliverables": ["week09-session34-evaluation-plan.md"]
+        },
+        {
+          "session": 35,
+          "title": "A/B Testing AI Features",
+          "goals": ["Test AI feature variations", "Measure AI impact on user experience"],
+          "materials": ["modules/evaluation-observability/index.mdx"],
+          "activities": ["Design A/B test for AI feature"],
+          "deliverables": ["week09-session35-ab-test-design.md"]
+        },
+        {
+          "session": 36,
+          "title": "Continuous Improvement & UX",
+          "goals": ["Design for AI system evolution", "Create feedback loops for improvement"],
+          "materials": ["modules/productization-mlops/index.mdx"],
+          "activities": ["Design feedback system for AI feature"],
+          "deliverables": ["week09-session36-feedback-system.md"]
+        }
+      ]
+    },
+    {
+      "week": 10,
+      "theme": "Collaboration & Communication",
+      "sessions": [
+        {
+          "session": 37,
+          "title": "Working with Engineers on AI",
+          "goals": ["Collaborate effectively with AI engineers", "Bridge design and technical perspectives"],
+          "materials": ["modules/collaboration-with-engineers/index.mdx"],
+          "activities": ["Create AI project collaboration plan"],
+          "deliverables": ["week10-session37-collaboration-plan.md"]
+        },
+        {
+          "session": 38,
+          "title": "Stakeholder Communication",
+          "goals": ["Communicate AI concepts to stakeholders", "Advocate for user needs in AI decisions"],
+          "materials": ["modules/ai-fluency-framework/index.mdx"],
+          "activities": ["Create stakeholder presentation on AI feature"],
+          "deliverables": ["week10-session38-stakeholder-presentation.md"]
+        },
+        {
+          "session": 39,
+          "title": "AI Product Strategy",
+          "goals": ["Contribute to AI product strategy", "Align AI features with business goals"],
+          "materials": ["modules/design-patterns/index.mdx"],
+          "activities": ["Create AI product strategy document"],
+          "deliverables": ["week10-session39-product-strategy.md"]
+        },
+        {
+          "session": 40,
+          "title": "Cross-Functional AI Teams",
+          "goals": ["Work effectively in AI product teams", "Contribute design perspective to AI decisions"],
+          "materials": ["modules/collaboration-with-engineers/index.mdx"],
+          "activities": ["Design team collaboration framework"],
+          "deliverables": ["week10-session40-team-framework.md"]
+        }
+      ]
+    },
+    {
+      "week": 11,
+      "theme": "Advanced Techniques & Innovation",
+      "sessions": [
+        {
+          "session": 41,
+          "title": "Advanced Prompting Techniques",
+          "goals": ["Apply advanced prompting to UX", "Create sophisticated AI interactions"],
+          "materials": ["modules/prompting-techniques/automatic-prompt-engineer.mdx"],
+          "activities": ["Design advanced prompting interface"],
+          "deliverables": ["week11-session41-advanced-prompting.md"]
+        },
+        {
+          "session": 42,
+          "title": "Graph Prompting & Relationships",
+          "goals": ["Design for complex AI relationships", "Create knowledge graph interfaces"],
+          "materials": ["modules/prompting-techniques/graph-prompting.mdx"],
+          "activities": ["Design graph-based AI interface"],
+          "deliverables": ["week11-session42-graph-interface.md"]
+        },
+        {
+          "session": 43,
+          "title": "Reflexion & Self-Correction",
+          "goals": ["Design for AI self-improvement", "Create learning AI experiences"],
+          "materials": ["modules/prompting-techniques/reflexion.mdx"],
+          "activities": ["Design self-correcting AI feature"],
+          "deliverables": ["week11-session43-self-correction.md"]
+        },
+        {
+          "session": 44,
+          "title": "Program-Aided Language Models",
+          "goals": ["Design for AI code generation", "Create programming assistance UX"],
+          "materials": ["modules/prompting-techniques/program-aided-language-models.mdx"],
+          "activities": ["Design AI programming assistant"],
+          "deliverables": ["week11-session44-programming-assistant.md"]
+        }
+      ]
+    },
+    {
+      "week": 12,
+      "theme": "Capstone & Application",
+      "sessions": [
+        {
+          "session": 45,
+          "title": "AI Product Design Capstone",
+          "goals": ["Apply all learning to real project", "Create comprehensive AI product design"],
+          "materials": ["capstone/index.mdx", "capstone/demo.mdx"],
+          "activities": ["Design complete AI-powered product feature"],
+          "deliverables": ["week12-session45-capstone-project.md"]
+        }
+      ]
+    }
+  ]
+}

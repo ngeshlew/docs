@@ -2,7 +2,7 @@
 title: "Multimodality in AI"
 description: "Explore how AI systems process and understand multiple types of data simultaneously, from text and images to audio and video, enabling richer user experiences"
 slug: "modules-multimodality"
-updatedAt: "2025-08-27"
+updatedAt: "2025-08-19"
 tags: [module, multimodality, multimodal, ai, text, image, audio, video, claude, anthropic]
 ---
 
@@ -101,23 +101,23 @@ def analyze_image_with_claude(image_path, question):
         model="claude-3-sonnet-20240229",
         max_tokens=1000,
         messages=[
-            {{
+            \{\{
                 "role": "user",
                 "content": [
-                    {{
+                    \{\{
                         "type": "image",
-                        "source": {{
+                        "source": \{\{
                             "type": "base64",
                             "media_type": "image/jpeg",
                             "data": image_data
-                        }}
-                    }},
-                    {{
+                        \}\}
+                    \}\},
+                    \{\{
                         "type": "text",
                         "text": question
-                    }}
+                    \}\}
                 ]
-            }}
+            \}\}
         ]
     )
     
@@ -301,23 +301,23 @@ def analyze_image_claude(image_path, prompt):
         model="claude-3-sonnet-20240229",
         max_tokens=2000,
         messages=[
-            {{
+            \{\{
                 "role": "user",
                 "content": [
-                    {{
+                    \{\{
                         "type": "image",
-                        "source": {{
+                        "source": \{\{
                             "type": "base64",
                             "media_type": "image/jpeg",
                             "data": image_data
-                        }}
-                    }},
-                    {{
+                        \}\}
+                    \}\},
+                    \{\{
                         "type": "text",
                         "text": prompt
-                    }}
+                    \}\}
                 ]
-            }}
+            \}\}
         ]
     )
     
@@ -351,30 +351,30 @@ print(result)
         with open(image_path, "rb") as img_file:
             image_data = base64.b64encode(img_file.read()).decode('utf-8')
         
-        content.append({{
+        content.append(\{\{
             "type": "image",
-            "source": {{
+            "source": \{\{
                 "type": "base64",
                 "media_type": "image/jpeg",
                 "data": image_data
-            }}
-        }})
+            \}\}
+        \}\})
     
     # Add text prompt
-    content.append({{
+    content.append(\{\{
         "type": "text",
         "text": text_prompt
-    }})
+    \}\})
     
     # Send request
     response = client.messages.create(
         model="claude-3-sonnet-20240229",
         max_tokens=3000,
         messages=[
-            {{
+            \{\{
                 "role": "user",
                 "content": content
-            }}
+            \}\}
         ]
     )
     
@@ -493,18 +493,18 @@ class ClaudeVisionChain:
         # Create message with image
         message = HumanMessage(
             content=[
-                {{
+                \{\{
                     "type": "image",
-                    "source": {{
+                    "source": \{\{
                         "type": "base64",
                         "media_type": "image/jpeg",
                         "data": image_data
-                    }}
-                }},
-                {{
+                    \}\}
+                \}\},
+                \{\{
                     "type": "text",
                     "text": prompt
-                }}
+                \}\}
             ]
         )
         
@@ -562,7 +562,7 @@ class MultimodalAgent:
         task_description = f"""
         Analyze the provided image and answer the following question:
         
-        Question: {analysis_prompt}
+        Question: \{analysis_prompt\}
         
         [Image data would be included here in the actual implementation]
         
@@ -665,7 +665,7 @@ receipt_data = analyze_document_claude("receipt.jpg", "receipt")
     4. Business implications
     5. Recommendations
     
-    Business Context: {business_context}
+    Business Context: \{business_context\}
     """
     
     return analyze_image_with_claude(chart_path, prompt)
@@ -718,7 +718,7 @@ sales_insights = analyze_chart_claude(
        - Best practices to follow
        - Alternative approaches
     
-    Design Context: {context}
+    Design Context: \{context\}
     """
     
     return analyze_image_with_claude(design_path, prompt)
@@ -771,7 +771,7 @@ design_feedback = analyze_ui_design_claude(
        - Alternative approaches
        - Additional features
     
-    Programming Language: {language}
+    Programming Language: \{language\}
     """
     
     return analyze_image_with_claude(code_screenshot_path, prompt)
